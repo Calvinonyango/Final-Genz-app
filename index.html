@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Genz Chama - Admin Controlled</title>
+    <title>Genz Chama - Admin & Member Portal</title>
     <style>
         * {
             margin: 0;
@@ -96,6 +96,30 @@
             background: #0284c7;
         }
 
+        button.payment {
+            background: #00a86b;
+        }
+
+        button.whatsapp {
+            background: #25D366;
+        }
+
+        button.danger {
+            background: #dc2626;
+        }
+
+        button.signup {
+            background: #8b5cf6;
+        }
+
+        button.approve {
+            background: #10b981;
+        }
+
+        button.reject {
+            background: #ef4444;
+        }
+
         .card {
             background: white;
             border-radius: 20px;
@@ -133,6 +157,8 @@
             align-items: center;
             padding: 10px 0;
             border-bottom: 1px solid #e2e8f0;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
         .winner {
@@ -191,18 +217,64 @@
             border: 2px solid #0284c7;
         }
 
-        .csv-url-box h4 {
-            color: #0284c7;
+        .payment-form {
+            background: #f0fdf4;
+            border: 1px solid #00a86b;
+            border-radius: 16px;
+            padding: 12px;
+            margin-top: 10px;
+        }
+
+        .till-display {
+            background: #1a4d3e;
+            color: white;
+            padding: 12px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .till-display h4 {
+            font-size: 24px;
+            letter-spacing: 2px;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .report-table th,
+        .report-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .report-table th {
+            background: #f8fafc;
+            font-weight: bold;
+        }
+
+        .signup-form {
+            background: #f3e8ff;
+            border: 1px solid #8b5cf6;
+            border-radius: 16px;
+            padding: 12px;
+            margin-top: 10px;
+        }
+
+        .signup-form h4 {
+            color: #6d28d9;
             margin-bottom: 10px;
-            font-size: 14px;
         }
 
-        .success-text {
-            color: #15803d;
-        }
-
-        .error-text {
-            color: #dc2626;
+        .pending-request {
+            background: #fef3c7;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -216,7 +288,7 @@
                 <button class="tab-btn" onclick="showAdminLogin()">👑 Admin Login</button>
             </div>
 
-            <!-- Member Login Panel (NO CSV box here) -->
+            <!-- Member Login Panel -->
             <div id="memberLoginPanel">
                 <h3>Member Access</h3>
                 <select id="memberSelect">
@@ -224,10 +296,18 @@
                 </select>
                 <input type="password" id="memberPasscode" placeholder="Enter your passcode">
                 <button onclick="memberLogin()">Login</button>
-                <p class="small-text">Use last 4 digits of your phone number as passcode</p>
+
+                <!-- Sign Up Section -->
+                <div class="signup-form">
+                    <h4>📝 Not a member yet?</h4>
+                    <input type="text" id="signupName" placeholder="Full Name">
+                    <input type="text" id="signupPhone" placeholder="Phone Number">
+                    <button onclick="requestSignup()" class="signup">📋 Request Sign Up</button>
+                    <p class="small-text">Your request will be sent to admin for approval</p>
+                </div>
             </div>
 
-            <!-- Admin Login Panel (CSV box appears ONLY after admin login) -->
+            <!-- Admin Login Panel -->
             <div id="adminLoginPanel" style="display:none">
                 <h3>Admin Access</h3>
                 <input type="password" id="adminPasswordInput" placeholder="Admin password">
@@ -240,121 +320,147 @@
     <div id="memberView" style="display:none">
         <div class="card" style="text-align:center">
             <h1>💰 Genz Chama</h1>
-            <p>Member Portal - View Only</p>
+            <p>Welcome, <span id="memberName"></span></p>
         </div>
-        <div id="memberInfoPanel" class="member-info"></div>
+
         <div class="card">
             <h2>🎡 Weekly MGR (250 KES)</h2>
-            <div id="mgrWinnerMember" class="winner">Loading...</div>
-            <p id="weekInfoMember" class="small-text"></p>
+            <div id="memberMgr" class="winner">Loading...</div>
         </div>
+
         <div class="card">
             <h2>🏦 My Savings</h2>
-            <div class="stats-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <div class="stat-card" style="background:#f8fafc; padding:15px; border-radius:16px; text-align:center;">
-                    <div class="stat-label" style="font-size:12px; color:#64748b;">Total Saved</div>
-                    <div class="stat-value" id="memberSavingsDisplay" style="font-size:24px; font-weight:bold;">0 KES
-                    </div>
-                </div>
-                <div class="stat-card" style="background:#f8fafc; padding:15px; border-radius:16px; text-align:center;">
-                    <div class="stat-label" style="font-size:12px; color:#64748b;">Loan Balance</div>
-                    <div class="stat-value loan" id="memberLoanDisplay"
-                        style="font-size:24px; font-weight:bold; color:#dc2626;">0 KES</div>
-                </div>
+            <div id="memberSavings" style="font-size:28px; font-weight:bold; text-align:center">0 KES</div>
+        </div>
+
+        <div class="card">
+            <h2>📊 Savings Report</h2>
+            <div style="overflow-x: auto;">
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Amount (KES)</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="savingsReportBody">
+                        <tr>
+                            <td colspan="3">No savings records</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div id="savingsHistoryMember" class="small-text"></div>
+            <button onclick="generateSavingsReport()" class="secondary" style="margin-top:10px;">📄 Copy Report to
+                Clipboard</button>
         </div>
+
+        <div class="card payment-form">
+            <h3>💳 Add Savings</h3>
+            <div class="till-display">
+                <span>PAY TO TILL NUMBER</span>
+                <h4>6246156</h4>
+            </div>
+            <input type="number" id="paymentAmount" placeholder="Enter amount (KES)">
+            <input type="date" id="paymentDate">
+            <div class="flex-buttons">
+                <button onclick="copyTillNumber()" class="secondary">📋 Copy Till</button>
+                <button onclick="openWhatsApp()" class="whatsapp">📱 Send Proof</button>
+            </div>
+            <button onclick="generatePaymentInstructions()" class="payment">💸 Get Instructions</button>
+        </div>
+
         <div class="card">
-            <h2>📋 My Loans <span class="badge">10% Interest</span></h2>
-            <div id="loanHistoryMember"></div>
+            <h2>📋 My Loans (10% interest)</h2>
+            <div id="memberLoan" style="font-size:28px; font-weight:bold; text-align:center; color:#dc2626">0 KES</div>
+            <div id="memberLoansList"></div>
         </div>
-        <div class="card">
-            <button onclick="logout()" class="secondary" style="width:100%">🚪 Logout</button>
-        </div>
+
+        <button onclick="logout()" class="secondary" style="width:100%">🚪 Logout</button>
     </div>
 
-    <!-- Admin View (CSV box appears ONLY here - members never see this) -->
+    <!-- Admin View -->
     <div id="adminView" style="display:none">
-        <div class="admin-badge">👑 Admin Mode - Full Control</div>
+        <div class="admin-badge">👑 ADMIN MODE - Full Control</div>
         <div class="header">
             <h1>💰 Genz Chama</h1>
             <p>Admin Control Panel</p>
         </div>
 
-        <!-- CSV SYNC SECTION - ADMIN ONLY -->
         <div class="card">
             <div class="csv-url-box">
-                <h4>📊 GOOGLE SHEET CSV SYNC (Admin Only)</h4>
-                <input type="text" id="csvUrlInput" placeholder="Paste your CSV link here" style="font-size: 12px;">
+                <h4>📊 GOOGLE SHEET CSV SYNC</h4>
+                <input type="text" id="csvUrlInput" placeholder="Paste your CSV link here">
                 <div class="flex-buttons">
-                    <button onclick="saveSheetUrl()" style="background: #0284c7;">💾 Save URL</button>
+                    <button onclick="saveSheetUrl()" style="background:#0284c7;">💾 Save URL</button>
                     <button onclick="pullFromSheet()" class="sync">📥 Sync from Sheet</button>
                 </div>
-                <div id="syncStatusMsg" class="sync-status" style="margin-top: 10px;">📡 Ready to sync</div>
-                <p class="small-text">Get CSV link: File → Share → Publish to web → CSV → Copy link</p>
+                <div id="syncStatusMsg" class="sync-status">📡 Ready to sync</div>
             </div>
         </div>
 
-        <!-- Member Passcodes Management -->
+        <!-- Pending Sign Ups -->
+        <div class="card">
+            <h2>📋 Pending Sign Up Requests</h2>
+            <div id="pendingRequestsList">No pending requests</div>
+        </div>
+
+        <!-- Add New Member -->
+        <div class="card">
+            <h2>➕ Add New Member Manually</h2>
+            <input type="text" id="newMemberName" placeholder="Full Name">
+            <input type="text" id="newMemberPhone" placeholder="Phone Number">
+            <button onclick="addNewMember()">➕ Add Member</button>
+            <p class="small-text">Passcode will be last 4 digits of phone number</p>
+        </div>
+
         <div class="card">
             <h2>🔐 Member Passcodes</h2>
             <div id="passcodesList"></div>
-            <button onclick="resetMemberPasscodes()" class="secondary small">Reset All Passcodes</button>
-            <p class="small-text">Each member's passcode = last 4 digits of their phone number</p>
+            <button onclick="resetMemberPasscodes()" class="secondary">Reset All Passcodes</button>
         </div>
 
-        <!-- MGR Section -->
         <div class="card">
-            <h2>🎡 Weekly MGR (250 KES)</h2>
+            <h2>🎡 Weekly MGR</h2>
             <div id="mgrWinnerAdmin" class="winner">Loading...</div>
-            <button onclick="recordMGR()">✅ Record This Week's Payout</button>
-            <button onclick="nextWeek()" class="secondary">⏩ Move to Next Week</button>
-            <p id="weekInfoAdmin" class="small-text"></p>
+            <button onclick="recordMGR()">✅ Record Payout</button>
+            <button onclick="nextWeek()" class="secondary">⏩ Next Week</button>
         </div>
 
-        <!-- Savings Section -->
         <div class="card">
             <h2>🏦 Add Savings</h2>
             <select id="savingsMemberSelect">
                 <option value="">-- Select Member --</option>
             </select>
-            <input type="date" id="savingsDate">
-            <input type="number" id="savingsAmount" placeholder="Amount in KES">
+            <input type="date" id="savingsDate"><input type="number" id="savingsAmount" placeholder="Amount KES">
             <button onclick="addSavings()">➕ Add Savings</button>
-            <div id="savingsDisplay"></div>
         </div>
 
-        <!-- Loans Section -->
         <div class="card">
-            <h2>📋 Loans <span class="badge">+10% Interest</span></h2>
+            <h2>📋 Loans (10% Interest)</h2>
             <select id="loanMemberSelect">
                 <option value="">-- Select Member --</option>
             </select>
-            <input type="date" id="loanDateTaken">
-            <input type="number" id="loanPrincipal" placeholder="Principal Amount">
-            <input type="date" id="loanReturnDate" placeholder="Expected Return Date">
-            <button onclick="takeLoan()">📥 Take Loan (+10% Interest)</button>
+            <input type="date" id="loanDateTaken"><input type="number" id="loanPrincipal" placeholder="Principal"><input
+                type="date" id="loanReturnDate">
+            <button onclick="takeLoan()">📥 Take Loan (+10%)</button>
             <hr>
-            <h3>Record Repayment</h3>
-            <input type="number" id="repayAmount" placeholder="Repayment Amount">
-            <button onclick="repayLoan()" class="secondary">💰 Record Repayment</button>
+            <input type="number" id="repayAmount" placeholder="Repayment"><button onclick="repayLoan()"
+                class="secondary">💰 Record Repayment</button>
             <div id="loanDisplay"></div>
         </div>
 
-        <!-- Members Summary -->
         <div class="card">
             <h2>👥 Member Records</h2>
             <div id="memberSummary"></div>
-            <div class="total">💰 Total Group Savings: <span id="totalSavings">0</span> KES</div>
-            <hr>
+            <div class="total">💰 Total Savings: <span id="totalSavings">0</span> KES</div>
             <button onclick="resetAllData()" class="danger">⚠️ Reset All Data</button>
-            <button onclick="changeAdminPassword()" class="secondary">🔑 Change Admin Password</button>
+            <button onclick="changeAdminPassword()" class="secondary">🔑 Change Password</button>
             <button onclick="logout()" class="secondary">🚪 Logout</button>
         </div>
     </div>
 
     <script>
-        // ============ MEMBER LIST ============
         let MEMBERS = [
             { id: 0, name: "Brian Odhiambo", phone: "0718585462", passcode: "5462" },
             { id: 1, name: "Calvin Onyango", phone: "0769618871", passcode: "8871" },
@@ -365,7 +471,6 @@
             { id: 6, name: "Ongoma", phone: "", passcode: "0000" }
         ];
 
-        // ============ APP STATE ============
         let savings = [];
         let loans = [];
         let mgrWeekIndex = 0;
@@ -375,8 +480,9 @@
         let currentMemberId = null;
         let ADMIN_PASSWORD = "admin123";
         let GOOGLE_SHEET_CSV_URL = localStorage.getItem("GenzSheetCsvUrl") || "";
+        let pendingSignups = JSON.parse(localStorage.getItem("PendingSignups") || "[]");
+        const TILL_NUMBER = "6246156";
 
-        // ============ HELPER FUNCTIONS ============
         function getCurrentWeekKey() {
             const now = new Date();
             const year = now.getFullYear();
@@ -387,24 +493,19 @@
         }
 
         function isMGRPaidThisWeek() { return mgrLastPaidWeek === getCurrentWeekKey(); }
-        function getMemberSavings(memberId) { return savings.filter(s => s.memberId === memberId).reduce((sum, s) => sum + s.amount, 0); }
-        function getMemberLoanBalance(memberId) {
-            let balance = 0;
-            for (let loan of loans) {
-                if (loan.memberId === memberId && loan.status !== 'returned') {
-                    balance += loan.totalDue - (loan.repaidAmount || 0);
-                }
-            }
-            return balance;
+        function getMemberSavings(mid) { return savings.filter(s => s.memberId === mid).reduce((a, b) => a + b.amount, 0); }
+        function getMemberLoanBalance(mid) {
+            let bal = 0;
+            for (let l of loans) if (l.memberId === mid && l.status !== 'returned') bal += l.totalDue - (l.repaidAmount || 0);
+            return bal;
         }
-        function getMemberLoans(memberId) { return loans.filter(l => l.memberId === memberId); }
-        function getMemberSavingsHistory(memberId) { return savings.filter(s => s.memberId === memberId).sort((a, b) => new Date(b.date) - new Date(a.date)); }
-        function getTotalGroupSavings() { return savings.reduce((sum, s) => sum + s.amount, 0); }
+        function getMemberLoans(mid) { return loans.filter(l => l.memberId === mid); }
+        function getMemberSavingsHistory(mid) { return savings.filter(s => s.memberId === mid).sort((a, b) => new Date(b.date) - new Date(a.date)); }
+        function getTotalGroupSavings() { return savings.reduce((a, b) => a + b.amount, 0); }
 
-        // ============ DATA PERSISTENCE ============
         function saveData() {
-            const data = { savings, loans, mgrWeekIndex, mgrLastPaidWeek, nextLoanId, adminPassword: ADMIN_PASSWORD };
-            localStorage.setItem("GenzChamaData", JSON.stringify(data));
+            localStorage.setItem("GenzChamaData", JSON.stringify({ savings, loans, mgrWeekIndex, mgrLastPaidWeek, nextLoanId, ADMIN_PASSWORD, MEMBERS }));
+            localStorage.setItem("PendingSignups", JSON.stringify(pendingSignups));
         }
 
         function loadData() {
@@ -417,11 +518,10 @@
                     mgrWeekIndex = data.mgrWeekIndex || 0;
                     mgrLastPaidWeek = data.mgrLastPaidWeek || null;
                     nextLoanId = data.nextLoanId || 1;
-                    if (data.adminPassword) ADMIN_PASSWORD = data.adminPassword;
-                } catch (e) { console.log("Error loading data"); }
+                    if (data.ADMIN_PASSWORD) ADMIN_PASSWORD = data.ADMIN_PASSWORD;
+                    if (data.MEMBERS) MEMBERS = data.MEMBERS;
+                } catch (e) { }
             }
-
-            // Load sample data if empty
             if (loans.length === 0) {
                 loans = [
                     { id: 1, memberId: 0, principal: 500, interest: 50, totalDue: 550, returnDate: "2026-02-16", status: "returned", dateTaken: "2026-02-11", repaidAmount: 550 },
@@ -438,108 +538,212 @@
             }
         }
 
-        // ============ GOOGLE SHEET SYNC (ADMIN ONLY) ============
+        // Sign Up Request
+        function requestSignup() {
+            let name = document.getElementById("signupName").value.trim();
+            let phone = document.getElementById("signupPhone").value.trim();
+
+            if (!name) {
+                alert("Please enter your full name");
+                return;
+            }
+            if (!phone) {
+                alert("Please enter your phone number");
+                return;
+            }
+
+            if (MEMBERS.some(m => m.name.toLowerCase() === name.toLowerCase())) {
+                alert("You are already a member! Please login.");
+                return;
+            }
+
+            if (pendingSignups.some(p => p.name.toLowerCase() === name.toLowerCase())) {
+                alert("You have already requested. Please wait for admin approval.");
+                return;
+            }
+
+            pendingSignups.push({
+                id: Date.now(),
+                name: name,
+                phone: phone,
+                requestedDate: new Date().toLocaleString()
+            });
+            saveData();
+
+            document.getElementById("signupName").value = "";
+            document.getElementById("signupPhone").value = "";
+
+            alert("✅ Sign up request sent! Admin will approve your membership shortly.");
+
+            // Optional: In a real app, you could send WhatsApp notification to admin
+            // window.open(`https://wa.me/?text=New signup request from ${name}`, '_blank');
+        }
+
+        function displayPendingRequests() {
+            if (pendingSignups.length === 0) {
+                document.getElementById("pendingRequestsList").innerHTML = "<p style='text-align:center; padding:20px;'>✅ No pending requests</p>";
+                return;
+            }
+
+            let html = '';
+            for (let req of pendingSignups) {
+                html += `<div style="background:#fef3c7; border-radius:12px; padding:12px; margin-bottom:10px;">
+                        <div style="font-weight:bold;">${req.name}</div>
+                        <div class="small-text">📞 ${req.phone}</div>
+                        <div class="small-text">📅 Requested: ${req.requestedDate}</div>
+                        <div style="display:flex; gap:8px; margin-top:10px;">
+                            <button onclick="approveMember(${req.id})" class="approve" style="flex:1; background:#10b981;">✅ Approve</button>
+                            <button onclick="rejectMember(${req.id})" class="reject" style="flex:1; background:#ef4444;">❌ Reject</button>
+                        </div>
+                    </div>`;
+            }
+            document.getElementById("pendingRequestsList").innerHTML = html;
+        }
+
+        function approveMember(requestId) {
+            let request = pendingSignups.find(r => r.id === requestId);
+            if (request) {
+                let newId = MEMBERS.length;
+                let passcode = request.phone ? request.phone.slice(-4) : "0000";
+                MEMBERS.push({
+                    id: newId,
+                    name: request.name,
+                    phone: request.phone,
+                    passcode: passcode
+                });
+                pendingSignups = pendingSignups.filter(r => r.id !== requestId);
+                saveData();
+                refreshAdminView();
+                alert(`✅ ${request.name} has been APPROVED!\n\nPasscode: ${passcode}\n\nThey can now login with their passcode.`);
+            }
+        }
+
+        function rejectMember(requestId) {
+            let request = pendingSignups.find(r => r.id === requestId);
+            if (request) {
+                if (confirm(`Reject ${request.name}'s signup request?`)) {
+                    pendingSignups = pendingSignups.filter(r => r.id !== requestId);
+                    saveData();
+                    refreshAdminView();
+                    alert(`❌ ${request.name}'s request has been REJECTED.`);
+                }
+            }
+        }
+
+        function addNewMember() {
+            let name = document.getElementById("newMemberName").value.trim();
+            let phone = document.getElementById("newMemberPhone").value.trim();
+
+            if (!name) {
+                alert("Enter member name");
+                return;
+            }
+
+            let newId = MEMBERS.length;
+            let passcode = phone ? phone.slice(-4) : "0000";
+            MEMBERS.push({
+                id: newId,
+                name: name,
+                phone: phone,
+                passcode: passcode
+            });
+            saveData();
+            refreshAdminView();
+            document.getElementById("newMemberName").value = "";
+            document.getElementById("newMemberPhone").value = "";
+            alert(`✅ ${name} added as member!\nPasscode: ${passcode}`);
+        }
+
+        function generateSavingsReport() {
+            let member = MEMBERS[currentMemberId];
+            let memberSavings = savings.filter(s => s.memberId === currentMemberId).sort((a, b) => new Date(a.date) - new Date(b.date));
+            if (memberSavings.length === 0) {
+                alert("No savings records for " + member.name);
+                return;
+            }
+            let report = `GENZ CHAMA SAVINGS REPORT\n========================\nName: ${member.name}\nDate: ${new Date().toLocaleDateString()}\n========================\n\nDATE       | AMOUNT (KES)\n-----------|-------------\n`;
+            let total = 0;
+            for (let s of memberSavings) { report += `${s.date} | ${s.amount}\n`; total += s.amount; }
+            report += `-----------|-------------\nTOTAL      | ${total} KES\n========================\n`;
+            navigator.clipboard.writeText(report);
+            alert("✅ Report copied to clipboard!");
+        }
+
+        function copyTillNumber() {
+            navigator.clipboard.writeText(TILL_NUMBER);
+            alert("Till " + TILL_NUMBER + " copied!");
+        }
+
+        function openWhatsApp() {
+            let member = MEMBERS[currentMemberId];
+            let amount = document.getElementById("paymentAmount").value;
+            let msg = `💰 Savings Payment\nName: ${member.name}\nAmount: ${amount || "?"} KES\nTill: ${TILL_NUMBER}`;
+            window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function generatePaymentInstructions() {
+            let amount = document.getElementById("paymentAmount").value;
+            let member = MEMBERS[currentMemberId];
+            if (!amount || amount <= 0) { alert("Enter amount first"); return; }
+            alert(`🏦 PAYMENT INSTRUCTIONS\n\nTill Number: ${TILL_NUMBER}\nAmount: ${amount} KES\nReference: ${member.name.split(' ')[0]}\n\nSteps:\n1. Open M-PESA\n2. Lipa na M-PESA → Till Number\n3. Enter ${TILL_NUMBER}\n4. Enter ${amount}\n5. Enter your PIN\n6. Take screenshot\n7. Click "Send Proof" button`);
+            if (confirm("Open M-PESA to complete payment?")) {
+                window.location.href = "tel:*334#";
+            }
+        }
+
         function saveSheetUrl() {
             const url = document.getElementById("csvUrlInput").value.trim();
             if (url) {
                 GOOGLE_SHEET_CSV_URL = url;
                 localStorage.setItem("GenzSheetCsvUrl", url);
-                document.getElementById("syncStatusMsg").innerHTML = "✅ URL saved! Tap 'Sync from Sheet' to import.";
-                document.getElementById("syncStatusMsg").style.background = "#d1fae5";
-            } else {
-                alert("Please paste a valid CSV link");
-            }
+                document.getElementById("syncStatusMsg").innerHTML = "✅ URL saved!";
+            } else alert("Paste valid CSV link");
         }
 
         async function pullFromSheet() {
-            if (!GOOGLE_SHEET_CSV_URL) {
-                alert("Please paste your Google Sheet CSV URL and click 'Save URL' first.");
-                return;
-            }
-            document.getElementById("syncStatusMsg").innerHTML = "🔄 Syncing from Google Sheet...";
-            document.getElementById("syncStatusMsg").style.background = "#fef3c7";
+            if (!GOOGLE_SHEET_CSV_URL) { alert("Save CSV URL first"); return; }
+            document.getElementById("syncStatusMsg").innerHTML = "🔄 Syncing...";
             try {
                 let response = await fetch(GOOGLE_SHEET_CSV_URL);
                 let text = await response.text();
                 let lines = text.split('\n');
-
                 let newSavings = [];
-                let headerSkipped = false;
-
+                let skip = false;
                 for (let line of lines) {
-                    let row = parseCSVLine(line);
+                    let row = parseCSV(line);
                     if (row.length < 3) continue;
-
-                    if (!headerSkipped && (row[0].toLowerCase() === "date" || row[0].toLowerCase() === "date")) {
-                        headerSkipped = true;
-                        continue;
-                    }
-
-                    let date = row[0];
-                    let memberName = row[1];
-                    let amount = parseFloat(row[2]);
-
-                    if (date && memberName && !isNaN(amount) && amount > 0) {
-                        let memberId = findMemberIdByName(memberName);
-                        if (memberId !== -1) {
-                            if (date.includes('/')) {
-                                let parts = date.split('/');
-                                if (parts.length === 3) {
-                                    date = `20${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
-                                }
-                            }
-                            newSavings.push({ date: date, memberId: memberId, amount: amount });
+                    if (!skip && row[0].toLowerCase() === "date") { skip = true; continue; }
+                    let date = row[0], name = row[1], amt = parseFloat(row[2]);
+                    if (date && name && !isNaN(amt) && amt > 0) {
+                        let mid = MEMBERS.findIndex(m => m.name === name);
+                        if (mid !== -1) {
+                            if (date.includes('/')) { let p = date.split('/'); date = `20${p[2]}-${p[1].padStart(2, '0')}-${p[0].padStart(2, '0')}`; }
+                            newSavings.push({ date, memberId: mid, amount: amt });
                         }
                     }
                 }
-
-                if (newSavings.length > 0) {
-                    savings = newSavings;
-                    saveData();
-                    document.getElementById("syncStatusMsg").innerHTML = `✅ Sync successful! Imported ${savings.length} savings records.`;
-                    document.getElementById("syncStatusMsg").style.background = "#d1fae5";
-                    refreshAdminView();
-                } else {
-                    document.getElementById("syncStatusMsg").innerHTML = "⚠️ No savings found. Make sure columns: Date, Member Name, Amount";
-                    document.getElementById("syncStatusMsg").style.background = "#fee2e2";
-                }
-            } catch (error) {
-                document.getElementById("syncStatusMsg").innerHTML = "❌ Sync failed: " + error.message;
-                document.getElementById("syncStatusMsg").style.background = "#fee2e2";
-            }
+                if (newSavings.length > 0) { savings = newSavings; saveData(); refreshAdminView(); document.getElementById("syncStatusMsg").innerHTML = `✅ Synced ${savings.length} records`; }
+                else document.getElementById("syncStatusMsg").innerHTML = "⚠️ No data found";
+            } catch (e) { document.getElementById("syncStatusMsg").innerHTML = "❌ Sync failed"; }
         }
 
-        function parseCSVLine(line) {
-            let result = [], inQuote = false, cur = "";
-            for (let i = 0; i < line.length; i++) {
-                let c = line[i];
-                if (c === '"') inQuote = !inQuote;
-                else if (c === ',' && !inQuote) { result.push(cur.trim()); cur = ""; }
+        function parseCSV(line) {
+            let res = [], inQ = false, cur = "";
+            for (let c of line) {
+                if (c === '"') inQ = !inQ;
+                else if (c === ',' && !inQ) { res.push(cur.trim()); cur = ""; }
                 else cur += c;
             }
-            result.push(cur.trim());
-            return result;
+            res.push(cur.trim());
+            return res;
         }
 
-        function findMemberIdByName(name) {
-            if (!name) return -1;
-            let searchName = name.toLowerCase().trim();
-            for (let m of MEMBERS) {
-                if (m.name.toLowerCase() === searchName) return m.id;
-                if (searchName.includes(m.name.toLowerCase().split(' ')[0])) return m.id;
-                if (m.name.toLowerCase().includes(searchName.split(' ')[0])) return m.id;
-            }
-            return -1;
-        }
-
-        // ============ AUTHENTICATION ============
         function showMemberLogin() {
             document.getElementById("memberLoginPanel").style.display = "block";
             document.getElementById("adminLoginPanel").style.display = "none";
             document.querySelectorAll(".tab-btn")[0].classList.add("active");
             document.querySelectorAll(".tab-btn")[1].classList.remove("active");
         }
-
         function showAdminLogin() {
             document.getElementById("memberLoginPanel").style.display = "none";
             document.getElementById("adminLoginPanel").style.display = "block";
@@ -548,32 +752,26 @@
         }
 
         function memberLogin() {
-            const memberId = parseInt(document.getElementById("memberSelect").value);
-            const passcode = document.getElementById("memberPasscode").value;
-            if (isNaN(memberId)) { alert("Please select your name"); return; }
-            const member = MEMBERS[memberId];
-            if (member.passcode === passcode) {
-                currentMemberId = memberId;
-                isAdminMode = false;
+            const id = parseInt(document.getElementById("memberSelect").value);
+            const pin = document.getElementById("memberPasscode").value;
+            if (isNaN(id)) { alert("Select your name"); return; }
+            if (MEMBERS[id].passcode === pin) {
+                currentMemberId = id;
+                document.getElementById("memberName").innerText = MEMBERS[id].name;
                 document.getElementById("loginOverlay").style.display = "none";
                 document.getElementById("memberView").style.display = "block";
                 refreshMemberView();
-            } else {
-                alert("Wrong passcode! Use last 4 digits of your phone number.");
-            }
+            } else alert("Wrong passcode!");
         }
 
         function adminLogin() {
-            const pwd = document.getElementById("adminPasswordInput").value;
-            if (pwd === ADMIN_PASSWORD) {
+            if (document.getElementById("adminPasswordInput").value === ADMIN_PASSWORD) {
                 isAdminMode = true;
                 document.getElementById("loginOverlay").style.display = "none";
                 document.getElementById("adminView").style.display = "block";
                 if (GOOGLE_SHEET_CSV_URL) document.getElementById("csvUrlInput").value = GOOGLE_SHEET_CSV_URL;
                 refreshAdminView();
-            } else {
-                alert("Wrong admin password!");
-            }
+            } else alert("Wrong password!");
         }
 
         function logout() {
@@ -584,112 +782,123 @@
             document.getElementById("loginOverlay").style.display = "flex";
             document.getElementById("memberPasscode").value = "";
             document.getElementById("adminPasswordInput").value = "";
-            document.getElementById("memberSelect").value = "";
         }
 
-        // ============ ADMIN FUNCTIONS ============
-        function updateMemberSelects() {
-            const savingsSelect = document.getElementById("savingsMemberSelect");
-            const loanSelect = document.getElementById("loanMemberSelect");
-            let options = '<option value="">-- Select Member --</option>';
-            for (let m of MEMBERS) options += `<option value="${m.id}">${m.name}</option>`;
-            if (savingsSelect) savingsSelect.innerHTML = options;
-            if (loanSelect) loanSelect.innerHTML = options;
+        function refreshAdminView() {
+            let opts = '<option value="">-- Select --</option>';
+            for (let m of MEMBERS) opts += `<option value="${m.id}">${m.name}</option>`;
+            document.getElementById("savingsMemberSelect").innerHTML = opts;
+            document.getElementById("loanMemberSelect").innerHTML = opts;
+
+            let passHtml = '';
+            for (let m of MEMBERS) passHtml += `<div class="member-row"><span><strong>${m.name}</strong> 🔑 ${m.passcode}</span><button onclick="changeMemberPasscode(${m.id})" class="secondary small">Change</button></div>`;
+            document.getElementById("passcodesList").innerHTML = passHtml;
+
+            let sumHtml = '';
+            for (let m of MEMBERS) sumHtml += `<div class="member-row"><div><strong>${m.name}</strong></div><div>💰 ${getMemberSavings(m.id)} KES<br>📌 ${getMemberLoanBalance(m.id)} KES</div></div>`;
+            document.getElementById("memberSummary").innerHTML = sumHtml;
+            document.getElementById("totalSavings").innerText = getTotalGroupSavings();
+
+            let loanHtml = '<h3>📜 Loan History</h3>';
+            for (let l of loans) loanHtml += `<div style="background:#f8fafc; padding:8px; border-radius:12px; margin-bottom:8px"><strong>${MEMBERS[l.memberId].name}</strong> | ${l.dateTaken}<br>${l.principal}+10% = ${l.totalDue} KES | Due: ${l.returnDate}<br>${l.status === 'returned' ? '✅ Returned' : '⚠️ Pending'}</div>`;
+            document.getElementById("loanDisplay").innerHTML = loanHtml;
+
+            const winner = MEMBERS[mgrWeekIndex];
+            document.getElementById("mgrWinnerAdmin").innerHTML = `🏆 ${winner.name}<br><span class="small-text">${isMGRPaidThisWeek() ? "✅ Recorded" : "❌ Not recorded"}</span>`;
+
+            let loginOpts = '<option value="">-- Select Name --</option>';
+            for (let m of MEMBERS) loginOpts += `<option value="${m.id}">${m.name}</option>`;
+            document.getElementById("memberSelect").innerHTML = loginOpts;
+
+            displayPendingRequests();
         }
 
-        function displayPasscodesList() {
-            let html = '<div style="margin: 10px 0">';
-            for (let m of MEMBERS) {
-                html += `<div style="display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid #e2e8f0;">
-                <span><strong>${m.name}</strong></span>
-                <span>🔑 Passcode: <strong>${m.passcode}</strong></span>
-                <button class="small" onclick="changeMemberPasscode(${m.id})">Change</button>
-            </div>`;
-            }
-            html += '</div>';
-            document.getElementById("passcodesList").innerHTML = html;
+        function refreshMemberView() {
+            const saved = getMemberSavings(currentMemberId);
+            const loanBal = getMemberLoanBalance(currentMemberId);
+            const memberSavings = getMemberSavingsHistory(currentMemberId);
+            const memberLoans = getMemberLoans(currentMemberId);
+
+            document.getElementById("memberSavings").innerHTML = `${saved} KES`;
+            document.getElementById("memberLoan").innerHTML = `${loanBal} KES`;
+
+            let tableHtml = '';
+            for (let s of memberSavings) tableHtml += `<tr><td style="padding: 8px;">${s.date}</td><td style="padding: 8px; text-align: right;">${s.amount} KES</td><td style="padding: 8px; color: #15803d;">✅ Confirmed</td></tr>`;
+            document.getElementById("savingsReportBody").innerHTML = tableHtml || '<tr><td colspan="3">No savings records</td></tr>';
+
+            let loansHtml = '';
+            for (let l of memberLoans) loansHtml += `<div style="background:#f8fafc; padding:8px; margin-bottom:6px; border-radius:12px">📆 ${l.dateTaken}<br>💰 ${l.principal}+10% = ${l.totalDue} KES<br>📅 Due: ${l.returnDate}<br>${l.status === 'returned' ? '✅ Paid' : '⚠️ Pending'}</div>`;
+            document.getElementById("memberLoansList").innerHTML = loansHtml || "<p>No loans</p>";
+
+            const isWinner = mgrWeekIndex === currentMemberId;
+            document.getElementById("memberMgr").innerHTML = `${isWinner ? '🎉 YOU ARE THE WINNER! 🎉' : `Winner: ${MEMBERS[mgrWeekIndex]?.name}`}<br><span class="small-text">${isMGRPaidThisWeek() ? "Paid" : "Not paid"}</span>`;
         }
 
-        function changeMemberPasscode(memberId) {
-            const newPasscode = prompt(`Enter new 4-digit passcode for ${MEMBERS[memberId].name}:`, MEMBERS[memberId].passcode);
-            if (newPasscode && newPasscode.length >= 4) {
-                MEMBERS[memberId].passcode = newPasscode.slice(0, 4);
-                saveData();
-                displayPasscodesList();
-                alert(`Passcode changed to ${newPasscode.slice(0, 4)}`);
-            }
+        function changeMemberPasscode(id) {
+            let np = prompt("New 4-digit passcode:", MEMBERS[id].passcode);
+            if (np && np.length >= 4) { MEMBERS[id].passcode = np.slice(0, 4); saveData(); refreshAdminView(); alert("Passcode updated"); }
         }
 
         function resetMemberPasscodes() {
-            if (confirm("Reset all passcodes to default (last 4 digits of phone number)?")) {
-                for (let m of MEMBERS) {
-                    m.passcode = m.phone ? m.phone.slice(-4) : "0000";
-                }
-                saveData();
-                displayPasscodesList();
-                alert("All passcodes reset");
-            }
+            if (confirm("Reset all passcodes?")) { for (let m of MEMBERS) m.passcode = m.phone ? m.phone.slice(-4) : "0000"; saveData(); refreshAdminView(); alert("Reset complete"); }
         }
 
         function addSavings() {
-            const memberId = parseInt(document.getElementById("savingsMemberSelect").value);
-            const amount = parseFloat(document.getElementById("savingsAmount").value);
+            const mid = parseInt(document.getElementById("savingsMemberSelect").value);
+            const amt = parseFloat(document.getElementById("savingsAmount").value);
             const date = document.getElementById("savingsDate").value;
-            if (isNaN(memberId)) { alert("Select a member"); return; }
-            if (isNaN(amount) || amount <= 0) { alert("Enter valid amount"); return; }
+            if (isNaN(mid)) { alert("Select member"); return; }
+            if (isNaN(amt) || amt <= 0) { alert("Valid amount"); return; }
             if (!date) { alert("Select date"); return; }
-            savings.push({ date, memberId, amount });
+            savings.push({ date, memberId: mid, amount: amt });
             saveData();
             refreshAdminView();
             document.getElementById("savingsAmount").value = "";
-            alert(`✅ Added ${amount} KES to ${MEMBERS[memberId].name}`);
+            alert(`✅ Added ${amt} KES to ${MEMBERS[mid].name}`);
         }
 
         function takeLoan() {
-            const memberId = parseInt(document.getElementById("loanMemberSelect").value);
-            const principal = parseFloat(document.getElementById("loanPrincipal").value);
-            const returnDate = document.getElementById("loanReturnDate").value;
-            const dateTaken = document.getElementById("loanDateTaken").value;
-            if (isNaN(memberId)) { alert("Select a member"); return; }
-            if (isNaN(principal) || principal <= 0) { alert("Enter valid principal"); return; }
-            if (!returnDate) { alert("Select return date"); return; }
-            const interest = principal * 0.10;
-            const totalDue = principal + interest;
-            loans.push({ id: nextLoanId++, memberId, principal, interest, totalDue, returnDate, status: "pending", dateTaken, repaidAmount: 0 });
+            const mid = parseInt(document.getElementById("loanMemberSelect").value);
+            const princ = parseFloat(document.getElementById("loanPrincipal").value);
+            const retDate = document.getElementById("loanReturnDate").value;
+            const taken = document.getElementById("loanDateTaken").value;
+            if (isNaN(mid)) { alert("Select member"); return; }
+            if (isNaN(princ) || princ <= 0) { alert("Valid principal"); return; }
+            const interest = princ * 0.10;
+            loans.push({ id: nextLoanId++, memberId: mid, principal: princ, interest: interest, totalDue: princ + interest, returnDate: retDate, status: "pending", dateTaken: taken, repaidAmount: 0 });
             saveData();
             refreshAdminView();
-            alert(`📥 Loan: ${principal} + 10% = ${totalDue} KES due by ${returnDate}`);
+            alert(`📥 Loan: ${princ} + 10% = ${princ + interest} KES`);
             document.getElementById("loanPrincipal").value = "";
             document.getElementById("loanReturnDate").value = "";
             document.getElementById("loanDateTaken").value = "";
         }
 
         function repayLoan() {
-            const memberId = parseInt(document.getElementById("loanMemberSelect").value);
-            const amount = parseFloat(document.getElementById("repayAmount").value);
-            if (isNaN(memberId)) { alert("Select a member"); return; }
-            if (isNaN(amount) || amount <= 0) { alert("Enter valid repayment amount"); return; }
-            const pendingLoans = loans.filter(l => l.memberId === memberId && l.status === "pending").sort((a, b) => new Date(a.returnDate) - new Date(b.returnDate));
-            if (pendingLoans.length === 0) { alert("No outstanding loans"); return; }
-            let remaining = amount;
-            for (let loan of pendingLoans) {
-                const outstanding = loan.totalDue - (loan.repaidAmount || 0);
+            const mid = parseInt(document.getElementById("loanMemberSelect").value);
+            const amt = parseFloat(document.getElementById("repayAmount").value);
+            if (isNaN(mid)) { alert("Select member"); return; }
+            const pending = loans.filter(l => l.memberId === mid && l.status === "pending").sort((a, b) => new Date(a.returnDate) - new Date(b.returnDate));
+            if (pending.length === 0) { alert("No pending loans"); return; }
+            let remaining = amt;
+            for (let l of pending) {
+                const owing = l.totalDue - (l.repaidAmount || 0);
                 if (remaining <= 0) break;
-                if (remaining >= outstanding) { loan.repaidAmount = loan.totalDue; loan.status = "returned"; remaining -= outstanding; }
-                else { loan.repaidAmount = (loan.repaidAmount || 0) + remaining; remaining = 0; }
+                if (remaining >= owing) { l.repaidAmount = l.totalDue; l.status = "returned"; remaining -= owing; }
+                else { l.repaidAmount = (l.repaidAmount || 0) + remaining; remaining = 0; }
             }
             saveData();
             refreshAdminView();
-            alert(`💰 Repayment of ${amount} KES recorded`);
+            alert(`💰 Repayment of ${amt} KES recorded`);
             document.getElementById("repayAmount").value = "";
         }
 
         function recordMGR() {
-            if (isMGRPaidThisWeek()) { alert("Already recorded this week!"); return; }
+            if (isMGRPaidThisWeek()) { alert("Already recorded"); return; }
             mgrLastPaidWeek = getCurrentWeekKey();
             saveData();
             refreshAdminView();
-            alert(`✅ Recorded 250 KES paid to ${MEMBERS[mgrWeekIndex].name}`);
+            alert(`✅ Recorded 250 KES to ${MEMBERS[mgrWeekIndex].name}`);
         }
 
         function nextWeek() {
@@ -697,85 +906,26 @@
             mgrLastPaidWeek = null;
             saveData();
             refreshAdminView();
-            alert(`New week started! Next winner: ${MEMBERS[mgrWeekIndex].name}`);
+            alert(`Next winner: ${MEMBERS[mgrWeekIndex].name}`);
         }
 
         function changeAdminPassword() {
-            const newPwd = prompt("Enter new admin password:", ADMIN_PASSWORD);
-            if (newPwd && newPwd.length >= 4) { ADMIN_PASSWORD = newPwd; saveData(); alert("Password changed!"); }
-            else if (newPwd) alert("Password must be at least 4 characters");
+            const np = prompt("New admin password:", ADMIN_PASSWORD);
+            if (np && np.length >= 4) { ADMIN_PASSWORD = np; saveData(); alert("Password changed!"); }
         }
 
         function resetAllData() {
-            if (confirm("⚠️ ERASE ALL savings, loans, and MGR history?")) {
-                savings = []; loans = []; mgrWeekIndex = 0; mgrLastPaidWeek = null; nextLoanId = 1;
-                saveData();
-                refreshAdminView();
-                alert("All data reset");
+            if (confirm("⚠️ ERASE ALL DATA? This will reset everything!")) {
+                localStorage.clear();
+                location.reload();
             }
         }
 
-        // ============ ADMIN DISPLAY ============
-        function refreshAdminView() {
-            updateMemberSelects();
-            displayPasscodesList();
-
-            let summaryHtml = '';
-            for (let m of MEMBERS) {
-                summaryHtml += `<div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #e2e8f0;">
-                <div><strong>${m.name}</strong><div style="font-size:12px; color:#64748b">📞 ${m.phone || '—'}</div></div>
-                <div style="text-align:right">💰 ${getMemberSavings(m.id)} KES<br>📌 ${getMemberLoanBalance(m.id)} KES</div>
-            </div>`;
-            }
-            document.getElementById("memberSummary").innerHTML = summaryHtml;
-            document.getElementById("totalSavings").innerText = getTotalGroupSavings();
-
-            let loanHtml = '<h3>📜 Loan History</h3>';
-            for (let loan of loans) {
-                const member = MEMBERS[loan.memberId];
-                const outstanding = loan.totalDue - (loan.repaidAmount || 0);
-                loanHtml += `<div style="background:#f8fafc; padding:10px; border-radius:12px; margin-bottom:8px">
-                <strong>${member.name}</strong> | ${loan.dateTaken}<br>${loan.principal}+10% = ${loan.totalDue} KES | Due: ${loan.returnDate}<br>${loan.status === 'returned' ? '✅ Returned' : `⚠️ Pending (${outstanding} KES left)`}</div>`;
-            }
-            document.getElementById("loanDisplay").innerHTML = loanHtml;
-
-            const winner = MEMBERS[mgrWeekIndex];
-            document.getElementById("mgrWinnerAdmin").innerHTML = `🏆 ${winner.name}<br><span class="small-text">${isMGRPaidThisWeek() ? "✅ Recorded" : "❌ Not recorded"}</span>`;
-            document.getElementById("weekInfoAdmin").innerHTML = `Next: ${MEMBERS[(mgrWeekIndex + 1) % MEMBERS.length].name}`;
-        }
-
-        // ============ MEMBER DISPLAY ============
-        function refreshMemberView() {
-            const member = MEMBERS[currentMemberId];
-            const saved = getMemberSavings(currentMemberId);
-            const loanBal = getMemberLoanBalance(currentMemberId);
-            const savingsHistory = getMemberSavingsHistory(currentMemberId);
-            const memberLoans = getMemberLoans(currentMemberId);
-
-            document.getElementById("memberInfoPanel").innerHTML = `<h3>${member.name}</h3><p>📞 ${member.phone || 'No phone'}</p>`;
-            document.getElementById("memberSavingsDisplay").innerHTML = `${saved} KES`;
-            document.getElementById("memberLoanDisplay").innerHTML = `${loanBal} KES`;
-            document.getElementById("savingsHistoryMember").innerHTML = savingsHistory.slice(0, 5).map(s => `📆 ${s.date}: +${s.amount} KES`).join('<br>') || "No savings yet";
-
-            let loanHtml = '';
-            for (let loan of memberLoans) {
-                const outstanding = loan.totalDue - (loan.repaidAmount || 0);
-                loanHtml += `<div class="loan-history-item"><strong>📆 ${loan.dateTaken}</strong><br>Borrowed: ${loan.principal} +10% = ${loan.totalDue} KES<br>Due: ${loan.returnDate}<br>${loan.status === 'returned' ? '✅ Paid' : `⚠️ Pending (${outstanding} KES left)`}</div>`;
-            }
-            document.getElementById("loanHistoryMember").innerHTML = loanHtml || "<p>No loans</p>";
-
-            const isWinner = mgrWeekIndex === currentMemberId;
-            document.getElementById("mgrWinnerMember").innerHTML = `${isWinner ? '🎉 YOU ARE THE WINNER! 🎉' : `Winner: ${MEMBERS[mgrWeekIndex].name}`}<br><span class="small-text">${isMGRPaidThisWeek() ? "Paid this week" : "Not paid yet"}</span>`;
-            document.getElementById("weekInfoMember").innerHTML = `Next winner: ${MEMBERS[(mgrWeekIndex + 1) % MEMBERS.length].name}`;
-        }
-
-        // ============ INITIALIZE ============
         function initialize() {
             loadData();
-            const memberSelect = document.getElementById("memberSelect");
-            let options = '<option value="">-- Select Your Name --</option>';
-            for (let m of MEMBERS) options += `<option value="${m.id}">${m.name}</option>`;
-            memberSelect.innerHTML = options;
+            let opts = '<option value="">-- Select Name --</option>';
+            for (let m of MEMBERS) opts += `<option value="${m.id}">${m.name}</option>`;
+            document.getElementById("memberSelect").innerHTML = opts;
         }
 
         initialize();
