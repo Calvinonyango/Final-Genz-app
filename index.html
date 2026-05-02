@@ -270,11 +270,11 @@
             margin-bottom: 10px;
         }
 
-        .pending-request {
-            background: #fef3c7;
-            border-radius: 12px;
+        .notification-box {
+            background: #e0e7ff;
+            border-radius: 16px;
             padding: 12px;
-            margin-bottom: 10px;
+            margin-bottom: 16px;
         }
     </style>
 </head>
@@ -288,7 +288,6 @@
                 <button class="tab-btn" onclick="showAdminLogin()">👑 Admin Login</button>
             </div>
 
-            <!-- Member Login Panel -->
             <div id="memberLoginPanel">
                 <h3>Member Access</h3>
                 <select id="memberSelect">
@@ -297,7 +296,6 @@
                 <input type="password" id="memberPasscode" placeholder="Enter your passcode">
                 <button onclick="memberLogin()">Login</button>
 
-                <!-- Sign Up Section -->
                 <div class="signup-form">
                     <h4>📝 Not a member yet?</h4>
                     <input type="text" id="signupName" placeholder="Full Name">
@@ -307,7 +305,6 @@
                 </div>
             </div>
 
-            <!-- Admin Login Panel -->
             <div id="adminLoginPanel" style="display:none">
                 <h3>Admin Access</h3>
                 <input type="password" id="adminPasswordInput" placeholder="Admin password">
@@ -387,6 +384,28 @@
             <p>Admin Control Panel</p>
         </div>
 
+        <!-- WhatsApp Notification Section -->
+        <div class="card notification-box">
+            <h2>📢 Send WhatsApp Notification</h2>
+            <select id="notifyMemberSelect">
+                <option value="all">📢 Send to All Members (Group)</option>
+                <option value="0">👤 Brian Odhiambo</option>
+                <option value="1">👤 Calvin Onyango</option>
+                <option value="2">👤 Collins Odhiambo</option>
+                <option value="3">👤 Morgan Omondi</option>
+                <option value="4">👤 Samuel Ochieng</option>
+                <option value="5">👤 Ivy</option>
+                <option value="6">👤 Ongoma</option>
+            </select>
+            <textarea id="notificationMessage" rows="3" placeholder="Type your message here..."
+                style="width:100%; padding:10px; border-radius:16px; border:1px solid #cbd5e1; margin:8px 0;"></textarea>
+            <div class="flex-buttons">
+                <button onclick="sendWhatsAppNotification()" class="whatsapp">📱 Send via WhatsApp</button>
+            </div>
+            <p class="small-text">💡 Tip: Use this for MGR winner announcements, meeting reminders, or loan due alerts!
+            </p>
+        </div>
+
         <div class="card">
             <div class="csv-url-box">
                 <h4>📊 GOOGLE SHEET CSV SYNC</h4>
@@ -405,13 +424,11 @@
             <div id="pendingRequestsList">No pending requests</div>
         </div>
 
-        <!-- Add New Member -->
         <div class="card">
-            <h2>➕ Add New Member Manually</h2>
+            <h2>➕ Add New Member</h2>
             <input type="text" id="newMemberName" placeholder="Full Name">
             <input type="text" id="newMemberPhone" placeholder="Phone Number">
             <button onclick="addNewMember()">➕ Add Member</button>
-            <p class="small-text">Passcode will be last 4 digits of phone number</p>
         </div>
 
         <div class="card">
@@ -462,13 +479,13 @@
 
     <script>
         let MEMBERS = [
-            { id: 0, name: "Brian Odhiambo", phone: "0718585462", passcode: "5462" },
-            { id: 1, name: "Calvin Onyango", phone: "0769618871", passcode: "8871" },
-            { id: 2, name: "Collins Odhiambo", phone: "0792257622", passcode: "7622" },
-            { id: 3, name: "Morgan Omondi", phone: "4180238", passcode: "0238" },
-            { id: 4, name: "Samuel Ochieng", phone: "0759856838", passcode: "6838" },
-            { id: 5, name: "Ivy", phone: "0769263349", passcode: "3349" },
-            { id: 6, name: "Ongoma", phone: "", passcode: "0000" }
+            { id: 0, name: "Brian Odhiambo", phone: "254718585462", passcode: "5462" },
+            { id: 1, name: "Calvin Onyango", phone: "254769618871", passcode: "8871" },
+            { id: 2, name: "Collins Odhiambo", phone: "254792257622", passcode: "7622" },
+            { id: 3, name: "Morgan Omondi", phone: "2544180238", passcode: "0238" },
+            { id: 4, name: "Samuel Ochieng", phone: "254759856838", passcode: "6838" },
+            { id: 5, name: "Ivy", phone: "254769263349", passcode: "3349" },
+            { id: 6, name: "Ongoma", phone: "254712345678", passcode: "0000" }
         ];
 
         let savings = [];
@@ -482,6 +499,39 @@
         let GOOGLE_SHEET_CSV_URL = localStorage.getItem("GenzSheetCsvUrl") || "";
         let pendingSignups = JSON.parse(localStorage.getItem("PendingSignups") || "[]");
         const TILL_NUMBER = "6246156";
+        const GROUP_WHATSAPP_LINK = "https://chat.whatsapp.com/YOUR_GROUP_LINK"; // Replace with your group link
+
+        // WhatsApp Notification Function
+        function sendWhatsAppNotification() {
+            let memberId = document.getElementById("notifyMemberSelect").value;
+            let message = document.getElementById("notificationMessage").value.trim();
+
+            if (!message) {
+                alert("Please enter a message to send");
+                return;
+            }
+
+            let encodedMsg = encodeURIComponent("📢 *GENZ CHAMA NOTIFICATION*\n\n" + message + "\n\n---\nReply in the group for any questions");
+
+            if (memberId === "all") {
+                // Send to WhatsApp Group
+                if (GROUP_WHATSAPP_LINK && GROUP_WHATSAPP_LINK !== "https://chat.whatsapp.com/YOUR_GROUP_LINK") {
+                    window.open(`${GROUP_WHATSAPP_LINK}?text=${encodedMsg}`, '_blank');
+                } else {
+                    // Alternative: Send via WhatsApp to group by opening the app
+                    window.open(`https://wa.me/?text=${encodedMsg}`, '_blank');
+                    alert("💡 Tip: Replace GROUP_WHATSAPP_LINK with your actual WhatsApp group invite link for better experience");
+                }
+            } else {
+                // Send to individual member
+                let member = MEMBERS[parseInt(memberId)];
+                let phoneNumber = member.phone;
+                window.open(`https://wa.me/${phoneNumber}?text=${encodedMsg}`, '_blank');
+            }
+
+            document.getElementById("notificationMessage").value = "";
+            alert("✅ WhatsApp opened! Tap send to deliver message.");
+        }
 
         function getCurrentWeekKey() {
             const now = new Date();
@@ -574,9 +624,6 @@
             document.getElementById("signupPhone").value = "";
 
             alert("✅ Sign up request sent! Admin will approve your membership shortly.");
-
-            // Optional: In a real app, you could send WhatsApp notification to admin
-            // window.open(`https://wa.me/?text=New signup request from ${name}`, '_blank');
         }
 
         function displayPendingRequests() {
@@ -678,7 +725,7 @@
             let member = MEMBERS[currentMemberId];
             let amount = document.getElementById("paymentAmount").value;
             let msg = `💰 Savings Payment\nName: ${member.name}\nAmount: ${amount || "?"} KES\nTill: ${TILL_NUMBER}`;
-            window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+            window.open(`https://wa.me/${member.phone}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
         function generatePaymentInstructions() {
@@ -789,6 +836,11 @@
             for (let m of MEMBERS) opts += `<option value="${m.id}">${m.name}</option>`;
             document.getElementById("savingsMemberSelect").innerHTML = opts;
             document.getElementById("loanMemberSelect").innerHTML = opts;
+
+            // Update notification dropdown
+            let notifyOpts = '<option value="all">📢 Send to All Members (Group)</option>';
+            for (let m of MEMBERS) notifyOpts += `<option value="${m.id}">👤 ${m.name}</option>`;
+            document.getElementById("notifyMemberSelect").innerHTML = notifyOpts;
 
             let passHtml = '';
             for (let m of MEMBERS) passHtml += `<div class="member-row"><span><strong>${m.name}</strong> 🔑 ${m.passcode}</span><button onclick="changeMemberPasscode(${m.id})" class="secondary small">Change</button></div>`;
