@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Genz Chama - Loan Requests</title>
+    <title>Genz Chama - Live Data</title>
     <style>
         * {
             margin: 0;
@@ -327,20 +327,6 @@
             margin-bottom: 8px;
         }
 
-        .motivation-card {
-            background: #fef3c7;
-            border-left: 4px solid #f59e0b;
-            padding: 12px;
-            border-radius: 12px;
-            margin-top: 12px;
-        }
-
-        .motivation-text {
-            font-size: 13px;
-            color: #92400e;
-            font-style: italic;
-        }
-
         .eligibility-info {
             background: #e0e7ff;
             border-radius: 12px;
@@ -459,7 +445,7 @@
             <h1>💰 Genz Chama</h1>
             <p>Welcome, <span id="memberName"></span></p>
         </div>
-        <button onclick="refreshMemberData()" class="refresh-btn" style="width:100%">🔄 Refresh Data (Sync with Google
+        <button onclick="refreshMemberData()" class="refresh-btn" style="width:100%">🔄 Refresh Data (Get Latest from
             Sheet)</button>
         <div id="syncStatus" class="sync-status" style="margin-top:8px; display:none;"></div>
         <div class="card">
@@ -477,8 +463,7 @@
             <div class="eligibility-info">
                 <strong>📌 Loan Requirements:</strong><br>
                 • Maximum loan amount: <strong>700 KES</strong><br>
-                • You must have at least <strong>50% of loan amount in savings</strong><br>
-                • Example: For 700 KES loan, you need 350 KES in savings
+                • You must have at least <strong>50% of loan amount in savings</strong>
             </div>
             <div style="margin-top: 12px;">
                 <input type="number" id="loanRequestAmount" placeholder="Enter loan amount (max 700 KES)">
@@ -491,7 +476,6 @@
             </div>
         </div>
 
-        <!-- Loan Requests Status -->
         <div class="card" id="loanRequestsCard" style="display:none;">
             <h2>📋 My Loan Requests</h2>
             <div id="memberLoanRequestsList"></div>
@@ -548,14 +532,12 @@
         <div class="card">
             <div class="csv-url-box">
                 <h4>📊 GOOGLE SHEET CSV LINKS (Set Once)</h4>
-                <input type="text" id="savingsCsvUrl" placeholder="Savings CSV Link (Date, Member Name, Amount)">
-                <input type="text" id="loansCsvUrl"
-                    placeholder="Loans CSV Link (Loan ID, Date, Member Name, Principal, Interest, Total Due, Return Date, Status, Amount Paid)">
-                <input type="text" id="mgrCsvUrl" placeholder="MGR CSV Link (Current Week Index, Last Paid Week)">
+                <input type="text" id="savingsCsvUrl" placeholder="Savings CSV Link">
+                <input type="text" id="loansCsvUrl" placeholder="Loans CSV Link">
+                <input type="text" id="mgrCsvUrl" placeholder="MGR CSV Link">
                 <button onclick="saveSheetUrls()" class="sync">💾 Save URLs</button>
-                <div id="syncStatusMsg" class="sync-status">📡 URLs saved. Members can refresh data on login.</div>
-                <p class="small-text">⚠️ Publish each sheet separately as CSV. Members tap "Refresh Data" to get latest
-                    updates.</p>
+                <div id="syncStatusMsg" class="sync-status">📡 URLs saved</div>
+                <p class="small-text">⚠️ Publish each sheet as CSV. Members get live data on login/refresh.</p>
             </div>
         </div>
 
@@ -623,6 +605,7 @@
             { id: 6, name: "Ongoma", phone: "0712345678", passcode: "0000" }
         ];
 
+        // Data that will be fetched from Google Sheet
         let savings = [], loans = [], loanRequests = [], pendingSignups = [];
         let mgrWeekIndex = 0, mgrLastPaidWeek = null, nextLoanId = 7, currentMemberId = null, ADMIN_PASSWORD = "admin123";
         let SAVINGS_CSV_URL = localStorage.getItem("SavingsCsvUrl") || "";
@@ -630,24 +613,6 @@
         let MGR_CSV_URL = localStorage.getItem("MgrCsvUrl") || "";
         const TILL_NUMBER = "6246156", REGISTRATION_FEE = 100, MAX_LOAN_AMOUNT = 700;
         let pendingSignupData = null, memberToDelete = null;
-
-        // Sample data
-        loans = [
-            { id: 1, memberId: 0, principal: 500, interest: 50, totalDue: 550, returnDate: "2026-02-16", status: "returned", dateTaken: "2026-02-11", repaidAmount: 550 },
-            { id: 2, memberId: 3, principal: 500, interest: 50, totalDue: 550, returnDate: "2026-03-06", status: "returned", dateTaken: "2026-02-20", repaidAmount: 550 },
-            { id: 3, memberId: 0, principal: 500, interest: 50, totalDue: 550, returnDate: "2026-02-22", status: "returned", dateTaken: "2026-02-21", repaidAmount: 550 },
-            { id: 4, memberId: 3, principal: 500, interest: 50, totalDue: 550, returnDate: "2026-03-22", status: "returned", dateTaken: "2025-03-08", repaidAmount: 550 },
-            { id: 5, memberId: 6, principal: 300, interest: 30, totalDue: 330, returnDate: "2026-03-26", status: "returned", dateTaken: "2026-03-23", repaidAmount: 330 }
-        ];
-        nextLoanId = 6;
-        savings = [
-            { date: "2025-08-16", memberId: 0, amount: 3170 }, { date: "2026-04-18", memberId: 1, amount: 100 },
-            { date: "2026-04-20", memberId: 0, amount: 850 }, { date: "2026-04-25", memberId: 1, amount: 100 },
-            { date: "2026-04-25", memberId: 4, amount: 103 }, { date: "2026-03-12", memberId: 0, amount: 100 },
-            { date: "2026-03-12", memberId: 3, amount: 150 }, { date: "2026-03-12", memberId: 4, amount: 30 },
-            { date: "2026-03-12", memberId: 6, amount: 254 }, { date: "2026-05-02", memberId: 1, amount: 200 },
-            { date: "2026-05-02", memberId: 6, amount: 500 }
-        ];
 
         // ========== HELPER FUNCTIONS ==========
         function parseCSVLine(line) {
@@ -688,205 +653,8 @@
                 savings, loans, mgrWeekIndex, mgrLastPaidWeek, nextLoanId, ADMIN_PASSWORD, MEMBERS, loanRequests, pendingSignups
             }));
         }
-        function loadData() {
-            let d = localStorage.getItem("GenzChamaData");
-            if (d) {
-                try {
-                    let p = JSON.parse(d);
-                    savings = p.savings || savings;
-                    loans = p.loans || loans;
-                    mgrWeekIndex = p.mgrWeekIndex || 0;
-                    mgrLastPaidWeek = p.mgrLastPaidWeek || null;
-                    nextLoanId = p.nextLoanId || 6;
-                    if (p.ADMIN_PASSWORD) ADMIN_PASSWORD = p.ADMIN_PASSWORD;
-                    if (p.MEMBERS) MEMBERS = p.MEMBERS;
-                    if (p.loanRequests) loanRequests = p.loanRequests;
-                    if (p.pendingSignups) pendingSignups = p.pendingSignups;
-                } catch (e) { }
-            }
-        }
 
-        // ========== LOAN REQUEST FUNCTIONS ==========
-        function checkEligibility() {
-            let amount = parseFloat(document.getElementById("loanRequestAmount").value);
-            let currentSavings = getMemberSavings(currentMemberId);
-            let resultDiv = document.getElementById("eligibilityResult");
-
-            if (isNaN(amount) || amount <= 0) {
-                resultDiv.innerHTML = "❌ Please enter a valid loan amount.";
-                resultDiv.style.background = "#fee2e2";
-                resultDiv.style.color = "#991b1b";
-                return;
-            }
-
-            if (amount > MAX_LOAN_AMOUNT) {
-                resultDiv.innerHTML = `❌ Loan amount exceeds maximum limit of ${MAX_LOAN_AMOUNT} KES.`;
-                resultDiv.style.background = "#fee2e2";
-                resultDiv.style.color = "#991b1b";
-                return;
-            }
-
-            let requiredSavings = amount / 2;
-            if (currentSavings < requiredSavings) {
-                resultDiv.innerHTML = `❌ You are not eligible. Need ${requiredSavings} KES in savings to request ${amount} KES loan. You have ${currentSavings} KES.`;
-                resultDiv.style.background = "#fee2e2";
-                resultDiv.style.color = "#991b1b";
-                return;
-            }
-
-            resultDiv.innerHTML = `✅ You are ELIGIBLE! You have ${currentSavings} KES in savings. Required: ${requiredSavings} KES. Click "Submit Loan Request".`;
-            resultDiv.style.background = "#d1fae5";
-            resultDiv.style.color = "#14532d";
-        }
-
-        function submitLoanRequest() {
-            let amount = parseFloat(document.getElementById("loanRequestAmount").value);
-            let reason = document.getElementById("loanRequestReason").value;
-            let currentSavings = getMemberSavings(currentMemberId);
-
-            if (isNaN(amount) || amount <= 0) {
-                alert("Please enter a valid loan amount.");
-                return;
-            }
-
-            if (amount > MAX_LOAN_AMOUNT) {
-                alert(`Loan amount cannot exceed ${MAX_LOAN_AMOUNT} KES.`);
-                return;
-            }
-
-            let requiredSavings = amount / 2;
-            if (currentSavings < requiredSavings) {
-                alert(`You need at least ${requiredSavings} KES in savings to request a ${amount} KES loan. You have ${currentSavings} KES.`);
-                return;
-            }
-
-            // Check if already has pending loan request
-            let hasPending = loanRequests.some(r => r.memberId === currentMemberId && r.status === "pending");
-            if (hasPending) {
-                alert("You already have a pending loan request. Please wait for admin approval.");
-                return;
-            }
-
-            // Check if already has active loan
-            let hasActiveLoan = loans.some(l => l.memberId === currentMemberId && l.status === "pending");
-            if (hasActiveLoan) {
-                alert("You already have an active loan. Please repay it first before requesting another.");
-                return;
-            }
-
-            loanRequests.push({
-                id: Date.now(),
-                memberId: currentMemberId,
-                memberName: MEMBERS[currentMemberId].name,
-                amount: amount,
-                reason: reason || "No reason provided",
-                status: "pending",
-                requestDate: new Date().toISOString().split('T')[0],
-                savingsAtRequest: currentSavings
-            });
-
-            saveData();
-            refreshMemberView();
-            displayLoanRequests();
-
-            alert(`✅ Loan request for ${amount} KES submitted to admin for approval.\n\nYou will be notified once approved.`);
-            document.getElementById("loanRequestAmount").value = "";
-            document.getElementById("loanRequestReason").value = "";
-            document.getElementById("eligibilityResult").innerHTML = "";
-        }
-
-        function displayLoanRequests() {
-            let memberRequests = loanRequests.filter(r => r.memberId === currentMemberId);
-            let container = document.getElementById("memberLoanRequestsList");
-            let card = document.getElementById("loanRequestsCard");
-
-            if (memberRequests.length === 0) {
-                card.style.display = "none";
-                return;
-            }
-
-            card.style.display = "block";
-            let html = '';
-            for (let req of memberRequests) {
-                let statusText = req.status === "pending" ? "⏳ Pending Approval" : (req.status === "approved" ? "✅ Approved" : "❌ Rejected");
-                let statusColor = req.status === "pending" ? "#f59e0b" : (req.status === "approved" ? "#10b981" : "#ef4444");
-                html += `<div class="loan-detail" style="border-left: 4px solid ${statusColor};">
-            <strong>💰 ${req.amount} KES</strong><br>
-            📅 Requested: ${req.requestDate}<br>
-            📝 Reason: ${req.reason}<br>
-            <span style="color: ${statusColor};">${statusText}</span>
-        </div>`;
-            }
-            container.innerHTML = html;
-        }
-
-        function displayPendingLoanRequests() {
-            let pending = loanRequests.filter(r => r.status === "pending");
-            let container = document.getElementById("pendingLoanRequestsList");
-
-            if (pending.length === 0) {
-                container.innerHTML = "<p style='text-align:center; padding:20px;'>✅ No pending loan requests</p>";
-                return;
-            }
-
-            let html = '';
-            for (let req of pending) {
-                let member = MEMBERS.find(m => m.id === req.memberId);
-                html += `<div class="pending-request">
-            <div><strong>${member?.name || req.memberName}</strong></div>
-            <div class="small-text">💰 Amount: ${req.amount} KES</div>
-            <div class="small-text">📅 Requested: ${req.requestDate}</div>
-            <div class="small-text">📝 Reason: ${req.reason}</div>
-            <div class="small-text">💵 Savings at request: ${req.savingsAtRequest} KES</div>
-            <div class="flex-buttons" style="margin-top:8px;">
-                <button onclick="approveLoanRequest(${req.id})" style="background:#10b981; flex:1;">✅ Approve</button>
-                <button onclick="rejectLoanRequest(${req.id})" style="background:#ef4444; flex:1;">❌ Reject</button>
-            </div>
-        </div>`;
-            }
-            container.innerHTML = html;
-        }
-
-        function approveLoanRequest(requestId) {
-            let request = loanRequests.find(r => r.id === requestId);
-            if (request && request.status === "pending") {
-                let interest = request.amount * 0.10;
-                let totalDue = request.amount + interest;
-
-                loans.push({
-                    id: nextLoanId++,
-                    memberId: request.memberId,
-                    principal: request.amount,
-                    interest: interest,
-                    totalDue: totalDue,
-                    returnDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-                    status: "pending",
-                    dateTaken: new Date().toISOString().split('T')[0],
-                    repaidAmount: 0
-                });
-
-                request.status = "approved";
-                saveData();
-                refreshAdminView();
-                displayPendingLoanRequests();
-                alert(`✅ Loan request for ${request.amount} KES approved!\n\nInterest: ${interest} KES (10%)\nTotal Due: ${totalDue} KES\nDue Date: ${new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}`);
-            }
-        }
-
-        function rejectLoanRequest(requestId) {
-            let request = loanRequests.find(r => r.id === requestId);
-            if (request && request.status === "pending") {
-                if (confirm(`Reject ${request.memberName}'s loan request for ${request.amount} KES?`)) {
-                    request.status = "rejected";
-                    saveData();
-                    refreshAdminView();
-                    displayPendingLoanRequests();
-                    alert(`❌ Loan request for ${request.amount} KES rejected.`);
-                }
-            }
-        }
-
-        // ========== FETCH FROM GOOGLE SHEET ==========
+        // ========== FETCH FROM GOOGLE SHEET (LIVE DATA) ==========
         async function fetchSavingsFromSheet() {
             if (!SAVINGS_CSV_URL) return null;
             try {
@@ -967,11 +735,8 @@
             } catch (e) { console.error("Fetch MGR error:", e); return null; }
         }
 
-        async function refreshMemberData() {
-            let statusDiv = document.getElementById("syncStatus");
-            statusDiv.style.display = "block";
-            statusDiv.innerHTML = "<span class='loading-spinner'></span> Fetching latest data from Google Sheet...";
-
+        // LOAD ALL DATA FROM SHEET - THIS IS THE KEY FUNCTION
+        async function loadAllDataFromSheet() {
             let [newSavings, newLoans, mgrData] = await Promise.all([
                 fetchSavingsFromSheet(),
                 fetchLoansFromSheet(),
@@ -986,6 +751,15 @@
             }
 
             saveData();
+            return true;
+        }
+
+        async function refreshMemberData() {
+            let statusDiv = document.getElementById("syncStatus");
+            statusDiv.style.display = "block";
+            statusDiv.innerHTML = "<span class='loading-spinner'></span> Fetching latest data from Google Sheet...";
+
+            await loadAllDataFromSheet();
             refreshMemberView();
 
             statusDiv.innerHTML = "✅ Data refreshed successfully! Latest updates loaded.";
@@ -994,20 +768,9 @@
 
         async function syncAllFromSheet() {
             document.getElementById("syncStatusMsg").innerHTML = "<span class='loading-spinner'></span> Syncing...";
-            let [newSavings, newLoans, mgrData] = await Promise.all([
-                fetchSavingsFromSheet(),
-                fetchLoansFromSheet(),
-                fetchMGRFromSheet()
-            ]);
-            if (newSavings && newSavings.length > 0) savings = newSavings;
-            if (newLoans && newLoans.length > 0) loans = newLoans;
-            if (mgrData) {
-                mgrWeekIndex = mgrData.weekIndex;
-                mgrLastPaidWeek = mgrData.lastPaid;
-            }
-            saveData();
+            await loadAllDataFromSheet();
             refreshAdminView();
-            document.getElementById("syncStatusMsg").innerHTML = "✅ Sync complete!";
+            document.getElementById("syncStatusMsg").innerHTML = "✅ Sync complete! Data updated from Google Sheet.";
             setTimeout(() => { document.getElementById("syncStatusMsg").innerHTML = "📡 Ready"; }, 3000);
         }
 
@@ -1018,7 +781,160 @@
             if (savingsUrl) { SAVINGS_CSV_URL = savingsUrl; localStorage.setItem("SavingsCsvUrl", savingsUrl); }
             if (loansUrl) { LOANS_CSV_URL = loansUrl; localStorage.setItem("LoansCsvUrl", loansUrl); }
             if (mgrUrl) { MGR_CSV_URL = mgrUrl; localStorage.setItem("MgrCsvUrl", mgrUrl); }
-            document.getElementById("syncStatusMsg").innerHTML = "✅ URLs saved! Members can now refresh data.";
+            document.getElementById("syncStatusMsg").innerHTML = "✅ URLs saved! Members will get live data on login/refresh.";
+        }
+
+        // ========== LOAN REQUEST FUNCTIONS ==========
+        function checkEligibility() {
+            let amount = parseFloat(document.getElementById("loanRequestAmount").value);
+            let currentSavings = getMemberSavings(currentMemberId);
+            let resultDiv = document.getElementById("eligibilityResult");
+
+            if (isNaN(amount) || amount <= 0) {
+                resultDiv.innerHTML = "❌ Please enter a valid loan amount.";
+                resultDiv.style.background = "#fee2e2";
+                return;
+            }
+            if (amount > MAX_LOAN_AMOUNT) {
+                resultDiv.innerHTML = `❌ Loan amount exceeds maximum limit of ${MAX_LOAN_AMOUNT} KES.`;
+                resultDiv.style.background = "#fee2e2";
+                return;
+            }
+            let requiredSavings = amount / 2;
+            if (currentSavings < requiredSavings) {
+                resultDiv.innerHTML = `❌ Not eligible. Need ${requiredSavings} KES in savings. You have ${currentSavings} KES.`;
+                resultDiv.style.background = "#fee2e2";
+                return;
+            }
+            resultDiv.innerHTML = `✅ ELIGIBLE! You have ${currentSavings} KES. Required: ${requiredSavings} KES.`;
+            resultDiv.style.background = "#d1fae5";
+            resultDiv.style.color = "#14532d";
+        }
+
+        function submitLoanRequest() {
+            let amount = parseFloat(document.getElementById("loanRequestAmount").value);
+            let reason = document.getElementById("loanRequestReason").value;
+            let currentSavings = getMemberSavings(currentMemberId);
+
+            if (isNaN(amount) || amount <= 0 || amount > MAX_LOAN_AMOUNT) {
+                alert("Invalid loan amount");
+                return;
+            }
+            if (currentSavings < (amount / 2)) {
+                alert(`You need at least ${amount / 2} KES in savings to request a ${amount} KES loan.`);
+                return;
+            }
+            if (loanRequests.some(r => r.memberId === currentMemberId && r.status === "pending")) {
+                alert("You already have a pending loan request.");
+                return;
+            }
+            if (loans.some(l => l.memberId === currentMemberId && l.status === "pending")) {
+                alert("You have an active loan. Please repay it first.");
+                return;
+            }
+
+            loanRequests.push({
+                id: Date.now(),
+                memberId: currentMemberId,
+                memberName: MEMBERS[currentMemberId].name,
+                amount: amount,
+                reason: reason || "No reason provided",
+                status: "pending",
+                requestDate: new Date().toISOString().split('T')[0],
+                savingsAtRequest: currentSavings
+            });
+
+            saveData();
+            refreshMemberView();
+            displayLoanRequests();
+
+            alert(`✅ Loan request for ${amount} KES submitted for admin approval.`);
+            document.getElementById("loanRequestAmount").value = "";
+            document.getElementById("loanRequestReason").value = "";
+            document.getElementById("eligibilityResult").innerHTML = "";
+        }
+
+        function displayLoanRequests() {
+            let memberRequests = loanRequests.filter(r => r.memberId === currentMemberId);
+            let container = document.getElementById("memberLoanRequestsList");
+            let card = document.getElementById("loanRequestsCard");
+
+            if (memberRequests.length === 0) {
+                card.style.display = "none";
+                return;
+            }
+            card.style.display = "block";
+            let html = '';
+            for (let req of memberRequests) {
+                let statusText = req.status === "pending" ? "⏳ Pending" : (req.status === "approved" ? "✅ Approved" : "❌ Rejected");
+                let statusColor = req.status === "pending" ? "#f59e0b" : (req.status === "approved" ? "#10b981" : "#ef4444");
+                html += `<div class="loan-detail" style="border-left: 4px solid ${statusColor};">
+            <strong>💰 ${req.amount} KES</strong><br>
+            📅 ${req.requestDate}<br>
+            📝 ${req.reason}<br>
+            <span style="color: ${statusColor};">${statusText}</span>
+        </div>`;
+            }
+            container.innerHTML = html;
+        }
+
+        function displayPendingLoanRequests() {
+            let pending = loanRequests.filter(r => r.status === "pending");
+            let container = document.getElementById("pendingLoanRequestsList");
+            if (pending.length === 0) {
+                container.innerHTML = "<p>✅ No pending requests</p>";
+                return;
+            }
+            let html = '';
+            for (let req of pending) {
+                let member = MEMBERS.find(m => m.id === req.memberId);
+                html += `<div class="pending-request">
+            <div><strong>${member?.name || req.memberName}</strong></div>
+            <div>💰 ${req.amount} KES</div>
+            <div>📅 ${req.requestDate}</div>
+            <div>📝 ${req.reason}</div>
+            <div class="flex-buttons">
+                <button onclick="approveLoanRequest(${req.id})" style="background:#10b981">✅ Approve</button>
+                <button onclick="rejectLoanRequest(${req.id})" style="background:#ef4444">❌ Reject</button>
+            </div>
+        </div>`;
+            }
+            container.innerHTML = html;
+        }
+
+        function approveLoanRequest(requestId) {
+            let request = loanRequests.find(r => r.id === requestId);
+            if (request && request.status === "pending") {
+                let interest = request.amount * 0.10;
+                let totalDue = request.amount + interest;
+                loans.push({
+                    id: nextLoanId++,
+                    memberId: request.memberId,
+                    principal: request.amount,
+                    interest: interest,
+                    totalDue: totalDue,
+                    returnDate: new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0],
+                    status: "pending",
+                    dateTaken: new Date().toISOString().split('T')[0],
+                    repaidAmount: 0
+                });
+                request.status = "approved";
+                saveData();
+                refreshAdminView();
+                displayPendingLoanRequests();
+                alert(`✅ Loan approved! ${request.amount} + 10% = ${totalDue} KES due in 30 days.`);
+            }
+        }
+
+        function rejectLoanRequest(requestId) {
+            let request = loanRequests.find(r => r.id === requestId);
+            if (request && request.status === "pending" && confirm(`Reject ${request.memberName}'s loan request?`)) {
+                request.status = "rejected";
+                saveData();
+                refreshAdminView();
+                displayPendingLoanRequests();
+                alert(`❌ Loan request rejected.`);
+            }
         }
 
         // ========== AUTHENTICATION ==========
@@ -1033,7 +949,9 @@
             document.getElementById("loginOverlay").style.display = "none";
             document.getElementById("memberView").style.display = "block";
 
-            await refreshMemberData();
+            // CRITICAL: Load fresh data from Google Sheet on every login
+            await loadAllDataFromSheet();
+            refreshMemberView();
         }
 
         function adminLogin() {
@@ -1072,7 +990,6 @@
 
         // ========== DISPLAY FUNCTIONS ==========
         function refreshMemberView() {
-            let member = MEMBERS[currentMemberId];
             let saved = getMemberSavings(currentMemberId);
             let loanBal = getMemberLoanBalance(currentMemberId);
             let memberSavings = savings.filter(s => s.memberId === currentMemberId).sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -1091,7 +1008,7 @@
 
             let historyHtml = '';
             for (let s of memberSavings) {
-                historyHtml += `<tr><td style="padding:8px;">${s.date}</td><td style="padding:8px;">${s.amount} KES</td><td style="color:#15803d;">✅ Confirmed</td></tr>`;
+                historyHtml += `<td><td style="padding:8px;">${s.date}</td><td style="padding:8px;">${s.amount} KES</td><td style="color:#15803d;">✅ Confirmed</td></tr>`;
             }
             if (historyHtml === '') historyHtml = '<tr><td colspan="3">No savings records</td></tr>';
             document.getElementById("savingsHistoryBody").innerHTML = historyHtml;
@@ -1355,7 +1272,7 @@
                 pendingSignups = pendingSignups.filter(r => r.id !== id);
                 saveData();
                 refreshAdminView();
-                alert(`✅ ${req.name} approved! Passcode: ${passcode}\nRegistration fee of ${REGISTRATION_FEE} KES added to savings.`);
+                alert(`✅ ${req.name} approved! Passcode: ${passcode}\nRegistration fee added to savings.`);
             }
         }
         function rejectMember(id) {
@@ -1390,9 +1307,7 @@
             }
         }
 
-        // ========== INITIALIZE ==========
         function initialize() {
-            loadData();
             let opts = '<option value="">-- Select Name --</option>';
             for (let m of MEMBERS) opts += `<option value="${m.id}">${m.name}</option>`;
             document.getElementById("memberSelect").innerHTML = opts;
