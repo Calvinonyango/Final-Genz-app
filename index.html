@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Genz Chama - Live Data</title>
+    <title>Genz Chama - Full Management</title>
     <style>
         * {
             margin: 0;
@@ -11,11 +12,13 @@
             box-sizing: border-box;
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
         }
+
         body {
             background: #f0f4f8;
             padding: 16px;
             padding-bottom: 40px;
         }
+
         .login-overlay {
             position: fixed;
             top: 0;
@@ -30,6 +33,7 @@
             overflow-y: auto;
             padding: 20px;
         }
+
         .login-box {
             background: white;
             padding: 25px;
@@ -40,7 +44,9 @@
             max-height: 90vh;
             overflow-y: auto;
         }
-        .login-box input, .login-box select {
+
+        .login-box input,
+        .login-box select {
             width: 100%;
             padding: 12px;
             margin: 10px 0;
@@ -48,11 +54,13 @@
             border-radius: 40px;
             font-size: 14px;
         }
+
         .login-tabs {
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
         }
+
         .tab-btn {
             flex: 1;
             padding: 10px;
@@ -62,10 +70,12 @@
             cursor: pointer;
             font-weight: bold;
         }
+
         .tab-btn.active {
             background: #1a4d3e;
             color: white;
         }
+
         button {
             background: #1a4d3e;
             color: white;
@@ -77,33 +87,95 @@
             margin: 5px;
             font-size: 14px;
         }
-        button.secondary { background: #64748b; }
-        button.sync { background: #0284c7; }
-        button.payment { background: #00a86b; }
-        button.whatsapp { background: #25D366; }
-        button.danger { background: #dc2626; }
-        button.signup { background: #8b5cf6; }
-        button.approve { background: #10b981; }
-        button.reject { background: #ef4444; }
-        button.request { background: #8b5cf6; }
+
+        button.secondary {
+            background: #64748b;
+        }
+
+        button.sync {
+            background: #0284c7;
+        }
+
+        button.payment {
+            background: #00a86b;
+        }
+
+        button.whatsapp {
+            background: #25D366;
+        }
+
+        button.danger {
+            background: #dc2626;
+        }
+
+        button.signup {
+            background: #8b5cf6;
+        }
+
+        button.approve {
+            background: #10b981;
+        }
+
+        button.reject {
+            background: #ef4444;
+        }
+
+        button.disburse {
+            background: #f59e0b;
+        }
+
+        button.request {
+            background: #8b5cf6;
+        }
+
+        button.done {
+            background: #10b981;
+        }
+
+        button.delete-member {
+            background: #dc2626;
+            font-size: 11px;
+            padding: 4px 10px;
+        }
+
         .card {
             background: white;
             border-radius: 20px;
             padding: 16px;
             margin-bottom: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
-        h1 { color: #1a4d3e; font-size: 28px; text-align: center; }
-        h2 { font-size: 18px; margin-bottom: 12px; border-left: 4px solid #1a4d3e; padding-left: 10px; }
-        input, select, textarea {
+
+        h1 {
+            color: #1a4d3e;
+            font-size: 28px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            border-left: 4px solid #1a4d3e;
+            padding-left: 10px;
+        }
+
+        input,
+        select,
+        textarea {
             width: 100%;
             padding: 10px;
             margin: 6px 0;
             border: 1px solid #cbd5e1;
             border-radius: 40px;
             font-size: 14px;
+            box-sizing: border-box;
         }
-        textarea { border-radius: 16px; resize: vertical; }
+
+        textarea {
+            border-radius: 16px;
+            resize: vertical;
+        }
+
         .member-row {
             display: flex;
             justify-content: space-between;
@@ -113,6 +185,7 @@
             gap: 8px;
             flex-wrap: wrap;
         }
+
         .winner {
             background: #d1fae5;
             padding: 12px;
@@ -121,6 +194,7 @@
             font-weight: bold;
             margin: 10px 0;
         }
+
         .total {
             text-align: center;
             margin: 12px 0;
@@ -129,35 +203,198 @@
             border-radius: 40px;
             font-weight: bold;
         }
-        .small-text { font-size: 11px; color: #64748b; }
-        .flex-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
-        .admin-badge { background: #1e40af; color: white; padding: 4px 12px; border-radius: 20px; font-size: 11px; display: inline-block; margin-bottom: 12px; }
-        .sync-status { background: #e6f7ed; padding: 10px; border-radius: 12px; font-size: 12px; text-align: center; margin: 10px 0; }
-        .payment-form { background: #f0fdf4; border: 1px solid #00a86b; border-radius: 16px; padding: 12px; margin-top: 10px; }
-        .till-display { background: #1a4d3e; color: white; padding: 12px; border-radius: 16px; text-align: center; margin-bottom: 12px; }
-        .till-display h4 { font-size: 24px; letter-spacing: 2px; }
-        .report-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .report-table th, .report-table td { padding: 8px; text-align: left; border-bottom: 1px solid #e2e8f0; }
-        .report-table th { background: #f8fafc; font-weight: bold; }
-        .signup-form { background: #f3e8ff; border: 1px solid #8b5cf6; border-radius: 16px; padding: 12px; margin-top: 10px; }
-        .pending-request { background: #fef3c7; border-radius: 12px; padding: 12px; margin-bottom: 10px; }
-        .interest-box { background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%); color: white; border-radius: 20px; padding: 16px; }
-        .loan-request-box { background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); color: white; border-radius: 20px; padding: 16px; margin-top: 10px; }
-        .interest-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.2); }
-        .interest-row:last-child { border-bottom: none; }
-        .interest-amount { font-size: 20px; font-weight: bold; }
-        .loan-detail { background: #f8fafc; padding: 8px; border-radius: 12px; margin-bottom: 8px; }
-        .eligibility-info { background: #e0e7ff; border-radius: 12px; padding: 10px; margin-top: 8px; font-size: 12px; }
+
+        .small-text {
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        .flex-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .admin-badge {
+            background: #1e40af;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        .sync-status {
+            background: #e6f7ed;
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .csv-url-box {
+            background: #f0f4f8;
+            padding: 15px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 2px solid #0284c7;
+        }
+
+        .payment-form {
+            background: #f0fdf4;
+            border: 1px solid #00a86b;
+            border-radius: 16px;
+            padding: 12px;
+            margin-top: 10px;
+        }
+
+        .till-display {
+            background: #1a4d3e;
+            color: white;
+            padding: 12px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .till-display h4 {
+            font-size: 24px;
+            letter-spacing: 2px;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .report-table th,
+        .report-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .report-table th {
+            background: #f8fafc;
+            font-weight: bold;
+        }
+
+        .signup-form {
+            background: #f3e8ff;
+            border: 1px solid #8b5cf6;
+            border-radius: 16px;
+            padding: 12px;
+            margin-top: 10px;
+        }
+
+        .pending-request {
+            background: #fef3c7;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .interest-summary {
+            background: #fef3c7;
+            border-radius: 16px;
+            padding: 12px;
+            margin-top: 10px;
+        }
+
+        .interest-box,
+        .loan-pool-highlight {
+            background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 16px;
+        }
+
+        .savings-box {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 16px;
+        }
+
+        .interest-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .interest-row:last-child {
+            border-bottom: none;
+        }
+
+        .interest-amount {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .disbursement-badge,
+        .pending-badge {
+            background: #f59e0b;
+            color: white;
+            border-radius: 20px;
+            padding: 2px 8px;
+            font-size: 10px;
+            display: inline-block;
+            margin-top: 6px;
+        }
+
+        .loan-detail {
+            background: #f8fafc;
+            padding: 8px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+
+        .motivation-card {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 12px;
+            border-radius: 12px;
+            margin-top: 12px;
+        }
+
+        .motivation-text {
+            font-size: 13px;
+            color: #92400e;
+            font-style: italic;
+        }
+
+        .eligibility-info {
+            background: #e0e7ff;
+            border-radius: 12px;
+            padding: 10px;
+            margin-top: 8px;
+            font-size: 12px;
+        }
+
+        .notification-box {
+            background: #e0e7ff;
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 16px;
+        }
+
         .modal {
             display: none;
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
             z-index: 2000;
             justify-content: center;
             align-items: center;
         }
+
         .modal-content {
             background: white;
             padding: 20px;
@@ -166,527 +403,556 @@
             max-width: 350px;
             text-align: center;
         }
-        .loading-spinner {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #1a4d3e;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 8px;
+
+        .success-modal {
+            background: #d1fae5;
+            border: 2px solid #10b981;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+        .warning-modal {
+            background: #fee2e2;
+            border: 2px solid #dc2626;
         }
-        .refresh-btn { background: #0284c7; margin-bottom: 10px; width: 100%; }
     </style>
 </head>
+
 <body>
 
-<!-- Modals -->
-<div id="paymentModal" class="modal"><div class="modal-content"><h3>💰 Pay Registration Fee</h3><div class="till-display"><h4>6246156</h4></div><p><strong>100 KES</strong></p><div class="flex-buttons"><button onclick="copyTillNumberReg()" class="secondary">📋 Copy Till</button><button onclick="openWhatsAppReg()" class="whatsapp">📱 Send Proof</button></div><button onclick="generatePaymentInstructionsReg()" class="payment">Instructions</button><button onclick="submitSignupRequest()" class="done">✅ Done - I have paid</button><button onclick="closePaymentModal()" class="secondary">Cancel</button></div></div>
-<div id="successModal" class="modal"><div class="modal-content success-modal"><span style="font-size:50px;">✅</span><h3>Request Sent!</h3><p>Admin will review & approve.</p><button onclick="closeSuccessModal()" class="done">OK</button></div></div>
-<div id="deleteConfirmModal" class="modal"><div class="modal-content warning-modal"><span style="font-size:50px;">⚠️</span><h3>Delete Member?</h3><p id="deleteMemberName"></p><p class="small-text">This cannot be undone.</p><div class="flex-buttons"><button onclick="confirmDeleteMember()" style="background:#dc2626;">Yes, Delete</button><button onclick="closeDeleteModal()" class="secondary">Cancel</button></div></div></div>
-
-<div id="loginOverlay" class="login-overlay"><div class="login-box"><div class="login-tabs"><button class="tab-btn active" onclick="showMemberLogin()">👤 Member Login</button><button class="tab-btn" onclick="showAdminLogin()">👑 Admin Login</button></div>
-<div id="memberLoginPanel"><h3>Member Access</h3><select id="memberSelect"></select><input type="password" id="memberPasscode" placeholder="Passcode"><button onclick="memberLogin()">Login</button>
-<div class="signup-form"><h4>📝 Not a member?</h4><input type="text" id="signupName" placeholder="Full Name"><input type="text" id="signupPhone" placeholder="Phone"><p class="small-text">Reg fee: 100 KES</p><button onclick="showPaymentModal()" class="signup">Request Sign Up</button></div></div>
-<div id="adminLoginPanel" style="display:none"><h3>Admin Access</h3><input type="password" id="adminPasswordInput" placeholder="Admin password"><button onclick="adminLogin()">Login</button></div></div></div>
-
-<!-- Member View -->
-<div id="memberView" style="display:none">
-    <div class="card"><h1>💰 Genz Chama</h1><p>Welcome, <span id="memberName"></span></p></div>
-    <button onclick="refreshMemberData()" class="refresh-btn">🔄 Refresh Data (Get Latest from Sheet)</button>
-    <div id="syncStatus" class="sync-status" style="margin-top:8px; display:none;"></div>
-    <div class="card"><h2>🎡 Weekly MGR (250 KES)</h2><div id="memberMgr" class="winner">Loading...</div></div>
-    <div class="card"><h2>🏦 My Current Savings</h2><div id="memberSavings" style="font-size:32px;font-weight:bold;text-align:center">0 KES</div></div>
-    
-    <div class="card loan-request-box">
-        <h3>📋 Request a Loan</h3>
-        <div class="eligibility-info">Max 700 KES | Need ≥50% in savings</div>
-        <input type="number" id="loanRequestAmount" placeholder="Enter loan amount (max 700)">
-        <textarea id="loanRequestReason" rows="2" placeholder="Reason (optional)"></textarea>
-        <div class="flex-buttons">
-            <button onclick="checkEligibility()" class="secondary">🔍 Check Eligibility</button>
-            <button onclick="submitLoanRequest()" class="request">📤 Submit Loan Request</button>
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <h3>💰 Pay Registration Fee</h3>
+            <div class="till-display">
+                <h4>6246156</h4>
+            </div>
+            <p><strong>100 KES</strong></p>
+            <div class="flex-buttons"><button onclick="copyTillNumberReg()" class="secondary">📋 Copy
+                    Till</button><button onclick="openWhatsAppReg()" class="whatsapp">📱 Send Proof</button></div>
+            <button onclick="generatePaymentInstructionsReg()" class="payment">Instructions</button><button
+                onclick="submitSignupRequest()" class="done">✅ Done - I have paid</button><button
+                onclick="closePaymentModal()" class="secondary">Cancel</button>
         </div>
-        <div id="eligibilityResult" class="small-text"></div>
     </div>
-    
-    <div class="card" id="loanRequestsCard" style="display:none;">
-        <h2>📋 My Loan Requests</h2>
-        <div id="memberLoanRequestsList"></div>
+    <div id="successModal" class="modal">
+        <div class="modal-content success-modal"><span style="font-size:50px;">✅</span>
+            <h3>Request Sent!</h3>
+            <p>Admin will review & approve.</p><button onclick="closeSuccessModal()" class="done">OK</button>
+        </div>
     </div>
-    
-    <div class="card"><h2>📜 Savings History</h2><div style="overflow-x:auto"><table class="report-table"><thead><tr><th>Date</th><th>Amount</th><th>Status</th></tr></thead><tbody id="savingsHistoryBody"></tbody></table></div><button onclick="generateSavingsReport()" class="secondary">Copy Report</button></div>
-    <div class="card"><h2>📋 My Approved Loans</h2><div id="memberLoan" style="font-size:28px;font-weight:bold;text-align:center;color:#dc2626">0 KES</div><div id="memberLoansList"></div></div>
-    <div class="card interest-box"><h3>📈 Loan Interest Accrual</h3><div class="interest-row"><span>💰 Total Interest Accrued:</span><span id="totalInterestAccrued">0 KES</span></div><div class="interest-row"><span>👤 To be Sent (70%):</span><span id="memberInterestShare">0 KES</span></div><div class="interest-row"><span>🏦 To Reserve (30%):</span><span id="groupReserveShare">0 KES</span></div><div class="interest-row"><span>📅 Next Disbursement:</span><span id="nextDisbursement"></span></div></div>
-    <div class="card payment-form"><h3>💳 Add Savings</h3><div class="till-display"><h4>6246156</h4></div><input type="number" id="paymentAmount" placeholder="Amount"><input type="date" id="paymentDate"><div class="flex-buttons"><button onclick="copyTillNumber()" class="secondary">📋 Copy Till</button><button onclick="openWhatsApp()" class="whatsapp">📱 Send Proof</button></div><button onclick="generatePaymentInstructions()" class="payment">Instructions</button></div>
-    <button onclick="logout()" class="secondary" style="width:100%">Logout</button>
-</div>
-
-<!-- Admin View -->
-<div id="adminView" style="display:none">
-    <div class="admin-badge">👑 ADMIN MODE - Full Control</div>
-    <div class="card"><h1>💰 Genz Chama</h1><p>Admin Panel</p></div>
-    
-    <div class="card">
-        <div style="background: #f0f4f8; padding: 15px; border-radius: 16px; margin-bottom: 20px; border: 2px solid #10b981;">
-            <h4>✅ Live Data API Connected</h4>
-            <p class="small-text">Members automatically get real-time data from Google Sheets.</p>
+    <div id="deleteConfirmModal" class="modal">
+        <div class="modal-content warning-modal"><span style="font-size:50px;">⚠️</span>
+            <h3>Delete Member?</h3>
+            <p id="deleteMemberName"></p>
+            <p class="small-text">This cannot be undone.</p>
+            <div class="flex-buttons"><button onclick="confirmDeleteMember()" style="background:#dc2626;">Yes,
+                    Delete</button><button onclick="closeDeleteModal()" class="secondary">Cancel</button></div>
         </div>
     </div>
 
-    <div class="card"><h2>📋 Pending Loan Requests</h2><div id="pendingLoanRequestsList">No pending requests</div></div>
-    <div class="card"><h2>📋 Pending Sign Ups (100 KES)</h2><div id="pendingRequestsList">None</div></div>
-    <div class="card"><h2>➕ Add New Member</h2><input type="text" id="newMemberName" placeholder="Full Name"><input type="text" id="newMemberPhone" placeholder="Phone"><button onclick="addNewMember()">Add Member</button></div>
-    <div class="card"><h2>🔐 Member Passcodes</h2><div id="passcodesList"></div><button onclick="resetMemberPasscodes()" class="secondary">Reset All Passcodes</button></div>
-    <div class="card"><h2>🎡 Weekly MGR</h2><div id="mgrWinnerAdmin" class="winner">Loading...</div><button onclick="recordMGR()">Record Payout</button><button onclick="nextWeek()">Next Week</button></div>
-    <div class="card"><h2>🏦 Add Savings</h2><select id="savingsMemberSelect"><option value="">-- Member --</option></select><input type="date" id="savingsDate"><input type="number" id="savingsAmount" placeholder="Amount KES"><button onclick="addSavings()">Add Savings</button></div>
-    <div class="card"><h2>📋 Take Loan (10% Interest)</h2><select id="loanMemberSelect"><option value="">-- Member --</option></select><input type="date" id="loanDateTaken"><input type="number" id="loanPrincipal" placeholder="Principal"><input type="date" id="loanReturnDate"><button onclick="takeLoan()">Take Loan</button></div>
-    <div class="card"><h2>💰 Record Loan Repayment</h2><select id="repayMemberSelect"><option value="">-- Member --</option></select><input type="number" id="repayAmount" placeholder="Repayment"><button onclick="repayLoan()" class="secondary">Record Repayment</button><div id="loanDisplay"></div></div>
-    <div class="card"><h2>👥 Member Records</h2><div id="memberSummary"></div><div class="total">💰 Total Savings: <span id="totalSavings">0</span> KES</div><button onclick="syncAllFromAPI()" class="sync">🔄 Sync All Data from Sheet</button><button onclick="resetAllData()" class="danger">Reset All Data</button><button onclick="changeAdminPassword()" class="secondary">Change Password</button><button onclick="logout()" class="secondary">Logout</button></div>
-</div>
+    <div id="loginOverlay" class="login-overlay">
+        <div class="login-box">
+            <div class="login-tabs"><button class="tab-btn active" onclick="showMemberLogin()">👤 Member
+                    Login</button><button class="tab-btn" onclick="showAdminLogin()">👑 Admin Login</button></div>
+            <div id="memberLoginPanel">
+                <h3>Member Access</h3><select id="memberSelect"></select><input type="password" id="memberPasscode"
+                    placeholder="Passcode"><button onclick="memberLogin()">Login</button>
+                <div class="signup-form">
+                    <h4>📝 Not a member?</h4><input type="text" id="signupName" placeholder="Full Name"><input
+                        type="text" id="signupPhone" placeholder="Phone">
+                    <p class="small-text">Reg fee: 100 KES</p><button onclick="showPaymentModal()"
+                        class="signup">Request Sign Up</button>
+                </div>
+            </div>
+            <div id="adminLoginPanel" style="display:none">
+                <h3>Admin Access</h3><input type="password" id="adminPasswordInput" placeholder="Admin password"><button
+                    onclick="adminLogin()">Login</button>
+            </div>
+        </div>
+    </div>
 
-<script>
-// ========== 🔥 YOUR HARDCODED API URL 🔥 ==========
-const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbw2OyFl-IQnD7Hs8hjvYuBKWQXdcU_lUtanEcHLHhnRN8K0XQwny-0tgMn6M51Pj_WZ/exec";
-// =================================================
+    <!-- Member View -->
+    <div id="memberView" style="display:none">
+        <div class="card">
+            <h1>💰 Genz Chama</h1>
+            <p>Welcome, <span id="memberName"></span></p>
+        </div>
+        <div id="disbursementSuccessMessage" class="card success-box" style="display:none;">
+            <div style="text-align:center"><span style="font-size:40px;">🎉</span>
+                <h3>You Received Savings!</h3>
+                <p id="disbursementAmount"></p>
+            </div>
+        </div>
+        <div class="card">
+            <h2>🎡 Weekly MGR (250 KES)</h2>
+            <div id="memberMgr" class="winner">Loading...</div>
+        </div>
+        <div class="card">
+            <h2>🏦 My Current Savings</h2>
+            <div id="memberSavings" style="font-size:32px;font-weight:bold;text-align:center">0 KES</div>
+        </div>
+        <div class="card loan-request-box">
+            <h3>📋 Request a Loan</h3>
+            <div class="eligibility-info">Max 700 KES | Need ≥50% in savings</div><input type="number"
+                id="loanRequestAmount" placeholder="Amount (max 700)"><textarea id="loanRequestReason" rows="2"
+                placeholder="Reason (optional)"></textarea>
+            <div class="flex-buttons"><button onclick="checkEligibility()" class="secondary">🔍 Check</button><button
+                    onclick="submitLoanRequest()" class="request">📤 Submit</button></div>
+            <div id="eligibilityResult" class="small-text"></div>
+        </div>
+        <div class="card" id="loanRequestsCard" style="display:none;">
+            <h2>📋 My Loan Requests</h2>
+            <div id="memberLoanRequestsList"></div>
+        </div>
+        <div class="card">
+            <h2>📜 Previous Savings History</h2>
+            <div style="overflow-x:auto">
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="savingsHistoryBody"></tbody>
+                </table>
+            </div><button onclick="generateSavingsReport()" class="secondary">Copy Report</button>
+        </div>
+        <div class="card savings-box">
+            <h3>💰 Next Savings Disbursement</h3>
+            <div class="interest-row"><span>📅 Next Date:</span><span id="savingsDisbursementDate"></span></div>
+            <div class="interest-row"><span>💵 Your Current Savings:</span><span id="currentSavingsDisplay">0 KES</span>
+            </div>
+        </div>
+        <div class="card motivation-card">
+            <div class="motivation-text" id="motivationMessage"></div>
+        </div>
+        <div class="card payment-form">
+            <h3>💳 Add Savings</h3>
+            <div class="till-display">
+                <h4>6246156</h4>
+            </div><input type="number" id="paymentAmount" placeholder="Amount"><input type="date" id="paymentDate">
+            <div class="flex-buttons"><button onclick="copyTillNumber()" class="secondary">📋 Copy Till</button><button
+                    onclick="openWhatsApp()" class="whatsapp">📱 Send Proof</button></div><button
+                onclick="generatePaymentInstructions()" class="payment">Instructions</button>
+        </div>
+        <div class="card">
+            <h2>📋 My Approved Loans</h2>
+            <div id="memberLoan" style="font-size:28px;font-weight:bold;text-align:center;color:#dc2626">0 KES</div>
+            <div id="memberLoansList"></div>
+        </div>
+        <div class="card interest-box">
+            <h3>📈 Loan Interest Accrual</h3>
+            <div class="interest-row"><span>💰 Total Interest Accrued:</span><span id="totalInterestAccrued">0
+                    KES</span></div>
+            <div class="interest-row"><span>👤 To be Sent (70%):</span><span id="memberInterestShare">0 KES</span></div>
+            <div class="interest-row"><span>🏦 To Reserve (30%):</span><span id="groupReserveShare">0 KES</span></div>
+            <div class="interest-row"><span>📅 Next Disbursement:</span><span id="nextDisbursement"></span></div>
+        </div>
+        <button onclick="logout()" class="secondary" style="width:100%">Logout</button>
+    </div>
 
-let MEMBERS = [
-    { id: 0, name: "Brian Odhiambo", phone: "0718585462", passcode: "5462" },
-    { id: 1, name: "Calvin Onyango", phone: "0769618871", passcode: "8871" },
-    { id: 2, name: "Collins Odhiambo", phone: "0792257622", passcode: "7622" },
-    { id: 3, name: "Morgan Omondi", phone: "04180238", passcode: "0238" },
-    { id: 4, name: "Samuel Ochieng", phone: "0759856838", passcode: "6838" },
-    { id: 5, name: "Ivy", phone: "0769263349", passcode: "3349" },
-    { id: 6, name: "Ongoma", phone: "0712345678", passcode: "0000" }
-];
+    <!-- Admin View -->
+    <div id="adminView" style="display:none">
+        <div class="admin-badge">👑 ADMIN MODE - Full Control</div>
+        <div class="card">
+            <h1>💰 Genz Chama</h1>
+            <p>Admin Panel</p>
+        </div>
 
-let savings = [], loans = [], loanRequests = [], pendingSignups = [];
-let mgrWeekIndex = 0, mgrLastPaidWeek = null, nextLoanId = 7, currentMemberId = null, ADMIN_PASSWORD = "admin123";
-const TILL_NUMBER = "6246156", REGISTRATION_FEE = 100, MAX_LOAN_AMOUNT = 700;
-let pendingSignupData = null, memberToDelete = null;
+        <!-- Separate CSV Sync Sections for each sheet -->
+        <div class="card">
+            <div class="csv-url-box">
+                <h4>📊 SYNC MEMBERS (Name, Phone, Passcode)</h4><input type="text" id="membersCsvUrl"
+                    placeholder="Paste Members sheet CSV link"><button onclick="syncMembers()" class="sync">Sync
+                    Members</button>
+            </div>
+            <div class="csv-url-box" style="margin-top:10px;">
+                <h4>📊 SYNC SAVINGS (Date, Member Name, Amount)</h4><input type="text" id="savingsCsvUrl"
+                    placeholder="Paste Savings sheet CSV link"><button onclick="syncSavings()" class="sync">Sync
+                    Savings</button>
+            </div>
+            <div class="csv-url-box" style="margin-top:10px;">
+                <h4>📋 SYNC LOANS (Loan ID, Date, Member Name, Principal, Interest, Total Due, Return Date, Status,
+                    Amount Paid)</h4><input type="text" id="loansCsvUrl"
+                    placeholder="Paste Loans sheet CSV link"><button onclick="syncLoans()" class="sync">Sync
+                    Loans</button>
+            </div>
+            <div class="csv-url-box" style="margin-top:10px;">
+                <h4>🎡 SYNC MGR (Current Week Index, Last Paid Week)</h4><input type="text" id="mgrCsvUrl"
+                    placeholder="Paste MGR sheet CSV link"><button onclick="syncMGR()" class="sync">Sync MGR</button>
+            </div>
+            <div id="syncStatusMsg" class="sync-status" style="margin-top:10px;">📡 Ready</div>
+        </div>
 
-// ========== HELPER FUNCTIONS ==========
-function getCurrentWeekKey() { let n=new Date(), y=n.getFullYear(), s=new Date(y,0,1), d=Math.floor((n-s)/86400000); return `${y}-W${Math.ceil((d+s.getDay()+1)/7)}`; }
-function isMGRPaidThisWeek() { return mgrLastPaidWeek === getCurrentWeekKey(); }
-function getMemberSavings(mid) { return savings.filter(s=>s.memberId===mid).reduce((a,b)=>a+b.amount,0); }
-function getMemberLoanBalance(mid) { let bal=0; for(let l of loans) if(l.memberId===mid && l.status!=='returned') bal+= l.totalDue-(l.repaidAmount||0); return bal; }
-function getMemberTotalInterestAccrued(mid) { let tot=0; for(let l of loans) if(l.memberId===mid && l.status==='returned') tot+=l.interest; return tot; }
-function getMemberInterestToSend(mid) { return getMemberTotalInterestAccrued(mid)*0.70; }
-function getTotalGroupSavings() { return savings.reduce((a,b)=>a+b.amount,0); }
-function getNextInterestDisbursementDate() { let now=new Date(), m=now.getMonth(), y=now.getFullYear(); return (m<5?`June ${y}`:(m<11?`December ${y}`:`June ${y+1}`)); }
-function saveData() { localStorage.setItem("GenzChamaData", JSON.stringify({ savings, loans, mgrWeekIndex, mgrLastPaidWeek, nextLoanId, ADMIN_PASSWORD, MEMBERS, loanRequests, pendingSignups })); }
-function loadLocalData() { let d=localStorage.getItem("GenzChamaData"); if(d){ try{ let p=JSON.parse(d); savings=p.savings||savings; loans=p.loans||loans; mgrWeekIndex=p.mgrWeekIndex||0; mgrLastPaidWeek=p.mgrLastPaidWeek||null; nextLoanId=p.nextLoanId||6; if(p.ADMIN_PASSWORD)ADMIN_PASSWORD=p.ADMIN_PASSWORD; if(p.MEMBERS)MEMBERS=p.MEMBERS; if(p.loanRequests)loanRequests=p.loanRequests; if(p.pendingSignups)pendingSignups=p.pendingSignups; }catch(e){} } }
+        <!-- Loan Pool Tracker -->
+        <div class="card loan-pool-highlight">
+            <h2 style="color:white;">💰 Accessible Loan Pool</h2>
+            <div style="text-align:center">
+                <div style="font-size:48px; font-weight:bold;" id="accessibleLoanAmount">0 KES</div>
+                <p>Available to borrow</p>
+            </div>
+            <div class="interest-row"><span>📊 Total Principal Lent:</span><span id="totalPrincipalLent">0</span></div>
+            <div class="interest-row"><span>📈 Total Interest:</span><span id="totalInterestPool">0</span></div>
+            <div class="interest-row"><span>🏦 30% Reserve:</span><span id="loanReservePool">0</span></div>
+            <div class="interest-row"><span>📌 Outstanding Loans:</span><span id="outstandingLoansPool">0</span></div>
+            <button onclick="refreshLoanPool()" class="secondary" style="background:rgba(255,255,255,0.2);">🔄 Refresh
+                Pool</button>
+            <p class="small-text">Formula: Principal + 30% Interest - Outstanding</p>
+        </div>
 
-// ========== API FUNCTIONS ==========
-async function fetchDataFromAPI() {
-    try {
-        let response = await fetch(HARDCODED_API_URL);
-        let data = await response.json();
-        
-        let newSavings = [];
-        for (let s of data.savings || []) {
-            let mid = MEMBERS.findIndex(m => m.name === s.memberName);
-            if (mid !== -1 && s.amount > 0) newSavings.push({ date: s.date, memberId: mid, amount: s.amount });
+        <div class="card notification-box">
+            <h2>📢 Send WhatsApp Notification</h2><select id="notifyMemberSelect">
+                <option value="all">📢 All Members (Group)</option>
+            </select><textarea id="notificationMessage" rows="2" placeholder="Message..."></textarea><button
+                onclick="sendWhatsAppNotification()" class="whatsapp">📱 Send</button>
+        </div>
+        <div class="card">
+            <h2>📋 Pending Sign Ups (100 KES)</h2>
+            <div id="pendingRequestsList">None</div>
+        </div>
+        <div class="card">
+            <h2>📋 Pending Loan Requests</h2>
+            <div id="pendingLoanRequestsList">None</div>
+        </div>
+        <div class="card">
+            <h2>💰 Savings Disbursement (Jan,Mar,May,Jul,Sep,Nov)</h2>
+            <div class="interest-summary">
+                <div class="member-row"><span>📊 Total Savings:</span><span id="totalSavingsPool">0</span></div>
+                <div class="member-row"><span>📅 Current Month:</span><span id="currentMonth"></span></div>
+                <div class="member-row"><span>🎯 Next Disbursement:</span><span id="nextDisbursementMonth"></span></div>
+            </div><button onclick="processSavingsDisbursement()" class="disburse">Process Savings Disbursement</button>
+            <p class="small-text">⚠️ Only in Jan/Mar/May/Jul/Sep/Nov</p>
+        </div>
+        <div class="card">
+            <h2>💰 Loan Interest (70/30)</h2>
+            <div class="interest-summary">
+                <div class="member-row"><span>📊 Total Interest Accrued:</span><span
+                        id="totalInterestCollected">0</span></div>
+                <div class="member-row"><span>👥 Due to Members (70%):</span><span id="totalDueToMembers">0</span></div>
+                <div class="member-row"><span>🏦 Group Reserve (30%):</span><span id="loanReserveAmount">0</span></div>
+            </div><button onclick="processInterestDisbursement()" class="disburse">Process Interest
+                Disbursement</button>
+            <p class="small-text">⚠️ Only in June & December</p>
+        </div>
+        <div class="card">
+            <h2>➕ Add New Member</h2><input type="text" id="newMemberName" placeholder="Full Name"><input type="text"
+                id="newMemberPhone" placeholder="Phone"><button onclick="addNewMember()">Add Member</button>
+        </div>
+        <div class="card">
+            <h2>🔐 Member Passcodes & Management</h2>
+            <div id="passcodesList"></div><button onclick="resetMemberPasscodes()" class="secondary">Reset All
+                Passcodes</button>
+        </div>
+        <div class="card">
+            <h2>🎡 Weekly MGR</h2>
+            <div id="mgrWinnerAdmin" class="winner">Loading...</div><button onclick="recordMGR()">Record
+                Payout</button><button onclick="nextWeek()">Next Week</button>
+        </div>
+        <div class="card">
+            <h2>🏦 Add Savings</h2><select id="savingsMemberSelect">
+                <option value="">-- Member --</option>
+            </select><input type="date" id="savingsDate"><input type="number" id="savingsAmount"
+                placeholder="Amount KES"><button onclick="addSavings()">Add Savings</button>
+        </div>
+        <div class="card">
+            <h2>📋 Take Loan (10% Interest)</h2><select id="loanMemberSelect">
+                <option value="">-- Member --</option>
+            </select><input type="date" id="loanDateTaken"><input type="number" id="loanPrincipal"
+                placeholder="Principal"><input type="date" id="loanReturnDate"><button onclick="takeLoan()">Take
+                Loan</button>
+            <div id="loanPreview" class="small-text"></div>
+        </div>
+        <div class="card">
+            <h2>💰 Record Loan Repayment</h2><select id="repayMemberSelect">
+                <option value="">-- Member --</option>
+            </select><input type="number" id="repayAmount" placeholder="Repayment"><button onclick="repayLoan()"
+                class="secondary">Record Repayment</button>
+            <div id="loanDisplay"></div>
+        </div>
+        <div class="card">
+            <h2>👥 Member Records</h2>
+            <div id="memberSummary"></div>
+            <div class="total">💰 Total Savings: <span id="totalSavings">0</span> KES</div><button
+                onclick="resetAllData()" class="danger">Reset All Data</button><button onclick="changeAdminPassword()"
+                class="secondary">Change Password</button><button onclick="logout()" class="secondary">Logout</button>
+        </div>
+    </div>
+
+    <script>
+        // ========== DATA ==========
+        let MEMBERS = [
+            { id: 0, name: "Brian Odhiambo", phone: "0718585462", passcode: "5462" },
+            { id: 1, name: "Calvin Onyango", phone: "0769618871", passcode: "8871" },
+            { id: 2, name: "Collins Odhiambo", phone: "0792257622", passcode: "7622" },
+            { id: 3, name: "Morgan Omondi", phone: "04180238", passcode: "0238" },
+            { id: 4, name: "Samuel Ochieng", phone: "0759856838", passcode: "6838" },
+            { id: 5, name: "Ivy", phone: "0769263349", passcode: "3349" },
+            { id: 6, name: "Ongoma", phone: "0712345678", passcode: "0000" }
+        ];
+        let savings = [], loans = [], loanRequests = [], pendingSignups = [], previousSavings = [];
+        let mgrWeekIndex = 0, mgrLastPaidWeek = null, nextLoanId = 1, currentMemberId = null, isAdminMode = false, ADMIN_PASSWORD = "admin123";
+        let SAVINGS_CSV_URL = localStorage.getItem("SavingsCsvUrl") || "";
+        let LOANS_CSV_URL = localStorage.getItem("LoansCsvUrl") || "";
+        let MEMBERS_CSV_URL = localStorage.getItem("MembersCsvUrl") || "";
+        let MGR_CSV_URL = localStorage.getItem("MgrCsvUrl") || "";
+        const TILL_NUMBER = "6246156", REGISTRATION_FEE = 100, MAX_LOAN_AMOUNT = 700;
+        let pendingSignupData = null, memberToDelete = null;
+        let lastSavingsDisbursementDate = null, lastInterestDisbursementDate = null;
+
+        // Sample data from your sheet
+        loans = [
+            { id: 1, memberId: 0, principal: 500, interest: 50, totalDue: 550, returnDate: "2026-02-16", status: "returned", dateTaken: "2026-02-11", repaidAmount: 550 },
+            { id: 2, memberId: 3, principal: 500, interest: 50, totalDue: 550, returnDate: "2026-03-06", status: "returned", dateTaken: "2026-02-20", repaidAmount: 550 },
+            { id: 3, memberId: 0, principal: 500, interest: 50, totalDue: 550, returnDate: "2026-02-22", status: "returned", dateTaken: "2026-02-21", repaidAmount: 550 },
+            { id: 4, memberId: 3, principal: 500, interest: 50, totalDue: 550, returnDate: "2026-03-22", status: "returned", dateTaken: "2025-03-08", repaidAmount: 550 },
+            { id: 5, memberId: 6, principal: 300, interest: 30, totalDue: 330, returnDate: "2026-03-26", status: "returned", dateTaken: "2026-03-23", repaidAmount: 330 }
+        ];
+        nextLoanId = 6;
+        savings = [
+            { date: "2025-08-16", memberId: 0, amount: 3170 }, { date: "2026-04-18", memberId: 1, amount: 100 },
+            { date: "2026-04-20", memberId: 0, amount: 850 }, { date: "2026-04-25", memberId: 1, amount: 100 },
+            { date: "2026-04-25", memberId: 4, amount: 103 }, { date: "2026-03-12", memberId: 0, amount: 100 },
+            { date: "2026-03-12", memberId: 3, amount: 150 }, { date: "2026-03-12", memberId: 4, amount: 30 },
+            { date: "2026-03-12", memberId: 6, amount: 254 }, { date: "2026-05-02", memberId: 1, amount: 200 },
+            { date: "2026-05-02", memberId: 6, amount: 500 }
+        ];
+        previousSavings = [
+            { date: "2025-08-16", memberId: 0, amount: 3170, disbursed: true }, { date: "2026-04-18", memberId: 1, amount: 100, disbursed: true },
+            { date: "2026-04-20", memberId: 0, amount: 850, disbursed: true }, { date: "2026-04-25", memberId: 1, amount: 100, disbursed: true },
+            { date: "2026-04-25", memberId: 4, amount: 103, disbursed: true }
+        ];
+
+        function parseCSVLine(line) { let res = [], inQ = false, cur = ""; for (let c of line) { if (c === '"') inQ = !inQ; else if (c === ',' && !inQ) { res.push(cur.trim()); cur = ""; } else cur += c; } res.push(cur.trim()); return res; }
+
+        // ========== SYNC FUNCTIONS ==========
+        function syncMembers() {
+            let url = document.getElementById("membersCsvUrl").value.trim();
+            if (!url) { alert("Paste Members CSV link"); return; }
+            MEMBERS_CSV_URL = url; localStorage.setItem("MembersCsvUrl", url);
+            document.getElementById("syncStatusMsg").innerHTML = "🔄 Syncing Members...";
+            fetch(url).then(r => r.text()).then(text => {
+                let lines = text.split('\n');
+                let newMembers = [];
+                let skipHeader = false;
+                for (let line of lines) {
+                    let row = parseCSVLine(line);
+                    if (row.length < 2) continue;
+                    if (!skipHeader && (row[0].toLowerCase() === "name")) { skipHeader = true; continue; }
+                    let name = row[0], phone = row[1] || "", passcode = row[2] || (phone ? phone.slice(-4) : "0000");
+                    if (name && name !== "Name" && name !== "name") { newMembers.push({ id: newMembers.length, name, phone, passcode }); }
+                }
+                if (newMembers.length) { MEMBERS = newMembers; saveData(); refreshAdminView(); document.getElementById("syncStatusMsg").innerHTML = `✅ Synced ${newMembers.length} members`; }
+                else document.getElementById("syncStatusMsg").innerHTML = "⚠️ No members found. Check format: Name, Phone, Passcode";
+            }).catch(e => { document.getElementById("syncStatusMsg").innerHTML = "❌ Error: " + e.message; });
         }
-        
-        let newLoans = [];
-        for (let l of data.loans || []) {
-            let mid = MEMBERS.findIndex(m => m.name === l.memberName);
-            if (mid !== -1 && l.principal > 0) {
-                newLoans.push({
-                    id: l.id, memberId: mid, principal: l.principal, interest: l.interest,
-                    totalDue: l.totalDue, returnDate: l.returnDate, status: l.status === "Returned" ? "returned" : "pending",
-                    dateTaken: l.date, repaidAmount: l.amountPaid || 0
-                });
-                if (l.id >= nextLoanId) nextLoanId = l.id + 1;
-            }
+        function syncSavings() {
+            let url = document.getElementById("savingsCsvUrl").value.trim();
+            if (!url) { alert("Paste Savings CSV link"); return; }
+            SAVINGS_CSV_URL = url; localStorage.setItem("SavingsCsvUrl", url);
+            document.getElementById("syncStatusMsg").innerHTML = "🔄 Syncing Savings...";
+            fetch(url).then(r => r.text()).then(text => {
+                let lines = text.split('\n');
+                let newSavings = [];
+                let skipHeader = false;
+                for (let line of lines) {
+                    let row = parseCSVLine(line);
+                    if (row.length < 3) continue;
+                    if (!skipHeader && (row[0].toLowerCase() === "date")) { skipHeader = true; continue; }
+                    let date = row[0], name = row[1], amt = parseFloat(row[2]);
+                    if (date && name && !isNaN(amt) && amt > 0) {
+                        let mid = MEMBERS.findIndex(m => m.name === name);
+                        if (mid !== -1) {
+                            if (date.includes('/')) { let p = date.split('/'); date = `20${p[2]}-${p[1].padStart(2, '0')}-${p[0].padStart(2, '0')}`; }
+                            newSavings.push({ date, memberId: mid, amount: amt });
+                        }
+                    }
+                }
+                if (newSavings.length) { savings = newSavings; saveData(); refreshAdminView(); document.getElementById("syncStatusMsg").innerHTML = `✅ Synced ${newSavings.length} savings`; }
+                else document.getElementById("syncStatusMsg").innerHTML = "⚠️ No savings found. Format: Date, Member Name, Amount";
+            }).catch(e => { document.getElementById("syncStatusMsg").innerHTML = "❌ Error: " + e.message; });
         }
-        
-        if (newSavings.length > 0) savings = newSavings;
-        if (newLoans.length > 0) loans = newLoans;
-        if (data.mgr) {
-            mgrWeekIndex = data.mgr.weekIndex || 0;
-            mgrLastPaidWeek = data.mgr.lastPaidWeek || null;
+        function syncLoans() {
+            let url = document.getElementById("loansCsvUrl").value.trim();
+            if (!url) { alert("Paste Loans CSV link"); return; }
+            LOANS_CSV_URL = url; localStorage.setItem("LoansCsvUrl", url);
+            document.getElementById("syncStatusMsg").innerHTML = "🔄 Syncing Loans...";
+            fetch(url).then(r => r.text()).then(text => {
+                let lines = text.split('\n');
+                let newLoans = [];
+                let skipHeader = false;
+                for (let line of lines) {
+                    let row = parseCSVLine(line);
+                    if (row.length < 5) continue;
+                    if (!skipHeader && (row[0].toLowerCase() === "loan id")) { skipHeader = true; continue; }
+                    let loanId = parseInt(row[0]);
+                    let date = row[1];
+                    let name = row[2];
+                    let principal = parseFloat(row[3]) || 0;
+                    let interest = parseFloat(row[4]) || principal * 0.10;
+                    let totalDue = parseFloat(row[5]) || principal + interest;
+                    let returnDate = row[6];
+                    let status = row[7] === "Returned" ? "returned" : "pending";
+                    let amountPaid = parseFloat(row[8]) || 0;
+                    if (name && principal > 0) {
+                        let mid = MEMBERS.findIndex(m => m.name === name);
+                        if (mid !== -1) {
+                            if (date && date.includes('/')) { let p = date.split('/'); date = `20${p[2]}-${p[1].padStart(2, '0')}-${p[0].padStart(2, '0')}`; }
+                            if (returnDate && returnDate.includes('/')) { let p = returnDate.split('/'); returnDate = `20${p[2]}-${p[1].padStart(2, '0')}-${p[0].padStart(2, '0')}`; }
+                            newLoans.push({ id: loanId, memberId: mid, principal, interest, totalDue, returnDate, status, dateTaken: date, repaidAmount: amountPaid });
+                            if (loanId >= nextLoanId) nextLoanId = loanId + 1;
+                        }
+                    }
+                }
+                if (newLoans.length) { loans = newLoans; saveData(); refreshAdminView(); refreshLoanPool(); document.getElementById("syncStatusMsg").innerHTML = `✅ Synced ${newLoans.length} loans`; }
+                else document.getElementById("syncStatusMsg").innerHTML = "⚠️ No loans found. Check format: Loan ID, Date, Member Name, Principal...";
+            }).catch(e => { document.getElementById("syncStatusMsg").innerHTML = "❌ Error: " + e.message; });
         }
-        saveData();
-        return true;
-    } catch(e) { console.error("API fetch error:", e); return false; }
-}
-
-async function refreshMemberData() {
-    let statusDiv = document.getElementById("syncStatus");
-    statusDiv.style.display = "block";
-    statusDiv.innerHTML = "<span class='loading-spinner'></span> Fetching latest data...";
-    let success = await fetchDataFromAPI();
-    if (success) {
-        refreshMemberView();
-        statusDiv.innerHTML = "✅ Data refreshed! Latest from Google Sheet.";
-    } else {
-        statusDiv.innerHTML = "❌ Failed to fetch data. Check internet connection.";
-    }
-    setTimeout(() => { statusDiv.style.display = "none"; }, 3000);
-}
-
-async function syncAllFromAPI() {
-    document.getElementById("syncStatusMsg").innerHTML = "<span class='loading-spinner'></span> Syncing...";
-    let success = await fetchDataFromAPI();
-    if (success) {
-        refreshAdminView();
-        document.getElementById("syncStatusMsg").innerHTML = "✅ Sync complete! Data from Google Sheet loaded.";
-    } else {
-        document.getElementById("syncStatusMsg").innerHTML = "❌ Sync failed. Check API URL.";
-    }
-    setTimeout(() => { document.getElementById("syncStatusMsg").innerHTML = "📡 Ready"; }, 3000);
-}
-
-// ========== AUTH ==========
-async function memberLogin() {
-    let id = parseInt(document.getElementById("memberSelect").value);
-    let pin = document.getElementById("memberPasscode").value;
-    if (isNaN(id)) { alert("Select name"); return; }
-    if (MEMBERS[id].passcode !== pin) { alert("Wrong passcode!"); return; }
-    currentMemberId = id;
-    document.getElementById("memberName").innerText = MEMBERS[id].name;
-    document.getElementById("loginOverlay").style.display = "none";
-    document.getElementById("memberView").style.display = "block";
-    await refreshMemberData();
-}
-
-function adminLogin() {
-    if (document.getElementById("adminPasswordInput").value === ADMIN_PASSWORD) {
-        document.getElementById("loginOverlay").style.display = "none";
-        document.getElementById("adminView").style.display = "block";
-        refreshAdminView();
-        displayPendingLoanRequests();
-    } else alert("Wrong password!");
-}
-
-function logout() {
-    currentMemberId = null;
-    document.getElementById("memberView").style.display = "none";
-    document.getElementById("adminView").style.display = "none";
-    document.getElementById("loginOverlay").style.display = "flex";
-    document.getElementById("memberPasscode").value = "";
-    document.getElementById("adminPasswordInput").value = "";
-}
-
-function showMemberLogin() {
-    document.getElementById("memberLoginPanel").style.display = "block";
-    document.getElementById("adminLoginPanel").style.display = "none";
-    document.querySelectorAll(".tab-btn")[0].classList.add("active");
-    document.querySelectorAll(".tab-btn")[1].classList.remove("active");
-}
-function showAdminLogin() {
-    document.getElementById("memberLoginPanel").style.display = "none";
-    document.getElementById("adminLoginPanel").style.display = "block";
-    document.querySelectorAll(".tab-btn")[0].classList.remove("active");
-    document.querySelectorAll(".tab-btn")[1].classList.add("active");
-}
-
-// ========== DISPLAY ==========
-function refreshMemberView() {
-    let saved = getMemberSavings(currentMemberId);
-    let loanBal = getMemberLoanBalance(currentMemberId);
-    let memberSavings = savings.filter(s => s.memberId === currentMemberId).sort((a,b)=>new Date(b.date)-new Date(a.date));
-    let memberLoans = loans.filter(l => l.memberId === currentMemberId);
-    let memberAccrued = getMemberTotalInterestAccrued(currentMemberId);
-    let memberToSend = memberAccrued * 0.70;
-    let memberToReserve = memberAccrued * 0.30;
-    
-    document.getElementById("memberSavings").innerHTML = `${saved} KES`;
-    document.getElementById("memberLoan").innerHTML = `${loanBal} KES`;
-    document.getElementById("totalInterestAccrued").innerHTML = `${memberAccrued.toFixed(2)} KES`;
-    document.getElementById("memberInterestShare").innerHTML = `${memberToSend.toFixed(2)} KES`;
-    document.getElementById("groupReserveShare").innerHTML = `${memberToReserve.toFixed(2)} KES`;
-    document.getElementById("nextDisbursement").innerHTML = getNextInterestDisbursementDate();
-    
-    let historyHtml = '';
-    for (let s of memberSavings) historyHtml += `<tr><td style="padding:8px;">${s.date}</td><td style="padding:8px;">${s.amount} KES</td><td style="color:#15803d;">✅ Confirmed</td></tr>`;
-    document.getElementById("savingsHistoryBody").innerHTML = historyHtml || '<tr><td colspan="3">No savings records</td></tr>';
-    
-    let loansHtml = '';
-    for (let l of memberLoans) {
-        let remaining = l.totalDue - (l.repaidAmount || 0);
-        loansHtml += `<div class="loan-detail">📆 ${l.dateTaken}<br>💰 ${l.principal} + 10% = ${l.totalDue} KES<br>📅 Due: ${l.returnDate}<br>${l.status === 'returned' ? '✅ Paid' : `⚠️ Pending (${remaining} KES left)`}</div>`;
-    }
-    document.getElementById("memberLoansList").innerHTML = loansHtml || "<p>No loans</p>";
-    
-    let isWinner = mgrWeekIndex === currentMemberId;
-    document.getElementById("memberMgr").innerHTML = `${isWinner ? '🎉 YOU ARE THE WINNER! 🎉' : 'Winner: ' + MEMBERS[mgrWeekIndex]?.name}<br><span class="small-text">${isMGRPaidThisWeek() ? "Paid this week" : "Not paid yet"}</span>`;
-    displayLoanRequests();
-}
-
-function refreshAdminView() {
-    let opts = '<option value="">-- Select Member --</option>';
-    for (let m of MEMBERS) opts += `<option value="${m.id}">${m.name}</option>`;
-    document.getElementById("savingsMemberSelect").innerHTML = opts;
-    document.getElementById("loanMemberSelect").innerHTML = opts;
-    document.getElementById("repayMemberSelect").innerHTML = opts;
-    
-    let loginOpts = '<option value="">-- Select Name --</option>';
-    for (let m of MEMBERS) loginOpts += `<option value="${m.id}">${m.name}</option>`;
-    document.getElementById("memberSelect").innerHTML = loginOpts;
-    
-    let passHtml = '';
-    for (let m of MEMBERS) {
-        passHtml += `<div class="member-row">
-            <span><strong>${m.name}</strong> 🔑 ${m.passcode}</span>
-            <div><button onclick="changeMemberPasscode(${m.id})" class="secondary small">Change</button>
-            <button onclick="showDeleteConfirm(${m.id},'${m.name}')" class="delete-member">🗑️ Delete</button></div>
-        </div>`;
-    }
-    document.getElementById("passcodesList").innerHTML = passHtml;
-    
-    let sumHtml = '';
-    for (let m of MEMBERS) sumHtml += `<div class="member-row"><div><strong>${m.name}</strong></div><div>💰 ${getMemberSavings(m.id)} KES<br>📌 ${getMemberLoanBalance(m.id)} KES</div></div>`;
-    document.getElementById("memberSummary").innerHTML = sumHtml;
-    document.getElementById("totalSavings").innerText = getTotalGroupSavings();
-    
-    let winner = MEMBERS[mgrWeekIndex];
-    document.getElementById("mgrWinnerAdmin").innerHTML = `🏆 ${winner.name}<br><span class="small-text">${isMGRPaidThisWeek() ? "✅ Recorded" : "❌ Not recorded"}</span>`;
-    
-    let loanHtml = '<h3>📜 Loan History</h3>';
-    for (let l of loans) {
-        let member = MEMBERS[l.memberId];
-        loanHtml += `<div class="loan-detail"><strong>${member.name}</strong> | ${l.dateTaken}<br>Principal ${l.principal} + 10% = ${l.totalDue} KES<br>Status: ${l.status === 'returned' ? '✅ Returned' : '⚠️ Pending'}<br>Balance: ${(l.totalDue - (l.repaidAmount || 0)).toFixed(2)} KES</div>`;
-    }
-    document.getElementById("loanDisplay").innerHTML = loanHtml;
-    displayPendingRequests();
-    displayPendingLoanRequests();
-}
-
-// ========== LOAN REQUESTS ==========
-function checkEligibility() {
-    let amt = parseFloat(document.getElementById("loanRequestAmount").value);
-    let curr = getMemberSavings(currentMemberId);
-    let div = document.getElementById("eligibilityResult");
-    if (isNaN(amt) || amt <= 0) { div.innerHTML = "❌ Enter valid amount"; return; }
-    if (amt > MAX_LOAN_AMOUNT) { div.innerHTML = `❌ Max ${MAX_LOAN_AMOUNT} KES`; return; }
-    let need = amt / 2;
-    if (curr < need) { div.innerHTML = `❌ Need ${need} KES, you have ${curr} KES`; return; }
-    div.innerHTML = `✅ ELIGIBLE! Savings: ${curr} KES, Required: ${need} KES`;
-}
-function submitLoanRequest() {
-    let amt = parseFloat(document.getElementById("loanRequestAmount").value);
-    let reason = document.getElementById("loanRequestReason").value;
-    let curr = getMemberSavings(currentMemberId);
-    if (isNaN(amt) || amt <= 0 || amt > MAX_LOAN_AMOUNT) { alert("Invalid amount"); return; }
-    if (curr < (amt / 2)) { alert(`Need ${amt/2} KES in savings`); return; }
-    if (loanRequests.some(r => r.memberId === currentMemberId && r.status === "pending")) { alert("Already have a pending request"); return; }
-    if (loans.some(l => l.memberId === currentMemberId && l.status === "pending")) { alert("You have an active loan. Repay first."); return; }
-    loanRequests.push({ id: Date.now(), memberId: currentMemberId, memberName: MEMBERS[currentMemberId].name, amount: amt, reason: reason || "No reason", status: "pending", requestDate: new Date().toISOString().split('T')[0], savingsAtRequest: curr });
-    saveData(); refreshMemberView(); displayLoanRequests();
-    alert(`✅ Loan request for ${amt} KES submitted for admin approval.`);
-    document.getElementById("loanRequestAmount").value = ""; document.getElementById("loanRequestReason").value = ""; document.getElementById("eligibilityResult").innerHTML = "";
-}
-function displayLoanRequests() {
-    let reqs = loanRequests.filter(r => r.memberId === currentMemberId);
-    let card = document.getElementById("loanRequestsCard");
-    if (reqs.length === 0) { card.style.display = "none"; return; }
-    card.style.display = "block";
-    let html = '';
-    for (let r of reqs) {
-        let stat = r.status === "pending" ? "⏳ Pending" : (r.status === "approved" ? "✅ Approved" : "❌ Rejected");
-        let color = r.status === "pending" ? "#f59e0b" : (r.status === "approved" ? "#10b981" : "#ef4444");
-        html += `<div class="loan-detail" style="border-left:4px solid ${color}"><strong>💰 ${r.amount} KES</strong><br>📅 ${r.requestDate}<br>📝 ${r.reason}<br><span style="color:${color}">${stat}</span></div>`;
-    }
-    document.getElementById("memberLoanRequestsList").innerHTML = html;
-}
-function displayPendingLoanRequests() {
-    let pending = loanRequests.filter(r => r.status === "pending");
-    let container = document.getElementById("pendingLoanRequestsList");
-    if (pending.length === 0) { container.innerHTML = "<p>✅ No pending requests</p>"; return; }
-    let html = '';
-    for (let r of pending) {
-        let member = MEMBERS.find(m => m.id === r.memberId);
-        html += `<div class="pending-request"><div><strong>${member?.name || r.memberName}</strong></div><div>💰 ${r.amount} KES</div><div>📅 ${r.requestDate}</div><div>📝 ${r.reason}</div><div class="flex-buttons"><button onclick="approveLoanRequest(${r.id})" style="background:#10b981">✅ Approve</button><button onclick="rejectLoanRequest(${r.id})" style="background:#ef4444">❌ Reject</button></div></div>`;
-    }
-    container.innerHTML = html;
-}
-function approveLoanRequest(id) {
-    let req = loanRequests.find(r => r.id === id);
-    if (req && req.status === "pending") {
-        let interest = req.amount * 0.10;
-        let totalDue = req.amount + interest;
-        loans.push({ id: nextLoanId++, memberId: req.memberId, principal: req.amount, interest: interest, totalDue: totalDue, returnDate: new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0], status: "pending", dateTaken: new Date().toISOString().split('T')[0], repaidAmount: 0 });
-        req.status = "approved";
-        saveData(); refreshAdminView(); displayPendingLoanRequests();
-        alert(`✅ Loan approved! ${req.amount} + 10% = ${totalDue} KES due in 30 days.`);
-    }
-}
-function rejectLoanRequest(id) {
-    let req = loanRequests.find(r => r.id === id);
-    if (req && req.status === "pending" && confirm(`Reject ${req.memberName}'s loan request?`)) {
-        req.status = "rejected";
-        saveData(); refreshAdminView(); displayPendingLoanRequests();
-        alert(`❌ Loan request rejected.`);
-    }
-}
-
-// ========== ADMIN FUNCTIONS ==========
-function addNewMember() {
-    let name = document.getElementById("newMemberName").value.trim();
-    let phone = document.getElementById("newMemberPhone").value.trim();
-    if (!name) { alert("Enter name"); return; }
-    let passcode = phone ? phone.slice(-4) : "0000";
-    MEMBERS.push({ id: MEMBERS.length, name: name, phone: phone, passcode: passcode });
-    saveData(); refreshAdminView();
-    alert(`✅ ${name} added! Passcode: ${passcode}`);
-    document.getElementById("newMemberName").value = ""; document.getElementById("newMemberPhone").value = "";
-}
-function changeMemberPasscode(id) { let np = prompt("New 4-digit passcode:"); if (np && np.length >= 4) { MEMBERS[id].passcode = np.slice(0,4); saveData(); refreshAdminView(); alert("Passcode updated"); } }
-function resetMemberPasscodes() { if (confirm("Reset all passcodes?")) { for (let m of MEMBERS) m.passcode = m.phone ? m.phone.slice(-4) : "0000"; saveData(); refreshAdminView(); alert("Reset complete"); } }
-function addSavings() {
-    let mid = parseInt(document.getElementById("savingsMemberSelect").value);
-    let amt = parseFloat(document.getElementById("savingsAmount").value);
-    let date = document.getElementById("savingsDate").value;
-    if (isNaN(mid) || isNaN(amt) || amt <= 0 || !date) { alert("All fields required"); return; }
-    savings.push({ date, memberId: mid, amount: amt });
-    saveData(); refreshAdminView();
-    alert(`✅ Added ${amt} KES to ${MEMBERS[mid].name}`);
-    document.getElementById("savingsAmount").value = "";
-}
-function takeLoan() {
-    let mid = parseInt(document.getElementById("loanMemberSelect").value);
-    let princ = parseFloat(document.getElementById("loanPrincipal").value);
-    let retDate = document.getElementById("loanReturnDate").value;
-    let taken = document.getElementById("loanDateTaken").value;
-    if (isNaN(mid) || isNaN(princ) || princ <= 0 || !retDate) { alert("All fields required"); return; }
-    let interest = princ * 0.10;
-    let totalDue = princ + interest;
-    loans.push({ id: nextLoanId++, memberId: mid, principal: princ, interest: interest, totalDue: totalDue, returnDate: retDate, status: "pending", dateTaken: taken, repaidAmount: 0 });
-    saveData(); refreshAdminView();
-    alert(`📥 Loan: ${princ} + 10% = ${totalDue} KES due by ${retDate}`);
-    document.getElementById("loanPrincipal").value = ""; document.getElementById("loanReturnDate").value = ""; document.getElementById("loanDateTaken").value = "";
-}
-function repayLoan() {
-    let mid = parseInt(document.getElementById("repayMemberSelect").value);
-    let amt = parseFloat(document.getElementById("repayAmount").value);
-    if (isNaN(mid) || isNaN(amt) || amt <= 0) { alert("Valid amount"); return; }
-    let pending = loans.filter(l => l.memberId === mid && l.status === "pending").sort((a,b)=>new Date(a.returnDate)-new Date(b.returnDate));
-    if (pending.length === 0) { alert("No pending loans"); return; }
-    let remaining = amt;
-    for (let l of pending) {
-        let owing = l.totalDue - (l.repaidAmount || 0);
-        if (remaining <= 0) break;
-        if (remaining >= owing) {
-            l.repaidAmount = l.totalDue;
-            l.status = "returned";
-            remaining -= owing;
-            alert(`✅ Loan fully repaid.`);
-        } else {
-            l.repaidAmount = (l.repaidAmount || 0) + remaining;
-            remaining = 0;
-            alert(`💰 Partial repayment of ${amt} KES recorded`);
+        function syncMGR() {
+            let url = document.getElementById("mgrCsvUrl").value.trim();
+            if (!url) { alert("Paste MGR CSV link"); return; }
+            MGR_CSV_URL = url; localStorage.setItem("MgrCsvUrl", url);
+            document.getElementById("syncStatusMsg").innerHTML = "🔄 Syncing MGR...";
+            fetch(url).then(r => r.text()).then(text => {
+                let lines = text.split('\n');
+                let skipHeader = false;
+                for (let line of lines) {
+                    let row = parseCSVLine(line);
+                    if (row.length < 2) continue;
+                    if (!skipHeader && (row[0].toLowerCase() === "current week index")) { skipHeader = true; continue; }
+                    let weekIdx = parseInt(row[0]);
+                    let lastPaid = row[1];
+                    if (!isNaN(weekIdx)) {
+                        mgrWeekIndex = weekIdx;
+                        mgrLastPaidWeek = lastPaid;
+                        saveData(); refreshAdminView();
+                        document.getElementById("syncStatusMsg").innerHTML = `✅ MGR synced: Week ${weekIdx}, Last Paid ${lastPaid}`;
+                        return;
+                    }
+                }
+            }).catch(e => { document.getElementById("syncStatusMsg").innerHTML = "❌ Error: " + e.message; });
         }
-    }
-    saveData(); refreshAdminView();
-    document.getElementById("repayAmount").value = "";
-}
-function recordMGR() {
-    if (isMGRPaidThisWeek()) { alert("Already recorded this week"); return; }
-    mgrLastPaidWeek = getCurrentWeekKey();
-    saveData(); refreshAdminView();
-    alert(`✅ Recorded 250 KES to ${MEMBERS[mgrWeekIndex].name}`);
-}
-function nextWeek() { mgrWeekIndex = (mgrWeekIndex + 1) % MEMBERS.length; mgrLastPaidWeek = null; saveData(); refreshAdminView(); alert(`Next winner: ${MEMBERS[mgrWeekIndex].name}`); }
-function changeAdminPassword() { let np = prompt("New admin password:"); if (np && np.length >= 4) { ADMIN_PASSWORD = np; saveData(); alert("Password changed!"); } }
-function resetAllData() { if (confirm("ERASE ALL DATA?")) { localStorage.clear(); location.reload(); } }
-function generateSavingsReport() {
-    let member = MEMBERS[currentMemberId];
-    let memberSavings = savings.filter(s=>s.memberId===currentMemberId).sort((a,b)=>new Date(a.date)-new Date(b.date));
-    let total = memberSavings.reduce((a,b)=>a+b.amount,0);
-    let text = `GENZ CHAMA SAVINGS REPORT\nName: ${member.name}\nDate: ${new Date().toLocaleDateString()}\n\n`;
-    for (let s of memberSavings) text += `${s.date} | ${s.amount} KES\n`;
-    text += `\nTOTAL: ${total} KES`;
-    navigator.clipboard.writeText(text); alert("Report copied!");
-}
-function copyTillNumber() { navigator.clipboard.writeText(TILL_NUMBER); alert("Till copied!"); }
-function openWhatsApp() {
-    let member = MEMBERS[currentMemberId];
-    let amount = document.getElementById("paymentAmount").value;
-    let msg = `💰 Savings Payment\n${member.name}\nAmount: ${amount||"?"} KES\nTill: ${TILL_NUMBER}`;
-    window.open(`https://wa.me/${member.phone}?text=${encodeURIComponent(msg)}`,'_blank');
-}
-function generatePaymentInstructions() {
-    let amount = document.getElementById("paymentAmount").value;
-    if (!amount || amount <= 0) { alert("Enter amount"); return; }
-    alert(`PAYMENT: Till ${TILL_NUMBER}, Amount ${amount} KES\n1. M-PESA → Lipa na M-PESA → Till\n2. Enter ${TILL_NUMBER}\n3. Enter ${amount}\n4. Enter PIN\n5. Screenshot → Send Proof`);
-    if (confirm("Open M-PESA?")) window.location.href = "tel:*334#";
-}
-function copyTillNumberReg() { navigator.clipboard.writeText(TILL_NUMBER); alert("Till copied! Pay 100 KES."); }
-function openWhatsAppReg() { let msg = `💰 *NEW MEMBER*\nName: ${pendingSignupData?.name}\nPhone: ${pendingSignupData?.phone}\nFee: 100 KES\nTill: ${TILL_NUMBER}`; window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank'); }
-function generatePaymentInstructionsReg() { alert(`Pay 100 KES to Till ${TILL_NUMBER}\n1. M-PESA → Till\n2. Enter ${TILL_NUMBER}\n3. Amount 100`); if(confirm("Open M-PESA?")) window.location.href="tel:*334#"; }
-function showPaymentModal() {
-    let name = document.getElementById("signupName").value.trim();
-    let phone = document.getElementById("signupPhone").value.trim();
-    if (!name || !phone) { alert("Enter name and phone"); return; }
-    if (MEMBERS.some(m=>m.name.toLowerCase()===name.toLowerCase())) { alert("Already a member"); return; }
-    pendingSignupData = { name, phone };
-    document.getElementById("paymentModal").style.display = "flex";
-}
-function closePaymentModal() { document.getElementById("paymentModal").style.display = "none"; pendingSignupData = null; }
-function closeSuccessModal() { document.getElementById("successModal").style.display = "none"; }
-function submitSignupRequest() {
-    if (!pendingSignupData) return;
-    pendingSignups.push({ id: Date.now(), name: pendingSignupData.name, phone: pendingSignupData.phone, requestedDate: new Date().toLocaleString(), registrationFeePaid: true, registrationAmount: REGISTRATION_FEE });
-    saveData();
-    document.getElementById("signupName").value = ""; document.getElementById("signupPhone").value = "";
-    closePaymentModal();
-    document.getElementById("successModal").style.display = "flex";
-}
-function displayPendingRequests() {
-    if (!pendingSignups.length) { document.getElementById("pendingRequestsList").innerHTML = "<p>✅ No pending requests</p>"; return; }
-    let html = "";
-    for (let req of pendingSignups) {
-        html += `<div class="pending-request"><div><strong>${req.name}</strong></div><div>📞 ${req.phone}</div><div>💰 Fee: 100 KES Paid</div><div class="flex-buttons"><button onclick="approveMember(${req.id})" style="background:#10b981">✅ Approve</button><button onclick="rejectMember(${req.id})" style="background:#ef4444">❌ Reject</button></div></div>`;
-    }
-    document.getElementById("pendingRequestsList").innerHTML = html;
-}
-function approveMember(id) {
-    let req = pendingSignups.find(r=>r.id===id);
-    if (req) {
-        let passcode = req.phone ? req.phone.slice(-4) : "0000";
-        MEMBERS.push({ id: MEMBERS.length, name: req.name, phone: req.phone, passcode: passcode });
-        savings.push({ date: new Date().toISOString().split('T')[0], memberId: MEMBERS.length-1, amount: REGISTRATION_FEE, note: "Registration Fee" });
-        pendingSignups = pendingSignups.filter(r=>r.id!==id);
-        saveData(); refreshAdminView();
-        alert(`✅ ${req.name} approved! Passcode: ${passcode}\nRegistration fee added to savings.`);
-    }
-}
-function rejectMember(id) {
-    let req = pendingSignups.find(r=>r.id===id);
-    if (req && confirm(`Reject ${req.name}?`)) {
-        pendingSignups = pendingSignups.filter(r=>r.id!==id);
-        saveData(); refreshAdminView();
-        alert(`❌ ${req.name} rejected.`);
-    }
-}
-function showDeleteConfirm(id,name) { memberToDelete = id; document.getElementById("deleteMemberName").innerHTML = `<strong>${name}</strong>`; document.getElementById("deleteConfirmModal").style.display = "flex"; }
-function closeDeleteModal() { document.getElementById("deleteConfirmModal").style.display = "none"; memberToDelete = null; }
-function confirmDeleteMember() {
-    if (memberToDelete !== null) {
-        MEMBERS = MEMBERS.filter(m=>m.id!==memberToDelete);
-        savings = savings.filter(s=>s.memberId!==memberToDelete);
-        loans = loans.filter(l=>l.memberId!==memberToDelete);
-        loanRequests = loanRequests.filter(r=>r.memberId!==memberToDelete);
-        for (let i=0;i<MEMBERS.length;i++) MEMBERS[i].id=i;
-        saveData(); refreshAdminView(); closeDeleteModal();
-        alert("✅ Member deleted.");
-    }
-}
-function initialize() {
-    loadLocalData();
-    let opts = '<option value="">-- Select Name --</option>';
-    for (let m of MEMBERS) opts += `<option value="${m.id}">${m.name}</option>`;
-    document.getElementById("memberSelect").innerHTML = opts;
-}
-initialize();
-</script>
+
+        // ========== HELPERS ==========
+        function getCurrentWeekKey() { let n = new Date(), y = n.getFullYear(), s = new Date(y, 0, 1), d = Math.floor((n - s) / 86400000); return `${y}-W${Math.ceil((d + s.getDay() + 1) / 7)}`; }
+        function isMGRPaidThisWeek() { return mgrLastPaidWeek === getCurrentWeekKey(); }
+        function getMemberSavings(mid) { return savings.filter(s => s.memberId === mid).reduce((a, b) => a + b.amount, 0); }
+        function getMemberLoanBalance(mid) { let bal = 0; for (let l of loans) if (l.memberId === mid && l.status !== 'returned') bal += l.totalDue - (l.repaidAmount || 0); return bal; }
+        function getTotalGroupSavings() { return savings.reduce((a, b) => a + b.amount, 0); }
+        function getTotalPrincipalLent() { return loans.reduce((s, l) => s + (l.principal || 0), 0); }
+        function getTotalInterestAll() { return loans.reduce((s, l) => s + (l.interest || 0), 0); }
+        function getOutstandingLoanBalance() { let total = 0; for (let l of loans) if (l.status !== 'returned') total += l.totalDue - (l.repaidAmount || 0); return total; }
+        function getCurrentAccessibleLoan() { let accessible = getTotalPrincipalLent() + (getTotalInterestAll() * 0.30) - getOutstandingLoanBalance(); return accessible > 0 ? accessible : 0; }
+        function getMemberTotalInterestAccrued(mid) { let tot = 0; for (let l of loans) if (l.memberId === mid && l.status === 'returned') tot += l.interest; return tot; }
+        function getMemberInterestToSend(mid) { return getMemberTotalInterestAccrued(mid) * 0.70; }
+        function refreshLoanPool() {
+            let totalP = getTotalPrincipalLent(), totalI = getTotalInterestAll(), reserve = totalI * 0.30, out = getOutstandingLoanBalance(), accessible = totalP + reserve - out;
+            if (accessible < 0) accessible = 0;
+            document.getElementById("accessibleLoanAmount") && (document.getElementById("accessibleLoanAmount").innerHTML = accessible.toFixed(2) + " KES");
+            document.getElementById("totalPrincipalLent") && (document.getElementById("totalPrincipalLent").innerHTML = totalP.toFixed(2) + " KES");
+            document.getElementById("totalInterestPool") && (document.getElementById("totalInterestPool").innerHTML = totalI.toFixed(2) + " KES");
+            document.getElementById("loanReservePool") && (document.getElementById("loanReservePool").innerHTML = reserve.toFixed(2) + " KES");
+            document.getElementById("outstandingLoansPool") && (document.getElementById("outstandingLoansPool").innerHTML = out.toFixed(2) + " KES");
+        }
+        function saveData() { localStorage.setItem("GenzChamaData", JSON.stringify({ savings, loans, mgrWeekIndex, mgrLastPaidWeek, nextLoanId, ADMIN_PASSWORD, MEMBERS, previousSavings, lastSavingsDisbursementDate, lastInterestDisbursementDate, loanRequests, pendingSignups })); }
+        function loadData() { let d = localStorage.getItem("GenzChamaData"); if (d) { try { let p = JSON.parse(d); savings = p.savings || savings; loans = p.loans || loans; mgrWeekIndex = p.mgrWeekIndex || 0; mgrLastPaidWeek = p.mgrLastPaidWeek || null; nextLoanId = p.nextLoanId || 6; if (p.ADMIN_PASSWORD) ADMIN_PASSWORD = p.ADMIN_PASSWORD; if (p.MEMBERS) MEMBERS = p.MEMBERS; if (p.previousSavings) previousSavings = p.previousSavings; if (p.loanRequests) loanRequests = p.loanRequests; if (p.pendingSignups) pendingSignups = p.pendingSignups; if (p.lastSavingsDisbursementDate) lastSavingsDisbursementDate = p.lastSavingsDisbursementDate; if (p.lastInterestDisbursementDate) lastInterestDisbursementDate = p.lastInterestDisbursementDate; } catch (e) { } } }
+
+        // ========== AUTH & UI ==========
+        function showMemberLogin() { document.getElementById("memberLoginPanel").style.display = "block"; document.getElementById("adminLoginPanel").style.display = "none"; document.querySelectorAll(".tab-btn")[0].classList.add("active"); document.querySelectorAll(".tab-btn")[1].classList.remove("active"); }
+        function showAdminLogin() { document.getElementById("memberLoginPanel").style.display = "none"; document.getElementById("adminLoginPanel").style.display = "block"; document.querySelectorAll(".tab-btn")[0].classList.remove("active"); document.querySelectorAll(".tab-btn")[1].classList.add("active"); }
+        function memberLogin() { let id = parseInt(document.getElementById("memberSelect").value); let pin = document.getElementById("memberPasscode").value; if (isNaN(id)) { alert("Select name"); return; } if (MEMBERS[id].passcode === pin) { currentMemberId = id; document.getElementById("memberName").innerText = MEMBERS[id].name; document.getElementById("loginOverlay").style.display = "none"; document.getElementById("memberView").style.display = "block"; refreshMemberView(); } else alert("Wrong passcode!"); }
+        function adminLogin() { if (document.getElementById("adminPasswordInput").value === ADMIN_PASSWORD) { isAdminMode = true; document.getElementById("loginOverlay").style.display = "none"; document.getElementById("adminView").style.display = "block"; if (SAVINGS_CSV_URL) document.getElementById("savingsCsvUrl").value = SAVINGS_CSV_URL; if (LOANS_CSV_URL) document.getElementById("loansCsvUrl").value = LOANS_CSV_URL; if (MEMBERS_CSV_URL) document.getElementById("membersCsvUrl").value = MEMBERS_CSV_URL; if (MGR_CSV_URL) document.getElementById("mgrCsvUrl").value = MGR_CSV_URL; refreshAdminView(); refreshLoanPool(); } else alert("Wrong password!"); }
+        function logout() { isAdminMode = false; currentMemberId = null; document.getElementById("memberView").style.display = "none"; document.getElementById("adminView").style.display = "none"; document.getElementById("loginOverlay").style.display = "flex"; }
+        function refreshAdminView() {
+            let opts = '<option value="">-- Select --</option>'; for (let m of MEMBERS) opts += `<option value="${m.id}">${m.name}</option>`;
+            document.getElementById("savingsMemberSelect").innerHTML = opts; document.getElementById("loanMemberSelect").innerHTML = opts; document.getElementById("repayMemberSelect").innerHTML = opts;
+            let notifyOpts = '<option value="all">📢 All Members (Group)</option>'; for (let m of MEMBERS) notifyOpts += `<option value="${m.id}">👤 ${m.name}</option>`;
+            document.getElementById("notifyMemberSelect").innerHTML = notifyOpts;
+            let passHtml = ''; for (let m of MEMBERS) passHtml += `<div class="member-row"><span><strong>${m.name}</strong> 🔑 ${m.passcode}</span><div><button onclick="changeMemberPasscode(${m.id})" class="secondary small">Change</button><button onclick="showDeleteConfirm(${m.id},'${m.name}')" class="delete-member">🗑️ Delete</button></div></div>`;
+            document.getElementById("passcodesList").innerHTML = passHtml;
+            let sumHtml = ''; for (let m of MEMBERS) sumHtml += `<div class="member-row"><div><strong>${m.name}</strong></div><div>💰 ${getMemberSavings(m.id)} KES<br>📌 ${getMemberLoanBalance(m.id)} KES</div></div>`;
+            document.getElementById("memberSummary").innerHTML = sumHtml;
+            document.getElementById("totalSavings").innerText = getTotalGroupSavings();
+            document.getElementById("totalSavingsPool").innerHTML = getTotalGroupSavings().toFixed(2) + " KES";
+            document.getElementById("nextDisbursementMonth").innerHTML = getNextSavingsDisbursementDateString();
+            let now = new Date(); document.getElementById("currentMonth").innerHTML = getMonthName(now.getMonth()) + " " + now.getFullYear();
+            document.getElementById("totalInterestCollected").innerHTML = getTotalInterestAll().toFixed(2) + " KES";
+            document.getElementById("totalDueToMembers").innerHTML = (getTotalInterestAll() * 0.70).toFixed(2) + " KES";
+            document.getElementById("loanReserveAmount").innerHTML = (getTotalInterestAll() * 0.30).toFixed(2) + " KES";
+            let loanHtml = '<h3>📜 Loan History</h3>'; for (let l of loans) { let member = MEMBERS[l.memberId]; loanHtml += `<div class="loan-detail"><strong>${member.name}</strong> | ${l.dateTaken}<br>Principal ${l.principal}+10% = ${l.totalDue} KES | Balance: ${l.totalDue - (l.repaidAmount || 0)} KES<br>Status: ${l.status === 'returned' ? '✅ Returned' : '⚠️ Pending'}</div>`; }
+            document.getElementById("loanDisplay").innerHTML = loanHtml;
+            let winner = MEMBERS[mgrWeekIndex]; document.getElementById("mgrWinnerAdmin").innerHTML = `🏆 ${winner.name}<br><span class="small-text">${isMGRPaidThisWeek() ? "✅ Recorded" : "❌ Not recorded"}</span>`;
+            let loginOpts = '<option value="">-- Select Name --</option>'; for (let m of MEMBERS) loginOpts += `<option value="${m.id}">${m.name}</option>`; document.getElementById("memberSelect").innerHTML = loginOpts;
+            displayPendingRequests(); displayPendingLoanRequests(); refreshLoanPool();
+        }
+        function refreshMemberView() {
+            let saved = getMemberSavings(currentMemberId); let loanBal = getMemberLoanBalance(currentMemberId);
+            let memberSavings = savings.filter(s => s.memberId === currentMemberId).sort((a, b) => new Date(b.date) - new Date(a.date));
+            let memberLoans = loans.filter(l => l.memberId === currentMemberId);
+            let memberAccrued = getMemberTotalInterestAccrued(currentMemberId);
+            let memberToSend = memberAccrued * 0.70, memberToReserve = memberAccrued * 0.30;
+            let nextSavingsDisburse = getNextSavingsDisbursementDateString();
+            let nextInterestDisburse = getNextInterestDisbursementDate();
+            document.getElementById("memberSavings").innerHTML = `${saved} KES`;
+            document.getElementById("memberLoan").innerHTML = `${loanBal} KES`;
+            document.getElementById("currentSavingsDisplay").innerHTML = `${saved} KES`;
+            document.getElementById("totalInterestAccrued").innerHTML = `${memberAccrued.toFixed(2)} KES`;
+            document.getElementById("memberInterestShare").innerHTML = `${memberToSend.toFixed(2)} KES`;
+            document.getElementById("groupReserveShare").innerHTML = `${memberToReserve.toFixed(2)} KES`;
+            document.getElementById("nextDisbursement").innerHTML = nextInterestDisburse;
+            document.getElementById("savingsDisbursementDate").innerHTML = nextSavingsDisburse;
+            let historyHtml = ''; let prev = previousSavings.filter(s => s.memberId === currentMemberId && s.disbursed); for (let s of prev) historyHtml += `<tr><td style="padding:8px;">${s.date}</td><td style="padding:8px;">${s.amount} KES</td><td style="color:#15803d;">✅ Disbursed</td></tr>`;
+            if (!historyHtml) historyHtml = '<tr><td colspan="3">No previous savings</td></tr>';
+            document.getElementById("savingsHistoryBody").innerHTML = historyHtml;
+            let loansHtml = ''; for (let l of memberLoans) { let remaining = l.totalDue - (l.repaidAmount || 0); loansHtml += `<div class="loan-detail">📆 ${l.dateTaken}<br>💰 ${l.principal}+10% = ${l.totalDue} KES<br>📅 Due: ${l.returnDate}<br>${l.status === 'returned' ? '✅ Paid' : `⚠️ Pending (${remaining} KES left)`}</div>`; }
+            document.getElementById("memberLoansList").innerHTML = loansHtml || "<p>No loans</p>";
+            let isWinner = mgrWeekIndex === currentMemberId; document.getElementById("memberMgr").innerHTML = `${isWinner ? '🎉 YOU ARE THE WINNER! 🎉' : 'Winner: ' + MEMBERS[mgrWeekIndex]?.name}<br><span class="small-text">${isMGRPaidThisWeek() ? "Paid" : "Not paid"}</span>`;
+            document.getElementById("motivationMessage").innerHTML = "🌟 \"Your wealth is growing! Keep saving.\"";
+            displayLoanRequests();
+        }
+        function getMonthName(m) { return ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][m]; }
+        function getNextSavingsDisbursementDateString() { let now = new Date(), m = now.getMonth(), y = now.getFullYear(); if (m < 5) return `July ${y}`; else if (m < 7) return `September ${y}`; else if (m < 9) return `November ${y}`; else return `January ${y + 1}`; }
+        function getNextInterestDisbursementDate() { let now = new Date(), m = now.getMonth(), y = now.getFullYear(); return (m < 5 ? `June ${y}` : (m < 11 ? `December ${y}` : `June ${y + 1}`)); }
+
+        // ========== REST OF FUNCTIONS (loan requests, signup, etc) ==========
+        function checkEligibility() { let amt = parseFloat(document.getElementById("loanRequestAmount").value); let curr = getMemberSavings(currentMemberId); let div = document.getElementById("eligibilityResult"); if (isNaN(amt) || amt <= 0) { div.innerHTML = "❌ Enter valid amount"; return; } if (amt > MAX_LOAN_AMOUNT) { div.innerHTML = `❌ Max ${MAX_LOAN_AMOUNT} KES`; return; } let need = amt / 2; if (curr < need) { div.innerHTML = `❌ Need ${need} KES, you have ${curr} KES`; return; } div.innerHTML = `✅ Eligible! Savings: ${curr} KES`; }
+        function submitLoanRequest() { let amt = parseFloat(document.getElementById("loanRequestAmount").value); let reason = document.getElementById("loanRequestReason").value; let curr = getMemberSavings(currentMemberId); if (isNaN(amt) || amt <= 0 || amt > MAX_LOAN_AMOUNT) { alert("Invalid amount"); return; } if (curr < (amt / 2)) { alert(`Need ${amt / 2} KES in savings`); return; } if (loanRequests.some(r => r.memberId === currentMemberId && r.status === "pending")) { alert("Pending request exists"); return; } if (loans.some(l => l.memberId === currentMemberId && l.status === "pending")) { alert("Active loan exists"); return; } loanRequests.push({ id: Date.now(), memberId: currentMemberId, memberName: MEMBERS[currentMemberId].name, amount: amt, reason: reason || "No reason", status: "pending", requestDate: new Date().toISOString().split('T')[0], savingsAtRequest: curr }); saveData(); alert(`✅ Loan request for ${amt} KES submitted.`); document.getElementById("loanRequestAmount").value = ""; document.getElementById("loanRequestReason").value = ""; refreshMemberView(); }
+        function displayLoanRequests() { let reqs = loanRequests.filter(r => r.memberId === currentMemberId); let container = document.getElementById("memberLoanRequestsList"), card = document.getElementById("loanRequestsCard"); if (!reqs.length) { card.style.display = "none"; return; } card.style.display = "block"; let html = ""; for (let r of reqs) { let stat = r.status === "pending" ? "⏳ Pending" : (r.status === "approved" ? "✅ Approved" : "❌ Rejected"); html += `<div class="loan-detail"><strong>💰 ${r.amount} KES</strong><br>📅 ${r.requestDate}<br>📝 ${r.reason}<br>${stat}</div>`; } container.innerHTML = html; }
+        function approveLoanRequest(id) { let req = loanRequests.find(r => r.id === id); if (req && req.status === "pending") { let interest = req.amount * 0.10; let totalDue = req.amount + interest; loans.push({ id: nextLoanId++, memberId: req.memberId, principal: req.amount, interest: interest, totalDue: totalDue, returnDate: new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0], status: "pending", dateTaken: new Date().toISOString().split('T')[0], repaidAmount: 0 }); req.status = "approved"; saveData(); refreshAdminView(); alert(`✅ Loan approved! Amount: ${req.amount} +10% = ${totalDue} KES`); refreshLoanPool(); } }
+        function rejectLoanRequest(id) { let req = loanRequests.find(r => r.id === id); if (req && confirm(`Reject ${req.memberName}'s request?`)) { req.status = "rejected"; saveData(); refreshAdminView(); alert("Loan request rejected."); } }
+        function copyTillNumberReg() { navigator.clipboard.writeText(TILL_NUMBER); alert("Till copied! Pay 100 KES."); }
+        function openWhatsAppReg() { let msg = `💰 *NEW MEMBER*\nName: ${pendingSignupData?.name}\nPhone: ${pendingSignupData?.phone}\nFee: 100 KES\nTill: ${TILL_NUMBER}`; window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank'); }
+        function generatePaymentInstructionsReg() { alert(`Pay 100 KES to Till ${TILL_NUMBER}\n1. M-PESA → Till\n2. Enter ${TILL_NUMBER}\n3. Amount 100`); if (confirm("Open M-PESA?")) window.location.href = "tel:*334#"; }
+        function showPaymentModal() { let name = document.getElementById("signupName").value.trim(); let phone = document.getElementById("signupPhone").value.trim(); if (!name || !phone) { alert("Enter name and phone"); return; } if (MEMBERS.some(m => m.name.toLowerCase() === name.toLowerCase())) { alert("Already a member"); return; } pendingSignupData = { name, phone }; document.getElementById("paymentModal").style.display = "flex"; }
+        function closePaymentModal() { document.getElementById("paymentModal").style.display = "none"; pendingSignupData = null; }
+        function closeSuccessModal() { document.getElementById("successModal").style.display = "none"; }
+        function submitSignupRequest() { if (!pendingSignupData) return; pendingSignups.push({ id: Date.now(), name: pendingSignupData.name, phone: pendingSignupData.phone, requestedDate: new Date().toLocaleString(), registrationFeePaid: true, registrationAmount: REGISTRATION_FEE }); saveData(); document.getElementById("signupName").value = ""; document.getElementById("signupPhone").value = ""; closePaymentModal(); document.getElementById("successModal").style.display = "flex"; }
+        function displayPendingRequests() { if (!pendingSignups.length) { document.getElementById("pendingRequestsList").innerHTML = "<p>✅ No pending requests</p>"; return; } let html = ""; for (let req of pendingSignups) { html += `<div class="pending-request"><div><strong>${req.name}</strong></div><div>📞 ${req.phone}</div><div>💰 Fee: 100 KES Paid</div><div class="flex-buttons"><button onclick="approveMember(${req.id})" style="background:#10b981">✅ Approve</button><button onclick="rejectMember(${req.id})" style="background:#ef4444">❌ Reject</button></div></div>`; } document.getElementById("pendingRequestsList").innerHTML = html; }
+        function approveMember(id) { let req = pendingSignups.find(r => r.id === id); if (req) { let passcode = req.phone ? req.phone.slice(-4) : "0000"; MEMBERS.push({ id: MEMBERS.length, name: req.name, phone: req.phone, passcode: passcode }); savings.push({ date: new Date().toISOString().split('T')[0], memberId: MEMBERS.length - 1, amount: REGISTRATION_FEE }); pendingSignups = pendingSignups.filter(r => r.id !== id); saveData(); refreshAdminView(); alert(`✅ ${req.name} approved! Passcode: ${passcode}`); } }
+        function rejectMember(id) { let req = pendingSignups.find(r => r.id === id); if (req && confirm(`Reject ${req.name}?`)) { pendingSignups = pendingSignups.filter(r => r.id !== id); saveData(); refreshAdminView(); alert(`❌ ${req.name} rejected.`); } }
+        function takeLoan() { let mid = parseInt(document.getElementById("loanMemberSelect").value); let princ = parseFloat(document.getElementById("loanPrincipal").value); let retDate = document.getElementById("loanReturnDate").value; let taken = document.getElementById("loanDateTaken").value; if (isNaN(mid) || isNaN(princ) || princ <= 0 || !retDate) { alert("All fields required"); return; } let interest = princ * 0.10; let totalDue = princ + interest; loans.push({ id: nextLoanId++, memberId: mid, principal: princ, interest: interest, totalDue: totalDue, returnDate: retDate, status: "pending", dateTaken: taken, repaidAmount: 0 }); saveData(); refreshAdminView(); alert(`📥 Loan: ${princ} +10% = ${totalDue} KES`); refreshLoanPool(); document.getElementById("loanPrincipal").value = ""; document.getElementById("loanReturnDate").value = ""; document.getElementById("loanDateTaken").value = ""; }
+        function repayLoan() { let mid = parseInt(document.getElementById("repayMemberSelect").value); let amt = parseFloat(document.getElementById("repayAmount").value); if (isNaN(mid) || isNaN(amt) || amt <= 0) { alert("Valid amount"); return; } let pending = loans.filter(l => l.memberId === mid && l.status === "pending").sort((a, b) => new Date(a.returnDate) - new Date(b.returnDate)); if (!pending.length) { alert("No pending loans"); return; } let remaining = amt; for (let l of pending) { let owing = l.totalDue - (l.repaidAmount || 0); if (remaining <= 0) break; if (remaining >= owing) { l.repaidAmount = l.totalDue; l.status = "returned"; remaining -= owing; alert(`✅ Loan fully repaid.`); } else { l.repaidAmount = (l.repaidAmount || 0) + remaining; remaining = 0; alert(`💰 Partial repayment of ${amt} KES`); } } saveData(); refreshAdminView(); document.getElementById("repayAmount").value = ""; refreshLoanPool(); }
+        function addSavings() { let mid = parseInt(document.getElementById("savingsMemberSelect").value); let amt = parseFloat(document.getElementById("savingsAmount").value); let date = document.getElementById("savingsDate").value; if (isNaN(mid) || isNaN(amt) || amt <= 0 || !date) { alert("All fields required"); return; } savings.push({ date, memberId: mid, amount: amt }); saveData(); refreshAdminView(); alert(`✅ Added ${amt} KES`); document.getElementById("savingsAmount").value = ""; }
+        function addNewMember() { let name = document.getElementById("newMemberName").value.trim(); let phone = document.getElementById("newMemberPhone").value.trim(); if (!name) { alert("Enter name"); return; } let passcode = phone ? phone.slice(-4) : "0000"; MEMBERS.push({ id: MEMBERS.length, name: name, phone: phone, passcode: passcode }); saveData(); refreshAdminView(); alert(`✅ ${name} added! Passcode: ${passcode}`); document.getElementById("newMemberName").value = ""; document.getElementById("newMemberPhone").value = ""; }
+        function changeMemberPasscode(id) { let np = prompt("New 4-digit passcode:", MEMBERS[id].passcode); if (np && np.length >= 4) { MEMBERS[id].passcode = np.slice(0, 4); saveData(); refreshAdminView(); alert("Passcode updated"); } }
+        function resetMemberPasscodes() { if (confirm("Reset all passcodes?")) { for (let m of MEMBERS) m.passcode = m.phone ? m.phone.slice(-4) : "0000"; saveData(); refreshAdminView(); alert("Reset complete"); } }
+        function recordMGR() { if (isMGRPaidThisWeek()) { alert("Already recorded"); return; } mgrLastPaidWeek = getCurrentWeekKey(); saveData(); refreshAdminView(); alert(`✅ Recorded 250 KES to ${MEMBERS[mgrWeekIndex].name}`); }
+        function nextWeek() { mgrWeekIndex = (mgrWeekIndex + 1) % MEMBERS.length; mgrLastPaidWeek = null; saveData(); refreshAdminView(); alert(`Next winner: ${MEMBERS[mgrWeekIndex].name}`); }
+        function changeAdminPassword() { let np = prompt("New admin password:"); if (np && np.length >= 4) { ADMIN_PASSWORD = np; saveData(); alert("Password changed!"); } }
+        function resetAllData() { if (confirm("ERASE ALL DATA?")) { localStorage.clear(); location.reload(); } }
+        function generateSavingsReport() { let member = MEMBERS[currentMemberId]; let hist = previousSavings.filter(s => s.memberId === currentMemberId && s.disbursed); let total = hist.reduce((a, b) => a + b.amount, 0); let text = `GENZ CHAMA REPORT\nName: ${member.name}\nDisbursed: ${total} KES`; navigator.clipboard.writeText(text); alert("Report copied!"); }
+        function copyTillNumber() { navigator.clipboard.writeText(TILL_NUMBER); alert("Till copied!"); }
+        function openWhatsApp() { let member = MEMBERS[currentMemberId]; let amount = document.getElementById("paymentAmount").value; let msg = `💰 Savings Payment\n${member.name}\nAmount: ${amount || "?"} KES\nTill: ${TILL_NUMBER}`; window.open(`https://wa.me/${member.phone}?text=${encodeURIComponent(msg)}`, '_blank'); }
+        function generatePaymentInstructions() { let amount = document.getElementById("paymentAmount").value; if (!amount || amount <= 0) { alert("Enter amount"); return; } alert(`PAYMENT: Till ${TILL_NUMBER}, Amount ${amount} KES`); if (confirm("Open M-PESA?")) window.location.href = "tel:*334#"; }
+        function sendWhatsAppNotification() { let mId = document.getElementById("notifyMemberSelect").value; let msg = document.getElementById("notificationMessage").value.trim(); if (!msg) { alert("Enter message"); return; } let encoded = encodeURIComponent("📢 *GENZ CHAMA*\n\n" + msg); if (mId === "all") { window.open(`https://wa.me/?text=${encoded}`, '_blank'); } else { let member = MEMBERS[parseInt(mId)]; let phone = member.phone.replace(/^0/, '254'); window.open(`https://wa.me/${phone}?text=${encoded}`, '_blank'); } document.getElementById("notificationMessage").value = ""; alert("WhatsApp opened."); }
+        function processSavingsDisbursement() { let now = new Date(), m = now.getMonth(); if (![0, 2, 4, 6, 8, 10].includes(m)) { alert(`⚠️ Disbursements only in Jan/Mar/May/Jul/Sep/Nov. Next: ${getNextSavingsDisbursementDateString()}`); return; } let period = `${getMonthName(m)} ${now.getFullYear()}`; if (lastSavingsDisbursementDate === period) { alert(`Disbursement for ${period} already processed`); return; } if (!confirm(`Disburse ALL savings? Total: ${getTotalGroupSavings().toFixed(2)} KES`)) return; for (let s of savings) previousSavings.push({ ...s, disbursed: true }); savings = []; lastSavingsDisbursementDate = period; saveData(); refreshAdminView(); alert(`✅ Savings disbursed: ${period}`); }
+        function processInterestDisbursement() { let now = new Date(), m = now.getMonth(); if (m !== 5 && m !== 11) { alert(`⚠️ Interest disbursements only in June & December. Next: ${getNextInterestDisbursementDate()}`); return; } let period = m === 5 ? `June ${now.getFullYear()}` : `December ${now.getFullYear()}`; if (lastInterestDisbursementDate === period) { alert(`Interest for ${period} already processed`); return; } let totalDue = getTotalDueToMembers(); if (totalDue === 0) { alert("No interest to disburse"); return; } if (!confirm(`Disburse 70% interest? Total: ${totalDue.toFixed(2)} KES to members`)) return; for (let member of MEMBERS) { let due = getMemberInterestToSend(member.id); if (due > 0) savings.push({ date: new Date().toISOString().split('T')[0], memberId: member.id, amount: due, note: `Interest ${period}` }); } for (let l of loans) if (l.status === 'returned') l.interest = 0; lastInterestDisbursementDate = period; saveData(); refreshAdminView(); alert(`✅ Interest disbursed: ${totalDue.toFixed(2)} KES`); }
+        function showDeleteConfirm(id, name) { memberToDelete = id; document.getElementById("deleteMemberName").innerHTML = `<strong>${name}</strong>`; document.getElementById("deleteConfirmModal").style.display = "flex"; }
+        function closeDeleteModal() { document.getElementById("deleteConfirmModal").style.display = "none"; memberToDelete = null; }
+        function confirmDeleteMember() { if (memberToDelete !== null) { MEMBERS = MEMBERS.filter(m => m.id !== memberToDelete); savings = savings.filter(s => s.memberId !== memberToDelete); loans = loans.filter(l => l.memberId !== memberToDelete); loanRequests = loanRequests.filter(r => r.memberId !== memberToDelete); for (let i = 0; i < MEMBERS.length; i++) MEMBERS[i].id = i; saveData(); refreshAdminView(); closeDeleteModal(); alert("Member deleted."); } }
+        function initialize() { loadData(); let opts = '<option value="">-- Select Name --</option>'; for (let m of MEMBERS) opts += `<option value="${m.id}">${m.name}</option>`; document.getElementById("memberSelect").innerHTML = opts; refreshLoanPool(); }
+        initialize();
+    </script>
 </body>
+
 </html>
