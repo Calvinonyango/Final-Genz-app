@@ -429,7 +429,7 @@
 <body>
 
 <div class="main-content">
-    <!-- Modals (same as before) -->
+    <!-- Modals -->
     <div id="paymentModal" class="modal">
         <div class="modal-content">
             <h3>💰 Pay Registration Fee</h3>
@@ -488,7 +488,7 @@
             <button class="member-tab-btn" onclick="showMemberTab('loans')">📋 My Loans</button>
         </div>
 
-        <!-- Dashboard Tab (Weekly MGR only, no motivation message) -->
+        <!-- Dashboard Tab -->
         <div id="memberDashboardTab" class="tab-content active">
             <div class="stats-grid">
                 <div class="stat-card dashboard-card" style="background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);">
@@ -507,7 +507,7 @@
             <div class="card"><h2>🎡 Weekly MGR (250 KES)</h2><div id="memberMgr" class="winner">Loading...</div></div>
         </div>
 
-        <!-- My Savings Tab (with motivation message) -->
+        <!-- My Savings Tab -->
         <div id="memberSavingsTab" class="tab-content">
             <div class="card motivation-card"><div class="motivation-text" id="motivationMessage"></div></div>
             <div class="card"><h2>🏦 My Current Savings</h2><div id="memberSavings" style="font-size:32px;font-weight:bold;text-align:center">0 KES</div></div>
@@ -547,7 +547,7 @@
             <button class="admin-tab-btn" onclick="showAdminTab('loans')">📋 Loans</button>
         </div>
 
-        <!-- Dashboard Tab (with Weekly MGR) -->
+        <!-- Dashboard Tab -->
         <div id="adminDashboardTab" class="tab-content active">
             <div class="stats-grid">
                 <div class="stat-card" style="background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%); color: white;">
@@ -578,7 +578,7 @@
             <div class="card"><h2>👥 Member Records</h2><div id="memberSummary"></div><div class="total">💰 Total Savings: <span id="totalSavings">0</span> KES</div></div>
         </div>
 
-        <!-- Savings Tab (with Total Savings Per Member) -->
+        <!-- Savings Tab -->
         <div id="adminSavingsTab" class="tab-content">
             <div class="card"><h2>💰 Savings Disbursement (Jan,Mar,May,Jul,Sep,Nov)</h2><div class="interest-summary"><div class="member-row"><span>📊 Total Savings:</span><span id="totalSavingsPool">0</span></div><div class="member-row"><span>📅 Current Month:</span><span id="currentMonth"></span></div><div class="member-row"><span>🎯 Next Disbursement:</span><span id="nextDisbursementMonth"></span></div></div><button onclick="processSavingsDisbursement()" class="disburse">Process Savings Disbursement</button><p class="small-text">⚠️ Only in Jan/Mar/May/Jul/Sep/Nov</p></div>
             <div class="card csv-url-box"><h4>📊 SYNC SAVINGS</h4><input type="text" id="savingsCsvUrl" placeholder="Paste Savings sheet CSV link"><button onclick="syncSavings()" class="sync">Sync Savings</button></div>
@@ -592,7 +592,7 @@
             <div id="syncStatusMsg" class="sync-status">📡 Ready</div>
         </div>
 
-        <!-- Loans Tab (with Total Interest Per Member) -->
+        <!-- Loans Tab -->
         <div id="adminLoansTab" class="tab-content">
             <div class="card loan-pool-highlight"><h2 style="color:white;">💰 Accessible Loan Pool</h2><div style="text-align:center"><div style="font-size:48px; font-weight:bold;" id="accessibleLoanAmount">0 KES</div><p>Available to borrow</p></div><div class="interest-row"><span>📊 Total Principal Lent:</span><span id="totalPrincipalLent">0</span></div><div class="interest-row"><span>📈 Total Interest:</span><span id="totalInterestPool">0</span></div><div class="interest-row"><span>🏦 30% Reserve:</span><span id="loanReservePool">0</span></div><div class="interest-row"><span>📌 Outstanding Loans:</span><span id="outstandingLoansPool">0</span></div><button onclick="refreshLoanPool()" class="secondary" style="background:rgba(255,255,255,0.2);">🔄 Refresh Pool</button></div>
             <div class="card"><h2>💰 Loan Interest (70/30)</h2><div class="interest-summary"><div class="member-row"><span>📊 Total Interest Accrued:</span><span id="totalInterestCollected">0</span></div><div class="member-row"><span>👥 Due to Members (70%):</span><span id="totalDueToMembers">0</span></div><div class="member-row"><span>🏦 Group Reserve (30%):</span><span id="loanReserveAmount">0</span></div></div><button onclick="processInterestDisbursement()" class="disburse">Process Interest Disbursement</button><p class="small-text">⚠️ Only in June & December</p></div>
@@ -630,6 +630,40 @@
     let mgrWeekIndex = 0, mgrLastPaidWeek = null, nextLoanId = 7, currentMemberId = null, isAdminMode = false, ADMIN_PASSWORD = "admin123";
     let lastSavingsDisbursementDate = null, lastInterestDisbursementDate = null;
     let SAVINGS_CSV_URL = "", LOANS_CSV_URL = "", MEMBERS_CSV_URL = "", MGR_CSV_URL = "";
+
+    // ========== MOTIVATIONAL MESSAGES ==========
+    const motivationalMessages = [
+        "🌟 \"Your wealth is growing! Every shilling saved is a step toward financial freedom.\"",
+        "💰 \"Small savings today, big dreams tomorrow. Keep going!\"",
+        "📈 \"The journey to financial independence starts with one savings at a time.\"",
+        "🎯 \"Stay consistent! Your future self will thank you for every shilling saved.\"",
+        "🏆 \"You're not just saving money, you're building your legacy!\"",
+        "🌱 \"Even the tallest tree grows from a small seed. Keep planting your savings!\"",
+        "💪 \"Financial discipline today equals financial freedom tomorrow.\"",
+        "🚀 \"Your savings are the fuel for your dreams. Keep adding!\"",
+        "⭐ \"Every deposit brings you closer to your goals. You're doing great!\"",
+        "🎉 \"Celebrate small wins! Each savings contribution matters.\"",
+        "🔑 \"Savings is the key that unlocks your financial future.\"",
+        "🌈 \"Consistency beats intensity. Keep showing up for your savings goals!\"",
+        "💎 \"Your savings are precious assets. Treat them with care and grow them daily.\"",
+        "🏠 \"Every shilling saved brings you closer to your dream home.\"",
+        "📚 \"Financial freedom is a journey, not a destination. Keep walking!\"",
+        "⚡ \"Your dedication to saving is inspiring! Keep the momentum going.\"",
+        "🎯 \"Set goals, save consistently, watch your wealth grow!\"",
+        "💡 \"Smart savers become wealthy investors. You're on the right track!\"",
+        "🌟 \"Your savings habit is building a bridge to your financial dreams.\"",
+        "🔥 \"Keep that saving spirit burning! Your future self is cheering you on.\"",
+        "📊 \"Every contribution adds up. You're building something great!\"",
+        "💪 \"Strong saving habits create strong financial futures.\"",
+        "🎯 \"You're making progress with every deposit. Keep pushing!\"",
+        "🌅 \"Your financial sunrise is coming. Every shilling saved brings light.\"",
+        "🏦 \"Your savings account is the foundation of your wealth building.\""
+    ];
+
+    function getRandomMotivationalMessage() {
+        const randomIndex = Math.floor(Math.random() * motivationalMessages.length);
+        return motivationalMessages[randomIndex];
+    }
 
     // Sample data
     savings = [
@@ -750,7 +784,7 @@
         let html = '';
         for (let member of MEMBERS) {
             let savingsAmt = getMemberSavings(member.id);
-            html += `<tr><td>${member.name}</td><td>${savingsAmt.toFixed(2)} KES</td></tr>`;
+            html += `<tr><td style="padding:10px;">${member.name}</td><td style="padding:10px;">${savingsAmt.toFixed(2)} KES</td></tr>`;
         }
         if (document.getElementById('savingsPerMemberTable')) {
             document.getElementById('savingsPerMemberTable').innerHTML = html;
@@ -764,11 +798,11 @@
             let toSend = interest * 0.70;
             let toReserve = interest * 0.30;
             html += `<tr>
-                        <td>${member.name}</td>
-                        <td>${interest.toFixed(2)} KES</td>
-                        <td>${toSend.toFixed(2)} KES</td>
-                        <td>${toReserve.toFixed(2)} KES</td>
-                     </tr>`;
+                        <td style="padding:10px;">${member.name}</td>
+                        <td style="padding:10px;">${interest.toFixed(2)} KES</td>
+                        <td style="padding:10px;">${toSend.toFixed(2)} KES</td>
+                        <td style="padding:10px;">${toReserve.toFixed(2)} KES</td>
+                      </tr>`;
         }
         if (document.getElementById('interestPerMemberTable')) {
             document.getElementById('interestPerMemberTable').innerHTML = html;
@@ -1045,9 +1079,12 @@
         document.getElementById("nextDisbursement").innerHTML = getNextInterestDisbursementDate();
         document.getElementById("savingsDisbursementDate").innerHTML = getNextSavingsDisbursementDateString();
         
+        // Set a NEW random motivational message each time the member views their savings
+        document.getElementById("motivationMessage").innerHTML = getRandomMotivationalMessage();
+        
         let historyHtml = '';
         let prev = previousSavings.filter(s => s.memberId === currentMemberId && s.disbursed);
-        for (let s of prev) historyHtml += `<td><td style="padding:8px;">${s.date}</td><td style="padding:8px;">${s.amount} KES</td><td style="color:#15803d;">✅ Disbursed</td></tr>`;
+        for (let s of prev) historyHtml += `<tr><td style="padding:8px;">${s.date}</td><td style="padding:8px;">${s.amount} KES</td><td style="color:#15803d;">✅ Disbursed</td></tr>`;
         if (!historyHtml) historyHtml = '<tr><td colspan="3">No previous savings</td></tr>';
         document.getElementById("savingsHistoryBody").innerHTML = historyHtml;
         
@@ -1060,7 +1097,6 @@
         
         let isWinner = mgrWeekIndex === currentMemberId;
         document.getElementById("memberMgr").innerHTML = `${isWinner ? '🎉 YOU ARE THE WINNER! 🎉' : 'Winner: ' + MEMBERS[mgrWeekIndex]?.name}<br><span class="small-text">${mgrLastPaidWeek === getCurrentWeekKey() ? "Paid" : "Not paid"}</span>`;
-        document.getElementById("motivationMessage").innerHTML = "🌟 Your wealth is growing! Keep saving.";
         
         updateDashboardStats();
         displayLoanRequests();
@@ -1223,10 +1259,16 @@
     function showMemberLogin() { document.getElementById("memberLoginPanel").style.display = "block"; document.getElementById("adminLoginPanel").style.display = "none"; document.querySelectorAll(".tab-btn")[0].classList.add("active"); document.querySelectorAll(".tab-btn")[1].classList.remove("active"); }
     function showAdminLogin() { document.getElementById("memberLoginPanel").style.display = "none"; document.getElementById("adminLoginPanel").style.display = "block"; document.querySelectorAll(".tab-btn")[0].classList.remove("active"); document.querySelectorAll(".tab-btn")[1].classList.add("active"); }
     
+    // UPDATED: Member Login with cleaner error message
     function memberLogin() {
         let id = parseInt(document.getElementById("memberSelect").value);
         let pin = document.getElementById("memberPasscode").value;
-        if (isNaN(id)) { alert("Select name"); return; }
+        
+        if (isNaN(id)) { 
+            alert("⚠️ Please select a member name from the list."); 
+            return; 
+        }
+        
         if (MEMBERS[id].passcode === pin) {
             currentMemberId = id;
             document.getElementById("memberName").innerText = MEMBERS[id].name;
@@ -1236,7 +1278,12 @@
             document.querySelector('.member-tab-btn').classList.add('active');
             showMemberTab('dashboard');
             refreshMemberView();
-        } else alert("Wrong passcode!");
+        } else {
+            // Clean error message - no GitHub or member name displayed
+            alert("⚠️ Wrong Passcode\n\nPlease enter a valid passcode and try again.");
+            // Clear the passcode field for security
+            document.getElementById("memberPasscode").value = "";
+        }
     }
     
     function adminLogin() {
@@ -1245,7 +1292,10 @@
             document.getElementById("adminView").style.display = "block";
             refreshAdminView();
             refreshLoanPool();
-        } else alert("Wrong password!");
+        } else {
+            alert("⚠️ Wrong Admin Password\n\nPlease enter a valid admin password.");
+            document.getElementById("adminPasswordInput").value = "";
+        }
     }
     
     function logout() { currentMemberId = null; document.getElementById("memberView").style.display = "none"; document.getElementById("adminView").style.display = "none"; document.getElementById("loginOverlay").style.display = "flex"; }
