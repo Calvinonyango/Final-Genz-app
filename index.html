@@ -92,8 +92,8 @@
         }
 
         .sidebar {
-            width: 240px;
-            min-width: 200px;
+            width: 220px;
+            min-width: 180px;
             background: white;
             border-radius: 20px;
             padding: 16px 10px;
@@ -183,6 +183,12 @@
             border-radius: 16px;
             padding: 16px;
             margin-bottom: 16px;
+        }
+
+        .card h3 {
+            font-size: 16px;
+            color: #1a4d3e;
+            margin-bottom: 10px;
         }
 
         button {
@@ -470,13 +476,6 @@
             font-size: 12px;
         }
 
-        .loan-request-box {
-            background: #f8fafc;
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 16px;
-        }
-
         .loan-detail {
             background: #f8fafc;
             padding: 8px;
@@ -564,6 +563,13 @@
             color: white;
             border-radius: 20px;
             padding: 16px;
+        }
+
+        .interest-summary {
+            background: #fef3c7;
+            border-radius: 16px;
+            padding: 12px;
+            margin-top: 10px;
         }
 
         @media (max-width: 768px) {
@@ -760,9 +766,6 @@
                 <div class="sidebar-item active" onclick="showAdminContent('dashboard')" id="adminMenuDashboard">
                     <span class="icon">📊</span> Dashboard
                 </div>
-                <div class="sidebar-item" onclick="showAdminContent('memberrecords')" id="adminMenuMemberRecords">
-                    <span class="icon">👥</span> Member Records
-                </div>
                 <div class="sidebar-item" onclick="showAdminContent('savings')" id="adminMenuSavings">
                     <span class="icon">💰</span> Savings
                 </div>
@@ -777,7 +780,7 @@
             </div>
 
             <div class="content-area" id="adminContentArea">
-                <!-- Admin Dashboard -->
+                <!-- Dashboard -->
                 <div class="tab-content active" id="adminContentDashboard">
                     <h2>📊 Dashboard</h2>
                     <div class="stats-grid">
@@ -794,63 +797,69 @@
                             <p style="color:#ccc;">Active Loans</p>
                         </div>
                     </div>
+
+                    <!-- Member Records Functionality ADDED TO DASHBOARD -->
+                    <div class="card">
+                        <h3>👥 Member Management</h3>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:10px;">
+                            <!-- Add Member -->
+                            <div style="background:#f1f5f9; padding:12px; border-radius:12px;">
+                                <h4 style="font-size:14px; color:#1a4d3e;">➕ Add Member</h4>
+                                <input type="text" id="newMemberName" placeholder="Full Name" style="margin:4px 0;">
+                                <input type="text" id="newMemberPhone" placeholder="Phone" style="margin:4px 0;">
+                                <button onclick="addNewMember()" style="width:100%;">Add</button>
+                            </div>
+
+                            <!-- Sync Members -->
+                            <div style="background:#f1f5f9; padding:12px; border-radius:12px;">
+                                <h4 style="font-size:14px; color:#1a4d3e;">📊 Sync Members</h4>
+                                <input type="text" id="membersCsvUrl" placeholder="Paste CSV link" style="margin:4px 0;">
+                                <button onclick="syncMembers()" class="sync" style="width:100%;">Sync Members</button>
+                            </div>
+
+                            <!-- Sync MGR -->
+                            <div style="background:#f1f5f9; padding:12px; border-radius:12px;">
+                                <h4 style="font-size:14px; color:#1a4d3e;">🎡 Sync MGR</h4>
+                                <input type="text" id="mgrCsvUrl" placeholder="Paste CSV link" style="margin:4px 0;">
+                                <button onclick="syncMGR()" class="sync" style="width:100%;">Sync MGR</button>
+                            </div>
+
+                            <!-- Reset Passcodes -->
+                            <div style="background:#f1f5f9; padding:12px; border-radius:12px;">
+                                <h4 style="font-size:14px; color:#1a4d3e;">🔐 Reset Passcodes</h4>
+                                <button onclick="resetMemberPasscodes()" class="secondary" style="width:100%;">Reset All Passcodes</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Members List -->
+                    <div class="card">
+                        <h3>👥 Members List</h3>
+                        <div id="passcodesList"></div>
+                        <div class="total">💰 Total Savings: <span id="totalSavings">0</span> KES</div>
+                    </div>
+
                     <div class="card"><h2>🎡 Weekly MGR</h2><div id="mgrWinnerAdmin" class="winner">Loading...</div><button onclick="recordMGR()">Record Payout</button><button onclick="nextWeek()">Next Week</button></div>
                     <div class="card notification-box"><h2>📢 Send WhatsApp Notification</h2><select id="notifyMemberSelect"><option value="all">📢 All Members (Group)</option></select><textarea id="notificationMessage" rows="2" placeholder="Message..."></textarea><button onclick="sendWhatsAppNotification()" class="secondary">📱 Send</button></div>
                     <div class="card"><h2>📋 Pending Sign Ups (100 KES)</h2><div id="pendingRequestsList">None</div></div>
                     <div class="card"><h2>📋 Pending Loan Requests</h2><div id="pendingLoanRequestsList">None</div></div>
                 </div>
 
-                <!-- Member Records -->
-                <div class="tab-content" id="adminContentMemberRecords">
-                    <h2>👥 Member Records</h2>
-
-                    <div class="card">
-                        <h2>➕ Add New Member</h2>
-                        <input type="text" id="newMemberName" placeholder="Full Name">
-                        <input type="text" id="newMemberPhone" placeholder="Phone">
-                        <button onclick="addNewMember()">Add Member</button>
-                    </div>
-
-                    <div class="card">
-                        <h2>🔐 Member Passcodes & Management</h2>
-                        <div id="passcodesList"></div>
-                        <button onclick="resetMemberPasscodes()" class="secondary">Reset All Passcodes</button>
-                    </div>
-
-                    <div class="card csv-url-box">
-                        <h4>📊 SYNC MEMBERS</h4>
-                        <input type="text" id="membersCsvUrl" placeholder="Paste Members sheet CSV link">
-                        <button onclick="syncMembers()" class="sync">Sync Members</button>
-                    </div>
-
-                    <div class="card csv-url-box">
-                        <h4>🎡 SYNC MGR</h4>
-                        <input type="text" id="mgrCsvUrl" placeholder="Paste MGR sheet CSV link">
-                        <button onclick="syncMGR()" class="sync">Sync MGR</button>
-                    </div>
-
-                    <div class="card">
-                        <h2>👥 Member Records</h2>
-                        <div id="memberSummary"></div>
-                        <div class="total">💰 Total Savings: <span id="totalSavings">0</span> KES</div>
-                    </div>
-                </div>
-
-                <!-- Admin Savings -->
+                <!-- Savings -->
                 <div class="tab-content" id="adminContentSavings">
                     <h2>💰 Savings</h2>
-                    <div class="card"><h2>💰 Savings Disbursement (Jan,Mar,May,Jul,Sep,Nov)</h2><div class="interest-summary" style="background:#fef3c7;border-radius:16px;padding:12px;"><div class="member-row"><span>📊 Total Savings:</span><span id="totalSavingsPool">0</span></div><div class="member-row"><span>📅 Current Month:</span><span id="currentMonth"></span></div><div class="member-row"><span>🎯 Next Disbursement:</span><span id="nextDisbursementMonth"></span></div></div><button onclick="processSavingsDisbursement()" class="secondary">Process Savings Disbursement</button><p class="small-text">⚠️ Only in Jan/Mar/May/Jul/Sep/Nov</p></div>
+                    <div class="card"><h2>💰 Savings Disbursement (Jan,Mar,May,Jul,Sep,Nov)</h2><div class="interest-summary"><div class="member-row"><span>📊 Total Savings:</span><span id="totalSavingsPool">0</span></div><div class="member-row"><span>📅 Current Month:</span><span id="currentMonth"></span></div><div class="member-row"><span>🎯 Next Disbursement:</span><span id="nextDisbursementMonth"></span></div></div><button onclick="processSavingsDisbursement()" class="secondary">Process Savings Disbursement</button><p class="small-text">⚠️ Only in Jan/Mar/May/Jul/Sep/Nov</p></div>
                     <div class="card csv-url-box"><h4>📊 SYNC SAVINGS</h4><input type="text" id="savingsCsvUrl" placeholder="Paste Savings sheet CSV link"><button onclick="syncSavings()" class="sync">Sync Savings</button></div>
                     <div class="card"><h2>🏦 Add Savings (Manual)</h2><select id="savingsMemberSelect"><option value="">-- Member --</option></select><input type="date" id="savingsDate"><input type="number" id="savingsAmount" placeholder="Amount KES"><button onclick="addSavings()">Add Savings</button></div>
                     <div class="card"><h2>📊 Total Savings Per Member</h2><table class="savings-table"><thead><tr><th>Member Name</th><th>Total Savings (KES)</th></tr></thead><tbody id="savingsPerMemberTable"></tbody></table></div>
                     <div id="syncStatusMsg" class="sync-status">📡 Ready</div>
                 </div>
 
-                <!-- Admin Loans -->
+                <!-- Loans -->
                 <div class="tab-content" id="adminContentLoans">
                     <h2>📋 Loans</h2>
                     <div class="card loan-pool-highlight"><h2 style="color:white;">💰 Accessible Loan Pool</h2><div style="text-align:center"><div style="font-size:48px; font-weight:bold;" id="accessibleLoanAmount">0 KES</div><p>Available to borrow</p></div><div class="interest-row"><span>📊 Total Principal Lent:</span><span id="totalPrincipalLent">0</span></div><div class="interest-row"><span>📈 Total Interest:</span><span id="totalInterestPool">0</span></div><div class="interest-row"><span>🏦 30% Reserve:</span><span id="loanReservePool">0</span></div><div class="interest-row"><span>📌 Outstanding Loans:</span><span id="outstandingLoansPool">0</span></div><button onclick="refreshLoanPool()" class="secondary" style="background:rgba(255,255,255,0.2);">🔄 Refresh Pool</button></div>
-                    <div class="card"><h2>💰 Loan Interest (70/30)</h2><div class="interest-summary" style="background:#fef3c7;border-radius:16px;padding:12px;"><div class="member-row"><span>📊 Total Interest Accrued:</span><span id="totalInterestCollected">0</span></div><div class="member-row"><span>👥 Due to Members (70%):</span><span id="totalDueToMembers">0</span></div><div class="member-row"><span>🏦 Group Reserve (30%):</span><span id="loanReserveAmount">0</span></div></div><button onclick="processInterestDisbursement()" class="secondary">Process Interest Disbursement</button><p class="small-text">⚠️ Only in June & December</p></div>
+                    <div class="card"><h2>💰 Loan Interest (70/30)</h2><div class="interest-summary"><div class="member-row"><span>📊 Total Interest Accrued:</span><span id="totalInterestCollected">0</span></div><div class="member-row"><span>👥 Due to Members (70%):</span><span id="totalDueToMembers">0</span></div><div class="member-row"><span>🏦 Group Reserve (30%):</span><span id="loanReserveAmount">0</span></div></div><button onclick="processInterestDisbursement()" class="secondary">Process Interest Disbursement</button><p class="small-text">⚠️ Only in June & December</p></div>
                     <div class="card"><h2>📊 Total Interest Per Member</h2><table class="interest-table"><thead><tr><th>Member Name</th><th>Total Interest Accrued (KES)</th><th>To be Sent (70%)</th><th>To Reserve (30%)</th></tr></thead><tbody id="interestPerMemberTable"></tbody></table></div>
                     <div class="card csv-url-box"><h4>📋 SYNC LOANS</h4><input type="text" id="loansCsvUrl" placeholder="Paste Loans sheet CSV link"><button onclick="syncLoans()" class="sync">Sync Loans</button></div>
                     <div class="card"><h2>📋 Take Loan (10% Interest)</h2><select id="loanMemberSelect"><option value="">-- Member --</option></select><input type="date" id="loanDateTaken"><input type="number" id="loanPrincipal" placeholder="Principal"><input type="date" id="loanReturnDate"><button onclick="takeLoan()">Take Loan</button></div>
@@ -875,14 +884,28 @@
             { id: 5, name: "Ivy", phone: "0769263349", passcode: "3349" },
             { id: 6, name: "Ongoma", phone: "0712345678", passcode: "0000" }
         ];
-        let savings = [];
-        let loans = [];
+
+        let savings = [
+            { date: "2025-08-16", memberId: 0, amount: 3170 },
+            { date: "2026-04-18", memberId: 1, amount: 100 },
+            { date: "2026-04-20", memberId: 0, amount: 850 },
+            { date: "2026-04-25", memberId: 1, amount: 100 },
+            { date: "2026-04-25", memberId: 4, amount: 103 }
+        ];
+
+        let loans = [
+            { id: 1, memberId: 0, principal: 500, interest: 50, totalDue: 550, returnDate: "2026-02-16", status: "returned",
+                dateTaken: "2026-02-11", repaidAmount: 550 },
+            { id: 2, memberId: 3, principal: 500, interest: 50, totalDue: 550, returnDate: "2026-03-06", status: "pending",
+                dateTaken: "2026-02-20", repaidAmount: 0 }
+        ];
+
         let loanRequests = [];
         let pendingSignups = [];
         let previousSavings = [];
         let mgrWeekIndex = 0;
         let mgrLastPaidWeek = null;
-        let nextLoanId = 7;
+        let nextLoanId = 6;
         let currentMemberId = null;
         let ADMIN_PASSWORD = "admin123";
         let lastSavingsDisbursementDate = null;
@@ -902,95 +925,16 @@
             return motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
         }
 
-        // Sample data
-        savings = [
-            { date: "2025-08-16", memberId: 0, amount: 3170 },
-            { date: "2026-04-18", memberId: 1, amount: 100 },
-            { date: "2026-04-20", memberId: 0, amount: 850 },
-            { date: "2026-04-25", memberId: 1, amount: 100 },
-            { date: "2026-04-25", memberId: 4, amount: 103 },
-            { date: "2026-03-12", memberId: 0, amount: 100 },
-            { date: "2026-03-12", memberId: 3, amount: 150 },
-            { date: "2026-03-12", memberId: 4, amount: 30 },
-            { date: "2026-03-12", memberId: 6, amount: 254 },
-            { date: "2026-05-02", memberId: 1, amount: 200 },
-            { date: "2026-05-02", memberId: 6, amount: 500 }
-        ];
-
-        loans = [
-            { id: 1, memberId: 0, principal: 500, interest: 50, totalDue: 550, returnDate: "2026-02-16", status: "returned",
-                dateTaken: "2026-02-11", repaidAmount: 550 },
-            { id: 2, memberId: 3, principal: 500, interest: 50, totalDue: 550, returnDate: "2026-03-06", status: "returned",
-                dateTaken: "2026-02-20", repaidAmount: 550 },
-            { id: 3, memberId: 0, principal: 500, interest: 50, totalDue: 550, returnDate: "2026-02-22", status: "returned",
-                dateTaken: "2026-02-21", repaidAmount: 550 },
-            { id: 4, memberId: 3, principal: 500, interest: 50, totalDue: 550, returnDate: "2026-03-22", status: "returned",
-                dateTaken: "2025-03-08", repaidAmount: 550 },
-            { id: 5, memberId: 6, principal: 300, interest: 30, totalDue: 330, returnDate: "2026-03-26", status: "returned",
-                dateTaken: "2026-03-23", repaidAmount: 330 }
-        ];
-
-        previousSavings = [
-            { date: "2025-08-16", memberId: 0, amount: 3170, disbursed: true },
-            { date: "2026-04-18", memberId: 1, amount: 100, disbursed: true },
-            { date: "2026-04-20", memberId: 0, amount: 850, disbursed: true },
-            { date: "2026-04-25", memberId: 1, amount: 100, disbursed: true },
-            { date: "2026-04-25", memberId: 4, amount: 103, disbursed: true }
-        ];
-
-        // ========== NAVIGATION ==========
-        function showMemberContent(section) {
-            var contents = document.querySelectorAll('#memberContentArea .tab-content');
-            for (var i = 0; i < contents.length; i++) { contents[i].classList.remove('active'); }
-            var contentId = 'memberContent' + section.charAt(0).toUpperCase() + section.slice(1);
-            document.getElementById(contentId).classList.add('active');
-
-            var items = document.querySelectorAll('#memberSidebar .sidebar-item');
-            for (var i = 0; i < items.length; i++) { items[i].classList.remove('active'); }
-            var menuId = 'memberMenu' + section.charAt(0).toUpperCase() + section.slice(1);
-            document.getElementById(menuId).classList.add('active');
-
-            if (section === 'dashboard') { updateDashboardStats(); }
-        }
-
-        function showAdminContent(section) {
-            var contents = document.querySelectorAll('#adminContentArea .tab-content');
-            for (var i = 0; i < contents.length; i++) { contents[i].classList.remove('active'); }
-            var contentId = 'adminContent' + section.charAt(0).toUpperCase() + section.slice(1);
-            document.getElementById(contentId).classList.add('active');
-
-            var items = document.querySelectorAll('#adminSidebar .sidebar-item');
-            for (var i = 0; i < items.length; i++) { items[i].classList.remove('active'); }
-            var menuId = 'adminMenu' + section.charAt(0).toUpperCase() + section.slice(1);
-            document.getElementById(menuId).classList.add('active');
-
-            if (section === 'savings') { updateSavingsPerMemberTable(); }
-            if (section === 'loans') { updateInterestPerMemberTable(); }
-        }
-
-        // ========== HELPERS ==========
-        function parseCSVLine(line) {
-            var res = [],
-                inQ = false,
-                cur = "";
-            for (var c = 0; c < line.length; c++) {
-                if (line[c] === '"') inQ = !inQ;
-                else if (line[c] === ',' && !inQ) { res.push(cur.trim());
-                    cur = ""; } else cur += line[c];
-            }
-            res.push(cur.trim());
-            return res;
-        }
-
+        // ========== SAVE/LOAD ==========
         function saveData() {
             localStorage.setItem("GenzChamaData", JSON.stringify({
+                MEMBERS,
                 savings,
                 loans,
                 mgrWeekIndex,
                 mgrLastPaidWeek,
                 nextLoanId,
                 ADMIN_PASSWORD,
-                MEMBERS,
                 previousSavings,
                 lastSavingsDisbursementDate,
                 lastInterestDisbursementDate,
@@ -1004,18 +948,18 @@
             if (d) {
                 try {
                     var p = JSON.parse(d);
-                    savings = p.savings || savings;
-                    loans = p.loans || loans;
-                    mgrWeekIndex = p.mgrWeekIndex || 0;
-                    mgrLastPaidWeek = p.mgrLastPaidWeek || null;
-                    nextLoanId = p.nextLoanId || 7;
-                    if (p.ADMIN_PASSWORD) ADMIN_PASSWORD = p.ADMIN_PASSWORD;
                     if (p.MEMBERS) MEMBERS = p.MEMBERS;
+                    if (p.savings) savings = p.savings;
+                    if (p.loans) loans = p.loans;
+                    if (p.mgrWeekIndex !== undefined) mgrWeekIndex = p.mgrWeekIndex;
+                    if (p.mgrLastPaidWeek !== undefined) mgrLastPaidWeek = p.mgrLastPaidWeek;
+                    if (p.nextLoanId !== undefined) nextLoanId = p.nextLoanId;
+                    if (p.ADMIN_PASSWORD) ADMIN_PASSWORD = p.ADMIN_PASSWORD;
                     if (p.previousSavings) previousSavings = p.previousSavings;
-                    if (p.loanRequests) loanRequests = p.loanRequests;
-                    if (p.pendingSignups) pendingSignups = p.pendingSignups;
                     if (p.lastSavingsDisbursementDate) lastSavingsDisbursementDate = p.lastSavingsDisbursementDate;
                     if (p.lastInterestDisbursementDate) lastInterestDisbursementDate = p.lastInterestDisbursementDate;
+                    if (p.loanRequests) loanRequests = p.loanRequests;
+                    if (p.pendingSignups) pendingSignups = p.pendingSignups;
                 } catch (e) {}
             }
         }
@@ -1030,7 +974,7 @@
             document.getElementById("errorModal").style.display = "none";
         }
 
-        // ========== CORE FUNCTIONS ==========
+        // ========== HELPERS ==========
         function getCurrentWeekKey() {
             var n = new Date(),
                 y = n.getFullYear(),
@@ -1095,6 +1039,10 @@
             return tot;
         }
 
+        function getMemberInterestToSend(mid) {
+            return getMemberTotalInterestAccrued(mid) * 0.70;
+        }
+
         function getNextSavingsDisbursementDateString() {
             var now = new Date(),
                 m = now.getMonth(),
@@ -1136,7 +1084,7 @@
             for (var i = 0; i < MEMBERS.length; i++) {
                 html += '<tr><td>' + MEMBERS[i].name + '</td><td>' + getMemberSavings(MEMBERS[i].id).toFixed(2) + ' KES</td></tr>';
             }
-            document.getElementById("savingsPerMemberTable").innerHTML = html;
+            document.getElementById("savingsPerMemberTable").innerHTML = html || '<tr><td colspan="2">No data</td></tr>';
         }
 
         function updateInterestPerMemberTable() {
@@ -1146,7 +1094,7 @@
                 html += '<tr><td>' + MEMBERS[i].name + '</td><td>' + interest.toFixed(2) + ' KES</td><td>' + (interest * 0.70)
                     .toFixed(2) + ' KES</td><td>' + (interest * 0.30).toFixed(2) + ' KES</td></tr>';
             }
-            document.getElementById("interestPerMemberTable").innerHTML = html;
+            document.getElementById("interestPerMemberTable").innerHTML = html || '<tr><td colspan="4">No data</td></tr>';
         }
 
         function updateDashboardStats() {
@@ -1158,7 +1106,35 @@
             }
         }
 
-        // ========== MEMBER VIEW ==========
+        // ========== NAVIGATION ==========
+        function showMemberContent(section) {
+            var contents = document.querySelectorAll('#memberContentArea .tab-content');
+            for (var i = 0; i < contents.length; i++) { contents[i].classList.remove('active'); }
+            document.getElementById('memberContent' + section.charAt(0).toUpperCase() + section.slice(1)).classList.add(
+            'active');
+
+            var items = document.querySelectorAll('#memberSidebar .sidebar-item');
+            for (var i = 0; i < items.length; i++) { items[i].classList.remove('active'); }
+            document.getElementById('memberMenu' + section.charAt(0).toUpperCase() + section.slice(1)).classList.add('active');
+
+            if (section === 'dashboard') { updateDashboardStats(); }
+        }
+
+        function showAdminContent(section) {
+            var contents = document.querySelectorAll('#adminContentArea .tab-content');
+            for (var i = 0; i < contents.length; i++) { contents[i].classList.remove('active'); }
+            document.getElementById('adminContent' + section.charAt(0).toUpperCase() + section.slice(1)).classList.add(
+            'active');
+
+            var items = document.querySelectorAll('#adminSidebar .sidebar-item');
+            for (var i = 0; i < items.length; i++) { items[i].classList.remove('active'); }
+            document.getElementById('adminMenu' + section.charAt(0).toUpperCase() + section.slice(1)).classList.add('active');
+
+            if (section === 'savings') { updateSavingsPerMemberTable(); }
+            if (section === 'loans') { updateInterestPerMemberTable(); }
+        }
+
+        // ========== MEMBER VIEW FUNCTIONS ==========
         function refreshMemberView() {
             if (currentMemberId === null) return;
             var saved = getMemberSavings(currentMemberId);
@@ -1397,17 +1373,6 @@
             }
             document.getElementById("passcodesList").innerHTML = passHtml;
 
-            // MEMBER SUMMARY
-            var sumHtml = '';
-            for (var i = 0; i < MEMBERS.length; i++) {
-                sumHtml += '<div class="member-row">';
-                sumHtml += '<div><strong>' + MEMBERS[i].name + '</strong></div>';
-                sumHtml += '<div>💰 ' + getMemberSavings(MEMBERS[i].id) + ' KES<br>📌 ' + getMemberLoanBalance(MEMBERS[i].id) +
-                    ' KES</div>';
-                sumHtml += '</div>';
-            }
-            document.getElementById("memberSummary").innerHTML = sumHtml;
-
             document.getElementById("totalSavings").innerText = getTotalGroupSavings();
             document.getElementById("totalSavingsPool").innerHTML = getTotalGroupSavings().toFixed(2) + " KES";
             document.getElementById("nextDisbursementMonth").innerHTML = getNextSavingsDisbursementDateString();
@@ -1533,11 +1498,11 @@
                 var skippedHeader = false;
                 for (var i = 0; i < lines.length; i++) {
                     if (!lines[i].trim()) continue;
-                    var row = parseCSVLine(lines[i]);
+                    var row = lines[i].split(',');
                     if (row.length < 3) continue;
                     if (!skippedHeader && (row[0].toLowerCase().includes("date"))) { skippedHeader = true; continue; }
-                    var date = row[0];
-                    var memberName = row[1];
+                    var date = row[0].trim();
+                    var memberName = row[1].trim();
                     var amount = parseFloat(row[2]);
                     if (memberName && memberName.toLowerCase() === MEMBERS[currentMemberId].name.toLowerCase() && !isNaN(
                             amount) && amount > 0) {
@@ -1578,17 +1543,17 @@
                 var skippedHeader = false;
                 for (var i = 0; i < lines.length; i++) {
                     if (!lines[i].trim()) continue;
-                    var row = parseCSVLine(lines[i]);
+                    var row = lines[i].split(',');
                     if (row.length < 5) continue;
                     if (!skippedHeader && (row[0].toLowerCase().includes("loan"))) { skippedHeader = true; continue; }
                     var loanId = parseInt(row[0]) || Date.now();
-                    var date = row[1];
-                    var memberName = row[2];
+                    var date = row[1].trim();
+                    var memberName = row[2].trim();
                     var principal = parseFloat(row[3]);
                     var interest = parseFloat(row[4]) || principal * 0.10;
                     var totalDue = parseFloat(row[5]) || principal + interest;
-                    var returnDate = row[6];
-                    var status = row[7] ? row[7].toLowerCase() : "pending";
+                    var returnDate = row[6] ? row[6].trim() : "";
+                    var status = row[7] ? row[7].toLowerCase().trim() : "pending";
                     var amountPaid = parseFloat(row[8]) || 0;
                     if (memberName && memberName.toLowerCase() === MEMBERS[currentMemberId].name.toLowerCase() && !isNaN(
                             principal) && principal > 0) {
@@ -1604,9 +1569,9 @@
                             principal: principal,
                             interest: interest,
                             totalDue: totalDue,
-                            returnDate: returnDate,
+                            returnDate: returnDate || new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0],
                             status: status === "returned" ? "returned" : "pending",
-                            dateTaken: date,
+                            dateTaken: date || new Date().toISOString().split('T')[0],
                             repaidAmount: amountPaid
                         });
                     }
@@ -1652,11 +1617,11 @@
                 var skippedHeader = false;
                 for (var i = 0; i < lines.length; i++) {
                     if (!lines[i].trim()) continue;
-                    var row = parseCSVLine(lines[i]);
+                    var row = lines[i].split(',');
                     if (row.length < 3) continue;
                     if (!skippedHeader && (row[0].toLowerCase().includes("date"))) { skippedHeader = true; continue; }
-                    var date = row[0];
-                    var memberName = row[1];
+                    var date = row[0].trim();
+                    var memberName = row[1].trim();
                     var amount = parseFloat(row[2]);
                     if (memberName && !isNaN(amount) && amount > 0) {
                         var memberId = -1;
@@ -1698,17 +1663,17 @@
                 var skippedHeader = false;
                 for (var i = 0; i < lines.length; i++) {
                     if (!lines[i].trim()) continue;
-                    var row = parseCSVLine(lines[i]);
+                    var row = lines[i].split(',');
                     if (row.length < 5) continue;
                     if (!skippedHeader && (row[0].toLowerCase().includes("loan"))) { skippedHeader = true; continue; }
                     var loanId = parseInt(row[0]);
-                    var date = row[1];
-                    var memberName = row[2];
+                    var date = row[1].trim();
+                    var memberName = row[2].trim();
                     var principal = parseFloat(row[3]);
                     var interest = parseFloat(row[4]) || principal * 0.10;
                     var totalDue = parseFloat(row[5]) || principal + interest;
-                    var returnDate = row[6];
-                    var status = row[7] ? row[7].toLowerCase() : "pending";
+                    var returnDate = row[6] ? row[6].trim() : "";
+                    var status = row[7] ? row[7].toLowerCase().trim() : "pending";
                     var amountPaid = parseFloat(row[8]) || 0;
                     if (memberName && !isNaN(principal) && principal > 0) {
                         var memberId = -1;
@@ -1723,14 +1688,15 @@
                                 returnDate = "20" + parts[2] + "-" + parts[1].padStart(2, '0') + "-" + parts[0]
                                     .padStart(2, '0'); }
                             newLoans.push({
-                                id: loanId,
+                                id: loanId || nextLoanId++,
                                 memberId: memberId,
                                 principal: principal,
                                 interest: interest,
                                 totalDue: totalDue,
-                                returnDate: returnDate,
+                                returnDate: returnDate || new Date(Date.now() + 30 * 86400000).toISOString().split('T')[
+                                    0],
                                 status: status === "returned" ? "returned" : "pending",
-                                dateTaken: date,
+                                dateTaken: date || new Date().toISOString().split('T')[0],
                                 repaidAmount: amountPaid
                             });
                             if (loanId >= nextLoanId) nextLoanId = loanId + 1;
@@ -1765,28 +1731,23 @@
                 var skippedHeader = false;
                 for (var i = 0; i < lines.length; i++) {
                     if (!lines[i].trim()) continue;
-                    var row = parseCSVLine(lines[i]);
+                    var row = lines[i].split(',');
                     if (row.length < 2) continue;
                     if (!skippedHeader && (row[0].toLowerCase().includes("name"))) { skippedHeader = true; continue; }
-                    var name = row[0];
-                    var phone = row[1] || "";
-                    var passcode = row[2] || (phone ? phone.slice(-4) : "0000");
-                    if (name && name !== "Name") {
-                        newMembers.push({ id: newMembers.length, name: name, phone: phone, passcode: passcode });
-                    }
+                    var name = row[0].trim();
+                    var phone = (row[1] || "").trim();
+                    var passcode = row[2] ? row[2].trim() : (phone ? phone.slice(-4) : "0000");
+                    if (name) newMembers.push({ id: newMembers.length, name: name, phone: phone, passcode: passcode });
                 }
                 if (newMembers.length > 0) {
                     MEMBERS = newMembers;
                     saveData();
                     refreshAdminView();
-                    document.getElementById("syncStatusMsg").innerHTML = "✅ Synced " + newMembers.length +
-                    " members!";
+                    showErrorModal("✅ Synced " + newMembers.length + " members!");
                 } else {
-                    document.getElementById("syncStatusMsg").innerHTML = "⚠️ No members found.";
+                    showErrorModal("⚠️ No members found.");
                 }
-            } catch (e) {
-                document.getElementById("syncStatusMsg").innerHTML = "❌ Error: " + e.message;
-            }
+            } catch (e) { showErrorModal("❌ Error: " + e.message); }
         }
 
         async function syncMGR() {
@@ -1800,23 +1761,21 @@
                 var skippedHeader = false;
                 for (var i = 0; i < lines.length; i++) {
                     if (!lines[i].trim()) continue;
-                    var row = parseCSVLine(lines[i]);
+                    var row = lines[i].split(',');
                     if (row.length < 2) continue;
                     if (!skippedHeader && (row[0].toLowerCase().includes("week"))) { skippedHeader = true; continue; }
                     var weekIdx = parseInt(row[0]);
-                    var lastPaid = row[1];
+                    var lastPaid = row[1].trim();
                     if (!isNaN(weekIdx)) {
                         mgrWeekIndex = weekIdx;
                         mgrLastPaidWeek = lastPaid;
                         saveData();
                         refreshAdminView();
-                        document.getElementById("syncStatusMsg").innerHTML = "✅ MGR synced: Week " + weekIdx;
+                        showErrorModal("✅ MGR synced: Week " + weekIdx);
                         return;
                     }
                 }
-            } catch (e) {
-                document.getElementById("syncStatusMsg").innerHTML = "❌ Error: " + e.message;
-            }
+            } catch (e) { showErrorModal("❌ Error: " + e.message); }
         }
 
         // ========== AUTH ==========
@@ -1952,7 +1911,7 @@
                 totalDue: princ + interest,
                 returnDate: retDate,
                 status: "pending",
-                dateTaken: taken,
+                dateTaken: taken || new Date().toISOString().split('T')[0],
                 repaidAmount: 0
             });
             saveData();
@@ -2136,10 +2095,6 @@
             saveData();
             refreshAdminView();
             showErrorModal("✅ Interest disbursed: " + totalDue.toFixed(2) + " KES");
-        }
-
-        function getMemberInterestToSend(mid) {
-            return getMemberTotalInterestAccrued(mid) * 0.70;
         }
 
         // ========== INIT ==========
