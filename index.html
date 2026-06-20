@@ -766,6 +766,9 @@
                 <div class="sidebar-item active" onclick="showAdminContent('dashboard')" id="adminMenuDashboard">
                     <span class="icon">📊</span> Dashboard
                 </div>
+                <div class="sidebar-item" onclick="showAdminContent('members')" id="adminMenuMembers">
+                    <span class="icon">👥</span> Members
+                </div>
                 <div class="sidebar-item" onclick="showAdminContent('savings')" id="adminMenuSavings">
                     <span class="icon">💰</span> Savings
                 </div>
@@ -797,38 +800,43 @@
                             <p style="color:#ccc;">Active Loans</p>
                         </div>
                     </div>
+                    <div class="card"><h2>🎡 Weekly MGR</h2><div id="mgrWinnerAdmin" class="winner">Loading...</div><button onclick="recordMGR()">Record Payout</button><button onclick="nextWeek()">Next Week</button></div>
+                    <div class="card notification-box"><h2>📢 Send WhatsApp Notification</h2><select id="notifyMemberSelect"><option value="all">📢 All Members (Group)</option></select><textarea id="notificationMessage" rows="2" placeholder="Message..."></textarea><button onclick="sendWhatsAppNotification()" class="secondary">📱 Send</button></div>
+                    <div class="card"><h2>📋 Pending Sign Ups (100 KES)</h2><div id="pendingRequestsList">None</div></div>
+                    <div class="card"><h2>📋 Pending Loan Requests</h2><div id="pendingLoanRequestsList">None</div></div>
+                </div>
 
-                    <!-- Member Records Functionality ADDED TO DASHBOARD -->
-                    <div class="card">
-                        <h3>👥 Member Management</h3>
-                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:10px;">
-                            <!-- Add Member -->
-                            <div style="background:#f1f5f9; padding:12px; border-radius:12px;">
-                                <h4 style="font-size:14px; color:#1a4d3e;">➕ Add Member</h4>
-                                <input type="text" id="newMemberName" placeholder="Full Name" style="margin:4px 0;">
-                                <input type="text" id="newMemberPhone" placeholder="Phone" style="margin:4px 0;">
-                                <button onclick="addNewMember()" style="width:100%;">Add</button>
-                            </div>
+                <!-- Members Section -->
+                <div class="tab-content" id="adminContentMembers">
+                    <h2>👥 Member Management</h2>
 
-                            <!-- Sync Members -->
-                            <div style="background:#f1f5f9; padding:12px; border-radius:12px;">
-                                <h4 style="font-size:14px; color:#1a4d3e;">📊 Sync Members</h4>
-                                <input type="text" id="membersCsvUrl" placeholder="Paste CSV link" style="margin:4px 0;">
-                                <button onclick="syncMembers()" class="sync" style="width:100%;">Sync Members</button>
-                            </div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+                        <!-- Add Member -->
+                        <div class="card">
+                            <h3>➕ Add New Member</h3>
+                            <input type="text" id="newMemberName" placeholder="Full Name">
+                            <input type="text" id="newMemberPhone" placeholder="Phone">
+                            <button onclick="addNewMember()">Add Member</button>
+                        </div>
 
-                            <!-- Sync MGR -->
-                            <div style="background:#f1f5f9; padding:12px; border-radius:12px;">
-                                <h4 style="font-size:14px; color:#1a4d3e;">🎡 Sync MGR</h4>
-                                <input type="text" id="mgrCsvUrl" placeholder="Paste CSV link" style="margin:4px 0;">
-                                <button onclick="syncMGR()" class="sync" style="width:100%;">Sync MGR</button>
-                            </div>
+                        <!-- Sync Members -->
+                        <div class="card csv-url-box">
+                            <h3>📊 Sync Members</h3>
+                            <input type="text" id="membersCsvUrl" placeholder="Paste Members CSV link">
+                            <button onclick="syncMembers()" class="sync">Sync Members</button>
+                        </div>
 
-                            <!-- Reset Passcodes -->
-                            <div style="background:#f1f5f9; padding:12px; border-radius:12px;">
-                                <h4 style="font-size:14px; color:#1a4d3e;">🔐 Reset Passcodes</h4>
-                                <button onclick="resetMemberPasscodes()" class="secondary" style="width:100%;">Reset All Passcodes</button>
-                            </div>
+                        <!-- Sync MGR -->
+                        <div class="card csv-url-box">
+                            <h3>🎡 Sync MGR</h3>
+                            <input type="text" id="mgrCsvUrl" placeholder="Paste MGR CSV link">
+                            <button onclick="syncMGR()" class="sync">Sync MGR</button>
+                        </div>
+
+                        <!-- Reset Passcodes -->
+                        <div class="card">
+                            <h3>🔐 Reset Passcodes</h3>
+                            <button onclick="resetMemberPasscodes()" class="secondary" style="width:100%;">Reset All Passcodes</button>
                         </div>
                     </div>
 
@@ -838,11 +846,6 @@
                         <div id="passcodesList"></div>
                         <div class="total">💰 Total Savings: <span id="totalSavings">0</span> KES</div>
                     </div>
-
-                    <div class="card"><h2>🎡 Weekly MGR</h2><div id="mgrWinnerAdmin" class="winner">Loading...</div><button onclick="recordMGR()">Record Payout</button><button onclick="nextWeek()">Next Week</button></div>
-                    <div class="card notification-box"><h2>📢 Send WhatsApp Notification</h2><select id="notifyMemberSelect"><option value="all">📢 All Members (Group)</option></select><textarea id="notificationMessage" rows="2" placeholder="Message..."></textarea><button onclick="sendWhatsAppNotification()" class="secondary">📱 Send</button></div>
-                    <div class="card"><h2>📋 Pending Sign Ups (100 KES)</h2><div id="pendingRequestsList">None</div></div>
-                    <div class="card"><h2>📋 Pending Loan Requests</h2><div id="pendingLoanRequestsList">None</div></div>
                 </div>
 
                 <!-- Savings -->
@@ -1132,6 +1135,7 @@
 
             if (section === 'savings') { updateSavingsPerMemberTable(); }
             if (section === 'loans') { updateInterestPerMemberTable(); }
+            if (section === 'members') { refreshMemberList(); }
         }
 
         // ========== MEMBER VIEW FUNCTIONS ==========
@@ -1359,20 +1363,7 @@
             if (document.getElementById("notifyMemberSelect")) { document.getElementById("notifyMemberSelect").innerHTML =
                     notifyOpts; }
 
-            // PASSCODES LIST
-            var passHtml = '';
-            for (var i = 0; i < MEMBERS.length; i++) {
-                passHtml += '<div class="member-row">';
-                passHtml += '<span><strong>' + MEMBERS[i].name + '</strong> 🔑 ' + MEMBERS[i].passcode + '</span>';
-                passHtml += '<div>';
-                passHtml += '<button onclick="changeMemberPasscode(' + MEMBERS[i].id +
-                    ')" class="secondary small">Change</button>';
-                passHtml += '<button onclick="showDeleteConfirm(' + MEMBERS[i].id + ',\'' + MEMBERS[i].name +
-                    '\')" class="delete-member">🗑️ Delete</button>';
-                passHtml += '</div></div>';
-            }
-            document.getElementById("passcodesList").innerHTML = passHtml;
-
+            refreshMemberList();
             document.getElementById("totalSavings").innerText = getTotalGroupSavings();
             document.getElementById("totalSavingsPool").innerHTML = getTotalGroupSavings().toFixed(2) + " KES";
             document.getElementById("nextDisbursementMonth").innerHTML = getNextSavingsDisbursementDateString();
@@ -1407,6 +1398,21 @@
             refreshLoanPool();
             updateSavingsPerMemberTable();
             updateInterestPerMemberTable();
+        }
+
+        function refreshMemberList() {
+            var passHtml = '';
+            for (var i = 0; i < MEMBERS.length; i++) {
+                passHtml += '<div class="member-row">';
+                passHtml += '<span><strong>' + MEMBERS[i].name + '</strong> 🔑 ' + MEMBERS[i].passcode + '</span>';
+                passHtml += '<div>';
+                passHtml += '<button onclick="changeMemberPasscode(' + MEMBERS[i].id +
+                    ')" class="secondary small">Change</button>';
+                passHtml += '<button onclick="showDeleteConfirm(' + MEMBERS[i].id + ',\'' + MEMBERS[i].name +
+                    '\')" class="delete-member">🗑️ Delete</button>';
+                passHtml += '</div></div>';
+            }
+            document.getElementById("passcodesList").innerHTML = passHtml;
         }
 
         // ========== MEMBER RECORDS FUNCTIONS ==========
