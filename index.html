@@ -76,44 +76,122 @@
             color: white;
         }
 
-        .collapse-header {
-            background: white;
-            padding: 16px 20px;
-            border-radius: 20px;
-            margin-bottom: 8px;
-            cursor: pointer;
+        /* Dashboard Layout */
+        .dashboard-container {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            gap: 20px;
+            min-height: 500px;
+            margin-top: 16px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            min-width: 200px;
+            background: white;
+            border-radius: 20px;
+            padding: 16px 10px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
+            height: fit-content;
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+        }
+
+        .sidebar .section-title {
+            font-size: 12px;
             font-weight: bold;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 10px 12px 6px 12px;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 14px;
+            color: #334155;
+            text-decoration: none;
+            margin-bottom: 2px;
+        }
+
+        .sidebar-item:hover {
+            background: #f1f5f9;
+        }
+
+        .sidebar-item.active {
+            background: #1a4d3e;
+            color: white;
+        }
+
+        .sidebar-item.active .arrow {
+            color: white;
+        }
+
+        .sidebar-item .icon {
             font-size: 18px;
-            color: #1a4d3e;
+            width: 28px;
+            text-align: center;
         }
 
-        .collapse-header:hover {
-            background: #f0f4f8;
-        }
-
-        .collapse-header .arrow {
+        .sidebar-item .arrow {
+            margin-left: auto;
+            font-size: 14px;
             transition: transform 0.3s ease;
-            font-size: 20px;
+            color: #94a3b8;
         }
 
-        .collapse-header .arrow.open {
+        .sidebar-item .arrow.open {
             transform: rotate(180deg);
         }
 
-        .collapse-content {
-            display: none;
-            padding-top: 8px;
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            min-height: 400px;
         }
 
-        .collapse-content.open {
+        .content-area .tab-content {
+            display: none;
+        }
+
+        .content-area .tab-content.active {
             display: block;
         }
 
+        .content-area h2 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            border-left: 4px solid #1a4d3e;
+            padding-left: 12px;
+            color: #1a4d3e;
+        }
+
+        .sidebar-logout {
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .sidebar-logout .sidebar-item {
+            color: #dc2626;
+        }
+
+        .sidebar-logout .sidebar-item:hover {
+            background: #fee2e2;
+        }
+
+        /* Existing styles */
         button {
             background: #1a4d3e;
             color: white;
@@ -153,7 +231,6 @@
         }
 
         h1 { color: #1a4d3e; font-size: 28px; text-align: center; }
-        h2 { font-size: 18px; margin-bottom: 12px; border-left: 4px solid #1a4d3e; padding-left: 10px; }
 
         input, select, textarea {
             width: 100%;
@@ -374,12 +451,15 @@
         .error-modal .error-box p { color: #4b5563; margin-bottom: 20px; line-height: 1.5; }
         .error-modal .error-box button { background: #1a4d3e; padding: 10px 20px; margin: 0; }
 
-        .member-csv-card {
+        .member-csv-card, .sync-loans-card {
             border: 2px solid #8b5cf6;
             background: #faf5ff;
         }
 
-        .member-csv-card h3 { color: #6d28d9; margin-bottom: 10px; }
+        .member-csv-card h3, .sync-loans-card h3 {
+            color: #6d28d9;
+            margin-bottom: 10px;
+        }
 
         .preset-links {
             background: #f1f5f9;
@@ -438,14 +518,48 @@
         }
         .savings-table th, .interest-table th { background: #f8fafc; font-weight: bold; }
 
-        .sync-loans-card {
-            border: 2px solid #8b5cf6;
-            background: #faf5ff;
+        /* Header */
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 16px 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        .sync-loans-card h3 {
-            color: #6d28d9;
-            margin-bottom: 10px;
+        .header h1 {
+            color: #1a4d3e;
+            font-size: 24px;
+        }
+
+        .header .user-info {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .header .user-info span {
+            color: #1a4d3e;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                min-width: unset;
+                max-height: none;
+            }
+
+            .content-area {
+                padding: 16px;
+            }
         }
     </style>
 </head>
@@ -484,7 +598,7 @@
         <div class="login-tabs"><button class="tab-btn active" onclick="showMemberLogin()">👤 Member Login</button><button class="tab-btn" onclick="showAdminLogin()">👑 Admin Login</button></div>
         <div id="memberLoginPanel">
             <h3>Member Access</h3>
-            <select id="memberSelect"></select>
+            <input type="text" id="memberNameInput" placeholder="Enter your full name">
             <input type="password" id="memberPasscode" placeholder="Password">
             <button onclick="memberLogin()">Login</button>
             <div class="signup-form">
@@ -508,150 +622,198 @@
     </div>
 </div>
 
-<!-- Member View -->
+<!-- ==================== MEMBER VIEW ==================== -->
 <div id="memberView" style="display:none">
-    <div class="card"><h1>💰 Genz Association</h1><p>Welcome, <span id="memberName"></span></p></div>
-
-    <!-- Dashboard - EXPANDED BY DEFAULT -->
-    <div class="collapse-header" onclick="toggleCollapse('memberDashboard')">
-        📊 Dashboard
-        <span class="arrow open" id="memberDashboardArrow">▼</span>
+    <div class="header">
+        <h1>💰 Genz Association</h1>
+        <div class="user-info">Welcome, <span id="memberName"></span></div>
     </div>
-    <div class="collapse-content open" id="memberDashboardContent">
-        <div class="stats-grid">
-            <div class="stat-card dashboard-card" style="background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);">
-                <h3 id="dashTotalSavings">0 KES</h3>
-                <p>Total Savings</p>
+
+    <div class="dashboard-container">
+        <div class="sidebar" id="memberSidebar">
+            <div class="section-title">Menu</div>
+            
+            <div class="sidebar-item active" onclick="showMemberContent('dashboard')" id="memberMenuDashboard">
+                <span class="icon">📊</span> Dashboard
+                <span class="arrow" id="memberArrowDashboard">▼</span>
             </div>
-            <div class="stat-card" style="background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%); color: white;">
-                <h3 id="dashTotalLoans" style="color: white;">0 KES</h3>
-                <p>Active Loans</p>
+
+            <div class="sidebar-item" onclick="showMemberContent('savings')" id="memberMenuSavings">
+                <span class="icon">💰</span> My Savings
+                <span class="arrow" id="memberArrowSavings">▼</span>
             </div>
-            <div class="stat-card" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white;">
-                <h3 id="dashInterest" style="color: white;">0 KES</h3>
-                <p>Interest Earned</p>
+
+            <div class="sidebar-item" onclick="showMemberContent('loans')" id="memberMenuLoans">
+                <span class="icon">📋</span> My Loans
+                <span class="arrow" id="memberArrowLoans">▼</span>
+            </div>
+
+            <div class="sidebar-logout">
+                <div class="sidebar-item" onclick="logout()" style="color:#dc2626;">
+                    <span class="icon">🚪</span> Logout
+                </div>
             </div>
         </div>
-        <div class="card"><h2>🎡 Weekly MGR (250 KES)</h2><div id="memberMgr" class="winner">Loading...</div></div>
-    </div>
 
-    <!-- My Savings - COLLAPSED BY DEFAULT -->
-    <div class="collapse-header" onclick="toggleCollapse('memberSavings')">
-        💰 My Savings
-        <span class="arrow" id="memberSavingsArrow">▼</span>
-    </div>
-    <div class="collapse-content" id="memberSavingsContent">
-        <div class="card motivation-card"><div class="motivation-text" id="motivationMessage"></div></div>
-        <div class="card"><h2>🏦 My Current Savings</h2><div id="memberSavings" style="font-size:32px;font-weight:bold;text-align:center">0 KES</div></div>
-        <div class="card member-csv-card">
-            <h3>📥 Sync My Savings</h3>
-            <div class="preset-links"><button onclick="setMemberSavingsUrl()" class="btn-small">📊 Fill Savings Link</button></div>
-            <input type="text" id="memberSavingsCsvUrl" placeholder="Paste savings CSV link">
-            <button onclick="syncMemberSavingsFromCSV()" class="sync">⬇️ Sync My Savings</button>
-            <div id="memberSyncStatus" class="sync-status">📡 Ready to sync</div>
+        <div class="content-area" id="memberContentArea">
+            <!-- Dashboard Content -->
+            <div class="tab-content active" id="memberContentDashboard">
+                <h2>📊 Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card dashboard-card" style="background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);">
+                        <h3 id="dashTotalSavings">0 KES</h3>
+                        <p>Total Savings</p>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%); color: white;">
+                        <h3 id="dashTotalLoans" style="color: white;">0 KES</h3>
+                        <p>Active Loans</p>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white;">
+                        <h3 id="dashInterest" style="color: white;">0 KES</h3>
+                        <p>Interest Earned</p>
+                    </div>
+                </div>
+                <div class="card"><h2>🎡 Weekly MGR (250 KES)</h2><div id="memberMgr" class="winner">Loading...</div></div>
+            </div>
+
+            <!-- My Savings Content -->
+            <div class="tab-content" id="memberContentSavings">
+                <h2>💰 My Savings</h2>
+                <div class="card motivation-card"><div class="motivation-text" id="motivationMessage"></div></div>
+                <div class="card"><h2>🏦 My Current Savings</h2><div id="memberSavings" style="font-size:32px;font-weight:bold;text-align:center">0 KES</div></div>
+                <div class="card member-csv-card">
+                    <h3>📥 Sync My Savings</h3>
+                    <div class="preset-links"><button onclick="setMemberSavingsUrl()" class="btn-small">📊 Fill Savings Link</button></div>
+                    <input type="text" id="memberSavingsCsvUrl" placeholder="Paste savings CSV link">
+                    <button onclick="syncMemberSavingsFromCSV()" class="sync">⬇️ Sync My Savings</button>
+                    <div id="memberSyncStatus" class="sync-status">📡 Ready to sync</div>
+                </div>
+                <div class="card"><h2>📜 Previous Savings History</h2><div style="overflow-x:auto"><table class="report-table"><thead><tr><th>Date</th><th>Amount</th><th>Status</th></tr></thead><tbody id="savingsHistoryBody"></tbody></table></div><button onclick="generateSavingsReport()" class="secondary">Copy Report</button></div>
+                <div class="card savings-box"><h3>💰 Next Savings Disbursement</h3><div class="interest-row"><span>📅 Next Date:</span><span id="savingsDisbursementDate"></span></div><div class="interest-row"><span>💵 Your Current Savings:</span><span id="currentSavingsDisplay">0 KES</span></div></div>
+                <div class="card payment-form"><h3>💳 Add Savings</h3><div class="till-display"><h4>6246156</h4></div><input type="number" id="paymentAmount" placeholder="Amount"><input type="date" id="paymentDate"><div class="flex-buttons"><button onclick="copyTillNumber()" class="secondary">📋 Copy Till</button><button onclick="openWhatsApp()" class="whatsapp">📱 Send Proof</button></div><button onclick="generatePaymentInstructions()" class="payment">Instructions</button></div>
+            </div>
+
+            <!-- My Loans Content -->
+            <div class="tab-content" id="memberContentLoans">
+                <h2>📋 My Loans</h2>
+                <div class="card sync-loans-card">
+                    <h3>📥 Sync My Loans</h3>
+                    <div class="preset-links"><button onclick="setMemberLoansUrl()" class="btn-small">📋 Fill Loans Link</button></div>
+                    <input type="text" id="memberLoansCsvUrl" placeholder="Paste loans CSV link">
+                    <button onclick="syncMemberLoansFromCSV()" class="sync">⬇️ Sync My Loans</button>
+                    <div id="memberLoansSyncStatus" class="sync-status">📡 Ready to sync</div>
+                </div>
+                <div class="card"><h2>📋 My Approved Loans</h2><div id="memberLoan" style="font-size:28px;font-weight:bold;text-align:center;color:#dc2626">0 KES</div><div id="memberLoansList"></div></div>
+                <div class="card interest-box"><h3>📈 Loan Interest Accrual</h3><div class="interest-row"><span>💰 Total Interest Accrued:</span><span id="totalInterestAccrued">0 KES</span></div><div class="interest-row"><span>👤 To be Sent (70%):</span><span id="memberInterestShare">0 KES</span></div><div class="interest-row"><span>🏦 To Reserve (30%):</span><span id="groupReserveShare">0 KES</span></div><div class="interest-row"><span>📅 Next Disbursement:</span><span id="nextDisbursement"></span></div></div>
+                <div class="card loan-request-box"><h3>📋 Request a Loan</h3><div class="eligibility-info">Max 700 KES | Need ≥50% in savings</div><input type="number" id="loanRequestAmount" placeholder="Amount (max 700)"><textarea id="loanRequestReason" rows="2" placeholder="Reason (optional)"></textarea><div class="flex-buttons"><button onclick="checkEligibility()" class="secondary">🔍 Check</button><button onclick="submitLoanRequest()" class="request">📤 Submit</button></div><div id="eligibilityResult" class="small-text"></div></div>
+                <div class="card" id="loanRequestsCard" style="display:none;"><h2>📋 My Loan Requests</h2><div id="memberLoanRequestsList"></div></div>
+            </div>
         </div>
-        <div class="card"><h2>📜 Previous Savings History</h2><div style="overflow-x:auto"><table class="report-table"><thead><tr><th>Date</th><th>Amount</th><th>Status</th></tr></thead><tbody id="savingsHistoryBody"></tbody></table></div><button onclick="generateSavingsReport()" class="secondary">Copy Report</button></div>
-        <div class="card savings-box"><h3>💰 Next Savings Disbursement</h3><div class="interest-row"><span>📅 Next Date:</span><span id="savingsDisbursementDate"></span></div><div class="interest-row"><span>💵 Your Current Savings:</span><span id="currentSavingsDisplay">0 KES</span></div></div>
-        <div class="card payment-form"><h3>💳 Add Savings</h3><div class="till-display"><h4>6246156</h4></div><input type="number" id="paymentAmount" placeholder="Amount"><input type="date" id="paymentDate"><div class="flex-buttons"><button onclick="copyTillNumber()" class="secondary">📋 Copy Till</button><button onclick="openWhatsApp()" class="whatsapp">📱 Send Proof</button></div><button onclick="generatePaymentInstructions()" class="payment">Instructions</button></div>
     </div>
-
-    <!-- My Loans - COLLAPSED BY DEFAULT WITH SYNC MY LOANS -->
-    <div class="collapse-header" onclick="toggleCollapse('memberLoans')">
-        📋 My Loans
-        <span class="arrow" id="memberLoansArrow">▼</span>
-    </div>
-    <div class="collapse-content" id="memberLoansContent">
-        <div class="card sync-loans-card">
-            <h3>📥 Sync My Loans</h3>
-            <div class="preset-links"><button onclick="setMemberLoansUrl()" class="btn-small">📋 Fill Loans Link</button></div>
-            <input type="text" id="memberLoansCsvUrl" placeholder="Paste loans CSV link">
-            <button onclick="syncMemberLoansFromCSV()" class="sync">⬇️ Sync My Loans</button>
-            <div id="memberLoansSyncStatus" class="sync-status">📡 Ready to sync</div>
-        </div>
-        <div class="card"><h2>📋 My Approved Loans</h2><div id="memberLoan" style="font-size:28px;font-weight:bold;text-align:center;color:#dc2626">0 KES</div><div id="memberLoansList"></div></div>
-        <div class="card interest-box"><h3>📈 Loan Interest Accrual</h3><div class="interest-row"><span>💰 Total Interest Accrued:</span><span id="totalInterestAccrued">0 KES</span></div><div class="interest-row"><span>👤 To be Sent (70%):</span><span id="memberInterestShare">0 KES</span></div><div class="interest-row"><span>🏦 To Reserve (30%):</span><span id="groupReserveShare">0 KES</span></div><div class="interest-row"><span>📅 Next Disbursement:</span><span id="nextDisbursement"></span></div></div>
-        <div class="card loan-request-box"><h3>📋 Request a Loan</h3><div class="eligibility-info">Max 700 KES | Need ≥50% in savings</div><input type="number" id="loanRequestAmount" placeholder="Amount (max 700)"><textarea id="loanRequestReason" rows="2" placeholder="Reason (optional)"></textarea><div class="flex-buttons"><button onclick="checkEligibility()" class="secondary">🔍 Check</button><button onclick="submitLoanRequest()" class="request">📤 Submit</button></div><div id="eligibilityResult" class="small-text"></div></div>
-        <div class="card" id="loanRequestsCard" style="display:none;"><h2>📋 My Loan Requests</h2><div id="memberLoanRequestsList"></div></div>
-    </div>
-
-    <button onclick="logout()" class="secondary" style="width:100%">Logout</button>
     <div class="footer">Designed by <span>Conquerer Tech Solutions</span></div>
 </div>
 
-<!-- Admin View (Collapse/Expand) -->
+<!-- ==================== ADMIN VIEW ==================== -->
 <div id="adminView" style="display:none">
-    <div class="admin-badge">👑 ADMIN MODE - Full Control</div>
-    <div class="card"><h1>💰 Genz Association</h1><p>Admin Panel</p></div>
-
-    <div class="collapse-header" onclick="toggleCollapse('adminDashboard')">
-        📊 Dashboard
-        <span class="arrow open" id="adminDashboardArrow">▼</span>
+    <div class="header">
+        <h1>💰 Genz Association</h1>
+        <div class="user-info"><span class="admin-badge" style="display:inline-block;margin:0;">👑 ADMIN MODE</span></div>
     </div>
-    <div class="collapse-content open" id="adminDashboardContent">
-        <div class="stats-grid">
-            <div class="stat-card" style="background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%); color: white;">
-                <h3 id="adminTotalSavings" style="color: white;">0 KES</h3>
-                <p>Total Savings</p>
+
+    <div class="dashboard-container">
+        <div class="sidebar" id="adminSidebar">
+            <div class="section-title">Menu</div>
+            
+            <div class="sidebar-item active" onclick="showAdminContent('dashboard')" id="adminMenuDashboard">
+                <span class="icon">📊</span> Dashboard
+                <span class="arrow" id="adminArrowDashboard">▼</span>
             </div>
-            <div class="stat-card" style="background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%); color: white;">
-                <h3 id="adminTotalMembers" style="color: white;">0</h3>
-                <p>Total Members</p>
+
+            <div class="sidebar-item" onclick="showAdminContent('memberrecords')" id="adminMenuMemberRecords">
+                <span class="icon">👥</span> Member Records
+                <span class="arrow" id="adminArrowMemberRecords">▼</span>
             </div>
-            <div class="stat-card" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white;">
-                <h3 id="adminActiveLoans" style="color: white;">0 KES</h3>
-                <p>Active Loans</p>
+
+            <div class="sidebar-item" onclick="showAdminContent('savings')" id="adminMenuSavings">
+                <span class="icon">💰</span> Savings
+                <span class="arrow" id="adminArrowSavings">▼</span>
+            </div>
+
+            <div class="sidebar-item" onclick="showAdminContent('loans')" id="adminMenuLoans">
+                <span class="icon">📋</span> Loans
+                <span class="arrow" id="adminArrowLoans">▼</span>
+            </div>
+
+            <div class="sidebar-logout">
+                <div class="sidebar-item" onclick="logout()" style="color:#dc2626;">
+                    <span class="icon">🚪</span> Logout
+                </div>
             </div>
         </div>
-        <div class="card"><h2>🎡 Weekly MGR</h2><div id="mgrWinnerAdmin" class="winner">Loading...</div><button onclick="recordMGR()">Record Payout</button><button onclick="nextWeek()">Next Week</button></div>
-        <div class="card notification-box"><h2>📢 Send WhatsApp Notification</h2><select id="notifyMemberSelect"><option value="all">📢 All Members (Group)</option></select><textarea id="notificationMessage" rows="2" placeholder="Message..."></textarea><button onclick="sendWhatsAppNotification()" class="whatsapp">📱 Send</button></div>
-        <div class="card"><h2>📋 Pending Sign Ups (100 KES)</h2><div id="pendingRequestsList">None</div></div>
-        <div class="card"><h2>📋 Pending Loan Requests</h2><div id="pendingLoanRequestsList">None</div></div>
-    </div>
 
-    <div class="collapse-header" onclick="toggleCollapse('adminMemberRecords')">
-        👥 Member Records
-        <span class="arrow" id="adminMemberRecordsArrow">▼</span>
-    </div>
-    <div class="collapse-content" id="adminMemberRecordsContent">
-        <div class="card"><h2>➕ Add New Member</h2><input type="text" id="newMemberName" placeholder="Full Name"><input type="text" id="newMemberPhone" placeholder="Phone"><button onclick="addNewMember()">Add Member</button></div>
-        <div class="card"><h2>🔐 Member Passcodes & Management</h2><div id="passcodesList"></div><button onclick="resetMemberPasscodes()" class="secondary">Reset All Passcodes</button></div>
-        <div class="card csv-url-box"><h4>📊 SYNC MEMBERS</h4><input type="text" id="membersCsvUrl" placeholder="Paste Members sheet CSV link"><button onclick="syncMembers()" class="sync">Sync Members</button></div>
-        <div class="card csv-url-box"><h4>🎡 SYNC MGR</h4><input type="text" id="mgrCsvUrl" placeholder="Paste MGR sheet CSV link"><button onclick="syncMGR()" class="sync">Sync MGR</button></div>
-        <div class="card"><h2>👥 Member Records</h2><div id="memberSummary"></div><div class="total">💰 Total Savings: <span id="totalSavings">0</span> KES</div></div>
-    </div>
+        <div class="content-area" id="adminContentArea">
+            <!-- Dashboard Content -->
+            <div class="tab-content active" id="adminContentDashboard">
+                <h2>📊 Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card" style="background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%); color: white;">
+                        <h3 id="adminTotalSavings" style="color: white;">0 KES</h3>
+                        <p>Total Savings</p>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%); color: white;">
+                        <h3 id="adminTotalMembers" style="color: white;">0</h3>
+                        <p>Total Members</p>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white;">
+                        <h3 id="adminActiveLoans" style="color: white;">0 KES</h3>
+                        <p>Active Loans</p>
+                    </div>
+                </div>
+                <div class="card"><h2>🎡 Weekly MGR</h2><div id="mgrWinnerAdmin" class="winner">Loading...</div><button onclick="recordMGR()">Record Payout</button><button onclick="nextWeek()">Next Week</button></div>
+                <div class="card notification-box"><h2>📢 Send WhatsApp Notification</h2><select id="notifyMemberSelect"><option value="all">📢 All Members (Group)</option></select><textarea id="notificationMessage" rows="2" placeholder="Message..."></textarea><button onclick="sendWhatsAppNotification()" class="whatsapp">📱 Send</button></div>
+                <div class="card"><h2>📋 Pending Sign Ups (100 KES)</h2><div id="pendingRequestsList">None</div></div>
+                <div class="card"><h2>📋 Pending Loan Requests</h2><div id="pendingLoanRequestsList">None</div></div>
+            </div>
 
-    <div class="collapse-header" onclick="toggleCollapse('adminSavings')">
-        💰 Savings
-        <span class="arrow" id="adminSavingsArrow">▼</span>
-    </div>
-    <div class="collapse-content" id="adminSavingsContent">
-        <div class="card"><h2>💰 Savings Disbursement (Jan,Mar,May,Jul,Sep,Nov)</h2><div class="interest-summary"><div class="member-row"><span>📊 Total Savings:</span><span id="totalSavingsPool">0</span></div><div class="member-row"><span>📅 Current Month:</span><span id="currentMonth"></span></div><div class="member-row"><span>🎯 Next Disbursement:</span><span id="nextDisbursementMonth"></span></div></div><button onclick="processSavingsDisbursement()" class="disburse">Process Savings Disbursement</button><p class="small-text">⚠️ Only in Jan/Mar/May/Jul/Sep/Nov</p></div>
-        <div class="card csv-url-box"><h4>📊 SYNC SAVINGS</h4><input type="text" id="savingsCsvUrl" placeholder="Paste Savings sheet CSV link"><button onclick="syncSavings()" class="sync">Sync Savings</button></div>
-        <div class="card"><h2>🏦 Add Savings (Manual)</h2><select id="savingsMemberSelect"><option value="">-- Member --</option></select><input type="date" id="savingsDate"><input type="number" id="savingsAmount" placeholder="Amount KES"><button onclick="addSavings()">Add Savings</button></div>
-        <div class="card"><h2>📊 Total Savings Per Member</h2>
-            <table class="savings-table"><thead><tr><th>Member Name</th><th>Total Savings (KES)</th></tr></thead><tbody id="savingsPerMemberTable"></tbody></table>
+            <!-- Member Records Content -->
+            <div class="tab-content" id="adminContentMemberRecords">
+                <h2>👥 Member Records</h2>
+                <div class="card"><h2>➕ Add New Member</h2><input type="text" id="newMemberName" placeholder="Full Name"><input type="text" id="newMemberPhone" placeholder="Phone"><button onclick="addNewMember()">Add Member</button></div>
+                <div class="card"><h2>🔐 Member Passcodes & Management</h2><div id="passcodesList"></div><button onclick="resetMemberPasscodes()" class="secondary">Reset All Passcodes</button></div>
+                <div class="card csv-url-box"><h4>📊 SYNC MEMBERS</h4><input type="text" id="membersCsvUrl" placeholder="Paste Members sheet CSV link"><button onclick="syncMembers()" class="sync">Sync Members</button></div>
+                <div class="card csv-url-box"><h4>🎡 SYNC MGR</h4><input type="text" id="mgrCsvUrl" placeholder="Paste MGR sheet CSV link"><button onclick="syncMGR()" class="sync">Sync MGR</button></div>
+                <div class="card"><h2>👥 Member Records</h2><div id="memberSummary"></div><div class="total">💰 Total Savings: <span id="totalSavings">0</span> KES</div></div>
+            </div>
+
+            <!-- Savings Content -->
+            <div class="tab-content" id="adminContentSavings">
+                <h2>💰 Savings</h2>
+                <div class="card"><h2>💰 Savings Disbursement (Jan,Mar,May,Jul,Sep,Nov)</h2><div class="interest-summary"><div class="member-row"><span>📊 Total Savings:</span><span id="totalSavingsPool">0</span></div><div class="member-row"><span>📅 Current Month:</span><span id="currentMonth"></span></div><div class="member-row"><span>🎯 Next Disbursement:</span><span id="nextDisbursementMonth"></span></div></div><button onclick="processSavingsDisbursement()" class="disburse">Process Savings Disbursement</button><p class="small-text">⚠️ Only in Jan/Mar/May/Jul/Sep/Nov</p></div>
+                <div class="card csv-url-box"><h4>📊 SYNC SAVINGS</h4><input type="text" id="savingsCsvUrl" placeholder="Paste Savings sheet CSV link"><button onclick="syncSavings()" class="sync">Sync Savings</button></div>
+                <div class="card"><h2>🏦 Add Savings (Manual)</h2><select id="savingsMemberSelect"><option value="">-- Member --</option></select><input type="date" id="savingsDate"><input type="number" id="savingsAmount" placeholder="Amount KES"><button onclick="addSavings()">Add Savings</button></div>
+                <div class="card"><h2>📊 Total Savings Per Member</h2>
+                    <table class="savings-table"><thead><tr><th>Member Name</th><th>Total Savings (KES)</th></tr></thead><tbody id="savingsPerMemberTable"></tbody></table>
+                </div>
+                <div id="syncStatusMsg" class="sync-status">📡 Ready</div>
+            </div>
+
+            <!-- Loans Content -->
+            <div class="tab-content" id="adminContentLoans">
+                <h2>📋 Loans</h2>
+                <div class="card loan-pool-highlight"><h2 style="color:white;">💰 Accessible Loan Pool</h2><div style="text-align:center"><div style="font-size:48px; font-weight:bold;" id="accessibleLoanAmount">0 KES</div><p>Available to borrow</p></div><div class="interest-row"><span>📊 Total Principal Lent:</span><span id="totalPrincipalLent">0</span></div><div class="interest-row"><span>📈 Total Interest:</span><span id="totalInterestPool">0</span></div><div class="interest-row"><span>🏦 30% Reserve:</span><span id="loanReservePool">0</span></div><div class="interest-row"><span>📌 Outstanding Loans:</span><span id="outstandingLoansPool">0</span></div><button onclick="refreshLoanPool()" class="secondary" style="background:rgba(255,255,255,0.2);">🔄 Refresh Pool</button></div>
+                <div class="card"><h2>💰 Loan Interest (70/30)</h2><div class="interest-summary"><div class="member-row"><span>📊 Total Interest Accrued:</span><span id="totalInterestCollected">0</span></div><div class="member-row"><span>👥 Due to Members (70%):</span><span id="totalDueToMembers">0</span></div><div class="member-row"><span>🏦 Group Reserve (30%):</span><span id="loanReserveAmount">0</span></div></div><button onclick="processInterestDisbursement()" class="disburse">Process Interest Disbursement</button><p class="small-text">⚠️ Only in June & December</p></div>
+                <div class="card"><h2>📊 Total Interest Per Member</h2>
+                    <table class="interest-table"><thead><tr><th>Member Name</th><th>Total Interest Accrued (KES)</th><th>To be Sent (70%)</th><th>To Reserve (30%)</th></tr></thead><tbody id="interestPerMemberTable"></tbody></table>
+                </div>
+                <div class="card csv-url-box"><h4>📋 SYNC LOANS</h4><input type="text" id="loansCsvUrl" placeholder="Paste Loans sheet CSV link"><button onclick="syncLoans()" class="sync">Sync Loans</button></div>
+                <div class="card"><h2>📋 Take Loan (10% Interest)</h2><select id="loanMemberSelect"><option value="">-- Member --</option></select><input type="date" id="loanDateTaken"><input type="number" id="loanPrincipal" placeholder="Principal"><input type="date" id="loanReturnDate"><button onclick="takeLoan()">Take Loan</button></div>
+                <div class="card"><h2>💰 Record Loan Repayment</h2><select id="repayMemberSelect"><option value="">-- Member --</option></select><input type="number" id="repayAmount" placeholder="Repayment"><button onclick="repayLoan()" class="secondary">Record Repayment</button><div id="loanDisplay"></div></div>
+            </div>
         </div>
-        <div id="syncStatusMsg" class="sync-status">📡 Ready</div>
     </div>
 
-    <div class="collapse-header" onclick="toggleCollapse('adminLoans')">
-        📋 Loans
-        <span class="arrow" id="adminLoansArrow">▼</span>
-    </div>
-    <div class="collapse-content" id="adminLoansContent">
-        <div class="card loan-pool-highlight"><h2 style="color:white;">💰 Accessible Loan Pool</h2><div style="text-align:center"><div style="font-size:48px; font-weight:bold;" id="accessibleLoanAmount">0 KES</div><p>Available to borrow</p></div><div class="interest-row"><span>📊 Total Principal Lent:</span><span id="totalPrincipalLent">0</span></div><div class="interest-row"><span>📈 Total Interest:</span><span id="totalInterestPool">0</span></div><div class="interest-row"><span>🏦 30% Reserve:</span><span id="loanReservePool">0</span></div><div class="interest-row"><span>📌 Outstanding Loans:</span><span id="outstandingLoansPool">0</span></div><button onclick="refreshLoanPool()" class="secondary" style="background:rgba(255,255,255,0.2);">🔄 Refresh Pool</button></div>
-        <div class="card"><h2>💰 Loan Interest (70/30)</h2><div class="interest-summary"><div class="member-row"><span>📊 Total Interest Accrued:</span><span id="totalInterestCollected">0</span></div><div class="member-row"><span>👥 Due to Members (70%):</span><span id="totalDueToMembers">0</span></div><div class="member-row"><span>🏦 Group Reserve (30%):</span><span id="loanReserveAmount">0</span></div></div><button onclick="processInterestDisbursement()" class="disburse">Process Interest Disbursement</button><p class="small-text">⚠️ Only in June & December</p></div>
-        <div class="card"><h2>📊 Total Interest Per Member</h2>
-            <table class="interest-table"><thead><tr><th>Member Name</th><th>Total Interest Accrued (KES)</th><th>To be Sent (70%)</th><th>To Reserve (30%)</th></tr></thead><tbody id="interestPerMemberTable"></tbody></table>
-        </div>
-        <div class="card csv-url-box"><h4>📋 SYNC LOANS</h4><input type="text" id="loansCsvUrl" placeholder="Paste Loans sheet CSV link"><button onclick="syncLoans()" class="sync">Sync Loans</button></div>
-        <div class="card"><h2>📋 Take Loan (10% Interest)</h2><select id="loanMemberSelect"><option value="">-- Member --</option></select><input type="date" id="loanDateTaken"><input type="number" id="loanPrincipal" placeholder="Principal"><input type="date" id="loanReturnDate"><button onclick="takeLoan()">Take Loan</button></div>
-        <div class="card"><h2>💰 Record Loan Repayment</h2><select id="repayMemberSelect"><option value="">-- Member --</option></select><input type="number" id="repayAmount" placeholder="Repayment"><button onclick="repayLoan()" class="secondary">Record Repayment</button><div id="loanDisplay"></div></div>
-    </div>
-
-    <button onclick="resetAllData()" class="danger">Reset All Data</button>
+    <button onclick="resetAllData()" class="danger" style="margin-top:20px;">Reset All Data</button>
     <button onclick="changeAdminPassword()" class="secondary">Change Password</button>
-    <button onclick="logout()" class="secondary">Logout</button>
     <div class="footer">Designed by <span>Conquerer Tech Solutions</span></div>
 </div>
 
@@ -707,18 +869,23 @@
         { date: "2026-04-25", memberId: 4, amount: 103, disbursed: true }
     ];
 
-    // ========== COLLAPSE/EXPAND FUNCTIONS ==========
-    function toggleCollapse(section) {
-        const content = document.getElementById(section + 'Content');
-        const arrow = document.getElementById(section + 'Arrow');
-        
-        if (content.classList.contains('open')) {
-            content.classList.remove('open');
-            arrow.classList.remove('open');
-        } else {
-            content.classList.add('open');
-            arrow.classList.add('open');
-        }
+    // ========== SIDEBAR NAVIGATION FUNCTIONS ==========
+    function showMemberContent(section) {
+        document.querySelectorAll('#memberContentArea .tab-content').forEach(el => el.classList.remove('active'));
+        const contentId = 'memberContent' + section.charAt(0).toUpperCase() + section.slice(1);
+        document.getElementById(contentId).classList.add('active');
+        document.querySelectorAll('#memberSidebar .sidebar-item').forEach(el => el.classList.remove('active'));
+        const menuId = 'memberMenu' + section.charAt(0).toUpperCase() + section.slice(1);
+        document.getElementById(menuId).classList.add('active');
+    }
+
+    function showAdminContent(section) {
+        document.querySelectorAll('#adminContentArea .tab-content').forEach(el => el.classList.remove('active'));
+        const contentId = 'adminContent' + section.charAt(0).toUpperCase() + section.slice(1);
+        document.getElementById(contentId).classList.add('active');
+        document.querySelectorAll('#adminSidebar .sidebar-item').forEach(el => el.classList.remove('active'));
+        const menuId = 'adminMenu' + section.charAt(0).toUpperCase() + section.slice(1);
+        document.getElementById(menuId).classList.add('active');
     }
 
     // ========== HELPER FUNCTIONS ==========
@@ -815,6 +982,7 @@
     }
 
     function refreshMemberView() {
+        if (currentMemberId === null) return;
         let saved = getMemberSavings(currentMemberId);
         document.getElementById("memberSavings").innerHTML = `${saved} KES`;
         document.getElementById("memberLoan").innerHTML = `${getMemberLoanBalance(currentMemberId)} KES`;
@@ -954,10 +1122,6 @@
         
         let winner = MEMBERS[mgrWeekIndex];
         if (document.getElementById("mgrWinnerAdmin")) document.getElementById("mgrWinnerAdmin").innerHTML = `🏆 ${winner?.name}<br><span class="small-text">${mgrLastPaidWeek === getCurrentWeekKey() ? "✅ Recorded" : "❌ Not recorded"}</span>`;
-        
-        let loginOpts = '<option value="">-- Select Name --</option>';
-        for (let m of MEMBERS) loginOpts += `<option value="${m.id}">${m.name}</option>`;
-        document.getElementById("memberSelect").innerHTML = loginOpts;
         
         displayPendingRequests();
         displayPendingLoanRequests();
@@ -1173,19 +1337,39 @@
     function showAdminLogin() { document.getElementById("memberLoginPanel").style.display = "none"; document.getElementById("adminLoginPanel").style.display = "block"; document.querySelectorAll(".tab-btn")[0].classList.remove("active"); document.querySelectorAll(".tab-btn")[1].classList.add("active"); }
     
     function memberLogin() {
-        let id = parseInt(document.getElementById("memberSelect").value);
-        let pin = document.getElementById("memberPasscode").value;
+        let nameInput = document.getElementById("memberNameInput").value.trim();
+        let pin = document.getElementById("memberPasscode").value.trim();
         
-        if (isNaN(id)) { showErrorModal("Please select a member name from the list."); return; }
+        if (!nameInput) {
+            showErrorModal("Please enter your name.");
+            return;
+        }
         
-        if (MEMBERS[id].passcode === pin) {
-            currentMemberId = id;
-            document.getElementById("memberName").innerText = MEMBERS[id].name;
+        let foundMember = null;
+        let foundIndex = -1;
+        
+        for (let i = 0; i < MEMBERS.length; i++) {
+            if (MEMBERS[i].name.toLowerCase() === nameInput.toLowerCase()) {
+                foundMember = MEMBERS[i];
+                foundIndex = i;
+                break;
+            }
+        }
+        
+        if (!foundMember) {
+            showErrorModal("Member not found. Please check your name or sign up.");
+            document.getElementById("memberPasscode").value = "";
+            return;
+        }
+        
+        if (foundMember.passcode === pin) {
+            currentMemberId = foundIndex;
+            document.getElementById("memberName").innerText = foundMember.name;
             document.getElementById("loginOverlay").style.display = "none";
             document.getElementById("memberView").style.display = "block";
             refreshMemberView();
         } else {
-            showErrorModal("Please enter a valid password and try again.");
+            showErrorModal("Wrong password. Please try again.");
             document.getElementById("memberPasscode").value = "";
         }
     }
@@ -1309,7 +1493,10 @@
     function closeDeleteModal() { document.getElementById("deleteConfirmModal").style.display = "none"; memberToDelete = null; }
     function confirmDeleteMember() { if (memberToDelete !== null) { MEMBERS = MEMBERS.filter(m => m.id !== memberToDelete); savings = savings.filter(s => s.memberId !== memberToDelete); loans = loans.filter(l => l.memberId !== memberToDelete); loanRequests = loanRequests.filter(r => r.memberId !== memberToDelete); for (let i = 0; i < MEMBERS.length; i++) MEMBERS[i].id = i; saveData(); refreshAdminView(); closeDeleteModal(); showErrorModal("Member deleted."); } }
     
-    function initialize() { loadData(); let opts = '<option value="">-- Select Name --</option>'; for (let m of MEMBERS) opts += `<option value="${m.id}">${m.name}</option>`; document.getElementById("memberSelect").innerHTML = opts; refreshLoanPool(); }
+    function initialize() {
+        loadData();
+        refreshLoanPool();
+    }
     initialize();
 </script>
 </body>
