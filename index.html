@@ -84,6 +84,7 @@
             margin-top: 10px;
         }
 
+        /* ========== DASHBOARD LAYOUT - SIDEBAR LEFT, CONTENT RIGHT ========== */
         .dashboard-container {
             display: flex;
             gap: 20px;
@@ -91,14 +92,16 @@
             margin-top: 16px;
         }
 
+        /* Sidebar - Fixed width on all devices */
         .sidebar {
-            width: 220px;
-            min-width: 180px;
+            width: 200px;
+            min-width: 170px;
             background: white;
             border-radius: 20px;
             padding: 16px 10px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             height: fit-content;
+            flex-shrink: 0;
         }
 
         .sidebar .section-title {
@@ -113,13 +116,13 @@
         .sidebar-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 14px;
+            gap: 10px;
+            padding: 10px 12px;
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 500;
-            font-size: 14px;
+            font-size: 13px;
             color: #334155;
             margin-bottom: 2px;
         }
@@ -134,8 +137,8 @@
         }
 
         .sidebar-item .icon {
-            font-size: 18px;
-            width: 28px;
+            font-size: 16px;
+            width: 24px;
             text-align: center;
         }
 
@@ -153,6 +156,7 @@
             background: #fee2e2;
         }
 
+        /* Content Area - Takes remaining space */
         .content-area {
             flex: 1;
             background: white;
@@ -160,6 +164,8 @@
             padding: 20px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             min-height: 400px;
+            min-width: 0;
+            overflow-x: auto;
         }
 
         .tab-content {
@@ -178,6 +184,149 @@
             color: #1a4d3e;
         }
 
+        /* ========== MOBILE RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: row;
+                /* Keep horizontal */
+                flex-wrap: nowrap;
+                gap: 12px;
+                overflow-x: auto;
+                align-items: flex-start;
+            }
+
+            .sidebar {
+                width: 160px;
+                min-width: 140px;
+                flex-shrink: 0;
+                position: sticky;
+                top: 0;
+                align-self: flex-start;
+                max-height: calc(100vh - 200px);
+                overflow-y: auto;
+            }
+
+            .sidebar-item {
+                font-size: 12px;
+                padding: 8px 10px;
+            }
+
+            .sidebar-item .icon {
+                font-size: 14px;
+                width: 20px;
+            }
+
+            .content-area {
+                padding: 16px;
+                flex: 1;
+                min-width: 200px;
+                overflow-x: auto;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .header h1 {
+                font-size: 18px;
+            }
+
+            .stat-card h3 {
+                font-size: 20px;
+            }
+
+            /* Make cards more compact */
+            .card {
+                padding: 12px;
+                margin-bottom: 12px;
+            }
+
+            .member-row {
+                font-size: 13px;
+                padding: 8px 0;
+            }
+
+            input,
+            select,
+            textarea {
+                font-size: 13px;
+                padding: 8px 12px;
+            }
+
+            button {
+                font-size: 12px;
+                padding: 8px 14px;
+                margin: 3px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                width: 130px;
+                min-width: 110px;
+                padding: 12px 6px;
+            }
+
+            .sidebar-item {
+                font-size: 10px;
+                padding: 6px 8px;
+                gap: 6px;
+                border-radius: 8px;
+            }
+
+            .sidebar-item .icon {
+                font-size: 12px;
+                width: 16px;
+            }
+
+            .content-area {
+                padding: 12px;
+                min-width: 160px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .stat-card {
+                padding: 10px;
+            }
+
+            .stat-card h3 {
+                font-size: 16px;
+            }
+
+            .stat-card p {
+                font-size: 11px;
+            }
+
+            .content-area h2 {
+                font-size: 15px;
+                margin-bottom: 12px;
+            }
+
+            .header h1 {
+                font-size: 16px;
+            }
+
+            .header .user-info {
+                font-size: 12px;
+            }
+
+            .flex-buttons button {
+                font-size: 11px;
+                padding: 6px 10px;
+            }
+
+            .member-row {
+                font-size: 11px;
+                padding: 6px 0;
+            }
+        }
+
+        /* ========== REST OF STYLES ========== */
         .card {
             background: #f8fafc;
             border-radius: 16px;
@@ -571,21 +720,6 @@
             padding: 12px;
             margin-top: 10px;
         }
-
-        @media (max-width: 768px) {
-            .dashboard-container {
-                flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-                min-width: unset;
-            }
-
-            .content-area {
-                padding: 16px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -811,7 +945,6 @@
                     <h2>👥 Member Management</h2>
 
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
-                        <!-- Add Member -->
                         <div class="card">
                             <h3>➕ Add New Member</h3>
                             <input type="text" id="newMemberName" placeholder="Full Name">
@@ -819,28 +952,24 @@
                             <button onclick="addNewMember()">Add Member</button>
                         </div>
 
-                        <!-- Sync Members -->
                         <div class="card csv-url-box">
                             <h3>📊 Sync Members</h3>
                             <input type="text" id="membersCsvUrl" placeholder="Paste Members CSV link">
                             <button onclick="syncMembers()" class="sync">Sync Members</button>
                         </div>
 
-                        <!-- Sync MGR -->
                         <div class="card csv-url-box">
                             <h3>🎡 Sync MGR</h3>
                             <input type="text" id="mgrCsvUrl" placeholder="Paste MGR CSV link">
                             <button onclick="syncMGR()" class="sync">Sync MGR</button>
                         </div>
 
-                        <!-- Reset Passcodes -->
                         <div class="card">
                             <h3>🔐 Reset Passcodes</h3>
                             <button onclick="resetMemberPasscodes()" class="secondary" style="width:100%;">Reset All Passcodes</button>
                         </div>
                     </div>
 
-                    <!-- Members List -->
                     <div class="card">
                         <h3>👥 Members List</h3>
                         <div id="passcodesList"></div>
