@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Genz Chama - Full Management</title>
+    <!-- jsPDF for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js">
+    </script>
     <style>
         * {
             margin: 0;
@@ -84,7 +89,6 @@
             margin-top: 10px;
         }
 
-        /* ========== HEADER WITH HAMBURGER ========== */
         .header {
             background: white;
             border-radius: 20px;
@@ -145,7 +149,6 @@
             font-size: 11px;
         }
 
-        /* ========== SIDEBAR - Desktop ========== */
         .sidebar {
             width: 200px;
             min-width: 170px;
@@ -209,7 +212,6 @@
             background: #fee2e2;
         }
 
-        /* ========== SIDEBAR - Mobile ========== */
         .sidebar-overlay {
             display: none;
             position: fixed;
@@ -266,7 +268,14 @@
             margin-top: 20px;
         }
 
-        /* ========== CONTENT AREA ========== */
+        .dashboard-container {
+            display: flex;
+            gap: 20px;
+            min-height: 500px;
+            margin-top: 16px;
+            position: relative;
+        }
+
         .content-area {
             flex: 1;
             background: white;
@@ -294,142 +303,6 @@
             color: #1a4d3e;
         }
 
-        .dashboard-container {
-            display: flex;
-            gap: 20px;
-            min-height: 500px;
-            margin-top: 16px;
-            position: relative;
-        }
-
-        /* ========== MOBILE RESPONSIVE ========== */
-        @media (max-width: 768px) {
-            .hamburger-btn {
-                display: block !important;
-            }
-
-            .sidebar {
-                display: none !important;
-            }
-
-            .dashboard-container {
-                flex-direction: column;
-                gap: 12px;
-                margin-top: 12px;
-            }
-
-            .content-area {
-                padding: 16px;
-                min-height: 300px;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
-            }
-
-            .header h1 {
-                font-size: 17px;
-            }
-
-            .stat-card h3 {
-                font-size: 20px;
-            }
-
-            .card {
-                padding: 12px;
-                margin-bottom: 12px;
-            }
-
-            .member-row {
-                font-size: 13px;
-                padding: 8px 0;
-            }
-
-            input,
-            select,
-            textarea {
-                font-size: 13px;
-                padding: 8px 12px;
-            }
-
-            button {
-                font-size: 12px;
-                padding: 8px 14px;
-                margin: 3px;
-            }
-
-            .content-area h2 {
-                font-size: 16px;
-                margin-bottom: 12px;
-            }
-
-            .flex-buttons {
-                gap: 6px;
-            }
-
-            .sidebar-mobile {
-                width: 220px;
-                padding: 16px 12px;
-            }
-
-            .sidebar-mobile .sidebar-item {
-                font-size: 13px;
-                padding: 12px 10px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 14px;
-            }
-
-            .hamburger-btn {
-                font-size: 24px;
-            }
-
-            .header .user-info {
-                font-size: 11px;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 8px;
-            }
-
-            .stat-card {
-                padding: 10px;
-            }
-
-            .stat-card h3 {
-                font-size: 16px;
-            }
-
-            .stat-card p {
-                font-size: 11px;
-            }
-
-            .content-area {
-                padding: 12px;
-            }
-
-            .content-area h2 {
-                font-size: 14px;
-                padding-left: 8px;
-            }
-
-            .sidebar-mobile {
-                width: 200px;
-                padding: 12px 10px;
-            }
-
-            .sidebar-mobile .sidebar-item {
-                font-size: 12px;
-                padding: 10px 8px;
-            }
-        }
-
-        /* ========== REST OF STYLES ========== */
         .card {
             background: #f8fafc;
             border-radius: 16px;
@@ -473,6 +346,9 @@
             background: #dc2626;
             font-size: 11px;
             padding: 4px 10px;
+        }
+        button.download {
+            background: #8b5cf6;
         }
 
         input,
@@ -798,6 +674,150 @@
             padding: 12px;
             margin-top: 10px;
         }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .report-table th,
+        .report-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .report-table th {
+            background: #f8fafc;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger-btn {
+                display: block !important;
+            }
+
+            .sidebar {
+                display: none !important;
+            }
+
+            .dashboard-container {
+                flex-direction: column;
+                gap: 12px;
+                margin-top: 12px;
+            }
+
+            .content-area {
+                padding: 16px;
+                min-height: 300px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .header h1 {
+                font-size: 17px;
+            }
+
+            .stat-card h3 {
+                font-size: 20px;
+            }
+
+            .card {
+                padding: 12px;
+                margin-bottom: 12px;
+            }
+
+            .member-row {
+                font-size: 13px;
+                padding: 8px 0;
+            }
+
+            input,
+            select,
+            textarea {
+                font-size: 13px;
+                padding: 8px 12px;
+            }
+
+            button {
+                font-size: 12px;
+                padding: 8px 14px;
+                margin: 3px;
+            }
+
+            .content-area h2 {
+                font-size: 16px;
+                margin-bottom: 12px;
+            }
+
+            .flex-buttons {
+                gap: 6px;
+            }
+
+            .sidebar-mobile {
+                width: 220px;
+                padding: 16px 12px;
+            }
+
+            .sidebar-mobile .sidebar-item {
+                font-size: 13px;
+                padding: 12px 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 14px;
+            }
+
+            .hamburger-btn {
+                font-size: 24px;
+            }
+
+            .header .user-info {
+                font-size: 11px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .stat-card {
+                padding: 10px;
+            }
+
+            .stat-card h3 {
+                font-size: 16px;
+            }
+
+            .stat-card p {
+                font-size: 11px;
+            }
+
+            .content-area {
+                padding: 12px;
+            }
+
+            .content-area h2 {
+                font-size: 14px;
+                padding-left: 8px;
+            }
+
+            .sidebar-mobile {
+                width: 200px;
+                padding: 12px 10px;
+            }
+
+            .sidebar-mobile .sidebar-item {
+                font-size: 12px;
+                padding: 10px 8px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -963,7 +983,23 @@
                         <button onclick="syncMemberSavingsFromCSV()" class="sync">⬇️ Sync My Savings</button>
                         <div id="memberSyncStatus" class="sync-status">📡 Ready to sync</div>
                     </div>
-                    <div class="card"><h2>📜 Previous Savings History</h2><div style="overflow-x:auto"><table class="report-table" style="width:100%;border-collapse:collapse;"><thead><tr><th style="padding:8px;text-align:left;border-bottom:1px solid #e2e8f0;">Date</th><th style="padding:8px;text-align:left;border-bottom:1px solid #e2e8f0;">Amount</th><th style="padding:8px;text-align:left;border-bottom:1px solid #e2e8f0;">Status</th></tr></thead><tbody id="savingsHistoryBody"></tbody></table></div><button onclick="generateSavingsReport()" class="secondary">Copy Report</button></div>
+                    <div class="card">
+                        <h2>📜 Previous Savings History</h2>
+                        <div style="overflow-x:auto">
+                            <table class="report-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="savingsHistoryBody"></tbody>
+                            </table>
+                        </div>
+                        <!-- Replaced Copy Report with Download PDF -->
+                        <button onclick="downloadSavingsReport()" class="download">📄 Download Savings Report (PDF)</button>
+                    </div>
                     <div class="card savings-box"><h3>💰 Next Savings Disbursement</h3><div class="interest-row"><span>📅 Next Date:</span><span id="savingsDisbursementDate"></span></div><div class="interest-row"><span>💵 Your Current Savings:</span><span id="currentSavingsDisplay">0 KES</span></div></div>
                     <div class="card payment-form"><h3>💳 Add Savings</h3><div class="till-display"><h4>6246156</h4></div><input type="number" id="paymentAmount" placeholder="Amount"><input type="date" id="paymentDate"><div class="flex-buttons"><button onclick="copyTillNumber()" class="secondary">📋 Copy Till</button><button onclick="openWhatsApp()" class="secondary">📱 Send Proof</button></div><button onclick="generatePaymentInstructions()" class="secondary">Instructions</button></div>
                 </div>
@@ -1104,6 +1140,12 @@
                     <div class="card csv-url-box"><h4>📊 SYNC SAVINGS</h4><input type="text" id="savingsCsvUrl" placeholder="Paste Savings sheet CSV link"><button onclick="syncSavings()" class="sync">Sync Savings</button></div>
                     <div class="card"><h2>🏦 Add Savings (Manual)</h2><select id="savingsMemberSelect"><option value="">-- Member --</option></select><input type="date" id="savingsDate"><input type="number" id="savingsAmount" placeholder="Amount KES"><button onclick="addSavings()">Add Savings</button></div>
                     <div class="card"><h2>📊 Total Savings Per Member</h2><table class="savings-table"><thead><tr><th>Member Name</th><th>Total Savings (KES)</th></tr></thead><tbody id="savingsPerMemberTable"></tbody></table></div>
+                    <!-- Admin Download All Reports -->
+                    <div class="card" style="background: #e0e7ff; border: 2px solid #8b5cf6;">
+                        <h3>📊 Download All Members Report</h3>
+                        <button onclick="downloadAllMembersReport()" class="download">📄 Download All Members Savings Report (PDF)</button>
+                        <p class="small-text">Downloads a complete report for all members with their total savings</p>
+                    </div>
                     <div id="syncStatusMsg" class="sync-status">📡 Ready</div>
                 </div>
 
@@ -1125,6 +1167,280 @@
     </div>
 
     <script>
+        // ========== PDF REPORT FUNCTIONS ==========
+
+        // Member: Download individual savings report
+        function downloadSavingsReport() {
+            if (currentMemberId === null) {
+                showErrorModal("Please login first.");
+                return;
+            }
+
+            var member = MEMBERS[currentMemberId];
+            var memberSavings = [];
+            var runningTotal = 0;
+
+            // Get all savings for this member (including disbursed ones)
+            for (var i = 0; i < savings.length; i++) {
+                if (savings[i].memberId === currentMemberId) {
+                    memberSavings.push(savings[i]);
+                }
+            }
+
+            // Check if member has any savings
+            if (memberSavings.length === 0) {
+                showErrorModal("You have no savings records to download.");
+                return;
+            }
+
+            // Sort by date (oldest first)
+            memberSavings.sort(function(a, b) {
+                return new Date(a.date) - new Date(b.date);
+            });
+
+            // Calculate totals and prepare data
+            var totalSavings = 0;
+            var totalDeposits = memberSavings.length;
+            var lastDisbursement = "None";
+
+            // Find last disbursement
+            for (var i = memberSavings.length - 1; i >= 0; i--) {
+                if (memberSavings[i].disbursed) {
+                    var d = new Date(memberSavings[i].date);
+                    lastDisbursement = d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+                    break;
+                }
+            }
+
+            // Calculate total savings (only non-disbursed or all? Let's show total saved)
+            for (var i = 0; i < memberSavings.length; i++) {
+                totalSavings += memberSavings[i].amount;
+            }
+
+            // Create PDF
+            var { jsPDF } = window.jspdf;
+            var doc = new jsPDF('p', 'mm', 'a4');
+            var pageWidth = doc.internal.pageSize.getWidth();
+
+            // ===== HEADER =====
+            doc.setFillColor(26, 77, 62);
+            doc.rect(0, 0, pageWidth, 35, 'F');
+
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(22);
+            doc.setFont('helvetica', 'bold');
+            doc.text('GENZ CHAMA', pageWidth / 2, 18, { align: 'center' });
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Savings Report', pageWidth / 2, 28, { align: 'center' });
+
+            // ===== MEMBER INFO =====
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Member Name:', 20, 45);
+            doc.setFont('helvetica', 'normal');
+            doc.text(member.name, 65, 45);
+
+            doc.setFont('helvetica', 'bold');
+            doc.text('Report Date:', 20, 52);
+            doc.setFont('helvetica', 'normal');
+            var now = new Date();
+            var dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
+            doc.text(dateStr, 65, 52);
+
+            doc.setFont('helvetica', 'bold');
+            doc.text('Total Savings:', 20, 59);
+            doc.setFont('helvetica', 'normal');
+            doc.text(totalSavings.toFixed(2) + ' KES', 65, 59);
+
+            doc.setFont('helvetica', 'bold');
+            doc.text('Total Deposits:', 20, 66);
+            doc.setFont('helvetica', 'normal');
+            doc.text(totalDeposits.toString(), 65, 66);
+
+            doc.setFont('helvetica', 'bold');
+            doc.text('Last Disbursement:', 20, 73);
+            doc.setFont('helvetica', 'normal');
+            doc.text(lastDisbursement, 65, 73);
+
+            // ===== TABLE DATA =====
+            var tableData = [];
+            var runningTotal = 0;
+
+            for (var i = 0; i < memberSavings.length; i++) {
+                runningTotal += memberSavings[i].amount;
+                var status = memberSavings[i].disbursed ? 'Disbursed' : 'Pending';
+                var date = new Date(memberSavings[i].date);
+                var dateStr = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
+
+                tableData.push([
+                    dateStr,
+                    memberSavings[i].amount.toFixed(2) + ' KES',
+                    status,
+                    runningTotal.toFixed(2) + ' KES'
+                ]);
+            }
+
+            // ===== TABLE =====
+            doc.autoTable({
+                startY: 80,
+                head: [
+                    ['Date', 'Amount', 'Status', 'Running Total']
+                ],
+                body: tableData,
+                theme: 'striped',
+                headStyles: {
+                    fillColor: [26, 77, 62],
+                    textColor: [255, 255, 255],
+                    fontStyle: 'bold',
+                    halign: 'center'
+                },
+                columnStyles: {
+                    0: { cellWidth: 35, halign: 'center' },
+                    1: { cellWidth: 40, halign: 'right' },
+                    2: { cellWidth: 30, halign: 'center' },
+                    3: { cellWidth: 40, halign: 'right' }
+                },
+                styles: {
+                    fontSize: 9,
+                    cellPadding: 3
+                },
+                margin: { left: 20, right: 20 },
+                didDrawPage: function(data) {
+                    // Footer
+                    var pageCount = doc.internal.getNumberOfPages();
+                    doc.setFontSize(8);
+                    doc.setTextColor(128, 128, 128);
+                    doc.text('Powered by Conquerer Tech Solutions', pageWidth / 2, doc.internal.pageSize.getHeight() - 5, {
+                        align: 'center'
+                    });
+                    doc.text('Page ' + data.pageNumber + ' of ' + pageCount, pageWidth - 20, doc.internal.pageSize
+                        .getHeight() - 5, { align: 'right' });
+                }
+            });
+
+            // ===== SUMMARY =====
+            var finalY = doc.lastAutoTable.finalY + 10;
+
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Summary', 20, finalY);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10);
+            doc.text('• Total Savings: ' + totalSavings.toFixed(2) + ' KES', 20, finalY + 7);
+            doc.text('• Total Deposits: ' + totalDeposits, 20, finalY + 14);
+            doc.text('• Last Disbursement: ' + lastDisbursement, 20, finalY + 21);
+
+            // ===== SAVE PDF =====
+            var fileName = 'GenzChama_Savings.pdf';
+            doc.save(fileName);
+
+            showErrorModal('✅ Report downloaded successfully as ' + fileName);
+        }
+
+        // Admin: Download all members savings report
+        function downloadAllMembersReport() {
+            if (MEMBERS.length === 0) {
+                showErrorModal("No members found.");
+                return;
+            }
+
+            var { jsPDF } = window.jspdf;
+            var doc = new jsPDF('p', 'mm', 'a4');
+            var pageWidth = doc.internal.pageSize.getWidth();
+
+            // ===== HEADER =====
+            doc.setFillColor(26, 77, 62);
+            doc.rect(0, 0, pageWidth, 35, 'F');
+
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(22);
+            doc.setFont('helvetica', 'bold');
+            doc.text('GENZ CHAMA', pageWidth / 2, 18, { align: 'center' });
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'normal');
+            doc.text('All Members Savings Report', pageWidth / 2, 28, { align: 'center' });
+
+            // ===== DATE =====
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(11);
+            var now = new Date();
+            var dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
+            doc.text('Generated: ' + dateStr, pageWidth - 20, 45, { align: 'right' });
+
+            // ===== TABLE DATA =====
+            var tableData = [];
+            var grandTotal = 0;
+
+            for (var i = 0; i < MEMBERS.length; i++) {
+                var member = MEMBERS[i];
+                var savingsAmt = getMemberSavings(member.id);
+                var loanBal = getMemberLoanBalance(member.id);
+                var interest = getMemberTotalInterestAccrued(member.id);
+                grandTotal += savingsAmt;
+
+                tableData.push([
+                    member.name,
+                    savingsAmt.toFixed(2) + ' KES',
+                    loanBal.toFixed(2) + ' KES',
+                    interest.toFixed(2) + ' KES'
+                ]);
+            }
+
+            // ===== TABLE =====
+            doc.autoTable({
+                startY: 55,
+                head: [
+                    ['Member Name', 'Total Savings', 'Active Loans', 'Interest Accrued']
+                ],
+                body: tableData,
+                theme: 'striped',
+                headStyles: {
+                    fillColor: [26, 77, 62],
+                    textColor: [255, 255, 255],
+                    fontStyle: 'bold',
+                    halign: 'center'
+                },
+                columnStyles: {
+                    0: { cellWidth: 55 },
+                    1: { cellWidth: 35, halign: 'right' },
+                    2: { cellWidth: 35, halign: 'right' },
+                    3: { cellWidth: 35, halign: 'right' }
+                },
+                styles: {
+                    fontSize: 9,
+                    cellPadding: 3
+                },
+                margin: { left: 20, right: 20 },
+                didDrawPage: function(data) {
+                    var pageCount = doc.internal.getNumberOfPages();
+                    doc.setFontSize(8);
+                    doc.setTextColor(128, 128, 128);
+                    doc.text('Powered by Conquerer Tech Solutions', pageWidth / 2, doc.internal.pageSize.getHeight() - 5, {
+                        align: 'center'
+                    });
+                    doc.text('Page ' + data.pageNumber + ' of ' + pageCount, pageWidth - 20, doc.internal.pageSize
+                        .getHeight() - 5, { align: 'right' });
+                }
+            });
+
+            // ===== GRAND TOTAL =====
+            var finalY = doc.lastAutoTable.finalY + 10;
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'bold');
+            doc.text('GRAND TOTAL SAVINGS: ' + grandTotal.toFixed(2) + ' KES', 20, finalY);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Total Members: ' + MEMBERS.length, 20, finalY + 7);
+
+            // ===== SAVE PDF =====
+            var fileName = 'GenzChama_AllMembers_Report.pdf';
+            doc.save(fileName);
+
+            showErrorModal('✅ All members report downloaded successfully as ' + fileName);
+        }
+
         // ========== SIDEBAR TOGGLE FUNCTIONS ==========
         function toggleSidebar(type) {
             if (type === 'member') {
@@ -1173,12 +1489,15 @@
             { id: 6, name: "Ongoma", phone: "0712345678", passcode: "0000" }
         ];
 
+        // Add disbursed flag to savings for testing
         let savings = [
-            { date: "2025-08-16", memberId: 0, amount: 3170 },
-            { date: "2026-04-18", memberId: 1, amount: 100 },
-            { date: "2026-04-20", memberId: 0, amount: 850 },
-            { date: "2026-04-25", memberId: 1, amount: 100 },
-            { date: "2026-04-25", memberId: 4, amount: 103 }
+            { date: "2025-08-16", memberId: 0, amount: 3170, disbursed: true },
+            { date: "2026-04-18", memberId: 1, amount: 100, disbursed: true },
+            { date: "2026-04-20", memberId: 0, amount: 850, disbursed: true },
+            { date: "2026-04-25", memberId: 1, amount: 100, disbursed: false },
+            { date: "2026-04-25", memberId: 4, amount: 103, disbursed: false },
+            { date: "2026-05-02", memberId: 1, amount: 200, disbursed: false },
+            { date: "2026-05-02", memberId: 6, amount: 500, disbursed: false }
         ];
 
         let loans = [
@@ -1439,11 +1758,23 @@
             document.getElementById("motivationMessage").innerHTML = getRandomMotivationalMessage();
 
             var historyHtml = '';
-            for (var i = 0; i < previousSavings.length; i++) {
-                if (previousSavings[i].memberId === currentMemberId && previousSavings[i].disbursed) {
-                    historyHtml += '<tr><td style="padding:8px;">' + previousSavings[i].date + '</td><td style="padding:8px;">' +
-                        previousSavings[i].amount + ' KES</td><td style="color:#15803d;">✅ Disbursed</td></tr>';
+            var totalSavings = 0;
+            var sortedSavings = [];
+            for (var i = 0; i < savings.length; i++) {
+                if (savings[i].memberId === currentMemberId) {
+                    sortedSavings.push(savings[i]);
                 }
+            }
+            sortedSavings.sort(function(a, b) { return new Date(a.date) - new Date(b.date); });
+
+            for (var i = 0; i < sortedSavings.length; i++) {
+                totalSavings += sortedSavings[i].amount;
+                var status = sortedSavings[i].disbursed ? '✅ Disbursed' : '⏳ Pending';
+                var date = new Date(sortedSavings[i].date);
+                var dateStr = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
+                historyHtml += '<tr><td style="padding:8px;">' + dateStr + '</td><td style="padding:8px;">' + sortedSavings[i]
+                    .amount + ' KES</td><td style="color:' + (sortedSavings[i].disbursed ? '#15803d' : '#f59e0b') + ';">' +
+                    status + '</td></tr>';
             }
             document.getElementById("savingsHistoryBody").innerHTML = historyHtml || '<tr><td colspan="3">No previous savings</td></tr>';
 
@@ -2286,16 +2617,8 @@
         }
 
         function generateSavingsReport() {
-            var member = MEMBERS[currentMemberId];
-            var total = 0;
-            for (var i = 0; i < previousSavings.length; i++) {
-                if (previousSavings[i].memberId === currentMemberId && previousSavings[i].disbursed) {
-                    total += previousSavings[i].amount;
-                }
-            }
-            var text = "GENZ CHAMA REPORT\nName: " + member.name + "\nDisbursed: " + total + " KES";
-            navigator.clipboard.writeText(text);
-            showErrorModal("Report copied!");
+            // This is now replaced by downloadSavingsReport()
+            downloadSavingsReport();
         }
 
         function copyTillNumber() {
@@ -2400,7 +2723,6 @@
                 var memberHamburger = document.getElementById('memberHamburgerBtn');
                 var adminHamburger = document.getElementById('adminHamburgerBtn');
 
-                // Member sidebar
                 if (mobileSidebar && mobileSidebar.classList.contains('open')) {
                     if (!mobileSidebar.contains(event.target) && event.target !== memberHamburger && !memberHamburger
                         .contains(event.target)) {
@@ -2408,7 +2730,6 @@
                     }
                 }
 
-                // Admin sidebar
                 if (adminMobileSidebar && adminMobileSidebar.classList.contains('open')) {
                     if (!adminMobileSidebar.contains(event.target) && event.target !== adminHamburger && !adminHamburger
                         .contains(event.target)) {
