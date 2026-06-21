@@ -1800,7 +1800,7 @@
             doc.text('• Total Deposits: ' + totalDeposits, 20, finalY + 14);
             doc.text('• Last Disbursement: ' + lastDisbursement, 20, finalY + 21);
 
-            var fileName = 'GenzChama_Savings_Report.pdf';
+            var fileName = 'Genz Association_Savings_Report.pdf';
             doc.save(fileName);
             showErrorModal('✅ Report downloaded successfully as ' + fileName);
         }
@@ -1820,7 +1820,7 @@
             doc.setTextColor(255, 255, 255);
             doc.setFontSize(22);
             doc.setFont('helvetica', 'bold');
-            doc.text('GENZ CHAMA', pageWidth / 2, 18, { align: 'center' });
+            doc.text('GENZ ASSOCIATION', pageWidth / 2, 18, { align: 'center' });
             doc.setFontSize(14);
             doc.setFont('helvetica', 'normal');
             doc.text('All Members Savings Report', pageWidth / 2, 28, { align: 'center' });
@@ -1891,7 +1891,7 @@
             doc.setFont('helvetica', 'normal');
             doc.text('Total Members: ' + MEMBERS.length, 20, finalY + 7);
 
-            var fileName = 'GenzChama_AllMembers_Report.pdf';
+            var fileName = 'Gen Association_AllMembers_Report.pdf';
             doc.save(fileName);
             showErrorModal('✅ All members report downloaded successfully as ' + fileName);
         }
