@@ -112,7 +112,6 @@
             padding: 4px 8px;
             color: #1a4d3e;
             display: none;
-            /* Hidden on desktop */
             line-height: 1;
         }
 
@@ -146,16 +145,7 @@
             font-size: 11px;
         }
 
-        /* ========== DASHBOARD LAYOUT ========== */
-        .dashboard-container {
-            display: flex;
-            gap: 20px;
-            min-height: 500px;
-            margin-top: 16px;
-            position: relative;
-        }
-
-        /* ========== SIDEBAR - Desktop (always visible) ========== */
+        /* ========== SIDEBAR - Desktop ========== */
         .sidebar {
             width: 200px;
             min-width: 170px;
@@ -219,7 +209,7 @@
             background: #fee2e2;
         }
 
-        /* ========== SIDEBAR - Mobile (slides in from left) ========== */
+        /* ========== SIDEBAR - Mobile ========== */
         .sidebar-overlay {
             display: none;
             position: fixed;
@@ -234,6 +224,7 @@
         }
 
         .sidebar-overlay.show {
+            display: block;
             opacity: 1;
         }
 
@@ -303,20 +294,22 @@
             color: #1a4d3e;
         }
 
+        .dashboard-container {
+            display: flex;
+            gap: 20px;
+            min-height: 500px;
+            margin-top: 16px;
+            position: relative;
+        }
+
         /* ========== MOBILE RESPONSIVE ========== */
         @media (max-width: 768px) {
             .hamburger-btn {
-                display: block;
-                /* Show hamburger on mobile */;
+                display: block !important;
             }
 
             .sidebar {
-                display: none;
-                /* Hide desktop sidebar on mobile */;
-            }
-
-            .sidebar-overlay.show {
-                display: block;
+                display: none !important;
             }
 
             .dashboard-container {
@@ -374,6 +367,16 @@
             .flex-buttons {
                 gap: 6px;
             }
+
+            .sidebar-mobile {
+                width: 220px;
+                padding: 16px 12px;
+            }
+
+            .sidebar-mobile .sidebar-item {
+                font-size: 13px;
+                padding: 12px 10px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -416,13 +419,13 @@
             }
 
             .sidebar-mobile {
-                width: 220px;
-                padding: 16px 12px;
+                width: 200px;
+                padding: 12px 10px;
             }
 
             .sidebar-mobile .sidebar-item {
-                font-size: 13px;
-                padding: 12px 10px;
+                font-size: 12px;
+                padding: 10px 8px;
             }
         }
 
@@ -880,29 +883,26 @@
 
     <!-- MEMBER VIEW -->
     <div id="memberView" style="display:none">
-        <!-- Header with Hamburger -->
         <div class="header">
             <div class="header-left">
-                <button class="hamburger-btn" onclick="toggleSidebar()">☰</button>
+                <button class="hamburger-btn" id="memberHamburgerBtn" onclick="toggleSidebar('member')">☰</button>
                 <h1>💰 Genz Association</h1>
             </div>
             <div class="user-info">Welcome, <span id="memberName"></span></div>
         </div>
 
-        <!-- Mobile Sidebar Overlay -->
-        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
-
         <!-- Mobile Sidebar -->
-        <div class="sidebar-mobile" id="sidebarMobile">
-            <button class="close-btn" onclick="toggleSidebar()">✕</button>
+        <div class="sidebar-overlay" id="memberSidebarOverlay" onclick="closeSidebar('member')"></div>
+        <div class="sidebar-mobile" id="memberSidebarMobile">
+            <button class="close-btn" onclick="closeSidebar('member')">✕</button>
             <div class="section-title" style="margin-top:40px;">Menu</div>
-            <div class="sidebar-item active" onclick="showMemberContent('dashboard');toggleSidebar();" id="memberMenuDashboard">
+            <div class="sidebar-item active" onclick="showMemberContent('dashboard');closeSidebar('member');" id="memberMenuMobileDashboard">
                 <span class="icon">📊</span> Dashboard
             </div>
-            <div class="sidebar-item" onclick="showMemberContent('savings');toggleSidebar();" id="memberMenuSavings">
+            <div class="sidebar-item" onclick="showMemberContent('savings');closeSidebar('member');" id="memberMenuMobileSavings">
                 <span class="icon">💰</span> My Savings
             </div>
-            <div class="sidebar-item" onclick="showMemberContent('loans');toggleSidebar();" id="memberMenuLoans">
+            <div class="sidebar-item" onclick="showMemberContent('loans');closeSidebar('member');" id="memberMenuMobileLoans">
                 <span class="icon">📋</span> My Loans
             </div>
             <div class="sidebar-logout">
@@ -916,13 +916,13 @@
             <!-- Desktop Sidebar -->
             <div class="sidebar" id="memberSidebar">
                 <div class="section-title">Menu</div>
-                <div class="sidebar-item active" onclick="showMemberContent('dashboard')" id="memberMenuDashboardDesktop">
+                <div class="sidebar-item active" onclick="showMemberContent('dashboard')" id="memberMenuDashboard">
                     <span class="icon">📊</span> Dashboard
                 </div>
-                <div class="sidebar-item" onclick="showMemberContent('savings')" id="memberMenuSavingsDesktop">
+                <div class="sidebar-item" onclick="showMemberContent('savings')" id="memberMenuSavings">
                     <span class="icon">💰</span> My Savings
                 </div>
-                <div class="sidebar-item" onclick="showMemberContent('loans')" id="memberMenuLoansDesktop">
+                <div class="sidebar-item" onclick="showMemberContent('loans')" id="memberMenuLoans">
                     <span class="icon">📋</span> My Loans
                 </div>
                 <div class="sidebar-logout">
@@ -991,27 +991,27 @@
     <div id="adminView" style="display:none">
         <div class="header">
             <div class="header-left">
-                <button class="hamburger-btn" onclick="toggleAdminSidebar()">☰</button>
+                <button class="hamburger-btn" id="adminHamburgerBtn" onclick="toggleSidebar('admin')">☰</button>
                 <h1>💰 Genz Association</h1>
             </div>
             <div class="user-info"><span class="admin-badge">👑 ADMIN MODE</span></div>
         </div>
 
         <!-- Admin Mobile Sidebar -->
-        <div class="sidebar-overlay" id="adminSidebarOverlay" onclick="toggleAdminSidebar()"></div>
+        <div class="sidebar-overlay" id="adminSidebarOverlay" onclick="closeSidebar('admin')"></div>
         <div class="sidebar-mobile" id="adminSidebarMobile">
-            <button class="close-btn" onclick="toggleAdminSidebar()">✕</button>
+            <button class="close-btn" onclick="closeSidebar('admin')">✕</button>
             <div class="section-title" style="margin-top:40px;">Menu</div>
-            <div class="sidebar-item active" onclick="showAdminContent('dashboard');toggleAdminSidebar();" id="adminMenuDashboard">
+            <div class="sidebar-item active" onclick="showAdminContent('dashboard');closeSidebar('admin');" id="adminMenuMobileDashboard">
                 <span class="icon">📊</span> Dashboard
             </div>
-            <div class="sidebar-item" onclick="showAdminContent('members');toggleAdminSidebar();" id="adminMenuMembers">
+            <div class="sidebar-item" onclick="showAdminContent('members');closeSidebar('admin');" id="adminMenuMobileMembers">
                 <span class="icon">👥</span> Members
             </div>
-            <div class="sidebar-item" onclick="showAdminContent('savings');toggleAdminSidebar();" id="adminMenuSavings">
+            <div class="sidebar-item" onclick="showAdminContent('savings');closeSidebar('admin');" id="adminMenuMobileSavings">
                 <span class="icon">💰</span> Savings
             </div>
-            <div class="sidebar-item" onclick="showAdminContent('loans');toggleAdminSidebar();" id="adminMenuLoans">
+            <div class="sidebar-item" onclick="showAdminContent('loans');closeSidebar('admin');" id="adminMenuMobileLoans">
                 <span class="icon">📋</span> Loans
             </div>
             <div class="sidebar-logout">
@@ -1022,18 +1022,19 @@
         </div>
 
         <div class="dashboard-container">
+            <!-- Admin Desktop Sidebar -->
             <div class="sidebar" id="adminSidebar">
                 <div class="section-title">Menu</div>
-                <div class="sidebar-item active" onclick="showAdminContent('dashboard')" id="adminMenuDashboardDesktop">
+                <div class="sidebar-item active" onclick="showAdminContent('dashboard')" id="adminMenuDashboard">
                     <span class="icon">📊</span> Dashboard
                 </div>
-                <div class="sidebar-item" onclick="showAdminContent('members')" id="adminMenuMembersDesktop">
+                <div class="sidebar-item" onclick="showAdminContent('members')" id="adminMenuMembers">
                     <span class="icon">👥</span> Members
                 </div>
-                <div class="sidebar-item" onclick="showAdminContent('savings')" id="adminMenuSavingsDesktop">
+                <div class="sidebar-item" onclick="showAdminContent('savings')" id="adminMenuSavings">
                     <span class="icon">💰</span> Savings
                 </div>
-                <div class="sidebar-item" onclick="showAdminContent('loans')" id="adminMenuLoansDesktop">
+                <div class="sidebar-item" onclick="showAdminContent('loans')" id="adminMenuLoans">
                     <span class="icon">📋</span> Loans
                 </div>
                 <div class="sidebar-logout">
@@ -1125,29 +1126,39 @@
 
     <script>
         // ========== SIDEBAR TOGGLE FUNCTIONS ==========
-        function toggleSidebar() {
-            var overlay = document.getElementById('sidebarOverlay');
-            var mobile = document.getElementById('sidebarMobile');
+        function toggleSidebar(type) {
+            if (type === 'member') {
+                var overlay = document.getElementById('memberSidebarOverlay');
+                var mobile = document.getElementById('memberSidebarMobile');
 
-            if (mobile.classList.contains('open')) {
-                mobile.classList.remove('open');
-                overlay.classList.remove('show');
-            } else {
-                mobile.classList.add('open');
-                overlay.classList.add('show');
+                if (mobile.classList.contains('open')) {
+                    mobile.classList.remove('open');
+                    overlay.classList.remove('show');
+                } else {
+                    mobile.classList.add('open');
+                    overlay.classList.add('show');
+                }
+            } else if (type === 'admin') {
+                var overlay = document.getElementById('adminSidebarOverlay');
+                var mobile = document.getElementById('adminSidebarMobile');
+
+                if (mobile.classList.contains('open')) {
+                    mobile.classList.remove('open');
+                    overlay.classList.remove('show');
+                } else {
+                    mobile.classList.add('open');
+                    overlay.classList.add('show');
+                }
             }
         }
 
-        function toggleAdminSidebar() {
-            var overlay = document.getElementById('adminSidebarOverlay');
-            var mobile = document.getElementById('adminSidebarMobile');
-
-            if (mobile.classList.contains('open')) {
-                mobile.classList.remove('open');
-                overlay.classList.remove('show');
-            } else {
-                mobile.classList.add('open');
-                overlay.classList.add('show');
+        function closeSidebar(type) {
+            if (type === 'member') {
+                document.getElementById('memberSidebarMobile').classList.remove('open');
+                document.getElementById('memberSidebarOverlay').classList.remove('show');
+            } else if (type === 'admin') {
+                document.getElementById('adminSidebarMobile').classList.remove('open');
+                document.getElementById('adminSidebarOverlay').classList.remove('show');
             }
         }
 
@@ -1392,8 +1403,7 @@
 
             var items = document.querySelectorAll('#memberSidebar .sidebar-item');
             for (var i = 0; i < items.length; i++) { items[i].classList.remove('active'); }
-            document.getElementById('memberMenu' + section.charAt(0).toUpperCase() + section.slice(1) + 'Desktop').classList.add(
-                'active');
+            document.getElementById('memberMenu' + section.charAt(0).toUpperCase() + section.slice(1)).classList.add('active');
 
             if (section === 'dashboard') { updateDashboardStats(); }
         }
@@ -1406,8 +1416,7 @@
 
             var items = document.querySelectorAll('#adminSidebar .sidebar-item');
             for (var i = 0; i < items.length; i++) { items[i].classList.remove('active'); }
-            document.getElementById('adminMenu' + section.charAt(0).toUpperCase() + section.slice(1) + 'Desktop').classList.add(
-                'active');
+            document.getElementById('adminMenu' + section.charAt(0).toUpperCase() + section.slice(1)).classList.add('active');
 
             if (section === 'savings') { updateSavingsPerMemberTable(); }
             if (section === 'loans') { updateInterestPerMemberTable(); }
@@ -2383,31 +2392,32 @@
         function initialize() {
             loadData();
             refreshLoanPool();
+
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(event) {
+                var mobileSidebar = document.getElementById('memberSidebarMobile');
+                var adminMobileSidebar = document.getElementById('adminSidebarMobile');
+                var memberHamburger = document.getElementById('memberHamburgerBtn');
+                var adminHamburger = document.getElementById('adminHamburgerBtn');
+
+                // Member sidebar
+                if (mobileSidebar && mobileSidebar.classList.contains('open')) {
+                    if (!mobileSidebar.contains(event.target) && event.target !== memberHamburger && !memberHamburger
+                        .contains(event.target)) {
+                        closeSidebar('member');
+                    }
+                }
+
+                // Admin sidebar
+                if (adminMobileSidebar && adminMobileSidebar.classList.contains('open')) {
+                    if (!adminMobileSidebar.contains(event.target) && event.target !== adminHamburger && !adminHamburger
+                        .contains(event.target)) {
+                        closeSidebar('admin');
+                    }
+                }
+            });
         }
         initialize();
-
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', function(event) {
-            var sidebar = document.getElementById('sidebarMobile');
-            var overlay = document.getElementById('sidebarOverlay');
-            var adminSidebar = document.getElementById('adminSidebarMobile');
-            var adminOverlay = document.getElementById('adminSidebarOverlay');
-            var hamburger = document.querySelector('.hamburger-btn');
-
-            if (sidebar && sidebar.classList.contains('open')) {
-                if (!sidebar.contains(event.target) && event.target !== hamburger && !hamburger.contains(event.target)) {
-                    sidebar.classList.remove('open');
-                    overlay.classList.remove('show');
-                }
-            }
-            if (adminSidebar && adminSidebar.classList.contains('open')) {
-                if (!adminSidebar.contains(event.target) && event.target !== hamburger && !hamburger.contains(event
-                    .target)) {
-                    adminSidebar.classList.remove('open');
-                    adminOverlay.classList.remove('show');
-                }
-            }
-        });
     </script>
 </body>
 </html>
