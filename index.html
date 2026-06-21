@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Genz Chama - Full Management</title>
-    <!-- jsPDF for PDF generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js">
@@ -74,6 +73,7 @@
             border-radius: 40px;
             cursor: pointer;
             font-weight: bold;
+            transition: all 0.3s;
         }
 
         .tab-btn.active {
@@ -129,6 +129,12 @@
             white-space: nowrap;
         }
 
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
         .header .user-info {
             color: #64748b;
             font-size: 13px;
@@ -140,6 +146,36 @@
             font-weight: 600;
         }
 
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #1a4d3e;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #1a4d3e;
+            flex-shrink: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05);
+            border-color: #f59e0b;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         .admin-badge {
             background: #1e40af;
             color: white;
@@ -147,6 +183,128 @@
             border-radius: 20px;
             display: inline-block;
             font-size: 11px;
+        }
+
+        .profile-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .profile-modal.open {
+            display: flex;
+        }
+
+        .profile-modal-content {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .profile-modal-content .profile-avatar-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #1a4d3e;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: bold;
+            margin: 0 auto 16px auto;
+            overflow: hidden;
+            cursor: pointer;
+            border: 3px solid #e2e8f0;
+            transition: all 0.3s ease;
+            position: relative;
+            user-select: none;
+        }
+
+        .profile-modal-content .profile-avatar-large:hover {
+            border-color: #1a4d3e;
+        }
+
+        .profile-modal-content .profile-avatar-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-modal-content .profile-avatar-large .upload-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 12px;
+            padding: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+        }
+
+        .profile-modal-content .profile-avatar-large:hover .upload-overlay {
+            opacity: 1;
+        }
+
+        .profile-modal-content h3 {
+            color: #1a4d3e;
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+
+        .profile-modal-content .profile-phone {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .profile-modal-content .profile-note {
+            background: #fef3c7;
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #92400e;
+            margin-top: 16px;
+        }
+
+        .profile-modal-content .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .profile-modal-content .btn-group button {
+            margin: 0;
         }
 
         .sidebar {
@@ -268,6 +426,53 @@
             margin-top: 20px;
         }
 
+        .sidebar-mobile .mobile-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            margin: 8px 0 4px 0;
+            cursor: pointer;
+        }
+
+        .sidebar-mobile .mobile-profile:hover {
+            background: #e2e8f0;
+        }
+
+        .sidebar-mobile .mobile-profile .avatar-small {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #1a4d3e;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .sidebar-mobile .mobile-profile .avatar-small img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .sidebar-mobile .mobile-profile .name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1a4d3e;
+        }
+
+        .sidebar-mobile .mobile-profile .phone {
+            font-size: 12px;
+            color: #64748b;
+        }
+
         .dashboard-container {
             display: flex;
             gap: 20px;
@@ -336,17 +541,21 @@
         button.secondary {
             background: #64748b;
         }
+
         button.sync {
             background: #0284c7;
         }
+
         button.danger {
             background: #dc2626;
         }
+
         button.delete-member {
             background: #dc2626;
             font-size: 11px;
             padding: 4px 10px;
         }
+
         button.download {
             background: #8b5cf6;
         }
@@ -371,6 +580,33 @@
             border-bottom: 1px solid #e2e8f0;
             flex-wrap: wrap;
             gap: 8px;
+        }
+
+        .member-row .member-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .member-row .member-avatar-small {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #1a4d3e;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .member-row .member-avatar-small img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .total {
@@ -693,6 +929,10 @@
             font-weight: bold;
         }
 
+        #photoUploadInput {
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .hamburger-btn {
                 display: block !important;
@@ -767,6 +1007,22 @@
                 font-size: 13px;
                 padding: 12px 10px;
             }
+
+            .profile-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+
+            .header .user-info {
+                font-size: 11px;
+            }
+
+            .profile-modal-content .profile-avatar-large {
+                width: 100px;
+                height: 100px;
+                font-size: 40px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -779,7 +1035,7 @@
             }
 
             .header .user-info {
-                font-size: 11px;
+                font-size: 10px;
             }
 
             .stats-grid {
@@ -816,6 +1072,18 @@
             .sidebar-mobile .sidebar-item {
                 font-size: 12px;
                 padding: 10px 8px;
+            }
+
+            .profile-avatar {
+                width: 28px;
+                height: 28px;
+                font-size: 12px;
+            }
+
+            .profile-modal-content .profile-avatar-large {
+                width: 80px;
+                height: 80px;
+                font-size: 32px;
             }
         }
     </style>
@@ -868,6 +1136,28 @@
         </div>
     </div>
 
+    <!-- Profile Modal -->
+    <div id="profileModal" class="profile-modal">
+        <div class="profile-modal-content">
+            <div class="profile-avatar-large" id="profileAvatarLarge" onclick="document.getElementById('photoUploadInput').click();">
+                <span id="profileAvatarInitials"></span>
+                <div class="upload-overlay">📷 Change Photo</div>
+            </div>
+            <input type="file" id="photoUploadInput" accept="image/*" onchange="handlePhotoUpload(event)">
+
+            <h3 id="profileName">Member Name</h3>
+            <p class="profile-phone" id="profilePhone">📞 Phone Number</p>
+
+            <div class="profile-note">
+                ⚠️ To update your name or phone number, please contact the admin.
+            </div>
+
+            <div class="btn-group">
+                <button onclick="closeProfileModal()" class="secondary">Close</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Login Overlay -->
     <div id="loginOverlay" class="login-overlay">
         <div class="login-box">
@@ -878,8 +1168,8 @@
             <div id="memberLoginPanel">
                 <h3>Member Access</h3>
                 <input type="text" id="memberNameInput" placeholder="Enter your full name">
-                <input type="password" id="memberPasscode" placeholder="Password">
-                <button onclick="memberLogin()">Login</button>
+                <input type="password" id="memberPasscode" placeholder="Password (last 4 digits of phone)">
+                <button onclick="memberLogin()" style="width:100%;margin:10px 0;">Login</button>
                 <div class="signup-form">
                     <h4>📝 Not a member?</h4>
                     <input type="text" id="signupName" placeholder="Full Name">
@@ -891,7 +1181,7 @@
             <div id="adminLoginPanel" style="display:none">
                 <h3>Admin Access</h3>
                 <input type="password" id="adminPasswordInput" placeholder="Admin password">
-                <button onclick="adminLogin()">Login</button>
+                <button onclick="adminLogin()" style="width:100%;margin:10px 0;">Login</button>
             </div>
             <div class="login-footer">
                 <div class="footer" style="border-top: none; padding-top: 0; margin-top: 15px;">
@@ -908,14 +1198,28 @@
                 <button class="hamburger-btn" id="memberHamburgerBtn" onclick="toggleSidebar('member')">☰</button>
                 <h1>💰 Genz Association</h1>
             </div>
-            <div class="user-info">Welcome, <span id="memberName"></span></div>
+            <div class="header-right">
+                <div class="user-info">Welcome, <span id="memberNameHeader"></span></div>
+                <div class="profile-avatar" id="headerAvatar" onclick="openProfileModal()">
+                    <span id="headerAvatarInitials"></span>
+                </div>
+            </div>
         </div>
 
         <!-- Mobile Sidebar -->
         <div class="sidebar-overlay" id="memberSidebarOverlay" onclick="closeSidebar('member')"></div>
         <div class="sidebar-mobile" id="memberSidebarMobile">
             <button class="close-btn" onclick="closeSidebar('member')">✕</button>
-            <div class="section-title" style="margin-top:40px;">Menu</div>
+            <div class="mobile-profile" onclick="closeSidebar('member');openProfileModal();">
+                <div class="avatar-small" id="mobileAvatar">
+                    <span id="mobileAvatarInitials"></span>
+                </div>
+                <div>
+                    <div class="name" id="mobileName">Member Name</div>
+                    <div class="phone" id="mobilePhone">Phone</div>
+                </div>
+            </div>
+            <div class="section-title" style="margin-top:12px;">Menu</div>
             <div class="sidebar-item active" onclick="showMemberContent('dashboard');closeSidebar('member');" id="memberMenuMobileDashboard">
                 <span class="icon">📊</span> Dashboard
             </div>
@@ -997,7 +1301,6 @@
                                 <tbody id="savingsHistoryBody"></tbody>
                             </table>
                         </div>
-                        <!-- Replaced Copy Report with Download PDF -->
                         <button onclick="downloadSavingsReport()" class="download">📄 Download Savings Report (PDF)</button>
                     </div>
                     <div class="card savings-box"><h3>💰 Next Savings Disbursement</h3><div class="interest-row"><span>📅 Next Date:</span><span id="savingsDisbursementDate"></span></div><div class="interest-row"><span>💵 Your Current Savings:</span><span id="currentSavingsDisplay">0 KES</span></div></div>
@@ -1030,7 +1333,9 @@
                 <button class="hamburger-btn" id="adminHamburgerBtn" onclick="toggleSidebar('admin')">☰</button>
                 <h1>💰 Genz Association</h1>
             </div>
-            <div class="user-info"><span class="admin-badge">👑 ADMIN MODE</span></div>
+            <div class="header-right">
+                <span class="admin-badge">👑 ADMIN MODE</span>
+            </div>
         </div>
 
         <!-- Admin Mobile Sidebar -->
@@ -1139,8 +1444,7 @@
                     <div class="card"><h2>💰 Savings Disbursement (Jan,Mar,May,Jul,Sep,Nov)</h2><div class="interest-summary"><div class="member-row"><span>📊 Total Savings:</span><span id="totalSavingsPool">0</span></div><div class="member-row"><span>📅 Current Month:</span><span id="currentMonth"></span></div><div class="member-row"><span>🎯 Next Disbursement:</span><span id="nextDisbursementMonth"></span></div></div><button onclick="processSavingsDisbursement()" class="secondary">Process Savings Disbursement</button><p class="small-text">⚠️ Only in Jan/Mar/May/Jul/Sep/Nov</p></div>
                     <div class="card csv-url-box"><h4>📊 SYNC SAVINGS</h4><input type="text" id="savingsCsvUrl" placeholder="Paste Savings sheet CSV link"><button onclick="syncSavings()" class="sync">Sync Savings</button></div>
                     <div class="card"><h2>🏦 Add Savings (Manual)</h2><select id="savingsMemberSelect"><option value="">-- Member --</option></select><input type="date" id="savingsDate"><input type="number" id="savingsAmount" placeholder="Amount KES"><button onclick="addSavings()">Add Savings</button></div>
-                    <div class="card"><h2>📊 Total Savings Per Member</h2><table class="savings-table"><thead><tr><th>Member Name</th><th>Total Savings (KES)</th></tr></thead><tbody id="savingsPerMemberTable"></tbody></table></div>
-                    <!-- Admin Download All Reports -->
+                    <div class="card"><h2>📊 Total Savings Per Member</h2><table class="savings-table"><thead><tr><th>Member</th><th>Savings</th></tr></thead><tbody id="savingsPerMemberTable"></tbody></table></div>
                     <div class="card" style="background: #e0e7ff; border: 2px solid #8b5cf6;">
                         <h3>📊 Download All Members Report</h3>
                         <button onclick="downloadAllMembersReport()" class="download">📄 Download All Members Savings Report (PDF)</button>
@@ -1153,7 +1457,7 @@
                     <h2>📋 Loans</h2>
                     <div class="card loan-pool-highlight"><h2 style="color:white;">💰 Accessible Loan Pool</h2><div style="text-align:center"><div style="font-size:48px; font-weight:bold;" id="accessibleLoanAmount">0 KES</div><p>Available to borrow</p></div><div class="interest-row"><span>📊 Total Principal Lent:</span><span id="totalPrincipalLent">0</span></div><div class="interest-row"><span>📈 Total Interest:</span><span id="totalInterestPool">0</span></div><div class="interest-row"><span>🏦 30% Reserve:</span><span id="loanReservePool">0</span></div><div class="interest-row"><span>📌 Outstanding Loans:</span><span id="outstandingLoansPool">0</span></div><button onclick="refreshLoanPool()" class="secondary" style="background:rgba(255,255,255,0.2);">🔄 Refresh Pool</button></div>
                     <div class="card"><h2>💰 Loan Interest (70/30)</h2><div class="interest-summary"><div class="member-row"><span>📊 Total Interest Accrued:</span><span id="totalInterestCollected">0</span></div><div class="member-row"><span>👥 Due to Members (70%):</span><span id="totalDueToMembers">0</span></div><div class="member-row"><span>🏦 Group Reserve (30%):</span><span id="loanReserveAmount">0</span></div></div><button onclick="processInterestDisbursement()" class="secondary">Process Interest Disbursement</button><p class="small-text">⚠️ Only in June & December</p></div>
-                    <div class="card"><h2>📊 Total Interest Per Member</h2><table class="interest-table"><thead><tr><th>Member Name</th><th>Total Interest Accrued (KES)</th><th>To be Sent (70%)</th><th>To Reserve (30%)</th></tr></thead><tbody id="interestPerMemberTable"></tbody></table></div>
+                    <div class="card"><h2>📊 Total Interest Per Member</h2><table class="interest-table"><thead><tr><th>Member</th><th>Interest</th><th>To Send (70%)</th><th>To Reserve (30%)</th></tr></thead><tbody id="interestPerMemberTable"></tbody></table></div>
                     <div class="card csv-url-box"><h4>📋 SYNC LOANS</h4><input type="text" id="loansCsvUrl" placeholder="Paste Loans sheet CSV link"><button onclick="syncLoans()" class="sync">Sync Loans</button></div>
                     <div class="card"><h2>📋 Take Loan (10% Interest)</h2><select id="loanMemberSelect"><option value="">-- Member --</option></select><input type="date" id="loanDateTaken"><input type="number" id="loanPrincipal" placeholder="Principal"><input type="date" id="loanReturnDate"><button onclick="takeLoan()">Take Loan</button></div>
                     <div class="card"><h2>💰 Record Loan Repayment</h2><select id="repayMemberSelect"><option value="">-- Member --</option></select><input type="number" id="repayAmount" placeholder="Repayment"><button onclick="repayLoan()" class="secondary">Record Repayment</button><div id="loanDisplay"></div></div>
@@ -1167,9 +1471,192 @@
     </div>
 
     <script>
-        // ========== PDF REPORT FUNCTIONS ==========
+        // ============================================================
+        // DATA
+        // ============================================================
+        let MEMBERS = [
+            { id: 0, name: "Brian Odhiambo", phone: "0718585462", passcode: "5462" },
+            { id: 1, name: "Calvin Onyango", phone: "0769618871", passcode: "8871" },
+            { id: 2, name: "Collins Odhiambo", phone: "0792257622", passcode: "7622" },
+            { id: 3, name: "Morgan Omondi", phone: "04180238", passcode: "0238" },
+            { id: 4, name: "Samuel Ochieng", phone: "0759856838", passcode: "6838" },
+            { id: 5, name: "Ivy", phone: "0769263349", passcode: "3349" },
+            { id: 6, name: "Ongoma", phone: "0712345678", passcode: "0000" }
+        ];
 
-        // Member: Download individual savings report
+        let savings = [
+            { date: "2025-08-16", memberId: 0, amount: 3170, disbursed: true },
+            { date: "2026-04-18", memberId: 1, amount: 100, disbursed: true },
+            { date: "2026-04-20", memberId: 0, amount: 850, disbursed: true },
+            { date: "2026-04-25", memberId: 1, amount: 100, disbursed: false },
+            { date: "2026-04-25", memberId: 4, amount: 103, disbursed: false },
+            { date: "2026-05-02", memberId: 1, amount: 200, disbursed: false },
+            { date: "2026-05-02", memberId: 6, amount: 500, disbursed: false }
+        ];
+
+        let loans = [
+            { id: 1, memberId: 0, principal: 500, interest: 50, totalDue: 550, returnDate: "2026-02-16", status: "returned",
+                dateTaken: "2026-02-11", repaidAmount: 550 },
+            { id: 2, memberId: 3, principal: 500, interest: 50, totalDue: 550, returnDate: "2026-03-06", status: "pending",
+                dateTaken: "2026-02-20", repaidAmount: 0 }
+        ];
+
+        let loanRequests = [];
+        let pendingSignups = [];
+        let mgrWeekIndex = 0;
+        let mgrLastPaidWeek = null;
+        let nextLoanId = 6;
+        let currentMemberId = null;
+        let ADMIN_PASSWORD = "admin123";
+        let lastSavingsDisbursementDate = null;
+        let lastInterestDisbursementDate = null;
+        let memberToDelete = null;
+
+        const motivationalMessages = [
+            "🌟 \"Your wealth is growing! Every shilling saved is a step toward financial freedom.\"",
+            "💰 \"Small savings today, big dreams tomorrow. Keep going!\"",
+            "📈 \"The journey to financial independence starts with one savings at a time.\"",
+            "🎯 \"Stay consistent! Your future self will thank you for every shilling saved.\"",
+            "🏆 \"You're not just saving money, you're building your legacy!\"",
+            "🌱 \"Even the tallest tree grows from a small seed. Keep planting your savings!\""
+        ];
+
+        function getRandomMotivationalMessage() {
+            return motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
+        }
+
+        // ============================================================
+        // PROFILE PHOTO FUNCTIONS
+        // ============================================================
+
+        function getInitials(name) {
+            if (!name) return '??';
+            var parts = name.trim().split(' ');
+            if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+            return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+        }
+
+        function getColorForName(name) {
+            var colors = [
+                '#1a4d3e', '#1e40af', '#b91c1c', '#7c3aed', '#065f46',
+                '#1e40af', '#9d174d', '#4c1d95', '#0f766e', '#be185d'
+            ];
+            var hash = 0;
+            for (var i = 0; i < name.length; i++) {
+                hash = name.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            return colors[Math.abs(hash) % colors.length];
+        }
+
+        function getMemberPhoto(memberId) {
+            var photos = JSON.parse(localStorage.getItem('memberPhotos') || '{}');
+            return photos[memberId] || null;
+        }
+
+        function saveMemberPhoto(memberId, photoData) {
+            var photos = JSON.parse(localStorage.getItem('memberPhotos') || '{}');
+            photos[memberId] = photoData;
+            localStorage.setItem('memberPhotos', JSON.stringify(photos));
+        }
+
+        function updateAvatarDisplay(memberId) {
+            var member = MEMBERS[memberId];
+            if (!member) return;
+
+            var photo = getMemberPhoto(memberId);
+            var initials = getInitials(member.name);
+            var color = getColorForName(member.name);
+
+            // Header Avatar
+            var headerAvatar = document.getElementById('headerAvatar');
+            if (photo) {
+                headerAvatar.innerHTML = '<img src="' + photo + '" alt="Profile">';
+            } else {
+                headerAvatar.innerHTML = '<span id="headerAvatarInitials">' + initials + '</span>';
+                headerAvatar.style.background = color;
+            }
+
+            // Mobile Avatar
+            var mobileAvatar = document.getElementById('mobileAvatar');
+            if (photo) {
+                mobileAvatar.innerHTML = '<img src="' + photo + '" alt="Profile">';
+            } else {
+                mobileAvatar.innerHTML = '<span id="mobileAvatarInitials">' + initials + '</span>';
+                mobileAvatar.style.background = color;
+            }
+
+            // Profile Modal Avatar
+            var profileAvatar = document.getElementById('profileAvatarLarge');
+            if (photo) {
+                profileAvatar.innerHTML = '<img src="' + photo + '" alt="Profile"><div class="upload-overlay">📷 Change Photo</div>';
+            } else {
+                profileAvatar.innerHTML = '<span id="profileAvatarInitials">' + initials +
+                    '</span><div class="upload-overlay">📷 Change Photo</div>';
+                profileAvatar.style.background = color;
+            }
+
+            // Mobile Name & Phone
+            document.getElementById('mobileName').innerText = member.name;
+            document.getElementById('mobilePhone').innerText = member.phone || 'No phone';
+        }
+
+        // ============================================================
+        // PROFILE MODAL
+        // ============================================================
+
+        function openProfileModal() {
+            if (currentMemberId === null) {
+                showErrorModal("Please login first.");
+                return;
+            }
+
+            var member = MEMBERS[currentMemberId];
+            var photo = getMemberPhoto(currentMemberId);
+            var initials = getInitials(member.name);
+
+            document.getElementById('profileName').innerText = member.name;
+            document.getElementById('profilePhone').innerText = '📞 ' + (member.phone || 'No phone');
+
+            var profileAvatar = document.getElementById('profileAvatarLarge');
+            if (photo) {
+                profileAvatar.innerHTML = '<img src="' + photo + '" alt="Profile"><div class="upload-overlay">📷 Change Photo</div>';
+            } else {
+                profileAvatar.innerHTML = '<span id="profileAvatarInitials">' + initials +
+                    '</span><div class="upload-overlay">📷 Change Photo</div>';
+                profileAvatar.style.background = getColorForName(member.name);
+            }
+
+            document.getElementById('profileModal').classList.add('open');
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profileModal').classList.remove('open');
+        }
+
+        function handlePhotoUpload(event) {
+            var file = event.target.files[0];
+            if (!file) return;
+
+            if (currentMemberId === null) {
+                showErrorModal("Please login first.");
+                return;
+            }
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var photoData = e.target.result;
+                saveMemberPhoto(currentMemberId, photoData);
+                updateAvatarDisplay(currentMemberId);
+                showErrorModal("✅ Profile photo updated successfully!");
+            };
+            reader.readAsDataURL(file);
+            event.target.value = '';
+        }
+
+        // ============================================================
+        // PDF REPORT FUNCTIONS
+        // ============================================================
+
         function downloadSavingsReport() {
             if (currentMemberId === null) {
                 showErrorModal("Please login first.");
@@ -1178,32 +1665,25 @@
 
             var member = MEMBERS[currentMemberId];
             var memberSavings = [];
-            var runningTotal = 0;
-
-            // Get all savings for this member (including disbursed ones)
             for (var i = 0; i < savings.length; i++) {
                 if (savings[i].memberId === currentMemberId) {
                     memberSavings.push(savings[i]);
                 }
             }
 
-            // Check if member has any savings
             if (memberSavings.length === 0) {
                 showErrorModal("You have no savings records to download.");
                 return;
             }
 
-            // Sort by date (oldest first)
             memberSavings.sort(function(a, b) {
                 return new Date(a.date) - new Date(b.date);
             });
 
-            // Calculate totals and prepare data
             var totalSavings = 0;
             var totalDeposits = memberSavings.length;
             var lastDisbursement = "None";
 
-            // Find last disbursement
             for (var i = memberSavings.length - 1; i >= 0; i--) {
                 if (memberSavings[i].disbursed) {
                     var d = new Date(memberSavings[i].date);
@@ -1212,20 +1692,16 @@
                 }
             }
 
-            // Calculate total savings (only non-disbursed or all? Let's show total saved)
             for (var i = 0; i < memberSavings.length; i++) {
                 totalSavings += memberSavings[i].amount;
             }
 
-            // Create PDF
             var { jsPDF } = window.jspdf;
             var doc = new jsPDF('p', 'mm', 'a4');
             var pageWidth = doc.internal.pageSize.getWidth();
 
-            // ===== HEADER =====
             doc.setFillColor(26, 77, 62);
             doc.rect(0, 0, pageWidth, 35, 'F');
-
             doc.setTextColor(255, 255, 255);
             doc.setFontSize(22);
             doc.setFont('helvetica', 'bold');
@@ -1234,7 +1710,6 @@
             doc.setFont('helvetica', 'normal');
             doc.text('Savings Report', pageWidth / 2, 28, { align: 'center' });
 
-            // ===== MEMBER INFO =====
             doc.setTextColor(0, 0, 0);
             doc.setFontSize(11);
             doc.setFont('helvetica', 'bold');
@@ -1264,25 +1739,21 @@
             doc.setFont('helvetica', 'normal');
             doc.text(lastDisbursement, 65, 73);
 
-            // ===== TABLE DATA =====
             var tableData = [];
             var runningTotal = 0;
-
             for (var i = 0; i < memberSavings.length; i++) {
                 runningTotal += memberSavings[i].amount;
                 var status = memberSavings[i].disbursed ? 'Disbursed' : 'Pending';
                 var date = new Date(memberSavings[i].date);
-                var dateStr = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
-
+                var dateStr2 = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
                 tableData.push([
-                    dateStr,
+                    dateStr2,
                     memberSavings[i].amount.toFixed(2) + ' KES',
                     status,
                     runningTotal.toFixed(2) + ' KES'
                 ]);
             }
 
-            // ===== TABLE =====
             doc.autoTable({
                 startY: 80,
                 head: [
@@ -1308,7 +1779,6 @@
                 },
                 margin: { left: 20, right: 20 },
                 didDrawPage: function(data) {
-                    // Footer
                     var pageCount = doc.internal.getNumberOfPages();
                     doc.setFontSize(8);
                     doc.setTextColor(128, 128, 128);
@@ -1320,9 +1790,7 @@
                 }
             });
 
-            // ===== SUMMARY =====
             var finalY = doc.lastAutoTable.finalY + 10;
-
             doc.setFontSize(11);
             doc.setFont('helvetica', 'bold');
             doc.text('Summary', 20, finalY);
@@ -1332,14 +1800,11 @@
             doc.text('• Total Deposits: ' + totalDeposits, 20, finalY + 14);
             doc.text('• Last Disbursement: ' + lastDisbursement, 20, finalY + 21);
 
-            // ===== SAVE PDF =====
-            var fileName = 'GenzChama_Savings.pdf';
+            var fileName = 'GenzChama_Savings_Report.pdf';
             doc.save(fileName);
-
             showErrorModal('✅ Report downloaded successfully as ' + fileName);
         }
 
-        // Admin: Download all members savings report
         function downloadAllMembersReport() {
             if (MEMBERS.length === 0) {
                 showErrorModal("No members found.");
@@ -1350,10 +1815,8 @@
             var doc = new jsPDF('p', 'mm', 'a4');
             var pageWidth = doc.internal.pageSize.getWidth();
 
-            // ===== HEADER =====
             doc.setFillColor(26, 77, 62);
             doc.rect(0, 0, pageWidth, 35, 'F');
-
             doc.setTextColor(255, 255, 255);
             doc.setFontSize(22);
             doc.setFont('helvetica', 'bold');
@@ -1362,24 +1825,20 @@
             doc.setFont('helvetica', 'normal');
             doc.text('All Members Savings Report', pageWidth / 2, 28, { align: 'center' });
 
-            // ===== DATE =====
             doc.setTextColor(0, 0, 0);
             doc.setFontSize(11);
             var now = new Date();
             var dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
             doc.text('Generated: ' + dateStr, pageWidth - 20, 45, { align: 'right' });
 
-            // ===== TABLE DATA =====
             var tableData = [];
             var grandTotal = 0;
-
             for (var i = 0; i < MEMBERS.length; i++) {
                 var member = MEMBERS[i];
                 var savingsAmt = getMemberSavings(member.id);
                 var loanBal = getMemberLoanBalance(member.id);
                 var interest = getMemberTotalInterestAccrued(member.id);
                 grandTotal += savingsAmt;
-
                 tableData.push([
                     member.name,
                     savingsAmt.toFixed(2) + ' KES',
@@ -1388,7 +1847,6 @@
                 ]);
             }
 
-            // ===== TABLE =====
             doc.autoTable({
                 startY: 55,
                 head: [
@@ -1425,7 +1883,6 @@
                 }
             });
 
-            // ===== GRAND TOTAL =====
             var finalY = doc.lastAutoTable.finalY + 10;
             doc.setFontSize(12);
             doc.setFont('helvetica', 'bold');
@@ -1434,19 +1891,19 @@
             doc.setFont('helvetica', 'normal');
             doc.text('Total Members: ' + MEMBERS.length, 20, finalY + 7);
 
-            // ===== SAVE PDF =====
             var fileName = 'GenzChama_AllMembers_Report.pdf';
             doc.save(fileName);
-
             showErrorModal('✅ All members report downloaded successfully as ' + fileName);
         }
 
-        // ========== SIDEBAR TOGGLE FUNCTIONS ==========
+        // ============================================================
+        // SIDEBAR FUNCTIONS
+        // ============================================================
+
         function toggleSidebar(type) {
             if (type === 'member') {
                 var overlay = document.getElementById('memberSidebarOverlay');
                 var mobile = document.getElementById('memberSidebarMobile');
-
                 if (mobile.classList.contains('open')) {
                     mobile.classList.remove('open');
                     overlay.classList.remove('show');
@@ -1457,7 +1914,6 @@
             } else if (type === 'admin') {
                 var overlay = document.getElementById('adminSidebarOverlay');
                 var mobile = document.getElementById('adminSidebarMobile');
-
                 if (mobile.classList.contains('open')) {
                     mobile.classList.remove('open');
                     overlay.classList.remove('show');
@@ -1478,61 +1934,10 @@
             }
         }
 
-        // ========== DATA ==========
-        let MEMBERS = [
-            { id: 0, name: "Brian Odhiambo", phone: "0718585462", passcode: "5462" },
-            { id: 1, name: "Calvin Onyango", phone: "0769618871", passcode: "8871" },
-            { id: 2, name: "Collins Odhiambo", phone: "0792257622", passcode: "7622" },
-            { id: 3, name: "Morgan Omondi", phone: "04180238", passcode: "0238" },
-            { id: 4, name: "Samuel Ochieng", phone: "0759856838", passcode: "6838" },
-            { id: 5, name: "Ivy", phone: "0769263349", passcode: "3349" },
-            { id: 6, name: "Ongoma", phone: "0712345678", passcode: "0000" }
-        ];
+        // ============================================================
+        // SAVE / LOAD
+        // ============================================================
 
-        // Add disbursed flag to savings for testing
-        let savings = [
-            { date: "2025-08-16", memberId: 0, amount: 3170, disbursed: true },
-            { date: "2026-04-18", memberId: 1, amount: 100, disbursed: true },
-            { date: "2026-04-20", memberId: 0, amount: 850, disbursed: true },
-            { date: "2026-04-25", memberId: 1, amount: 100, disbursed: false },
-            { date: "2026-04-25", memberId: 4, amount: 103, disbursed: false },
-            { date: "2026-05-02", memberId: 1, amount: 200, disbursed: false },
-            { date: "2026-05-02", memberId: 6, amount: 500, disbursed: false }
-        ];
-
-        let loans = [
-            { id: 1, memberId: 0, principal: 500, interest: 50, totalDue: 550, returnDate: "2026-02-16", status: "returned",
-                dateTaken: "2026-02-11", repaidAmount: 550 },
-            { id: 2, memberId: 3, principal: 500, interest: 50, totalDue: 550, returnDate: "2026-03-06", status: "pending",
-                dateTaken: "2026-02-20", repaidAmount: 0 }
-        ];
-
-        let loanRequests = [];
-        let pendingSignups = [];
-        let previousSavings = [];
-        let mgrWeekIndex = 0;
-        let mgrLastPaidWeek = null;
-        let nextLoanId = 6;
-        let currentMemberId = null;
-        let ADMIN_PASSWORD = "admin123";
-        let lastSavingsDisbursementDate = null;
-        let lastInterestDisbursementDate = null;
-        let memberToDelete = null;
-
-        const motivationalMessages = [
-            "🌟 \"Your wealth is growing! Every shilling saved is a step toward financial freedom.\"",
-            "💰 \"Small savings today, big dreams tomorrow. Keep going!\"",
-            "📈 \"The journey to financial independence starts with one savings at a time.\"",
-            "🎯 \"Stay consistent! Your future self will thank you for every shilling saved.\"",
-            "🏆 \"You're not just saving money, you're building your legacy!\"",
-            "🌱 \"Even the tallest tree grows from a small seed. Keep planting your savings!\""
-        ];
-
-        function getRandomMotivationalMessage() {
-            return motivationalMessages[Math.floor(Math.random() * motivationalMessages.length)];
-        }
-
-        // ========== SAVE/LOAD ==========
         function saveData() {
             localStorage.setItem("GenzChamaData", JSON.stringify({
                 MEMBERS,
@@ -1542,7 +1947,6 @@
                 mgrLastPaidWeek,
                 nextLoanId,
                 ADMIN_PASSWORD,
-                previousSavings,
                 lastSavingsDisbursementDate,
                 lastInterestDisbursementDate,
                 loanRequests,
@@ -1562,7 +1966,6 @@
                     if (p.mgrLastPaidWeek !== undefined) mgrLastPaidWeek = p.mgrLastPaidWeek;
                     if (p.nextLoanId !== undefined) nextLoanId = p.nextLoanId;
                     if (p.ADMIN_PASSWORD) ADMIN_PASSWORD = p.ADMIN_PASSWORD;
-                    if (p.previousSavings) previousSavings = p.previousSavings;
                     if (p.lastSavingsDisbursementDate) lastSavingsDisbursementDate = p.lastSavingsDisbursementDate;
                     if (p.lastInterestDisbursementDate) lastInterestDisbursementDate = p.lastInterestDisbursementDate;
                     if (p.loanRequests) loanRequests = p.loanRequests;
@@ -1571,7 +1974,10 @@
             }
         }
 
-        // ========== ERROR MODAL ==========
+        // ============================================================
+        // ERROR MODAL
+        // ============================================================
+
         function showErrorModal(message) {
             document.getElementById("errorMessage").innerHTML = message;
             document.getElementById("errorModal").style.display = "flex";
@@ -1581,7 +1987,10 @@
             document.getElementById("errorModal").style.display = "none";
         }
 
-        // ========== HELPERS ==========
+        // ============================================================
+        // HELPERS
+        // ============================================================
+
         function getCurrentWeekKey() {
             var n = new Date(),
                 y = n.getFullYear(),
@@ -1689,7 +2098,18 @@
         function updateSavingsPerMemberTable() {
             var html = '';
             for (var i = 0; i < MEMBERS.length; i++) {
-                html += '<tr><td>' + MEMBERS[i].name + '</td><td>' + getMemberSavings(MEMBERS[i].id).toFixed(2) + ' KES</td></tr>';
+                var photo = getMemberPhoto(MEMBERS[i].id);
+                var initials = getInitials(MEMBERS[i].name);
+                var avatarHtml = '';
+                if (photo) {
+                    avatarHtml = '<img src="' + photo + '" alt="' + MEMBERS[i].name + '" style="width:28px;height:28px;border-radius:50%;object-fit:cover;">';
+                } else {
+                    avatarHtml = '<span style="background:' + getColorForName(MEMBERS[i].name) +
+                        ';color:white;display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;font-size:11px;font-weight:bold;">' +
+                        initials + '</span>';
+                }
+                html += '<tr><td style="display:flex;align-items:center;gap:8px;padding:8px 0;">' + avatarHtml + ' ' +
+                    MEMBERS[i].name + '</td><td>' + getMemberSavings(MEMBERS[i].id).toFixed(2) + ' KES</td></tr>';
             }
             document.getElementById("savingsPerMemberTable").innerHTML = html || '<tr><td colspan="2">No data</td></tr>';
         }
@@ -1713,7 +2133,10 @@
             }
         }
 
-        // ========== NAVIGATION ==========
+        // ============================================================
+        // NAVIGATION
+        // ============================================================
+
         function showMemberContent(section) {
             var contents = document.querySelectorAll('#memberContentArea .tab-content');
             for (var i = 0; i < contents.length; i++) { contents[i].classList.remove('active'); }
@@ -1742,9 +2165,16 @@
             if (section === 'members') { refreshMemberList(); }
         }
 
-        // ========== MEMBER VIEW FUNCTIONS ==========
+        // ============================================================
+        // MEMBER VIEW FUNCTIONS
+        // ============================================================
+
         function refreshMemberView() {
             if (currentMemberId === null) return;
+
+            updateAvatarDisplay(currentMemberId);
+            document.getElementById('memberNameHeader').innerText = MEMBERS[currentMemberId].name;
+
             var saved = getMemberSavings(currentMemberId);
             document.getElementById("memberSavings").innerHTML = saved + ' KES';
             document.getElementById("memberLoan").innerHTML = getMemberLoanBalance(currentMemberId) + ' KES';
@@ -1961,7 +2391,10 @@
             }
         }
 
-        // ========== ADMIN VIEW ==========
+        // ============================================================
+        // ADMIN VIEW FUNCTIONS
+        // ============================================================
+
         function refreshAdminView() {
             var opts = '<option value="">-- Select --</option>';
             for (var i = 0; i < MEMBERS.length; i++) {
@@ -2019,8 +2452,20 @@
         function refreshMemberList() {
             var passHtml = '';
             for (var i = 0; i < MEMBERS.length; i++) {
+                var photo = getMemberPhoto(i);
+                var initials = getInitials(MEMBERS[i].name);
+                var avatarHtml = '';
+                if (photo) {
+                    avatarHtml = '<img src="' + photo + '" alt="' + MEMBERS[i].name + '" style="width:28px;height:28px;border-radius:50%;object-fit:cover;">';
+                } else {
+                    avatarHtml = '<span style="background:' + getColorForName(MEMBERS[i].name) +
+                        ';color:white;display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;font-size:11px;font-weight:bold;">' +
+                        initials + '</span>';
+                }
+
                 passHtml += '<div class="member-row">';
-                passHtml += '<span><strong>' + MEMBERS[i].name + '</strong> 🔑 ' + MEMBERS[i].passcode + '</span>';
+                passHtml += '<div class="member-info">' + avatarHtml +
+                    '<span><strong>' + MEMBERS[i].name + '</strong> 🔑 ' + MEMBERS[i].passcode + '</span></div>';
                 passHtml += '<div>';
                 passHtml += '<button onclick="changeMemberPasscode(' + MEMBERS[i].id +
                     ')" class="secondary small">Change</button>';
@@ -2031,7 +2476,10 @@
             document.getElementById("passcodesList").innerHTML = passHtml;
         }
 
-        // ========== MEMBER RECORDS FUNCTIONS ==========
+        // ============================================================
+        // MEMBER RECORDS FUNCTIONS
+        // ============================================================
+
         function addNewMember() {
             var name = document.getElementById("newMemberName").value.trim();
             var phone = document.getElementById("newMemberPhone").value.trim();
@@ -2107,7 +2555,10 @@
             }
         }
 
-        // ========== CSV SYNC ==========
+        // ============================================================
+        // CSV SYNC FUNCTIONS
+        // ============================================================
+
         async function syncMemberSavingsFromCSV() {
             var url = document.getElementById("memberSavingsCsvUrl").value.trim();
             if (!url) { showErrorModal("Please paste your savings CSV link"); return; }
@@ -2400,7 +2851,10 @@
             } catch (e) { showErrorModal("❌ Error: " + e.message); }
         }
 
-        // ========== AUTH ==========
+        // ============================================================
+        // AUTH FUNCTIONS
+        // ============================================================
+
         function showMemberLogin() {
             document.getElementById("memberLoginPanel").style.display = "block";
             document.getElementById("adminLoginPanel").style.display = "none";
@@ -2418,9 +2872,20 @@
         function memberLogin() {
             var nameInput = document.getElementById("memberNameInput").value.trim();
             var pin = document.getElementById("memberPasscode").value.trim();
-            if (!nameInput) { showErrorModal("Please enter your name."); return; }
+
+            if (!nameInput) {
+                showErrorModal("Please enter your name.");
+                return;
+            }
+
+            if (!pin) {
+                showErrorModal("Please enter your password.");
+                return;
+            }
+
             var foundMember = null;
             var foundIndex = -1;
+
             for (var i = 0; i < MEMBERS.length; i++) {
                 if (MEMBERS[i].name.toLowerCase() === nameInput.toLowerCase()) {
                     foundMember = MEMBERS[i];
@@ -2428,12 +2893,15 @@
                     break;
                 }
             }
-            if (!foundMember) { showErrorModal("Member not found. Please check your name or sign up.");
+
+            if (!foundMember) {
+                showErrorModal("Member not found. Please check your name or sign up.");
                 document.getElementById("memberPasscode").value = "";
-                return; }
+                return;
+            }
+
             if (foundMember.passcode === pin) {
                 currentMemberId = foundIndex;
-                document.getElementById("memberName").innerText = foundMember.name;
                 document.getElementById("loginOverlay").style.display = "none";
                 document.getElementById("memberView").style.display = "block";
                 refreshMemberView();
@@ -2460,24 +2928,12 @@
             document.getElementById("memberView").style.display = "none";
             document.getElementById("adminView").style.display = "none";
             document.getElementById("loginOverlay").style.display = "flex";
+            closeProfileModal();
         }
 
-        // ========== OTHER FUNCTIONS ==========
-        function copyTillNumberReg() {
-            navigator.clipboard.writeText("6246156");
-            showErrorModal("Till copied! Pay 100 KES.");
-        }
-
-        function openWhatsAppReg() {
-            var msg = "💰 *NEW MEMBER*\nName: " + (pendingSignupData?.name || "") + "\nPhone: " + (pendingSignupData?.phone ||
-                "") + "\nFee: 100 KES\nTill: 6246156";
-            window.open("https://wa.me/?text=" + encodeURIComponent(msg), '_blank');
-        }
-
-        function generatePaymentInstructionsReg() {
-            showErrorModal("Pay 100 KES to Till 6246156\n1. M-PESA → Till\n2. Enter 6246156\n3. Amount 100");
-            if (confirm("Open M-PESA?")) window.location.href = "tel:*334#";
-        }
+        // ============================================================
+        // OTHER FUNCTIONS
+        // ============================================================
 
         var pendingSignupData = null;
 
@@ -2487,6 +2943,12 @@
             if (!name || !phone) { showErrorModal("Enter name and phone"); return; }
             for (var i = 0; i < MEMBERS.length; i++) {
                 if (MEMBERS[i].name.toLowerCase() === name.toLowerCase()) { showErrorModal("Already a member"); return; }
+            }
+            for (var i = 0; i < pendingSignups.length; i++) {
+                if (pendingSignups[i].name.toLowerCase() === name.toLowerCase()) {
+                    showErrorModal("You already have a pending signup request.");
+                    return;
+                }
             }
             pendingSignupData = { name: name, phone: phone };
             document.getElementById("paymentModal").style.display = "flex";
@@ -2516,6 +2978,22 @@
             document.getElementById("signupPhone").value = "";
             closePaymentModal();
             document.getElementById("successModal").style.display = "flex";
+        }
+
+        function copyTillNumberReg() {
+            navigator.clipboard.writeText("6246156");
+            showErrorModal("Till copied! Pay 100 KES.");
+        }
+
+        function openWhatsAppReg() {
+            var msg = "💰 *NEW MEMBER*\nName: " + (pendingSignupData?.name || "") + "\nPhone: " + (pendingSignupData?.phone ||
+                "") + "\nFee: 100 KES\nTill: 6246156";
+            window.open("https://wa.me/?text=" + encodeURIComponent(msg), '_blank');
+        }
+
+        function generatePaymentInstructionsReg() {
+            showErrorModal("Pay 100 KES to Till 6246156\n1. M-PESA → Till\n2. Enter 6246156\n3. Amount 100");
+            if (confirm("Open M-PESA?")) window.location.href = "tel:*334#";
         }
 
         function takeLoan() {
@@ -2616,11 +3094,6 @@
                 location.reload(); }
         }
 
-        function generateSavingsReport() {
-            // This is now replaced by downloadSavingsReport()
-            downloadSavingsReport();
-        }
-
         function copyTillNumber() {
             navigator.clipboard.writeText("6246156");
             showErrorModal("Till copied!");
@@ -2711,12 +3184,14 @@
             showErrorModal("✅ Interest disbursed: " + totalDue.toFixed(2) + " KES");
         }
 
-        // ========== INIT ==========
+        // ============================================================
+        // INITIALIZATION
+        // ============================================================
+
         function initialize() {
             loadData();
             refreshLoanPool();
 
-            // Close sidebar when clicking outside on mobile
             document.addEventListener('click', function(event) {
                 var mobileSidebar = document.getElementById('memberSidebarMobile');
                 var adminMobileSidebar = document.getElementById('adminSidebarMobile');
@@ -2737,7 +3212,18 @@
                     }
                 }
             });
+
+            document.addEventListener('click', function(event) {
+                var modal = document.getElementById('profileModal');
+                if (modal.classList.contains('open')) {
+                    var content = modal.querySelector('.profile-modal-content');
+                    if (!content.contains(event.target) && !event.target.closest('.profile-avatar')) {
+                        closeProfileModal();
+                    }
+                }
+            });
         }
+
         initialize();
     </script>
 </body>
