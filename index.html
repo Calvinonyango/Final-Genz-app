@@ -9,6 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js">
     </script>
     <style>
+        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
@@ -3490,6 +3491,7 @@
         let lastSavingsDisbursementDate = null;
         let lastInterestDisbursementDate = null;
         let memberToDelete = null;
+        let previousSavings = [];
 
         // ============================================================
         // ERROR MODAL
@@ -3558,7 +3560,8 @@
                 lastSavingsDisbursementDate,
                 lastInterestDisbursementDate,
                 loanRequests,
-                pendingSignups
+                pendingSignups,
+                previousSavings
             }));
         }
 
@@ -3578,6 +3581,7 @@
                     if (p.lastInterestDisbursementDate) lastInterestDisbursementDate = p.lastInterestDisbursementDate;
                     if (p.loanRequests) loanRequests = p.loanRequests;
                     if (p.pendingSignups) pendingSignups = p.pendingSignups;
+                    if (p.previousSavings) previousSavings = p.previousSavings;
                 } catch (e) {}
             }
         }
@@ -3618,6 +3622,12 @@
             return total;
         }
 
+        function getTotalPrincipalLent() {
+            var total = 0;
+            for (var i = 0; i < loans.length; i++) { total += (loans[i].principal || 0); }
+            return total;
+        }
+
         function getTotalInterestAll() {
             var total = 0;
             for (var i = 0; i < loans.length; i++) { total += (loans[i].interest || 0); }
@@ -3644,6 +3654,47 @@
             return tot;
         }
 
+        function getMemberInterestToSend(mid) {
+            return getMemberTotalInterestAccrued(mid) * 0.70;
+        }
+
+        function getNextSavingsDisbursementDateString() {
+            var now = new Date(),
+                m = now.getMonth(),
+                y = now.getFullYear();
+            if (m < 5) return "July " + y;
+            else if (m < 7) return "September " + y;
+            else if (m < 9) return "November " + y;
+            else return "January " + (y + 1);
+        }
+
+        function getNextInterestDisbursementDate() {
+            var now = new Date(),
+                m = now.getMonth(),
+                y = now.getFullYear();
+            return (m < 5 ? "June " + y : (m < 11 ? "December " + y : "June " + (y + 1)));
+        }
+
+        function refreshLoanPool() {
+            var totalP = getTotalPrincipalLent(),
+                totalI = getTotalInterestAll(),
+                reserve = totalI * 0.30,
+                out = getOutstandingLoanBalance(),
+                accessible = totalP + reserve - out;
+            if (accessible < 0) accessible = 0;
+
+            if (document.getElementById("accessibleLoanAmount")) document.getElementById("accessibleLoanAmount").innerHTML = accessible
+                .toFixed(2) + " KES";
+            if (document.getElementById("totalPrincipalLent")) document.getElementById("totalPrincipalLent").innerHTML = totalP
+                .toFixed(2) + " KES";
+            if (document.getElementById("totalInterestPool")) document.getElementById("totalInterestPool").innerHTML = totalI
+                .toFixed(2) + " KES";
+            if (document.getElementById("loanReservePool")) document.getElementById("loanReservePool").innerHTML = reserve
+                .toFixed(2) + " KES";
+            if (document.getElementById("outstandingLoansPool")) document.getElementById("outstandingLoansPool").innerHTML = out
+                .toFixed(2) + " KES";
+        }
+
         function updateDashboardStats() {
             if (currentMemberId !== null) {
                 document.getElementById('dashTotalSavings').innerHTML = getMemberSavings(currentMemberId) + ' KES';
@@ -3651,6 +3702,24 @@
                 document.getElementById('dashInterest').innerHTML = getMemberTotalInterestAccrued(currentMemberId).toFixed(2) +
                     ' KES';
             }
+        }
+
+        function updateSavingsPerMemberTable() {
+            var html = '';
+            for (var i = 0; i < MEMBERS.length; i++) {
+                html += '<tr><td>' + MEMBERS[i].name + '</td><td>' + getMemberSavings(MEMBERS[i].id).toFixed(2) + ' KES</td></tr>';
+            }
+            document.getElementById("savingsPerMemberTable").innerHTML = html || '<tr><td colspan="2">No data</td></tr>';
+        }
+
+        function updateInterestPerMemberTable() {
+            var html = '';
+            for (var i = 0; i < MEMBERS.length; i++) {
+                var interest = getMemberTotalInterestAccrued(MEMBERS[i].id);
+                html += '<tr><td>' + MEMBERS[i].name + '</td><td>' + interest.toFixed(2) + ' KES</td><td>' + (interest * 0.70)
+                    .toFixed(2) + ' KES</td><td>' + (interest * 0.30).toFixed(2) + ' KES</td></tr>';
+            }
+            document.getElementById("interestPerMemberTable").innerHTML = html || '<tr><td colspan="4">No data</td></tr>';
         }
 
         // ============================================================
@@ -3686,6 +3755,19 @@
             displayPendingRequests();
             displayPendingLoanRequests();
             refreshLoanPool();
+
+            // Update Savings Per Member Table
+            updateSavingsPerMemberTable();
+            updateInterestPerMemberTable();
+
+            document.getElementById("totalSavingsPool").innerHTML = getTotalGroupSavings().toFixed(2) + " KES";
+            document.getElementById("nextDisbursementMonth").innerHTML = getNextSavingsDisbursementDateString();
+            var now = new Date();
+            document.getElementById("currentMonth").innerHTML = now.toLocaleString('default', { month: 'long' }) + " " + now
+                .getFullYear();
+            document.getElementById("totalInterestCollected").innerHTML = getTotalInterestAll().toFixed(2) + " KES";
+            document.getElementById("totalDueToMembers").innerHTML = (getTotalInterestAll() * 0.70).toFixed(2) + " KES";
+            document.getElementById("loanReserveAmount").innerHTML = (getTotalInterestAll() * 0.30).toFixed(2) + " KES";
         }
 
         function displayPendingRequests() {
@@ -3770,6 +3852,399 @@
                 mgrWeekIndex]?.name || '')) + '<br><span class="small-text">' + (mgrLastPaidWeek === getCurrentWeekKey() ?
                 "Paid" : "Not paid") + '</span>';
             updateDashboardStats();
+        }
+
+        // ============================================================
+        // PROCESS SAVINGS DISBURSEMENT (RESTORED)
+        // ============================================================
+
+        function processSavingsDisbursement() {
+            var now = new Date(),
+                m = now.getMonth();
+            if (![0, 2, 4, 6, 8, 10].includes(m)) {
+                showErrorModal("⚠️ Disbursements only in Jan/Mar/May/Jul/Sep/Nov. Next: " +
+                    getNextSavingsDisbursementDateString());
+                return;
+            }
+            var period = now.toLocaleString('default', { month: 'long' }) + " " + now.getFullYear();
+            if (lastSavingsDisbursementDate === period) {
+                showErrorModal("Disbursement for " + period + " already processed");
+                return;
+            }
+            var total = getTotalGroupSavings();
+            if (total === 0) {
+                showErrorModal("No savings to disburse");
+                return;
+            }
+            if (!confirm("Disburse ALL savings? Total: " + total.toFixed(2) + " KES")) return;
+
+            // Mark all savings as disbursed and move to previousSavings
+            for (var i = 0; i < savings.length; i++) {
+                previousSavings.push({ ...savings[i], disbursed: true });
+            }
+            savings = [];
+            lastSavingsDisbursementDate = period;
+            saveData();
+            refreshAdminView();
+            showErrorModal("✅ Savings disbursed: " + period + " (Total: " + total.toFixed(2) + " KES)");
+            // Refresh the savings view
+            if (currentAdminSection === 'savings') {
+                renderAdminSavingsSub(currentAdminSub || 'disbursement');
+            }
+        }
+
+        // ============================================================
+        // PROCESS INTEREST DISBURSEMENT (RESTORED)
+        // ============================================================
+
+        function processInterestDisbursement() {
+            var now = new Date(),
+                m = now.getMonth();
+            if (m !== 5 && m !== 11) {
+                showErrorModal("⚠️ Interest disbursements only in June & December. Next: " +
+                    getNextInterestDisbursementDate());
+                return;
+            }
+            var period = m === 5 ? "June " + now.getFullYear() : "December " + now.getFullYear();
+            if (lastInterestDisbursementDate === period) {
+                showErrorModal("Interest for " + period + " already processed");
+                return;
+            }
+            var totalDue = getTotalInterestAll() * 0.70;
+            if (totalDue === 0) {
+                showErrorModal("No interest to disburse");
+                return;
+            }
+            if (!confirm("Disburse 70% interest? Total: " + totalDue.toFixed(2) + " KES to members")) return;
+
+            // Distribute 70% to members
+            for (var i = 0; i < MEMBERS.length; i++) {
+                var due = getMemberInterestToSend(MEMBERS[i].id);
+                if (due > 0) {
+                    savings.push({
+                        date: new Date().toISOString().split('T')[0],
+                        memberId: MEMBERS[i].id,
+                        amount: due,
+                        note: "Interest " + period
+                    });
+                }
+            }
+            // Reset interest on returned loans
+            for (var i = 0; i < loans.length; i++) {
+                if (loans[i].status === 'returned') loans[i].interest = 0;
+            }
+            lastInterestDisbursementDate = period;
+            saveData();
+            refreshAdminView();
+            showErrorModal("✅ Interest disbursed: " + totalDue.toFixed(2) + " KES");
+            if (currentAdminSection === 'loans') {
+                renderAdminLoansSub(currentAdminSub || 'interest');
+            }
+        }
+
+        // ============================================================
+        // CSV SYNC FUNCTIONS (RESTORED)
+        // ============================================================
+
+        async function syncMemberSavingsFromCSV() {
+            var url = document.getElementById("memberSavingsCsvUrl").value.trim();
+            if (!url) { showErrorModal("Please paste your savings CSV link"); return; }
+            document.getElementById("memberSyncStatus").innerHTML = "🔄 Syncing savings...";
+            try {
+                var response = await fetch(url);
+                var text = await response.text();
+                var lines = text.split('\n');
+                var newSavings = [];
+                var skippedHeader = false;
+                for (var i = 0; i < lines.length; i++) {
+                    if (!lines[i].trim()) continue;
+                    var row = lines[i].split(',');
+                    if (row.length < 3) continue;
+                    if (!skippedHeader && (row[0].toLowerCase().includes("date"))) { skippedHeader = true; continue; }
+                    var date = row[0].trim();
+                    var memberName = row[1].trim();
+                    var amount = parseFloat(row[2]);
+                    if (memberName && memberName.toLowerCase() === MEMBERS[currentMemberId].name.toLowerCase() && !isNaN(
+                            amount) && amount > 0) {
+                        if (date && date.includes('/')) {
+                            var parts = date.split('/');
+                            date = "20" + parts[2] + "-" + parts[1].padStart(2, '0') + "-" + parts[0].padStart(2, '0');
+                        }
+                        newSavings.push({ date: date, memberId: currentMemberId, amount: amount });
+                    }
+                }
+                if (newSavings.length > 0) {
+                    var filteredSavings = [];
+                    for (var i = 0; i < savings.length; i++) {
+                        if (savings[i].memberId !== currentMemberId) filteredSavings.push(savings[i]);
+                    }
+                    savings = filteredSavings;
+                    for (var i = 0; i < newSavings.length; i++) { savings.push(newSavings[i]); }
+                    saveData();
+                    refreshMemberView();
+                    document.getElementById("memberSyncStatus").innerHTML = "✅ Synced " + newSavings.length +
+                        " savings records!";
+                } else {
+                    document.getElementById("memberSyncStatus").innerHTML = "⚠️ No savings found for your name.";
+                }
+            } catch (e) {
+                document.getElementById("memberSyncStatus").innerHTML = "❌ Error: " + e.message;
+            }
+        }
+
+        async function syncMemberLoansFromCSV() {
+            var url = document.getElementById("memberLoansCsvUrl").value.trim();
+            if (!url) { showErrorModal("Please paste your loans CSV link"); return; }
+            document.getElementById("memberLoansSyncStatus").innerHTML = "🔄 Syncing loans...";
+            try {
+                var response = await fetch(url);
+                var text = await response.text();
+                var lines = text.split('\n');
+                var newLoans = [];
+                var skippedHeader = false;
+                for (var i = 0; i < lines.length; i++) {
+                    if (!lines[i].trim()) continue;
+                    var row = lines[i].split(',');
+                    if (row.length < 5) continue;
+                    if (!skippedHeader && (row[0].toLowerCase().includes("loan"))) { skippedHeader = true; continue; }
+                    var loanId = parseInt(row[0]) || Date.now();
+                    var date = row[1].trim();
+                    var memberName = row[2].trim();
+                    var principal = parseFloat(row[3]);
+                    var interest = parseFloat(row[4]) || principal * 0.10;
+                    var totalDue = parseFloat(row[5]) || principal + interest;
+                    var returnDate = row[6] ? row[6].trim() : "";
+                    var status = row[7] ? row[7].toLowerCase().trim() : "pending";
+                    var amountPaid = parseFloat(row[8]) || 0;
+                    if (memberName && memberName.toLowerCase() === MEMBERS[currentMemberId].name.toLowerCase() && !isNaN(
+                            principal) && principal > 0) {
+                        if (date && date.includes('/')) {
+                            var parts = date.split('/');
+                            date = "20" + parts[2] + "-" + parts[1].padStart(2, '0') + "-" + parts[0].padStart(2, '0');
+                        }
+                        if (returnDate && returnDate.includes('/')) {
+                            var parts = returnDate.split('/');
+                            returnDate = "20" + parts[2] + "-" + parts[1].padStart(2, '0') + "-" + parts[0].padStart(2,
+                                '0');
+                        }
+                        newLoans.push({
+                            id: loanId,
+                            memberId: currentMemberId,
+                            principal: principal,
+                            interest: interest,
+                            totalDue: totalDue,
+                            returnDate: returnDate || new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0],
+                            status: status === "returned" ? "returned" : "pending",
+                            dateTaken: date || new Date().toISOString().split('T')[0],
+                            repaidAmount: amountPaid
+                        });
+                    }
+                }
+                if (newLoans.length > 0) {
+                    var filteredLoans = [];
+                    for (var i = 0; i < loans.length; i++) {
+                        if (loans[i].memberId !== currentMemberId) filteredLoans.push(loans[i]);
+                    }
+                    loans = filteredLoans;
+                    for (var i = 0; i < newLoans.length; i++) { loans.push(newLoans[i]); }
+                    saveData();
+                    refreshMemberView();
+                    document.getElementById("memberLoansSyncStatus").innerHTML = "✅ Synced " + newLoans.length +
+                        " loan records!";
+                } else {
+                    document.getElementById("memberLoansSyncStatus").innerHTML = "⚠️ No loans found for your name.";
+                }
+            } catch (e) {
+                document.getElementById("memberLoansSyncStatus").innerHTML = "❌ Error: " + e.message;
+            }
+        }
+
+        async function syncSavings() {
+            var url = document.getElementById("savingsCsvUrl").value.trim();
+            if (!url) { showErrorModal("Paste Savings CSV link"); return; }
+            document.getElementById("syncStatusMsg").innerHTML = "🔄 Syncing Savings...";
+            try {
+                var response = await fetch(url);
+                var text = await response.text();
+                var lines = text.split('\n');
+                var newSavings = [];
+                var skippedHeader = false;
+                for (var i = 0; i < lines.length; i++) {
+                    if (!lines[i].trim()) continue;
+                    var row = lines[i].split(',');
+                    if (row.length < 3) continue;
+                    if (!skippedHeader && (row[0].toLowerCase().includes("date"))) { skippedHeader = true; continue; }
+                    var date = row[0].trim();
+                    var memberName = row[1].trim();
+                    var amount = parseFloat(row[2]);
+                    if (memberName && !isNaN(amount) && amount > 0) {
+                        var memberId = -1;
+                        for (var j = 0; j < MEMBERS.length; j++) {
+                            if (MEMBERS[j].name.toLowerCase() === memberName.toLowerCase()) { memberId = j; break; }
+                        }
+                        if (memberId !== -1) {
+                            if (date && date.includes('/')) {
+                                var parts = date.split('/');
+                                date = "20" + parts[2] + "-" + parts[1].padStart(2, '0') + "-" + parts[0].padStart(2,
+                                    '0');
+                            }
+                            newSavings.push({ date: date, memberId: memberId, amount: amount });
+                        }
+                    }
+                }
+                if (newSavings.length > 0) {
+                    savings = newSavings;
+                    saveData();
+                    refreshAdminView();
+                    document.getElementById("syncStatusMsg").innerHTML = "✅ Synced " + newSavings.length +
+                        " savings records!";
+                    updateSavingsPerMemberTable();
+                    if (currentAdminSection === 'savings') {
+                        renderAdminSavingsSub(currentAdminSub || 'sync');
+                    }
+                } else {
+                    document.getElementById("syncStatusMsg").innerHTML = "⚠️ No valid savings found.";
+                }
+            } catch (e) {
+                document.getElementById("syncStatusMsg").innerHTML = "❌ Error: " + e.message;
+            }
+        }
+
+        async function syncLoans() {
+            var url = document.getElementById("loansCsvUrl").value.trim();
+            if (!url) { showErrorModal("Paste Loans CSV link"); return; }
+            document.getElementById("syncStatusMsg").innerHTML = "🔄 Syncing Loans...";
+            try {
+                var response = await fetch(url);
+                var text = await response.text();
+                var lines = text.split('\n');
+                var newLoans = [];
+                var skippedHeader = false;
+                for (var i = 0; i < lines.length; i++) {
+                    if (!lines[i].trim()) continue;
+                    var row = lines[i].split(',');
+                    if (row.length < 5) continue;
+                    if (!skippedHeader && (row[0].toLowerCase().includes("loan"))) { skippedHeader = true; continue; }
+                    var loanId = parseInt(row[0]);
+                    var date = row[1].trim();
+                    var memberName = row[2].trim();
+                    var principal = parseFloat(row[3]);
+                    var interest = parseFloat(row[4]) || principal * 0.10;
+                    var totalDue = parseFloat(row[5]) || principal + interest;
+                    var returnDate = row[6] ? row[6].trim() : "";
+                    var status = row[7] ? row[7].toLowerCase().trim() : "pending";
+                    var amountPaid = parseFloat(row[8]) || 0;
+                    if (memberName && !isNaN(principal) && principal > 0) {
+                        var memberId = -1;
+                        for (var j = 0; j < MEMBERS.length; j++) {
+                            if (MEMBERS[j].name.toLowerCase() === memberName.toLowerCase()) { memberId = j; break; }
+                        }
+                        if (memberId !== -1) {
+                            if (date && date.includes('/')) {
+                                var parts = date.split('/');
+                                date = "20" + parts[2] + "-" + parts[1].padStart(2, '0') + "-" + parts[0].padStart(2,
+                                    '0');
+                            }
+                            if (returnDate && returnDate.includes('/')) {
+                                var parts = returnDate.split('/');
+                                returnDate = "20" + parts[2] + "-" + parts[1].padStart(2, '0') + "-" + parts[0].padStart(
+                                    2, '0');
+                            }
+                            newLoans.push({
+                                id: loanId || nextLoanId++,
+                                memberId: memberId,
+                                principal: principal,
+                                interest: interest,
+                                totalDue: totalDue,
+                                returnDate: returnDate || new Date(Date.now() + 30 * 86400000).toISOString().split('T')[
+                                    0],
+                                status: status === "returned" ? "returned" : "pending",
+                                dateTaken: date || new Date().toISOString().split('T')[0],
+                                repaidAmount: amountPaid
+                            });
+                            if (loanId >= nextLoanId) nextLoanId = loanId + 1;
+                        }
+                    }
+                }
+                if (newLoans.length > 0) {
+                    loans = newLoans;
+                    saveData();
+                    refreshAdminView();
+                    refreshLoanPool();
+                    document.getElementById("syncStatusMsg").innerHTML = "✅ Synced " + newLoans.length +
+                        " loan records!";
+                    updateInterestPerMemberTable();
+                    if (currentAdminSection === 'loans') {
+                        renderAdminLoansSub(currentAdminSub || 'sync');
+                    }
+                } else {
+                    document.getElementById("syncStatusMsg").innerHTML = "⚠️ No valid loans found.";
+                }
+            } catch (e) {
+                document.getElementById("syncStatusMsg").innerHTML = "❌ Error: " + e.message;
+            }
+        }
+
+        async function syncMembers() {
+            var url = document.getElementById("membersCsvUrl").value.trim();
+            if (!url) { showErrorModal("Paste Members CSV link"); return; }
+            document.getElementById("syncStatusMsg").innerHTML = "🔄 Syncing Members...";
+            try {
+                var response = await fetch(url);
+                var text = await response.text();
+                var lines = text.split('\n');
+                var newMembers = [];
+                var skippedHeader = false;
+                for (var i = 0; i < lines.length; i++) {
+                    if (!lines[i].trim()) continue;
+                    var row = lines[i].split(',');
+                    if (row.length < 2) continue;
+                    if (!skippedHeader && (row[0].toLowerCase().includes("name"))) { skippedHeader = true; continue; }
+                    var name = row[0].trim();
+                    var phone = (row[1] || "").trim();
+                    var passcode = row[2] ? row[2].trim() : (phone ? phone.slice(-4) : "0000");
+                    if (name) newMembers.push({ id: newMembers.length, name: name, phone: phone, passcode: passcode });
+                }
+                if (newMembers.length > 0) {
+                    MEMBERS = newMembers;
+                    saveData();
+                    refreshAdminView();
+                    showErrorModal("✅ Synced " + newMembers.length + " members!");
+                    if (currentAdminSection === 'members') {
+                        renderAdminMembersSub(currentAdminSub || 'list');
+                    }
+                } else {
+                    showErrorModal("⚠️ No members found.");
+                }
+            } catch (e) { showErrorModal("❌ Error: " + e.message); }
+        }
+
+        async function syncMGR() {
+            var url = document.getElementById("mgrCsvUrl").value.trim();
+            if (!url) { showErrorModal("Paste MGR CSV link"); return; }
+            document.getElementById("syncStatusMsg").innerHTML = "🔄 Syncing MGR...";
+            try {
+                var response = await fetch(url);
+                var text = await response.text();
+                var lines = text.split('\n');
+                var skippedHeader = false;
+                for (var i = 0; i < lines.length; i++) {
+                    if (!lines[i].trim()) continue;
+                    var row = lines[i].split(',');
+                    if (row.length < 2) continue;
+                    if (!skippedHeader && (row[0].toLowerCase().includes("week"))) { skippedHeader = true; continue; }
+                    var weekIdx = parseInt(row[0]);
+                    var lastPaid = row[1].trim();
+                    if (!isNaN(weekIdx)) {
+                        mgrWeekIndex = weekIdx;
+                        mgrLastPaidWeek = lastPaid;
+                        saveData();
+                        refreshAdminView();
+                        showErrorModal("✅ MGR synced: Week " + weekIdx);
+                        return;
+                    }
+                }
+            } catch (e) { showErrorModal("❌ Error: " + e.message); }
         }
 
         // ============================================================
@@ -4008,18 +4483,6 @@
             if (confirm("Open M-PESA?")) window.location.href = "tel:*334#";
         }
 
-        function syncMemberSavingsFromCSV() {
-            var url = document.getElementById("memberSavingsCsvUrl").value.trim();
-            if (!url) { showErrorModal("Please paste your savings CSV link"); return; }
-            showErrorModal("✅ Savings synced successfully! (Demo)");
-        }
-
-        function syncMemberLoansFromCSV() {
-            var url = document.getElementById("memberLoansCsvUrl").value.trim();
-            if (!url) { showErrorModal("Please paste your loans CSV link"); return; }
-            showErrorModal("✅ Loans synced successfully! (Demo)");
-        }
-
         function addNewMember() {
             var name = document.getElementById("newMemberName").value.trim();
             var phone = document.getElementById("newMemberPhone").value.trim();
@@ -4102,19 +4565,84 @@
             }
         }
 
-        function syncMembers() { showErrorModal("✅ Members synced! (Demo)"); }
+        function addSavings() {
+            var mid = parseInt(document.getElementById("savingsMemberSelect").value);
+            var amt = parseFloat(document.getElementById("savingsAmount").value);
+            var date = document.getElementById("savingsDate").value;
+            if (isNaN(mid) || isNaN(amt) || amt <= 0 || !date) { showErrorModal("All fields required"); return; }
+            savings.push({ date: date, memberId: mid, amount: amt });
+            saveData();
+            refreshAdminView();
+            showErrorModal("✅ Added " + amt + " KES");
+            document.getElementById("savingsAmount").value = "";
+            if (currentAdminSection === 'savings') {
+                renderAdminSavingsSub(currentAdminSub || 'add');
+            }
+        }
 
-        function syncMGR() { showErrorModal("✅ MGR synced! (Demo)"); }
+        function takeLoan() {
+            var mid = parseInt(document.getElementById("loanMemberSelect").value);
+            var princ = parseFloat(document.getElementById("loanPrincipal").value);
+            var retDate = document.getElementById("loanReturnDate").value;
+            var taken = document.getElementById("loanDateTaken").value;
+            if (isNaN(mid) || isNaN(princ) || princ <= 0 || !retDate) { showErrorModal("All fields required"); return; }
+            var interest = princ * 0.10;
+            loans.push({
+                id: nextLoanId++,
+                memberId: mid,
+                principal: princ,
+                interest: interest,
+                totalDue: princ + interest,
+                returnDate: retDate,
+                status: "pending",
+                dateTaken: taken || new Date().toISOString().split('T')[0],
+                repaidAmount: 0
+            });
+            saveData();
+            refreshAdminView();
+            showErrorModal("📥 Loan: " + princ + " +10% = " + (princ + interest) + " KES");
+            refreshLoanPool();
+            document.getElementById("loanPrincipal").value = "";
+            document.getElementById("loanReturnDate").value = "";
+            document.getElementById("loanDateTaken").value = "";
+            if (currentAdminSection === 'loans') {
+                renderAdminLoansSub(currentAdminSub || 'take');
+            }
+        }
 
-        function syncSavings() { showErrorModal("✅ Savings synced! (Demo)"); }
-
-        function syncLoans() { showErrorModal("✅ Loans synced! (Demo)"); }
-
-        function addSavings() { showErrorModal("✅ Savings added! (Demo)"); }
-
-        function takeLoan() { showErrorModal("📥 Loan taken! (Demo)"); }
-
-        function repayLoan() { showErrorModal("💰 Repayment recorded! (Demo)"); }
+        function repayLoan() {
+            var mid = parseInt(document.getElementById("repayMemberSelect").value);
+            var amt = parseFloat(document.getElementById("repayAmount").value);
+            if (isNaN(mid) || isNaN(amt) || amt <= 0) { showErrorModal("Valid amount required"); return; }
+            var pending = [];
+            for (var i = 0; i < loans.length; i++) {
+                if (loans[i].memberId === mid && loans[i].status === "pending") pending.push(loans[i]);
+            }
+            pending.sort(function(a, b) { return new Date(a.returnDate) - new Date(b.returnDate); });
+            if (!pending.length) { showErrorModal("No pending loans"); return; }
+            var remaining = amt;
+            for (var i = 0; i < pending.length; i++) {
+                var owing = pending[i].totalDue - (pending[i].repaidAmount || 0);
+                if (remaining <= 0) break;
+                if (remaining >= owing) {
+                    pending[i].repaidAmount = pending[i].totalDue;
+                    pending[i].status = "returned";
+                    remaining -= owing;
+                    showErrorModal("✅ Loan fully repaid.");
+                } else {
+                    pending[i].repaidAmount = (pending[i].repaidAmount || 0) + remaining;
+                    remaining = 0;
+                    showErrorModal("💰 Partial repayment of " + amt + " KES");
+                }
+            }
+            saveData();
+            refreshAdminView();
+            document.getElementById("repayAmount").value = "";
+            refreshLoanPool();
+            if (currentAdminSection === 'loans') {
+                renderAdminLoansSub(currentAdminSub || 'repay');
+            }
+        }
 
         function recordMGR() {
             if (mgrLastPaidWeek === getCurrentWeekKey()) { showErrorModal("Already recorded"); return; }
@@ -4171,10 +4699,6 @@
             document.getElementById("notificationMessage").value = "";
             showErrorModal("WhatsApp opened.");
         }
-
-        function processSavingsDisbursement() { showErrorModal("✅ Savings disbursed! (Demo)"); }
-
-        function processInterestDisbursement() { showErrorModal("✅ Interest disbursed! (Demo)"); }
 
         function approveLoanRequest(id) {
             for (var i = 0; i < loanRequests.length; i++) {
@@ -4607,39 +5131,6 @@
 
             doc.save('GenzChama_All_Loans_Report.pdf');
             showErrorModal('✅ All members loans report downloaded successfully!');
-        }
-
-        // ============================================================
-        // REFRESH LOAN POOL
-        // ============================================================
-
-        function refreshLoanPool() {
-            var totalP = 0,
-                totalI = 0,
-                reserve = 0,
-                out = 0,
-                accessible = 0;
-            for (var i = 0; i < loans.length; i++) {
-                totalP += loans[i].principal || 0;
-                totalI += loans[i].interest || 0;
-                if (loans[i].status !== 'returned') {
-                    out += loans[i].totalDue - (loans[i].repaidAmount || 0);
-                }
-            }
-            reserve = totalI * 0.30;
-            accessible = totalP + reserve - out;
-            if (accessible < 0) accessible = 0;
-
-            if (document.getElementById("accessibleLoanAmount")) document.getElementById("accessibleLoanAmount").innerHTML = accessible
-                .toFixed(2) + " KES";
-            if (document.getElementById("totalPrincipalLent")) document.getElementById("totalPrincipalLent").innerHTML = totalP
-                .toFixed(2) + " KES";
-            if (document.getElementById("totalInterestPool")) document.getElementById("totalInterestPool").innerHTML = totalI
-                .toFixed(2) + " KES";
-            if (document.getElementById("loanReservePool")) document.getElementById("loanReservePool").innerHTML = reserve
-                .toFixed(2) + " KES";
-            if (document.getElementById("outstandingLoansPool")) document.getElementById("outstandingLoansPool").innerHTML = out
-                .toFixed(2) + " KES";
         }
 
         // ============================================================
