@@ -373,7 +373,6 @@
             color: #64748b;
         }
 
-        /* ===== SIDEBAR ITEM ===== */
         .sidebar-item {
             display: flex;
             align-items: center;
@@ -483,7 +482,6 @@
             width: 20px;
         }
 
-        /* ===== SIDEBAR LOGOUT ===== */
         .sidebar-divider {
             height: 1px;
             background: rgba(226, 232, 240, 0.5);
@@ -589,7 +587,6 @@
             margin: 8px 4px;
         }
 
-        /* ===== MOBILE PROFILE - AT BOTTOM ===== */
         .sidebar-mobile .mobile-profile {
             display: flex;
             align-items: center;
@@ -667,6 +664,7 @@
             padding-bottom: 12px;
         }
 
+        /* ===== DASHBOARD ===== */
         .dashboard-container {
             display: flex;
             gap: 20px;
@@ -681,18 +679,25 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-radius: 24px;
-            padding: 24px;
+            padding: 28px 32px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
             min-height: 400px;
             min-width: 0;
             overflow-x: auto;
             transition: all 0.3s ease;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
         }
 
         body.dark-mode .content-area {
             background: rgba(30, 30, 60, 0.8);
             border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .content-area:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
         }
 
         .tab-content {
@@ -705,7 +710,7 @@
         }
 
         .content-area h2 {
-            font-size: 20px;
+            font-size: 22px;
             margin-bottom: 20px;
             border-left: 4px solid #1a4d3e;
             padding-left: 14px;
@@ -718,16 +723,18 @@
             color: #e2e8f0;
         }
 
+        /* ===== CARDS ===== */
         .card {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border-radius: 18px;
-            padding: 18px;
-            margin-bottom: 16px;
+            padding: 20px 24px;
+            margin-bottom: 20px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
             transition: all 0.3s ease;
+            width: 100%;
         }
 
         body.dark-mode .card {
@@ -735,11 +742,41 @@
             border-color: rgba(255, 255, 255, 0.05);
         }
 
+        .card:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            transform: translateY(-2px);
+        }
+
+        .card h2 {
+            font-size: 18px;
+            color: #1a4d3e;
+            margin-bottom: 14px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .card h2 {
+            color: #e2e8f0;
+        }
+
+        .card h3 {
+            font-size: 16px;
+            color: #1a4d3e;
+            margin-bottom: 12px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .card h3 {
+            color: #e2e8f0;
+        }
+
+        /* ===== STATS GRID ===== */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 16px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .stat-card {
@@ -747,7 +784,7 @@
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border-radius: 18px;
-            padding: 20px;
+            padding: 24px 20px;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
@@ -762,8 +799,17 @@
             border-color: rgba(255, 255, 255, 0.05);
         }
 
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card:active {
+            transform: scale(0.97);
+        }
+
         .stat-card h3 {
-            font-size: 30px;
+            font-size: 32px;
             color: #1a4d3e;
             margin-bottom: 4px;
             font-weight: 700;
@@ -776,7 +822,7 @@
 
         .stat-card p {
             color: #64748b;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 500;
             transition: color 0.3s ease;
         }
@@ -785,11 +831,37 @@
             color: #94a3b8;
         }
 
+        .stat-card .click-hint {
+            font-size: 10px;
+            color: #94a3b8;
+            margin-top: 6px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        body.dark-mode .stat-card .click-hint {
+            color: #64748b;
+        }
+
+        .stat-card:hover .click-hint {
+            opacity: 1;
+        }
+
+        .stat-card .icon-bg {
+            position: absolute;
+            right: -10px;
+            bottom: -10px;
+            font-size: 60px;
+            opacity: 0.05;
+            pointer-events: none;
+        }
+
+        /* ===== BUTTONS ===== */
         button {
             background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 10px 24px;
             border-radius: 50px;
             font-weight: 600;
             cursor: pointer;
@@ -804,6 +876,10 @@
             box-shadow: 0 6px 20px rgba(26, 77, 62, 0.3);
         }
 
+        button:active {
+            transform: scale(0.97);
+        }
+
         button.secondary {
             background: rgba(100, 116, 139, 0.8);
             color: #334155;
@@ -815,18 +891,45 @@
             color: #cbd5e1;
         }
 
+        button.secondary:hover {
+            background: rgba(100, 116, 139, 1);
+            color: white;
+        }
+
+        body.dark-mode button.secondary:hover {
+            background: rgba(30, 30, 60, 1);
+            color: #e2e8f0;
+        }
+
         button.download {
             background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
             box-shadow: 0 2px 10px rgba(139, 92, 246, 0.2);
+        }
+
+        button.sync {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            box-shadow: 0 2px 10px rgba(2, 132, 199, 0.2);
+        }
+
+        button.sync:hover {
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.3);
+        }
+
+        button.danger {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            box-shadow: 0 2px 10px rgba(220, 38, 38, 0.2);
         }
 
         button.back-btn {
             background: rgba(100, 116, 139, 0.6);
             color: #334155;
             box-shadow: none;
-            font-size: 12px;
-            padding: 6px 14px;
-            margin-bottom: 12px;
+            font-size: 13px;
+            padding: 8px 18px;
+            margin-bottom: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
         body.dark-mode button.back-btn {
@@ -837,14 +940,270 @@
         button.back-btn:hover {
             background: rgba(100, 116, 139, 0.8);
             transform: translateY(-1px);
+            color: white;
         }
 
+        body.dark-mode button.back-btn:hover {
+            background: rgba(30, 30, 60, 0.9);
+            color: #e2e8f0;
+        }
+
+        .btn-small {
+            font-size: 11px;
+            padding: 5px 12px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        }
+
+        .flex-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* ===== TABLES ===== */
+        .savings-table,
+        .interest-table,
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .savings-table th,
+        .savings-table td,
+        .interest-table th,
+        .interest-table td,
+        .report-table th,
+        .report-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .savings-table th,
+        body.dark-mode .savings-table td,
+        body.dark-mode .interest-table th,
+        body.dark-mode .interest-table td,
+        body.dark-mode .report-table th,
+        body.dark-mode .report-table td {
+            border-bottom-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .savings-table th,
+        .interest-table th,
+        .report-table th {
+            background: rgba(248, 250, 252, 0.6);
+            font-weight: 600;
+            color: #1a4d3e;
+            backdrop-filter: blur(4px);
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .savings-table th,
+        body.dark-mode .interest-table th,
+        body.dark-mode .report-table th {
+            background: rgba(30, 30, 60, 0.6);
+            color: #e2e8f0;
+        }
+
+        .savings-table tr:hover,
+        .interest-table tr:hover,
+        .report-table tr:hover {
+            background: rgba(241, 245, 249, 0.3);
+        }
+
+        body.dark-mode .savings-table tr:hover,
+        body.dark-mode .interest-table tr:hover,
+        body.dark-mode .report-table tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .savings-table td:last-child,
+        .interest-table td:last-child {
+            text-align: right;
+            font-weight: 500;
+        }
+
+        /* ===== OTHER STYLES ===== */
+        .member-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+            flex-wrap: wrap;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        body.dark-mode .member-row {
+            border-bottom-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .member-row:hover {
+            background: rgba(241, 245, 249, 0.3);
+            padding-left: 8px;
+            padding-right: 8px;
+            border-radius: 12px;
+        }
+
+        body.dark-mode .member-row:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .member-row .member-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .member-row .member-avatar-small {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .member-row .member-avatar-small img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .delete-member {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            font-size: 11px;
+            padding: 4px 12px;
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15);
+        }
+
+        .small {
+            font-size: 11px;
+            padding: 4px 12px;
+        }
+
+        .total {
+            text-align: center;
+            margin: 12px 0;
+            padding: 14px;
+            background: rgba(230, 247, 237, 0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 50px;
+            font-weight: 600;
+            border: 1px solid rgba(26, 77, 62, 0.1);
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .total {
+            background: rgba(30, 30, 60, 0.6);
+            border-color: rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+        }
+
+        .winner {
+            background: rgba(209, 250, 229, 0.6);
+            backdrop-filter: blur(4px);
+            padding: 14px;
+            border-radius: 50px;
+            text-align: center;
+            font-weight: 600;
+            margin: 10px 0;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .winner {
+            background: rgba(30, 30, 60, 0.6);
+            border-color: rgba(16, 185, 129, 0.1);
+            color: #cbd5e1;
+        }
+
+        .winner .small-text {
+            font-size: 12px;
+            font-weight: 400;
+            color: #64748b;
+        }
+
+        body.dark-mode .winner .small-text {
+            color: #94a3b8;
+        }
+
+        /* ===== INPUTS ===== */
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 16px;
+            margin: 6px 0;
+            border: 2px solid rgba(203, 213, 225, 0.5);
+            border-radius: 50px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(4px);
+            color: #334155;
+        }
+
+        body.dark-mode input,
+        body.dark-mode select,
+        body.dark-mode textarea {
+            background: rgba(30, 30, 60, 0.6);
+            border-color: rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #1a4d3e;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(26, 77, 62, 0.08);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        body.dark-mode input:focus,
+        body.dark-mode select:focus,
+        body.dark-mode textarea:focus {
+            background: rgba(30, 30, 60, 0.9);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #94a3b8;
+        }
+
+        body.dark-mode input::placeholder,
+        body.dark-mode textarea::placeholder {
+            color: #64748b;
+        }
+
+        textarea {
+            border-radius: 16px;
+            min-height: 60px;
+            resize: vertical;
+        }
+
+        /* ===== RULES ===== */
         .rules-section {
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border-radius: 18px;
-            padding: 20px;
+            padding: 20px 24px;
             margin-bottom: 20px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             transition: all 0.3s ease;
@@ -965,9 +1324,212 @@
             display: inline-block;
         }
 
-        .warning-text {
-            color: #dc2626;
-            font-weight: 600;
+        .till-display {
+            background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
+            color: white;
+            padding: 14px;
+            border-radius: 16px;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .till-display h4 {
+            font-size: 24px;
+            letter-spacing: 2px;
+        }
+
+        .payment-form {
+            background: rgba(240, 253, 244, 0.6);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(0, 168, 107, 0.2);
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .payment-form {
+            background: rgba(30, 30, 60, 0.6);
+            border-color: rgba(0, 168, 107, 0.1);
+        }
+
+        .csv-url-box {
+            background: rgba(240, 244, 248, 0.6);
+            backdrop-filter: blur(4px);
+            padding: 16px;
+            border-radius: 16px;
+            border: 2px solid rgba(2, 132, 199, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .csv-url-box {
+            background: rgba(30, 30, 60, 0.6);
+            border-color: rgba(2, 132, 199, 0.1);
+        }
+
+        .member-csv-card,
+        .sync-loans-card {
+            border: 2px solid rgba(139, 92, 246, 0.2);
+            background: rgba(250, 245, 255, 0.6);
+            backdrop-filter: blur(4px);
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .member-csv-card,
+        body.dark-mode .sync-loans-card {
+            background: rgba(30, 30, 60, 0.6);
+            border-color: rgba(139, 92, 246, 0.1);
+        }
+
+        .member-csv-card h3,
+        .sync-loans-card h3 {
+            color: #6d28d9;
+            margin-bottom: 10px;
+        }
+
+        .preset-links {
+            background: rgba(241, 245, 249, 0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 12px;
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode .preset-links {
+            background: rgba(30, 30, 60, 0.6);
+        }
+
+        .sync-status {
+            background: rgba(230, 247, 237, 0.6);
+            backdrop-filter: blur(4px);
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            text-align: center;
+            margin: 10px 0;
+            border: 1px solid rgba(16, 185, 129, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .sync-status {
+            background: rgba(30, 30, 60, 0.6);
+            border-color: rgba(16, 185, 129, 0.05);
+            color: #cbd5e1;
+        }
+
+        .loan-detail {
+            background: rgba(248, 250, 252, 0.6);
+            backdrop-filter: blur(4px);
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border: 1px solid rgba(226, 232, 240, 0.3);
+            transition: all 0.3s ease;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        body.dark-mode .loan-detail {
+            background: rgba(30, 30, 60, 0.6);
+            border-color: rgba(255, 255, 255, 0.03);
+            color: #cbd5e1;
+        }
+
+        .interest-box {
+            background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 20px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .interest-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .interest-row:last-child {
+            border-bottom: none;
+        }
+
+        .savings-box {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 20px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .loan-pool-highlight {
+            background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 20px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .report-card {
+            background: rgba(224, 231, 255, 0.4);
+            backdrop-filter: blur(4px);
+            border: 2px solid rgba(139, 92, 246, 0.15);
+            border-radius: 18px;
+            padding: 20px 24px;
+            margin-top: 16px;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .report-card {
+            background: rgba(30, 30, 60, 0.4);
+            border-color: rgba(139, 92, 246, 0.1);
+        }
+
+        .report-card h3 {
+            color: #6d28d9;
+        }
+
+        .interest-summary {
+            background: rgba(254, 243, 199, 0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 16px;
+            padding: 14px 18px;
+            margin-top: 10px;
+            border: 1px solid rgba(245, 158, 11, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .interest-summary {
+            background: rgba(30, 30, 60, 0.6);
+            border-color: rgba(245, 158, 11, 0.05);
+        }
+
+        .eligibility-info {
+            background: rgba(224, 231, 255, 0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 12px;
+            padding: 10px 14px;
+            margin-top: 8px;
+            font-size: 13px;
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .eligibility-info {
+            background: rgba(30, 30, 60, 0.6);
+            border-color: rgba(99, 102, 241, 0.05);
+            color: #cbd5e1;
+        }
+
+        .small-text {
+            font-size: 12px;
+            color: #64748b;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .small-text {
+            color: #94a3b8;
         }
 
         .rules-edit-area {
@@ -1005,22 +1567,6 @@
             font-weight: 600;
             display: inline-block;
             margin-left: 12px;
-        }
-
-        .small-text {
-            font-size: 11px;
-            color: #64748b;
-            transition: color 0.3s ease;
-        }
-
-        body.dark-mode .small-text {
-            color: #94a3b8;
-        }
-
-        .flex-buttons {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
         }
 
         .footer {
@@ -1096,25 +1642,6 @@
             margin: 0;
         }
 
-        .report-card {
-            background: rgba(224, 231, 255, 0.4);
-            backdrop-filter: blur(4px);
-            border: 2px solid rgba(139, 92, 246, 0.15);
-            border-radius: 18px;
-            padding: 18px;
-            margin-top: 16px;
-            transition: all 0.3s ease;
-        }
-
-        body.dark-mode .report-card {
-            background: rgba(30, 30, 60, 0.4);
-            border-color: rgba(139, 92, 246, 0.1);
-        }
-
-        .report-card h3 {
-            color: #6d28d9;
-        }
-
         .modal {
             display: none;
             position: fixed;
@@ -1166,18 +1693,59 @@
             color: #cbd5e1;
         }
 
-        .till-display {
-            background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
-            color: white;
-            padding: 14px;
-            border-radius: 16px;
-            text-align: center;
-            margin-bottom: 12px;
+        .pending-request {
+            background: rgba(254, 243, 199, 0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(245, 158, 11, 0.1);
+            transition: all 0.3s ease;
         }
 
-        .till-display h4 {
-            font-size: 24px;
-            letter-spacing: 2px;
+        body.dark-mode .pending-request {
+            background: rgba(30, 30, 60, 0.6);
+            border-color: rgba(245, 158, 11, 0.05);
+            color: #cbd5e1;
+        }
+
+        .notification-box {
+            background: rgba(224, 231, 255, 0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .notification-box {
+            background: rgba(30, 30, 60, 0.6);
+            border-color: rgba(99, 102, 241, 0.05);
+        }
+
+        .motivation-card {
+            background: rgba(254, 243, 199, 0.6);
+            backdrop-filter: blur(4px);
+            border-left: 4px solid #f59e0b;
+            padding: 14px 18px;
+            border-radius: 14px;
+            margin-top: 12px;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .motivation-card {
+            background: rgba(30, 30, 60, 0.6);
+        }
+
+        .motivation-text {
+            font-size: 14px;
+            color: #92400e;
+            font-style: italic;
+        }
+
+        body.dark-mode .motivation-text {
+            color: #e2e8f0;
         }
 
         #photoUploadInput {
@@ -1233,7 +1801,7 @@
                 font-size: 20px;
             }
             .card {
-                padding: 14px;
+                padding: 14px 16px;
                 margin-bottom: 12px;
             }
             .copyable-text .text-content {
@@ -1242,6 +1810,61 @@
             .sidebar-mobile {
                 width: 280px;
                 left: -300px;
+            }
+            .savings-table th,
+            .savings-table td,
+            .interest-table th,
+            .interest-table td,
+            .report-table th,
+            .report-table td {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+            .member-row {
+                font-size: 13px;
+                padding: 8px 0;
+            }
+            input,
+            select,
+            textarea {
+                font-size: 13px;
+                padding: 10px 14px;
+            }
+            button {
+                font-size: 12px;
+                padding: 8px 16px;
+                margin: 3px;
+            }
+            .content-area h2 {
+                font-size: 17px;
+                margin-bottom: 14px;
+            }
+            .flex-buttons {
+                gap: 6px;
+            }
+            .profile-avatar {
+                width: 34px;
+                height: 34px;
+                font-size: 14px;
+            }
+            .header .user-info {
+                font-size: 11px;
+            }
+            .profile-modal-content .profile-avatar-large {
+                width: 100px;
+                height: 100px;
+                font-size: 40px;
+            }
+            .theme-toggle {
+                width: 34px;
+                height: 34px;
+                font-size: 18px;
+            }
+            .rules-section {
+                padding: 14px 16px;
+            }
+            .rules-section ul li {
+                font-size: 13px;
             }
         }
 
@@ -1268,6 +1891,18 @@
             .sidebar-mobile {
                 width: 260px;
                 left: -280px;
+            }
+            .card {
+                padding: 12px 14px;
+            }
+            .savings-table th,
+            .savings-table td,
+            .interest-table th,
+            .interest-table td,
+            .report-table th,
+            .report-table td {
+                padding: 6px 8px;
+                font-size: 11px;
             }
         }
     </style>
@@ -1577,22 +2212,22 @@
                             <div style="position:absolute;right:-10px;bottom:-10px;font-size:60px;opacity:0.05;pointer-events:none;">💰</div>
                             <h3 id="dashTotalSavings">0 KES</h3>
                             <p>Total Savings</p>
-                            <div style="font-size:10px;color:#94a3b8;margin-top:6px;opacity:0;transition:opacity 0.3s ease;">👆 Click to view savings</div>
+                            <div class="click-hint">👆 Click to view savings</div>
                         </div>
                         <div class="stat-card" onclick="showMemberSubContent('loans','approved')" style="background:linear-gradient(135deg, rgba(30,64,175,0.08) 0%, rgba(30,58,138,0.05) 100%);">
                             <div style="position:absolute;right:-10px;bottom:-10px;font-size:60px;opacity:0.05;pointer-events:none;">📋</div>
                             <h3 id="dashTotalLoans">0 KES</h3>
                             <p>Active Loans</p>
-                            <div style="font-size:10px;color:#94a3b8;margin-top:6px;opacity:0;transition:opacity 0.3s ease;">👆 Click to view loans</div>
+                            <div class="click-hint">👆 Click to view loans</div>
                         </div>
                         <div class="stat-card" onclick="showMemberSubContent('loans','interest')" style="background:linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(217,119,6,0.05) 100%);">
                             <div style="position:absolute;right:-10px;bottom:-10px;font-size:60px;opacity:0.05;pointer-events:none;">📈</div>
                             <h3 id="dashInterest">0 KES</h3>
                             <p>Interest Earned</p>
-                            <div style="font-size:10px;color:#94a3b8;margin-top:6px;opacity:0;transition:opacity 0.3s ease;">👆 Click to view loans</div>
+                            <div class="click-hint">👆 Click to view loans</div>
                         </div>
                     </div>
-                    <div class="card"><h2>🎡 Weekly MGR (250 KES)</h2><div id="memberMgr" class="winner" style="background:rgba(209,250,229,0.6);backdrop-filter:blur(4px);padding:12px;border-radius:50px;text-align:center;font-weight:600;margin:10px 0;border:1px solid rgba(16,185,129,0.2);">Loading...</div></div>
+                    <div class="card"><h2>🎡 Weekly MGR (250 KES)</h2><div id="memberMgr" class="winner">Loading...</div></div>
                 </div>
 
                 <!-- SAVINGS - MAIN -->
@@ -1852,23 +2487,23 @@
                             <div style="position:absolute;right:-10px;bottom:-10px;font-size:60px;opacity:0.05;pointer-events:none;">💰</div>
                             <h3 id="adminTotalSavings">0 KES</h3>
                             <p>Total Savings</p>
-                            <div style="font-size:10px;color:#94a3b8;margin-top:6px;opacity:0;transition:opacity 0.3s ease;">👆 Click to view savings</div>
+                            <div class="click-hint">👆 Click to view savings</div>
                         </div>
                         <div class="stat-card" onclick="showAdminSubContent('members','list')" style="background:linear-gradient(135deg, rgba(30,64,175,0.08) 0%, rgba(30,58,138,0.05) 100%);">
                             <div style="position:absolute;right:-10px;bottom:-10px;font-size:60px;opacity:0.05;pointer-events:none;">👥</div>
                             <h3 id="adminTotalMembers">0</h3>
                             <p>Total Members</p>
-                            <div style="font-size:10px;color:#94a3b8;margin-top:6px;opacity:0;transition:opacity 0.3s ease;">👆 Click to view members</div>
+                            <div class="click-hint">👆 Click to view members</div>
                         </div>
                         <div class="stat-card" onclick="showAdminSubContent('loans','pool')" style="background:linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(217,119,6,0.05) 100%);">
                             <div style="position:absolute;right:-10px;bottom:-10px;font-size:60px;opacity:0.05;pointer-events:none;">📋</div>
                             <h3 id="adminActiveLoans">0 KES</h3>
                             <p>Active Loans</p>
-                            <div style="font-size:10px;color:#94a3b8;margin-top:6px;opacity:0;transition:opacity 0.3s ease;">👆 Click to view loans</div>
+                            <div class="click-hint">👆 Click to view loans</div>
                         </div>
                     </div>
-                    <div class="card"><h2>🎡 Weekly MGR</h2><div id="mgrWinnerAdmin" class="winner" style="background:rgba(209,250,229,0.6);backdrop-filter:blur(4px);padding:12px;border-radius:50px;text-align:center;font-weight:600;margin:10px 0;border:1px solid rgba(16,185,129,0.2);">Loading...</div><button onclick="recordMGR()">Record Payout</button><button onclick="nextWeek()">Next Week</button></div>
-                    <div class="card" style="background:rgba(224,231,255,0.6);backdrop-filter:blur(4px);border-radius:16px;padding:14px;margin-bottom:16px;border:1px solid rgba(99,102,241,0.1);"><h2>📢 Send WhatsApp Notification</h2><select id="notifyMemberSelect"><option value="all">📢 All Members (Group)</option></select><textarea id="notificationMessage" rows="2" placeholder="Message..."></textarea><button onclick="sendWhatsAppNotification()" class="secondary">📱 Send</button></div>
+                    <div class="card"><h2>🎡 Weekly MGR</h2><div id="mgrWinnerAdmin" class="winner">Loading...</div><button onclick="recordMGR()">Record Payout</button><button onclick="nextWeek()">Next Week</button></div>
+                    <div class="card notification-box"><h2>📢 Send WhatsApp Notification</h2><select id="notifyMemberSelect"><option value="all">📢 All Members (Group)</option></select><textarea id="notificationMessage" rows="2" placeholder="Message..."></textarea><button onclick="sendWhatsAppNotification()" class="secondary">📱 Send</button></div>
                     <div class="card"><h2>📋 Pending Sign Ups (100 KES)</h2><div id="pendingRequestsList">None</div></div>
                     <div class="card"><h2>📋 Pending Loan Requests</h2><div id="pendingLoanRequestsList">None</div></div>
                 </div>
@@ -1917,7 +2552,7 @@
             </div>
         </div>
 
-        <button onclick="resetAllData()" class="danger" style="margin-top:20px;background:linear-gradient(135deg,#dc2626 0%,#b91c1c 100%);">Reset All Data</button>
+        <button onclick="resetAllData()" class="danger" style="margin-top:20px;">Reset All Data</button>
         <button onclick="changeAdminPassword()" class="secondary">Change Password</button>
         <div class="footer">Designed by <span>Conquerer Tech Solutions</span></div>
     </div>
@@ -2091,10 +2726,8 @@
             currentMemberSection = section;
             currentMemberSub = sub;
 
-            // Update URL hash
             window.location.hash = 'member-' + section + '-' + sub;
 
-            // Show the correct tab
             var contents = document.querySelectorAll('#memberContentArea .tab-content');
             for (var i = 0; i < contents.length; i++) {
                 contents[i].classList.remove('active');
@@ -2104,13 +2737,11 @@
             var tab = document.getElementById(tabId);
             if (tab) tab.classList.add('active');
 
-            // Update sidebar active states
             var items = document.querySelectorAll('#memberSidebar .sidebar-item, #memberSidebarMobile .sidebar-item');
             for (var i = 0; i < items.length; i++) {
                 items[i].classList.remove('active');
             }
 
-            // Highlight parent and sub-item
             var parentMap = {
                 'savings': 'memberMenuSavings',
                 'loans': 'memberMenuLoans'
@@ -2123,7 +2754,6 @@
                 if (mobileEl) mobileEl.classList.add('active');
             }
 
-            // Highlight sub-item
             var subItems = document.querySelectorAll('#memberSidebar .sidebar-sub .sidebar-item, #memberSidebarMobile .sidebar-sub .sidebar-item');
             for (var i = 0; i < subItems.length; i++) {
                 var item = subItems[i];
@@ -2134,7 +2764,6 @@
                 }
             }
 
-            // Render content
             if (section === 'savings') {
                 renderMemberSavingsSub(sub);
             } else if (section === 'loans') {
@@ -2146,22 +2775,21 @@
             var container = document.getElementById('memberSavingsContainer');
             var html = '';
 
-            // Back button
             html += '<button class="back-btn" onclick="showMemberContent(\'savings\')">← Back to Savings</button>';
 
             var saved = getMemberSavings(currentMemberId);
 
             switch (sub) {
                 case 'current':
-                    html += '<div class="card"><h2>🏦 My Current Savings</h2><div id="memberSavingsDisplay" style="font-size:32px;font-weight:bold;text-align:center;color:#1a4d3e;">' + saved + ' KES</div></div>';
+                    html += '<div class="card"><h2>🏦 My Current Savings</h2><div id="memberSavingsDisplay" style="font-size:32px;font-weight:bold;text-align:center;color:#1a4d3e;padding:10px 0;">' + saved + ' KES</div></div>';
                     break;
                 case 'sync':
-                    html += '<div class="card member-csv-card" style="border:2px solid rgba(139,92,246,0.2);background:rgba(250,245,255,0.6);backdrop-filter:blur(4px);">';
+                    html += '<div class="card member-csv-card">';
                     html += '<h3>📥 Sync My Savings</h3>';
-                    html += '<div style="background:rgba(241,245,249,0.6);border-radius:12px;padding:10px;margin-bottom:12px;"><button onclick="document.getElementById(\'memberSavingsCsvUrl\').value=\'https://docs.google.com/spreadsheets/d/e/2PACX-1vQF94CXpjAQluLsFH39SwHLo2G_IrS0xafKwRd8ja7c2_UDeXuq4nHLeqUtCb5BDy6s245V25Sluxas/pub?gid=128135867&single=true&output=csv\'" class="btn-small" style="font-size:11px;padding:5px 12px;background:linear-gradient(135deg,#8b5cf6 0%,#7c3aed 100%);">📊 Fill Savings Link</button></div>';
+                    html += '<div class="preset-links"><button onclick="document.getElementById(\'memberSavingsCsvUrl\').value=\'https://docs.google.com/spreadsheets/d/e/2PACX-1vQF94CXpjAQluLsFH39SwHLo2G_IrS0xafKwRd8ja7c2_UDeXuq4nHLeqUtCb5BDy6s245V25Sluxas/pub?gid=128135867&single=true&output=csv\'" class="btn-small">📊 Fill Savings Link</button></div>';
                     html += '<input type="text" id="memberSavingsCsvUrl" placeholder="Paste savings CSV link">';
-                    html += '<button onclick="syncMemberSavingsFromCSV()" class="sync" style="background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);">⬇️ Sync My Savings</button>';
-                    html += '<div id="memberSyncStatus" class="sync-status" style="background:rgba(230,247,237,0.6);backdrop-filter:blur(4px);padding:10px;border-radius:12px;font-size:12px;text-align:center;margin:10px 0;border:1px solid rgba(16,185,129,0.1);">📡 Ready to sync</div>';
+                    html += '<button onclick="syncMemberSavingsFromCSV()" class="sync">⬇️ Sync My Savings</button>';
+                    html += '<div id="memberSyncStatus" class="sync-status">📡 Ready to sync</div>';
                     html += '</div>';
                     break;
                 case 'history':
@@ -2174,21 +2802,21 @@
                     }
                     sortedSavings.sort(function(a, b) { return new Date(a.date) - new Date(b.date); });
                     if (sortedSavings.length === 0) {
-                        historyHtml = '<tr><td colspan="3">No previous savings</td></tr>';
+                        historyHtml = '<tr><td colspan="3" style="text-align:center;padding:20px;">No previous savings</td></tr>';
                     } else {
                         for (var i = 0; i < sortedSavings.length; i++) {
                             var status = sortedSavings[i].disbursed ? '✅ Disbursed' : '⏳ Pending';
                             var date = new Date(sortedSavings[i].date);
                             var dateStr = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
-                            historyHtml += '<tr><td style="padding:8px;">' + dateStr + '</td><td style="padding:8px;">' + sortedSavings[i].amount + ' KES</td><td style="color:' + (sortedSavings[i].disbursed ? '#15803d' : '#f59e0b') + ';">' + status + '</td></tr>';
+                            historyHtml += '<tr><td>' + dateStr + '</td><td>' + sortedSavings[i].amount + ' KES</td><td style="color:' + (sortedSavings[i].disbursed ? '#15803d' : '#f59e0b') + ';">' + status + '</td></tr>';
                         }
                     }
-                    html += '<div class="card"><h2>📜 Previous Savings History</h2><div style="overflow-x:auto"><table class="report-table" style="width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;"><thead><tr><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Date</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Amount</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Status</th></tr></thead><tbody>' + historyHtml + '</tbody></table></div></div>';
+                    html += '<div class="card"><h2>📜 Previous Savings History</h2><div style="overflow-x:auto"><table class="report-table"><thead><tr><th>Date</th><th>Amount</th><th>Status</th></tr></thead><tbody>' + historyHtml + '</tbody></table></div></div>';
                     break;
                 case 'add':
-                    html += '<div class="card payment-form" style="background:rgba(240,253,244,0.6);backdrop-filter:blur(4px);border:1px solid rgba(0,168,107,0.2);border-radius:16px;padding:14px;margin-top:10px;">';
+                    html += '<div class="card payment-form">';
                     html += '<h3>💳 Add Savings</h3>';
-                    html += '<div class="till-display" style="background:linear-gradient(135deg,#1a4d3e 0%,#0f3b2c 100%);color:white;padding:14px;border-radius:16px;text-align:center;margin-bottom:12px;"><h4>6246156</h4></div>';
+                    html += '<div class="till-display"><h4>6246156</h4></div>';
                     html += '<input type="number" id="paymentAmount" placeholder="Amount">';
                     html += '<input type="date" id="paymentDate">';
                     html += '<div class="flex-buttons"><button onclick="copyTillNumber()" class="secondary">📋 Copy Till</button><button onclick="openWhatsApp()" class="secondary">📱 Send Proof</button></div>';
@@ -2196,14 +2824,14 @@
                     html += '</div>';
                     break;
                 case 'disbursement':
-                    html += '<div class="card" style="background:linear-gradient(135deg,#1e40af 0%,#1e3a8a 100%);color:white;border-radius:20px;padding:18px;border:1px solid rgba(255,255,255,0.1);">';
+                    html += '<div class="card savings-box">';
                     html += '<h3>💰 Next Savings Disbursement</h3>';
-                    html += '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>📅 Next Date:</span><span id="savingsDisbursementDate">July 2026</span></div>';
-                    html += '<div style="display:flex;justify-content:space-between;padding:8px 0;"><span>💵 Your Current Savings:</span><span id="currentSavingsDisplay">' + saved + ' KES</span></div>';
+                    html += '<div class="interest-row"><span>📅 Next Date:</span><span id="savingsDisbursementDate">July 2026</span></div>';
+                    html += '<div class="interest-row"><span>💵 Your Current Savings:</span><span id="currentSavingsDisplay">' + saved + ' KES</span></div>';
                     html += '</div>';
                     break;
                 case 'download':
-                    html += '<div class="report-card"><h3>📊 Download Savings Report</h3><p class="small-text" style="margin-bottom:10px;">Downloads a complete report of your savings history</p><button onclick="downloadSavingsReport()" class="download">📄 Download Savings Report (PDF)</button></div>';
+                    html += '<div class="report-card"><h3>📊 Download Savings Report</h3><p class="small-text" style="margin-bottom:12px;">Downloads a complete report of your savings history</p><button onclick="downloadSavingsReport()" class="download">📄 Download Savings Report (PDF)</button></div>';
                     break;
                 default:
                     html += '<p>Select an option from the menu.</p>';
@@ -2230,28 +2858,28 @@
                             loansHtml += '<div class="loan-detail">📆 ' + loans[i].dateTaken + '<br>💰 ' + loans[i].principal + '+10% = ' + loans[i].totalDue + ' KES<br>📅 Due: ' + loans[i].returnDate + '<br>' + (loans[i].status === 'returned' ? '✅ Paid' : '⚠️ Pending (' + rem + ' KES left)') + '</div>';
                         }
                     }
-                    html += '<div class="card"><h2>📋 My Approved Loans</h2><div id="memberLoan" style="font-size:28px;font-weight:bold;text-align:center;color:#dc2626;">' + loanBal + ' KES</div><div id="memberLoansList">' + (loansHtml || '<p>No loans</p>') + '</div></div>';
+                    html += '<div class="card"><h2>📋 My Approved Loans</h2><div id="memberLoan" style="font-size:28px;font-weight:bold;text-align:center;color:#dc2626;padding:8px 0;">' + loanBal + ' KES</div><div id="memberLoansList">' + (loansHtml || '<p>No loans</p>') + '</div></div>';
                     break;
                 case 'sync':
-                    html += '<div class="card sync-loans-card" style="border:2px solid rgba(139,92,246,0.2);background:rgba(250,245,255,0.6);backdrop-filter:blur(4px);">';
+                    html += '<div class="card sync-loans-card">';
                     html += '<h3>📥 Sync My Loans</h3>';
-                    html += '<div style="background:rgba(241,245,249,0.6);border-radius:12px;padding:10px;margin-bottom:12px;"><button onclick="document.getElementById(\'memberLoansCsvUrl\').value=\'https://docs.google.com/spreadsheets/d/e/2PACX-1vQF94CXpjAQluLsFH39SwHLo2G_IrS0xafKwRd8ja7c2_UDeXuq4nHLeqUtCb5BDy6s245V25Sluxas/pub?gid=1850915747&single=true&output=csv\'" class="btn-small" style="font-size:11px;padding:5px 12px;background:linear-gradient(135deg,#8b5cf6 0%,#7c3aed 100%);">📋 Fill Loans Link</button></div>';
+                    html += '<div class="preset-links"><button onclick="document.getElementById(\'memberLoansCsvUrl\').value=\'https://docs.google.com/spreadsheets/d/e/2PACX-1vQF94CXpjAQluLsFH39SwHLo2G_IrS0xafKwRd8ja7c2_UDeXuq4nHLeqUtCb5BDy6s245V25Sluxas/pub?gid=1850915747&single=true&output=csv\'" class="btn-small">📋 Fill Loans Link</button></div>';
                     html += '<input type="text" id="memberLoansCsvUrl" placeholder="Paste loans CSV link">';
-                    html += '<button onclick="syncMemberLoansFromCSV()" class="sync" style="background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);">⬇️ Sync My Loans</button>';
-                    html += '<div id="memberLoansSyncStatus" class="sync-status" style="background:rgba(230,247,237,0.6);backdrop-filter:blur(4px);padding:10px;border-radius:12px;font-size:12px;text-align:center;margin:10px 0;border:1px solid rgba(16,185,129,0.1);">📡 Ready to sync</div>';
+                    html += '<button onclick="syncMemberLoansFromCSV()" class="sync">⬇️ Sync My Loans</button>';
+                    html += '<div id="memberLoansSyncStatus" class="sync-status">📡 Ready to sync</div>';
                     html += '</div>';
                     break;
                 case 'interest':
-                    html += '<div class="card" style="background:linear-gradient(135deg,#1a4d3e 0%,#0f3b2c 100%);color:white;border-radius:20px;padding:18px;border:1px solid rgba(255,255,255,0.1);">';
+                    html += '<div class="card interest-box">';
                     html += '<h3>📈 Loan Interest Accrual</h3>';
-                    html += '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>💰 Total Interest Accrued:</span><span id="totalInterestAccrued">' + interest.toFixed(2) + ' KES</span></div>';
-                    html += '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>👤 To be Sent (70%):</span><span id="memberInterestShare">' + (interest * 0.70).toFixed(2) + ' KES</span></div>';
-                    html += '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>🏦 To Reserve (30%):</span><span id="groupReserveShare">' + (interest * 0.30).toFixed(2) + ' KES</span></div>';
-                    html += '<div style="display:flex;justify-content:space-between;padding:8px 0;"><span>📅 Next Disbursement:</span><span id="nextDisbursement">June 2026</span></div>';
+                    html += '<div class="interest-row"><span>💰 Total Interest Accrued:</span><span id="totalInterestAccrued">' + interest.toFixed(2) + ' KES</span></div>';
+                    html += '<div class="interest-row"><span>👤 To be Sent (70%):</span><span id="memberInterestShare">' + (interest * 0.70).toFixed(2) + ' KES</span></div>';
+                    html += '<div class="interest-row"><span>🏦 To Reserve (30%):</span><span id="groupReserveShare">' + (interest * 0.30).toFixed(2) + ' KES</span></div>';
+                    html += '<div class="interest-row"><span>📅 Next Disbursement:</span><span id="nextDisbursement">June 2026</span></div>';
                     html += '</div>';
                     break;
                 case 'request':
-                    html += '<div class="card"><h3>📋 Request a Loan</h3><div style="background:rgba(224,231,255,0.6);backdrop-filter:blur(4px);border-radius:12px;padding:10px;margin-top:8px;font-size:12px;border:1px solid rgba(99,102,241,0.1);">Max 700 KES | Need ≥50% in savings</div><input type="number" id="loanRequestAmount" placeholder="Amount (max 700)"><textarea id="loanRequestReason" rows="2" placeholder="Reason (optional)"></textarea><div class="flex-buttons"><button onclick="checkEligibility()" class="secondary">🔍 Check</button><button onclick="submitLoanRequest()" class="secondary">📤 Submit</button></div><div id="eligibilityResult" class="small-text"></div></div>';
+                    html += '<div class="card"><h3>📋 Request a Loan</h3><div class="eligibility-info">Max 700 KES | Need ≥50% in savings</div><input type="number" id="loanRequestAmount" placeholder="Amount (max 700)"><textarea id="loanRequestReason" rows="2" placeholder="Reason (optional)"></textarea><div class="flex-buttons"><button onclick="checkEligibility()" class="secondary">🔍 Check</button><button onclick="submitLoanRequest()" class="secondary">📤 Submit</button></div><div id="eligibilityResult" class="small-text"></div></div>';
                     break;
                 case 'requests':
                     var reqs = [];
@@ -2270,7 +2898,7 @@
                     html += '<div class="card"><h2>📋 My Loan Requests</h2>' + reqHtml + '</div>';
                     break;
                 case 'download':
-                    html += '<div class="report-card"><h3>📊 Download Loans Report</h3><p class="small-text" style="margin-bottom:10px;">Downloads a complete report of your loan history</p><button onclick="downloadMemberLoansReport()" class="download">📄 Download Loans Report (PDF)</button></div>';
+                    html += '<div class="report-card"><h3>📊 Download Loans Report</h3><p class="small-text" style="margin-bottom:12px;">Downloads a complete report of your loan history</p><button onclick="downloadMemberLoansReport()" class="download">📄 Download Loans Report (PDF)</button></div>';
                     break;
                 default:
                     html += '<p>Select an option from the menu.</p>';
@@ -2347,17 +2975,17 @@
                     html += '<div class="card"><h3>➕ Add New Member</h3><input type="text" id="newMemberName" placeholder="Full Name"><input type="text" id="newMemberPhone" placeholder="Phone"><button onclick="addNewMember()">Add Member</button></div>';
                     break;
                 case 'sync':
-                    html += '<div class="card csv-url-box" style="background:rgba(240,244,248,0.6);backdrop-filter:blur(4px);padding:16px;border-radius:16px;border:2px solid rgba(2,132,199,0.2);"><h3>📊 Sync Members</h3><input type="text" id="membersCsvUrl" placeholder="Paste Members CSV link"><button onclick="syncMembers()" class="sync" style="background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);">Sync Members</button></div>';
+                    html += '<div class="card csv-url-box"><h3>📊 Sync Members</h3><input type="text" id="membersCsvUrl" placeholder="Paste Members CSV link"><button onclick="syncMembers()" class="sync">Sync Members</button></div>';
                     break;
                 case 'list':
                     var passHtml = '';
                     for (var i = 0; i < MEMBERS.length; i++) {
                         passHtml += '<div class="member-row"><span><strong>' + MEMBERS[i].name + '</strong> 🔑 ' + MEMBERS[i].passcode + '</span><div><button onclick="changeMemberPasscode(' + MEMBERS[i].id + ')" class="secondary small">Change</button><button onclick="showDeleteConfirm(' + MEMBERS[i].id + ',\'' + MEMBERS[i].name + '\')" class="delete-member">🗑️ Delete</button></div></div>';
                     }
-                    html += '<div class="card"><h3>👥 Members List</h3><div id="passcodesList">' + passHtml + '</div><div class="total" style="text-align:center;margin:12px 0;padding:12px;background:rgba(230,247,237,0.6);backdrop-filter:blur(4px);border-radius:50px;font-weight:600;border:1px solid rgba(26,77,62,0.1);">💰 Total Savings: <span id="totalSavings">' + getTotalGroupSavings() + '</span> KES</div></div>';
+                    html += '<div class="card"><h3>👥 Members List</h3><div id="passcodesList">' + passHtml + '</div><div class="total">💰 Total Savings: <span id="totalSavings">' + getTotalGroupSavings() + '</span> KES</div></div>';
                     break;
                 case 'mgr':
-                    html += '<div class="card csv-url-box" style="background:rgba(240,244,248,0.6);backdrop-filter:blur(4px);padding:16px;border-radius:16px;border:2px solid rgba(2,132,199,0.2);"><h3>🎡 Sync MGR</h3><input type="text" id="mgrCsvUrl" placeholder="Paste MGR CSV link"><button onclick="syncMGR()" class="sync" style="background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);">Sync MGR</button></div>';
+                    html += '<div class="card csv-url-box"><h3>🎡 Sync MGR</h3><input type="text" id="mgrCsvUrl" placeholder="Paste MGR CSV link"><button onclick="syncMGR()" class="sync">Sync MGR</button></div>';
                     break;
                 case 'reset':
                     html += '<div class="card"><h3>🔐 Reset Passcodes</h3><button onclick="resetMemberPasscodes()" class="secondary" style="width:100%;">Reset All Passcodes</button></div>';
@@ -2377,10 +3005,10 @@
 
             switch (sub) {
                 case 'disbursement':
-                    html += '<div class="card"><h2>💰 Savings Disbursement (Jan,Mar,May,Jul,Sep,Nov)</h2><div style="background:rgba(254,243,199,0.6);backdrop-filter:blur(4px);border-radius:16px;padding:14px;margin-top:10px;border:1px solid rgba(245,158,11,0.1);"><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>📊 Total Savings:</span><span id="totalSavingsPool">' + getTotalGroupSavings() + '</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>📅 Current Month:</span><span id="currentMonth">' + new Date().toLocaleString('default', { month: 'long' }) + ' ' + new Date().getFullYear() + '</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;flex-wrap:wrap;gap:8px;"><span>🎯 Next Disbursement:</span><span id="nextDisbursementMonth">July 2026</span></div></div><button onclick="processSavingsDisbursement()" class="secondary">Process Savings Disbursement</button><p class="small-text">⚠️ Only in Jan/Mar/May/Jul/Sep/Nov</p></div>';
+                    html += '<div class="card"><h2>💰 Savings Disbursement (Jan,Mar,May,Jul,Sep,Nov)</h2><div class="interest-summary"><div class="member-row"><span>📊 Total Savings:</span><span id="totalSavingsPool">' + getTotalGroupSavings() + '</span></div><div class="member-row"><span>📅 Current Month:</span><span id="currentMonth">' + new Date().toLocaleString('default', { month: 'long' }) + ' ' + new Date().getFullYear() + '</span></div><div class="member-row"><span>🎯 Next Disbursement:</span><span id="nextDisbursementMonth">July 2026</span></div></div><button onclick="processSavingsDisbursement()" class="secondary">Process Savings Disbursement</button><p class="small-text">⚠️ Only in Jan/Mar/May/Jul/Sep/Nov</p></div>';
                     break;
                 case 'sync':
-                    html += '<div class="card csv-url-box" style="background:rgba(240,244,248,0.6);backdrop-filter:blur(4px);padding:16px;border-radius:16px;border:2px solid rgba(2,132,199,0.2);"><h4>📊 SYNC SAVINGS</h4><input type="text" id="savingsCsvUrl" placeholder="Paste Savings sheet CSV link"><button onclick="syncSavings()" class="sync" style="background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);">Sync Savings</button></div>';
+                    html += '<div class="card csv-url-box"><h4>📊 SYNC SAVINGS</h4><input type="text" id="savingsCsvUrl" placeholder="Paste Savings sheet CSV link"><button onclick="syncSavings()" class="sync">Sync Savings</button></div>';
                     break;
                 case 'add':
                     var opts = '<option value="">-- Member --</option>';
@@ -2394,10 +3022,10 @@
                     for (var i = 0; i < MEMBERS.length; i++) {
                         tableHtml += '<tr><td>' + MEMBERS[i].name + '</td><td>' + getMemberSavings(MEMBERS[i].id).toFixed(2) + ' KES</td></tr>';
                     }
-                    html += '<div class="card"><h2>📊 Total Savings Per Member</h2><table class="savings-table" style="width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;"><thead><tr><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Member</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Savings</th></tr></thead><tbody>' + tableHtml + '</tbody></table></div>';
+                    html += '<div class="card"><h2>📊 Total Savings Per Member</h2><table class="savings-table"><thead><tr><th>Member</th><th>Savings</th></tr></thead><tbody>' + tableHtml + '</tbody></table></div>';
                     break;
                 case 'download':
-                    html += '<div class="report-card"><h3>📊 Download All Members Savings Report</h3><p class="small-text" style="margin-bottom:10px;">Downloads a complete report for all members with their total savings</p><button onclick="downloadAllMembersSavingsReport()" class="download">📄 Download All Savings Report (PDF)</button></div>';
+                    html += '<div class="report-card"><h3>📊 Download All Members Savings Report</h3><p class="small-text" style="margin-bottom:12px;">Downloads a complete report for all members with their total savings</p><button onclick="downloadAllMembersSavingsReport()" class="download">📄 Download All Savings Report (PDF)</button></div>';
                     break;
                 default:
                     html += '<p>Select an option from the menu.</p>';
@@ -2435,14 +3063,14 @@
                     accessible = totalP + reserve - out;
                     if (accessible < 0) accessible = 0;
 
-                    html += '<div class="card" style="background:linear-gradient(135deg,#1a4d3e 0%,#0f3b2c 100%);color:white;border-radius:20px;padding:18px;border:1px solid rgba(255,255,255,0.1);"><h2 style="color:white;">💰 Accessible Loan Pool</h2><div style="text-align:center"><div style="font-size:48px; font-weight:bold;">' + accessible.toFixed(2) + ' KES</div><p>Available to borrow</p></div><div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>📊 Total Principal Lent:</span><span>' + totalP.toFixed(2) + ' KES</span></div><div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>📈 Total Interest:</span><span>' + totalI.toFixed(2) + ' KES</span></div><div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>🏦 30% Reserve:</span><span>' + reserve.toFixed(2) + ' KES</span></div><div style="display:flex;justify-content:space-between;padding:8px 0;"><span>📌 Outstanding Loans:</span><span>' + out.toFixed(2) + ' KES</span></div><button onclick="refreshLoanPool()" class="secondary" style="background:rgba(255,255,255,0.15);">🔄 Refresh Pool</button></div>';
+                    html += '<div class="card loan-pool-highlight"><h2 style="color:white;">💰 Accessible Loan Pool</h2><div style="text-align:center"><div style="font-size:48px; font-weight:bold;">' + accessible.toFixed(2) + ' KES</div><p>Available to borrow</p></div><div class="interest-row"><span>📊 Total Principal Lent:</span><span>' + totalP.toFixed(2) + ' KES</span></div><div class="interest-row"><span>📈 Total Interest:</span><span>' + totalI.toFixed(2) + ' KES</span></div><div class="interest-row"><span>🏦 30% Reserve:</span><span>' + reserve.toFixed(2) + ' KES</span></div><div class="interest-row"><span>📌 Outstanding Loans:</span><span>' + out.toFixed(2) + ' KES</span></div><button onclick="refreshLoanPool()" class="secondary" style="background:rgba(255,255,255,0.15);">🔄 Refresh Pool</button></div>';
                     break;
                 case 'interest':
                     var totalInt = 0;
                     for (var i = 0; i < loans.length; i++) {
                         totalInt += loans[i].interest || 0;
                     }
-                    html += '<div class="card"><h2>💰 Loan Interest (70/30)</h2><div style="background:rgba(254,243,199,0.6);backdrop-filter:blur(4px);border-radius:16px;padding:14px;margin-top:10px;border:1px solid rgba(245,158,11,0.1);"><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>📊 Total Interest Accrued:</span><span>' + totalInt.toFixed(2) + ' KES</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>👥 Due to Members (70%):</span><span>' + (totalInt * 0.70).toFixed(2) + ' KES</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;flex-wrap:wrap;gap:8px;"><span>🏦 Group Reserve (30%):</span><span>' + (totalInt * 0.30).toFixed(2) + ' KES</span></div></div><button onclick="processInterestDisbursement()" class="secondary">Process Interest Disbursement</button><p class="small-text">⚠️ Only in June & December</p></div>';
+                    html += '<div class="card"><h2>💰 Loan Interest (70/30)</h2><div class="interest-summary"><div class="member-row"><span>📊 Total Interest Accrued:</span><span>' + totalInt.toFixed(2) + ' KES</span></div><div class="member-row"><span>👥 Due to Members (70%):</span><span>' + (totalInt * 0.70).toFixed(2) + ' KES</span></div><div class="member-row"><span>🏦 Group Reserve (30%):</span><span>' + (totalInt * 0.30).toFixed(2) + ' KES</span></div></div><button onclick="processInterestDisbursement()" class="secondary">Process Interest Disbursement</button><p class="small-text">⚠️ Only in June & December</p></div>';
                     break;
                 case 'table':
                     var tableHtml = '';
@@ -2450,10 +3078,10 @@
                         var interest = getMemberTotalInterestAccrued(MEMBERS[i].id);
                         tableHtml += '<tr><td>' + MEMBERS[i].name + '</td><td>' + interest.toFixed(2) + ' KES</td><td>' + (interest * 0.70).toFixed(2) + ' KES</td><td>' + (interest * 0.30).toFixed(2) + ' KES</td></tr>';
                     }
-                    html += '<div class="card"><h2>📊 Total Interest Per Member</h2><table class="interest-table" style="width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;"><thead><tr><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Member</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Interest</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">To Send (70%)</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">To Reserve (30%)</th></tr></thead><tbody>' + tableHtml + '</tbody></table></div>';
+                    html += '<div class="card"><h2>📊 Total Interest Per Member</h2><table class="interest-table"><thead><tr><th>Member</th><th>Interest</th><th>To Send (70%)</th><th>To Reserve (30%)</th></tr></thead><tbody>' + tableHtml + '</tbody></table></div>';
                     break;
                 case 'sync':
-                    html += '<div class="card csv-url-box" style="background:rgba(240,244,248,0.6);backdrop-filter:blur(4px);padding:16px;border-radius:16px;border:2px solid rgba(2,132,199,0.2);"><h4>📋 SYNC LOANS</h4><input type="text" id="loansCsvUrl" placeholder="Paste Loans sheet CSV link"><button onclick="syncLoans()" class="sync" style="background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);">Sync Loans</button></div>';
+                    html += '<div class="card csv-url-box"><h4>📋 SYNC LOANS</h4><input type="text" id="loansCsvUrl" placeholder="Paste Loans sheet CSV link"><button onclick="syncLoans()" class="sync">Sync Loans</button></div>';
                     break;
                 case 'take':
                     html += '<div class="card"><h2>📋 Take Loan (10% Interest)</h2><select id="loanMemberSelect">' + opts + '</select><input type="date" id="loanDateTaken"><input type="number" id="loanPrincipal" placeholder="Principal"><input type="date" id="loanReturnDate"><button onclick="takeLoan()">Take Loan</button></div>';
@@ -2462,7 +3090,7 @@
                     html += '<div class="card"><h2>💰 Record Loan Repayment</h2><select id="repayMemberSelect">' + opts + '</select><input type="number" id="repayAmount" placeholder="Repayment"><button onclick="repayLoan()" class="secondary">Record Repayment</button><div id="loanDisplay"></div></div>';
                     break;
                 case 'download':
-                    html += '<div class="report-card"><h3>📊 Download All Members Loans Report</h3><p class="small-text" style="margin-bottom:10px;">Downloads a complete report for all members with their loan details</p><button onclick="downloadAllMembersLoansReport()" class="download">📄 Download All Loans Report (PDF)</button></div>';
+                    html += '<div class="report-card"><h3>📊 Download All Members Loans Report</h3><p class="small-text" style="margin-bottom:12px;">Downloads a complete report for all members with their loan details</p><button onclick="downloadAllMembersLoansReport()" class="download">📄 Download All Loans Report (PDF)</button></div>';
                     break;
                 default:
                     html += '<p>Select an option from the menu.</p>';
@@ -2504,7 +3132,6 @@
                 if (mobileEl) mobileEl.classList.add('active');
             }
 
-            // Clear sub-item active states
             var subItems = document.querySelectorAll('#memberSidebar .sidebar-sub .sidebar-item, #memberSidebarMobile .sidebar-sub .sidebar-item');
             for (var i = 0; i < subItems.length; i++) {
                 subItems[i].classList.remove('active');
@@ -2512,7 +3139,6 @@
 
             if (section === 'dashboard') { updateDashboardStats(); }
             if (section === 'savings') {
-                // Show default savings view (current savings)
                 renderMemberSavingsSub('current');
             }
             if (section === 'loans') {
@@ -3052,7 +3678,6 @@
             document.getElementById("adminTotalMembers").innerHTML = MEMBERS.length;
             document.getElementById("adminActiveLoans").innerHTML = getOutstandingLoanBalance().toFixed(2) + " KES";
 
-            // Refresh MGR winner
             var winner = MEMBERS[mgrWeekIndex];
             document.getElementById("mgrWinnerAdmin").innerHTML = '🏆 ' + (winner?.name || '') +
                 '<br><span class="small-text">' + (mgrLastPaidWeek === getCurrentWeekKey() ? "✅ Recorded" :
@@ -3296,7 +3921,6 @@
                 document.getElementById("memberView").style.display = "block";
                 updateAvatarDisplay(currentMemberId);
                 refreshMemberView();
-                // Load default savings view
                 showMemberContent('dashboard');
             } else {
                 showErrorModal("Wrong password. Please try again.");
@@ -3407,7 +4031,6 @@
             showErrorModal("✅ " + name + " added! Passcode: " + passcode);
             document.getElementById("newMemberName").value = "";
             document.getElementById("newMemberPhone").value = "";
-            // Refresh the members list if on that view
             if (currentAdminSection === 'members') {
                 renderAdminMembersSub(currentAdminSub || 'list');
             }
@@ -4029,12 +4652,10 @@
             renderRules();
             refreshLoanPool();
 
-            // Handle hash-based navigation on load
             var hash = window.location.hash;
             if (hash) {
                 var parts = hash.replace('#', '').split('-');
                 if (parts[0] === 'member' && parts[1] && parts[2]) {
-                    // Wait for login to complete
                     setTimeout(function() {
                         if (currentMemberId !== null) {
                             showMemberSubContent(parts[1], parts[2]);
