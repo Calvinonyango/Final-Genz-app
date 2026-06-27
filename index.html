@@ -339,14 +339,15 @@
             color: #e2e8f0;
         }
 
+        /* ===== SIDEBAR ===== */
         .sidebar {
-            width: 210px;
-            min-width: 180px;
-            background: rgba(255, 255, 255, 0.8);
+            width: 240px;
+            min-width: 200px;
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-radius: 24px;
-            padding: 16px 12px;
+            padding: 12px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
             height: fit-content;
@@ -365,23 +366,24 @@
             color: #94a3b8;
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            padding: 10px 12px 6px 12px;
+            padding: 8px 12px 6px 12px;
         }
 
         body.dark-mode .sidebar .section-title {
             color: #64748b;
         }
 
+        /* ===== SIDEBAR ITEM ===== */
         .sidebar-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 14px;
-            border-radius: 14px;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 500;
-            font-size: 13px;
+            font-size: 14px;
             color: #334155;
             margin-bottom: 2px;
         }
@@ -392,7 +394,6 @@
 
         .sidebar-item:hover {
             background: rgba(26, 77, 62, 0.06);
-            transform: translateX(4px);
         }
 
         body.dark-mode .sidebar-item:hover {
@@ -409,33 +410,130 @@
             font-size: 16px;
             width: 24px;
             text-align: center;
+            flex-shrink: 0;
         }
 
-        .sidebar-logout {
-            margin-top: 8px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(226, 232, 240, 0.6);
+        .sidebar-item .arrow {
+            margin-left: auto;
+            font-size: 12px;
+            transition: transform 0.3s ease;
+            color: #94a3b8;
         }
 
-        body.dark-mode .sidebar-logout {
-            border-top-color: rgba(255, 255, 255, 0.05);
+        body.dark-mode .sidebar-item .arrow {
+            color: #64748b;
+        }
+
+        .sidebar-item .arrow.open {
+            transform: rotate(90deg);
+        }
+
+        .sidebar-item .item-label {
+            flex: 1;
+        }
+
+        /* ===== SUB-ITEMS ===== */
+        .sidebar-sub {
+            padding-left: 24px;
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.3s ease;
+        }
+
+        .sidebar-sub.open {
+            max-height: 600px;
+        }
+
+        .sidebar-sub .sidebar-item {
+            padding: 8px 12px;
+            font-size: 13px;
+            font-weight: 400;
+            color: #64748b;
+            border-radius: 8px;
+        }
+
+        body.dark-mode .sidebar-sub .sidebar-item {
+            color: #94a3b8;
+        }
+
+        .sidebar-sub .sidebar-item:hover {
+            background: rgba(26, 77, 62, 0.06);
+            color: #334155;
+        }
+
+        body.dark-mode .sidebar-sub .sidebar-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #e2e8f0;
+        }
+
+        .sidebar-sub .sidebar-item.active {
+            background: rgba(26, 77, 62, 0.15);
+            color: #1a4d3e;
+            box-shadow: none;
+            font-weight: 500;
+        }
+
+        body.dark-mode .sidebar-sub .sidebar-item.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: #e2e8f0;
+        }
+
+        .sidebar-sub .sidebar-item .icon {
+            font-size: 14px;
+            width: 20px;
+        }
+
+        /* ===== SIDEBAR LOGOUT ===== */
+        .sidebar-divider {
+            height: 1px;
+            background: rgba(226, 232, 240, 0.5);
+            margin: 8px 8px;
+        }
+
+        body.dark-mode .sidebar-divider {
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .sidebar-logout .sidebar-item {
             color: #dc2626;
         }
 
+        .sidebar-logout .sidebar-item:hover {
+            background: rgba(220, 38, 38, 0.08);
+        }
+
+        /* ===== MOBILE SIDEBAR ===== */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-overlay.show {
+            display: block;
+            opacity: 1;
+        }
+
         .sidebar-mobile {
             position: fixed;
             top: 0;
-            left: -300px;
-            width: 280px;
+            left: -320px;
+            width: 300px;
             height: 100%;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             z-index: 1000;
-            padding: 24px 18px;
+            padding: 20px 16px;
             border-right: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 4px 0 40px rgba(0, 0, 0, 0.1);
             transition: left 0.3s ease, background 0.3s ease;
@@ -445,7 +543,7 @@
         }
 
         body.dark-mode .sidebar-mobile {
-            background: rgba(30, 30, 60, 0.95);
+            background: rgba(30, 30, 60, 0.96);
             border-right-color: rgba(255, 255, 255, 0.05);
         }
 
@@ -475,12 +573,20 @@
 
         .sidebar-mobile .sidebar-item {
             font-size: 15px;
-            padding: 14px 12px;
+            padding: 12px 12px;
         }
 
-        .sidebar-mobile .section-title {
-            font-size: 12px;
-            margin-top: 20px;
+        .sidebar-mobile .sidebar-sub .sidebar-item {
+            font-size: 14px;
+            padding: 10px 12px;
+        }
+
+        .sidebar-mobile .sidebar-sub {
+            padding-left: 20px;
+        }
+
+        .sidebar-mobile .sidebar-divider {
+            margin: 8px 4px;
         }
 
         /* ===== MOBILE PROFILE - AT BOTTOM ===== */
@@ -554,15 +660,11 @@
             color: #94a3b8;
         }
 
-        /* ===== MENU ITEMS WRAPPER - SCROLLABLE ===== */
         .sidebar-mobile .menu-wrapper {
             flex: 1;
             overflow-y: auto;
-            margin-top: 12px;
-        }
-
-        .sidebar-mobile .menu-wrapper .sidebar-item:last-child {
-            margin-bottom: 12px;
+            margin-top: 8px;
+            padding-bottom: 12px;
         }
 
         .dashboard-container {
@@ -716,6 +818,25 @@
         button.download {
             background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
             box-shadow: 0 2px 10px rgba(139, 92, 246, 0.2);
+        }
+
+        button.back-btn {
+            background: rgba(100, 116, 139, 0.6);
+            color: #334155;
+            box-shadow: none;
+            font-size: 12px;
+            padding: 6px 14px;
+            margin-bottom: 12px;
+        }
+
+        body.dark-mode button.back-btn {
+            background: rgba(30, 30, 60, 0.6);
+            color: #cbd5e1;
+        }
+
+        button.back-btn:hover {
+            background: rgba(100, 116, 139, 0.8);
+            transform: translateY(-1px);
         }
 
         .rules-section {
@@ -1063,27 +1184,6 @@
             display: none;
         }
 
-        /* ===== SIDEBAR OVERLAY ===== */
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-            z-index: 999;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .sidebar-overlay.show {
-            display: block;
-            opacity: 1;
-        }
-
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -1139,6 +1239,10 @@
             .copyable-text .text-content {
                 max-width: 150px;
             }
+            .sidebar-mobile {
+                width: 280px;
+                left: -300px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1160,6 +1264,10 @@
             }
             .copyable-text .text-content {
                 max-width: 100px;
+            }
+            .sidebar-mobile {
+                width: 260px;
+                left: -280px;
             }
         }
     </style>
@@ -1297,29 +1405,80 @@
         <div class="sidebar-mobile" id="memberSidebarMobile">
             <button class="close-btn" onclick="closeSidebar('member')">✕</button>
 
-            <!-- ===== MENU ITEMS (TOP) ===== -->
             <div class="menu-wrapper">
                 <div class="section-title" style="margin-top:0px;">Menu</div>
+
                 <div class="sidebar-item active" onclick="showMemberContent('dashboard');closeSidebar('member');" id="memberMenuMobileDashboard">
-                    <span class="icon">📊</span> Dashboard
+                    <span class="icon">📊</span>
+                    <span class="item-label">Dashboard</span>
                 </div>
-                <div class="sidebar-item" onclick="showMemberContent('savings');closeSidebar('member');" id="memberMenuMobileSavings">
-                    <span class="icon">💰</span> My Savings
+
+                <div class="sidebar-item" onclick="toggleMemberSub('savings', event)" id="memberMenuMobileSavings">
+                    <span class="icon">💰</span>
+                    <span class="item-label">My Savings</span>
+                    <span class="arrow" id="memberSavingsArrow">▶</span>
                 </div>
-                <div class="sidebar-item" onclick="showMemberContent('loans');closeSidebar('member');" id="memberMenuMobileLoans">
-                    <span class="icon">📋</span> My Loans
+                <div class="sidebar-sub" id="memberSavingsSub">
+                    <div class="sidebar-item" onclick="showMemberSubContent('savings','current',event);closeSidebar('member');" data-section="savings" data-sub="current">
+                        <span class="icon">📊</span> My Current Savings
+                    </div>
+                    <div class="sidebar-item" onclick="showMemberSubContent('savings','sync',event);closeSidebar('member');" data-section="savings" data-sub="sync">
+                        <span class="icon">📥</span> Sync Savings
+                    </div>
+                    <div class="sidebar-item" onclick="showMemberSubContent('savings','history',event);closeSidebar('member');" data-section="savings" data-sub="history">
+                        <span class="icon">📜</span> Savings History
+                    </div>
+                    <div class="sidebar-item" onclick="showMemberSubContent('savings','add',event);closeSidebar('member');" data-section="savings" data-sub="add">
+                        <span class="icon">💳</span> Add Savings
+                    </div>
+                    <div class="sidebar-item" onclick="showMemberSubContent('savings','disbursement',event);closeSidebar('member');" data-section="savings" data-sub="disbursement">
+                        <span class="icon">📅</span> Next Savings Disbursement
+                    </div>
+                    <div class="sidebar-item" onclick="showMemberSubContent('savings','download',event);closeSidebar('member');" data-section="savings" data-sub="download">
+                        <span class="icon">📄</span> Download Savings Report (PDF)
+                    </div>
                 </div>
+
+                <div class="sidebar-item" onclick="toggleMemberSub('loans', event)" id="memberMenuMobileLoans">
+                    <span class="icon">📋</span>
+                    <span class="item-label">My Loans</span>
+                    <span class="arrow" id="memberLoansArrow">▶</span>
+                </div>
+                <div class="sidebar-sub" id="memberLoansSub">
+                    <div class="sidebar-item" onclick="showMemberSubContent('loans','approved',event);closeSidebar('member');" data-section="loans" data-sub="approved">
+                        <span class="icon">📋</span> My Approved Loans
+                    </div>
+                    <div class="sidebar-item" onclick="showMemberSubContent('loans','sync',event);closeSidebar('member');" data-section="loans" data-sub="sync">
+                        <span class="icon">📥</span> Sync Loans
+                    </div>
+                    <div class="sidebar-item" onclick="showMemberSubContent('loans','interest',event);closeSidebar('member');" data-section="loans" data-sub="interest">
+                        <span class="icon">📈</span> Loan Interest Accrual
+                    </div>
+                    <div class="sidebar-item" onclick="showMemberSubContent('loans','request',event);closeSidebar('member');" data-section="loans" data-sub="request">
+                        <span class="icon">📝</span> Request a Loan
+                    </div>
+                    <div class="sidebar-item" onclick="showMemberSubContent('loans','requests',event);closeSidebar('member');" data-section="loans" data-sub="requests">
+                        <span class="icon">📋</span> My Loan Requests
+                    </div>
+                    <div class="sidebar-item" onclick="showMemberSubContent('loans','download',event);closeSidebar('member');" data-section="loans" data-sub="download">
+                        <span class="icon">📄</span> Download Loans Report (PDF)
+                    </div>
+                </div>
+
                 <div class="sidebar-item" onclick="showMemberContent('rules');closeSidebar('member');" id="memberMenuMobileRules">
-                    <span class="icon">📋</span> Rules & Regulations
+                    <span class="icon">📋</span>
+                    <span class="item-label">Rules & Regulations</span>
                 </div>
+
+                <div class="sidebar-divider"></div>
                 <div class="sidebar-logout">
                     <div class="sidebar-item" onclick="logout()" style="color:#dc2626;">
-                        <span class="icon">🚪</span> Logout
+                        <span class="icon">🚪</span>
+                        <span class="item-label">Logout</span>
                     </div>
                 </div>
             </div>
 
-            <!-- ===== PROFILE SECTION (BOTTOM) ===== -->
             <div class="mobile-profile" onclick="closeSidebar('member');openProfileModal();">
                 <div class="avatar-small" id="mobileAvatar">
                     <span id="mobileAvatarInitials"></span>
@@ -1335,21 +1494,74 @@
             <!-- ===== DESKTOP SIDEBAR ===== -->
             <div class="sidebar" id="memberSidebar">
                 <div class="section-title">Menu</div>
+
                 <div class="sidebar-item active" onclick="showMemberContent('dashboard')" id="memberMenuDashboard">
-                    <span class="icon">📊</span> Dashboard
+                    <span class="icon">📊</span>
+                    <span class="item-label">Dashboard</span>
                 </div>
-                <div class="sidebar-item" onclick="showMemberContent('savings')" id="memberMenuSavings">
-                    <span class="icon">💰</span> My Savings
+
+                <div class="sidebar-item" onclick="toggleMemberSub('savings', event)" id="memberMenuSavings">
+                    <span class="icon">💰</span>
+                    <span class="item-label">My Savings</span>
+                    <span class="arrow" id="memberSavingsArrowDesktop">▶</span>
                 </div>
-                <div class="sidebar-item" onclick="showMemberContent('loans')" id="memberMenuLoans">
-                    <span class="icon">📋</span> My Loans
+                <div class="sidebar-sub" id="memberSavingsSubDesktop">
+                    <div class="sidebar-item" onclick="showMemberSubContent('savings','current',event)" data-section="savings" data-sub="current">
+                        <span class="icon">📊</span> My Current Savings
+                    </div>
+                    <div class="sidebar-item" onclick="showMemberSubContent('savings','sync',event)" data-section="savings" data-sub="sync">
+                        <span class="icon">📥</span> Sync Savings
+                    </div>
+                    <div class="sidebar-item" onclick="showMemberSubContent('savings','history',event)" data-section="savings" data-sub="history">
+                        <span class="icon">📜</span> Savings History
+                    </div>
+                    <div class="sidebar-item" onclick="showMemberSubContent('savings','add',event)" data-section="savings" data-sub="add">
+                        <span class="icon">💳</span> Add Savings
+                    </div>
+                    <div class="sidebar-item" onclick="showMemberSubContent('savings','disbursement',event)" data-section="savings" data-sub="disbursement">
+                        <span class="icon">📅</span> Next Savings Disbursement
+                    </div>
+                    <div class="sidebar-item" onclick="showMemberSubContent('savings','download',event)" data-section="savings" data-sub="download">
+                        <span class="icon">📄</span> Download Savings Report (PDF)
+                    </div>
                 </div>
+
+                <div class="sidebar-item" onclick="toggleMemberSub('loans', event)" id="memberMenuLoans">
+                    <span class="icon">📋</span>
+                    <span class="item-label">My Loans</span>
+                    <span class="arrow" id="memberLoansArrowDesktop">▶</span>
+                </div>
+                <div class="sidebar-sub" id="memberLoansSubDesktop">
+                    <div class="sidebar-item" onclick="showMemberSubContent('loans','approved',event)" data-section="loans" data-sub="approved">
+                        <span class="icon">📋</span> My Approved Loans
+                    </div>
+                    <div class="sidebar-item" onclick="showMemberSubContent('loans','sync',event)" data-section="loans" data-sub="sync">
+                        <span class="icon">📥</span> Sync Loans
+                    </div>
+                    <div class="sidebar-item" onclick="showMemberSubContent('loans','interest',event)" data-section="loans" data-sub="interest">
+                        <span class="icon">📈</span> Loan Interest Accrual
+                    </div>
+                    <div class="sidebar-item" onclick="showMemberSubContent('loans','request',event)" data-section="loans" data-sub="request">
+                        <span class="icon">📝</span> Request a Loan
+                    </div>
+                    <div class="sidebar-item" onclick="showMemberSubContent('loans','requests',event)" data-section="loans" data-sub="requests">
+                        <span class="icon">📋</span> My Loan Requests
+                    </div>
+                    <div class="sidebar-item" onclick="showMemberSubContent('loans','download',event)" data-section="loans" data-sub="download">
+                        <span class="icon">📄</span> Download Loans Report (PDF)
+                    </div>
+                </div>
+
                 <div class="sidebar-item" onclick="showMemberContent('rules')" id="memberMenuRules">
-                    <span class="icon">📋</span> Rules & Regulations
+                    <span class="icon">📋</span>
+                    <span class="item-label">Rules & Regulations</span>
                 </div>
+
+                <div class="sidebar-divider"></div>
                 <div class="sidebar-logout">
                     <div class="sidebar-item" onclick="logout()" style="color:#dc2626;">
-                        <span class="icon">🚪</span> Logout
+                        <span class="icon">🚪</span>
+                        <span class="item-label">Logout</span>
                     </div>
                 </div>
             </div>
@@ -1361,19 +1573,19 @@
                 <div class="tab-content active" id="memberContentDashboard">
                     <h2>📊 Dashboard</h2>
                     <div class="stats-grid">
-                        <div class="stat-card" onclick="showMemberContent('savings')" style="background:linear-gradient(135deg, rgba(26,77,62,0.08) 0%, rgba(15,59,44,0.05) 100%);">
+                        <div class="stat-card" onclick="showMemberSubContent('savings','current')" style="background:linear-gradient(135deg, rgba(26,77,62,0.08) 0%, rgba(15,59,44,0.05) 100%);">
                             <div style="position:absolute;right:-10px;bottom:-10px;font-size:60px;opacity:0.05;pointer-events:none;">💰</div>
                             <h3 id="dashTotalSavings">0 KES</h3>
                             <p>Total Savings</p>
                             <div style="font-size:10px;color:#94a3b8;margin-top:6px;opacity:0;transition:opacity 0.3s ease;">👆 Click to view savings</div>
                         </div>
-                        <div class="stat-card" onclick="showMemberContent('loans')" style="background:linear-gradient(135deg, rgba(30,64,175,0.08) 0%, rgba(30,58,138,0.05) 100%);">
+                        <div class="stat-card" onclick="showMemberSubContent('loans','approved')" style="background:linear-gradient(135deg, rgba(30,64,175,0.08) 0%, rgba(30,58,138,0.05) 100%);">
                             <div style="position:absolute;right:-10px;bottom:-10px;font-size:60px;opacity:0.05;pointer-events:none;">📋</div>
                             <h3 id="dashTotalLoans">0 KES</h3>
                             <p>Active Loans</p>
                             <div style="font-size:10px;color:#94a3b8;margin-top:6px;opacity:0;transition:opacity 0.3s ease;">👆 Click to view loans</div>
                         </div>
-                        <div class="stat-card" onclick="showMemberContent('loans')" style="background:linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(217,119,6,0.05) 100%);">
+                        <div class="stat-card" onclick="showMemberSubContent('loans','interest')" style="background:linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(217,119,6,0.05) 100%);">
                             <div style="position:absolute;right:-10px;bottom:-10px;font-size:60px;opacity:0.05;pointer-events:none;">📈</div>
                             <h3 id="dashInterest">0 KES</h3>
                             <p>Interest Earned</p>
@@ -1383,68 +1595,23 @@
                     <div class="card"><h2>🎡 Weekly MGR (250 KES)</h2><div id="memberMgr" class="winner" style="background:rgba(209,250,229,0.6);backdrop-filter:blur(4px);padding:12px;border-radius:50px;text-align:center;font-weight:600;margin:10px 0;border:1px solid rgba(16,185,129,0.2);">Loading...</div></div>
                 </div>
 
-                <!-- SAVINGS -->
+                <!-- SAVINGS - MAIN -->
                 <div class="tab-content" id="memberContentSavings">
                     <h2>💰 My Savings</h2>
-                    <div class="card"><h2>🏦 My Current Savings</h2><div id="memberSavings" style="font-size:32px;font-weight:bold;text-align:center;color:#1a4d3e;">0 KES</div></div>
-                    <div class="card member-csv-card" style="border:2px solid rgba(139,92,246,0.2);background:rgba(250,245,255,0.6);backdrop-filter:blur(4px);">
-                        <h3>📥 Sync My Savings</h3>
-                        <div style="background:rgba(241,245,249,0.6);border-radius:12px;padding:10px;margin-bottom:12px;"><button onclick="document.getElementById('memberSavingsCsvUrl').value='https://docs.google.com/spreadsheets/d/e/2PACX-1vQF94CXpjAQluLsFH39SwHLo2G_IrS0xafKwRd8ja7c2_UDeXuq4nHLeqUtCb5BDy6s245V25Sluxas/pub?gid=128135867&single=true&output=csv'" class="btn-small" style="font-size:11px;padding:5px 12px;background:linear-gradient(135deg,#8b5cf6 0%,#7c3aed 100%);">📊 Fill Savings Link</button></div>
-                        <input type="text" id="memberSavingsCsvUrl" placeholder="Paste savings CSV link">
-                        <button onclick="syncMemberSavingsFromCSV()" class="sync" style="background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);">⬇️ Sync My Savings</button>
-                        <div id="memberSyncStatus" class="sync-status" style="background:rgba(230,247,237,0.6);backdrop-filter:blur(4px);padding:10px;border-radius:12px;font-size:12px;text-align:center;margin:10px 0;border:1px solid rgba(16,185,129,0.1);">📡 Ready to sync</div>
-                    </div>
-                    <div class="card">
-                        <h2>📜 Previous Savings History</h2>
-                        <div style="overflow-x:auto">
-                            <table class="report-table" style="width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;">
-                                <thead>
-                                    <tr>
-                                        <th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Date</th>
-                                        <th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Amount</th>
-                                        <th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="savingsHistoryBody"></tbody>
-                            </table>
-                        </div>
-                        <button onclick="downloadSavingsReport()" class="download">📄 Download Savings Report (PDF)</button>
-                    </div>
-                    <div class="card" style="background:linear-gradient(135deg,#1e40af 0%,#1e3a8a 100%);color:white;border-radius:20px;padding:18px;border:1px solid rgba(255,255,255,0.1);">
-                        <h3>💰 Next Savings Disbursement</h3>
-                        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>📅 Next Date:</span><span id="savingsDisbursementDate"></span></div>
-                        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>💵 Your Current Savings:</span><span id="currentSavingsDisplay">0 KES</span></div>
+                    <div id="memberSavingsContainer">
+                        <!-- Content loaded dynamically -->
                     </div>
                 </div>
 
-                <!-- LOANS -->
+                <!-- LOANS - MAIN -->
                 <div class="tab-content" id="memberContentLoans">
                     <h2>📋 My Loans</h2>
-                    <div class="card sync-loans-card" style="border:2px solid rgba(139,92,246,0.2);background:rgba(250,245,255,0.6);backdrop-filter:blur(4px);">
-                        <h3>📥 Sync My Loans</h3>
-                        <div style="background:rgba(241,245,249,0.6);border-radius:12px;padding:10px;margin-bottom:12px;"><button onclick="document.getElementById('memberLoansCsvUrl').value='https://docs.google.com/spreadsheets/d/e/2PACX-1vQF94CXpjAQluLsFH39SwHLo2G_IrS0xafKwRd8ja7c2_UDeXuq4nHLeqUtCb5BDy6s245V25Sluxas/pub?gid=1850915747&single=true&output=csv'" class="btn-small" style="font-size:11px;padding:5px 12px;background:linear-gradient(135deg,#8b5cf6 0%,#7c3aed 100%);">📋 Fill Loans Link</button></div>
-                        <input type="text" id="memberLoansCsvUrl" placeholder="Paste loans CSV link">
-                        <button onclick="syncMemberLoansFromCSV()" class="sync" style="background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);">⬇️ Sync My Loans</button>
-                        <div id="memberLoansSyncStatus" class="sync-status" style="background:rgba(230,247,237,0.6);backdrop-filter:blur(4px);padding:10px;border-radius:12px;font-size:12px;text-align:center;margin:10px 0;border:1px solid rgba(16,185,129,0.1);">📡 Ready to sync</div>
-                    </div>
-                    <div class="card"><h2>📋 My Approved Loans</h2><div id="memberLoan" style="font-size:28px;font-weight:bold;text-align:center;color:#dc2626;">0 KES</div><div id="memberLoansList"></div></div>
-                    <div class="card" style="background:linear-gradient(135deg,#1a4d3e 0%,#0f3b2c 100%);color:white;border-radius:20px;padding:18px;border:1px solid rgba(255,255,255,0.1);">
-                        <h3>📈 Loan Interest Accrual</h3>
-                        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>💰 Total Interest Accrued:</span><span id="totalInterestAccrued">0 KES</span></div>
-                        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>👤 To be Sent (70%):</span><span id="memberInterestShare">0 KES</span></div>
-                        <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>🏦 To Reserve (30%):</span><span id="groupReserveShare">0 KES</span></div>
-                        <div style="display:flex;justify-content:space-between;padding:8px 0;"><span>📅 Next Disbursement:</span><span id="nextDisbursement"></span></div>
-                    </div>
-                    <div class="card"><h3>📋 Request a Loan</h3><div style="background:rgba(224,231,255,0.6);backdrop-filter:blur(4px);border-radius:12px;padding:10px;margin-top:8px;font-size:12px;border:1px solid rgba(99,102,241,0.1);">Max 700 KES | Need ≥50% in savings</div><input type="number" id="loanRequestAmount" placeholder="Amount (max 700)"><textarea id="loanRequestReason" rows="2" placeholder="Reason (optional)"></textarea><div class="flex-buttons"><button onclick="checkEligibility()" class="secondary">🔍 Check</button><button onclick="submitLoanRequest()" class="secondary">📤 Submit</button></div><div id="eligibilityResult" class="small-text"></div></div>
-                    <div class="card" id="loanRequestsCard" style="display:none;"><h2>📋 My Loan Requests</h2><div id="memberLoanRequestsList"></div></div>
-                    <div class="report-card">
-                        <h3>📊 Download Loans Report</h3>
-                        <p class="small-text" style="margin-bottom:10px;">Downloads a complete report of your loan history</p>
-                        <button onclick="downloadMemberLoansReport()" class="download">📄 Download Loans Report (PDF)</button>
+                    <div id="memberLoansContainer">
+                        <!-- Content loaded dynamically -->
                     </div>
                 </div>
 
-                <!-- ===== RULES & REGULATIONS ===== -->
+                <!-- RULES -->
                 <div class="tab-content" id="memberContentRules">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
                         <h2 style="margin:0; border-left:4px solid #1a4d3e; padding-left:14px; color:#1a4d3e; font-weight:700; font-size:20px;">📋 Rules & Regulations</h2>
@@ -1476,57 +1643,200 @@
         <div class="sidebar-overlay" id="adminSidebarOverlay" onclick="closeSidebar('admin')"></div>
         <div class="sidebar-mobile" id="adminSidebarMobile">
             <button class="close-btn" onclick="closeSidebar('admin')">✕</button>
-            
-            <!-- ===== MENU ITEMS (TOP) ===== -->
+
             <div class="menu-wrapper">
                 <div class="section-title" style="margin-top:0px;">Menu</div>
+
                 <div class="sidebar-item active" onclick="showAdminContent('dashboard');closeSidebar('admin');" id="adminMenuMobileDashboard">
-                    <span class="icon">📊</span> Dashboard
+                    <span class="icon">📊</span>
+                    <span class="item-label">Dashboard</span>
                 </div>
-                <div class="sidebar-item" onclick="showAdminContent('members');closeSidebar('admin');" id="adminMenuMobileMembers">
-                    <span class="icon">👥</span> Members
+
+                <div class="sidebar-item" onclick="toggleAdminSub('members', event)" id="adminMenuMobileMembers">
+                    <span class="icon">👥</span>
+                    <span class="item-label">Members</span>
+                    <span class="arrow" id="adminMembersArrow">▶</span>
                 </div>
-                <div class="sidebar-item" onclick="showAdminContent('savings');closeSidebar('admin');" id="adminMenuMobileSavings">
-                    <span class="icon">💰</span> Savings
+                <div class="sidebar-sub" id="adminMembersSub">
+                    <div class="sidebar-item" onclick="showAdminSubContent('members','add',event);closeSidebar('admin');" data-section="members" data-sub="add">
+                        <span class="icon">➕</span> Add New Member
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('members','sync',event);closeSidebar('admin');" data-section="members" data-sub="sync">
+                        <span class="icon">📊</span> Sync Members
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('members','list',event);closeSidebar('admin');" data-section="members" data-sub="list">
+                        <span class="icon">👥</span> Members List
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('members','mgr',event);closeSidebar('admin');" data-section="members" data-sub="mgr">
+                        <span class="icon">🎡</span> Sync MGR
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('members','reset',event);closeSidebar('admin');" data-section="members" data-sub="reset">
+                        <span class="icon">🔐</span> Reset Passcodes
+                    </div>
                 </div>
-                <div class="sidebar-item" onclick="showAdminContent('loans');closeSidebar('admin');" id="adminMenuMobileLoans">
-                    <span class="icon">📋</span> Loans
+
+                <div class="sidebar-item" onclick="toggleAdminSub('savings', event)" id="adminMenuMobileSavings">
+                    <span class="icon">💰</span>
+                    <span class="item-label">Savings</span>
+                    <span class="arrow" id="adminSavingsArrow">▶</span>
                 </div>
+                <div class="sidebar-sub" id="adminSavingsSub">
+                    <div class="sidebar-item" onclick="showAdminSubContent('savings','disbursement',event);closeSidebar('admin');" data-section="savings" data-sub="disbursement">
+                        <span class="icon">📅</span> Savings Disbursement
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('savings','sync',event);closeSidebar('admin');" data-section="savings" data-sub="sync">
+                        <span class="icon">📊</span> Sync Savings
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('savings','add',event);closeSidebar('admin');" data-section="savings" data-sub="add">
+                        <span class="icon">🏦</span> Add Savings (Manual)
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('savings','table',event);closeSidebar('admin');" data-section="savings" data-sub="table">
+                        <span class="icon">📊</span> Total Savings Per Member
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('savings','download',event);closeSidebar('admin');" data-section="savings" data-sub="download">
+                        <span class="icon">📄</span> Download All Savings Report (PDF)
+                    </div>
+                </div>
+
+                <div class="sidebar-item" onclick="toggleAdminSub('loans', event)" id="adminMenuMobileLoans">
+                    <span class="icon">📋</span>
+                    <span class="item-label">Loans</span>
+                    <span class="arrow" id="adminLoansArrow">▶</span>
+                </div>
+                <div class="sidebar-sub" id="adminLoansSub">
+                    <div class="sidebar-item" onclick="showAdminSubContent('loans','pool',event);closeSidebar('admin');" data-section="loans" data-sub="pool">
+                        <span class="icon">💰</span> Accessible Loan Pool
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('loans','interest',event);closeSidebar('admin');" data-section="loans" data-sub="interest">
+                        <span class="icon">📈</span> Loan Interest (70/30)
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('loans','table',event);closeSidebar('admin');" data-section="loans" data-sub="table">
+                        <span class="icon">📊</span> Total Interest Per Member
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('loans','sync',event);closeSidebar('admin');" data-section="loans" data-sub="sync">
+                        <span class="icon">📋</span> Sync Loans
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('loans','take',event);closeSidebar('admin');" data-section="loans" data-sub="take">
+                        <span class="icon">📝</span> Take Loan (10% Interest)
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('loans','repay',event);closeSidebar('admin');" data-section="loans" data-sub="repay">
+                        <span class="icon">💰</span> Record Loan Repayment
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('loans','download',event);closeSidebar('admin');" data-section="loans" data-sub="download">
+                        <span class="icon">📄</span> Download All Loans Report (PDF)
+                    </div>
+                </div>
+
                 <div class="sidebar-item" onclick="showAdminContent('rules');closeSidebar('admin');" id="adminMenuMobileRules">
-                    <span class="icon">📋</span> Rules & Regulations
+                    <span class="icon">📋</span>
+                    <span class="item-label">Rules & Regulations</span>
                 </div>
+
+                <div class="sidebar-divider"></div>
                 <div class="sidebar-logout">
                     <div class="sidebar-item" onclick="logout()" style="color:#dc2626;">
-                        <span class="icon">🚪</span> Logout
+                        <span class="icon">🚪</span>
+                        <span class="item-label">Logout</span>
                     </div>
                 </div>
             </div>
-
-            <!-- ===== PROFILE SECTION (BOTTOM) - Admin doesn't have profile in mobile ===== -->
         </div>
 
         <div class="dashboard-container">
             <!-- ===== ADMIN DESKTOP SIDEBAR ===== -->
             <div class="sidebar" id="adminSidebar">
                 <div class="section-title">Menu</div>
+
                 <div class="sidebar-item active" onclick="showAdminContent('dashboard')" id="adminMenuDashboard">
-                    <span class="icon">📊</span> Dashboard
+                    <span class="icon">📊</span>
+                    <span class="item-label">Dashboard</span>
                 </div>
-                <div class="sidebar-item" onclick="showAdminContent('members')" id="adminMenuMembers">
-                    <span class="icon">👥</span> Members
+
+                <div class="sidebar-item" onclick="toggleAdminSub('members', event)" id="adminMenuMembers">
+                    <span class="icon">👥</span>
+                    <span class="item-label">Members</span>
+                    <span class="arrow" id="adminMembersArrowDesktop">▶</span>
                 </div>
-                <div class="sidebar-item" onclick="showAdminContent('savings')" id="adminMenuSavings">
-                    <span class="icon">💰</span> Savings
+                <div class="sidebar-sub" id="adminMembersSubDesktop">
+                    <div class="sidebar-item" onclick="showAdminSubContent('members','add',event)" data-section="members" data-sub="add">
+                        <span class="icon">➕</span> Add New Member
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('members','sync',event)" data-section="members" data-sub="sync">
+                        <span class="icon">📊</span> Sync Members
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('members','list',event)" data-section="members" data-sub="list">
+                        <span class="icon">👥</span> Members List
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('members','mgr',event)" data-section="members" data-sub="mgr">
+                        <span class="icon">🎡</span> Sync MGR
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('members','reset',event)" data-section="members" data-sub="reset">
+                        <span class="icon">🔐</span> Reset Passcodes
+                    </div>
                 </div>
-                <div class="sidebar-item" onclick="showAdminContent('loans')" id="adminMenuLoans">
-                    <span class="icon">📋</span> Loans
+
+                <div class="sidebar-item" onclick="toggleAdminSub('savings', event)" id="adminMenuSavings">
+                    <span class="icon">💰</span>
+                    <span class="item-label">Savings</span>
+                    <span class="arrow" id="adminSavingsArrowDesktop">▶</span>
                 </div>
+                <div class="sidebar-sub" id="adminSavingsSubDesktop">
+                    <div class="sidebar-item" onclick="showAdminSubContent('savings','disbursement',event)" data-section="savings" data-sub="disbursement">
+                        <span class="icon">📅</span> Savings Disbursement
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('savings','sync',event)" data-section="savings" data-sub="sync">
+                        <span class="icon">📊</span> Sync Savings
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('savings','add',event)" data-section="savings" data-sub="add">
+                        <span class="icon">🏦</span> Add Savings (Manual)
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('savings','table',event)" data-section="savings" data-sub="table">
+                        <span class="icon">📊</span> Total Savings Per Member
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('savings','download',event)" data-section="savings" data-sub="download">
+                        <span class="icon">📄</span> Download All Savings Report (PDF)
+                    </div>
+                </div>
+
+                <div class="sidebar-item" onclick="toggleAdminSub('loans', event)" id="adminMenuLoans">
+                    <span class="icon">📋</span>
+                    <span class="item-label">Loans</span>
+                    <span class="arrow" id="adminLoansArrowDesktop">▶</span>
+                </div>
+                <div class="sidebar-sub" id="adminLoansSubDesktop">
+                    <div class="sidebar-item" onclick="showAdminSubContent('loans','pool',event)" data-section="loans" data-sub="pool">
+                        <span class="icon">💰</span> Accessible Loan Pool
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('loans','interest',event)" data-section="loans" data-sub="interest">
+                        <span class="icon">📈</span> Loan Interest (70/30)
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('loans','table',event)" data-section="loans" data-sub="table">
+                        <span class="icon">📊</span> Total Interest Per Member
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('loans','sync',event)" data-section="loans" data-sub="sync">
+                        <span class="icon">📋</span> Sync Loans
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('loans','take',event)" data-section="loans" data-sub="take">
+                        <span class="icon">📝</span> Take Loan (10% Interest)
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('loans','repay',event)" data-section="loans" data-sub="repay">
+                        <span class="icon">💰</span> Record Loan Repayment
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('loans','download',event)" data-section="loans" data-sub="download">
+                        <span class="icon">📄</span> Download All Loans Report (PDF)
+                    </div>
+                </div>
+
                 <div class="sidebar-item" onclick="showAdminContent('rules')" id="adminMenuRules">
-                    <span class="icon">📋</span> Rules & Regulations
+                    <span class="icon">📋</span>
+                    <span class="item-label">Rules & Regulations</span>
                 </div>
+
+                <div class="sidebar-divider"></div>
                 <div class="sidebar-logout">
                     <div class="sidebar-item" onclick="logout()" style="color:#dc2626;">
-                        <span class="icon">🚪</span> Logout
+                        <span class="icon">🚪</span>
+                        <span class="item-label">Logout</span>
                     </div>
                 </div>
             </div>
@@ -1538,19 +1848,19 @@
                 <div class="tab-content active" id="adminContentDashboard">
                     <h2>📊 Dashboard</h2>
                     <div class="stats-grid">
-                        <div class="stat-card" onclick="showAdminContent('savings')" style="background:linear-gradient(135deg, rgba(26,77,62,0.08) 0%, rgba(15,59,44,0.05) 100%);">
+                        <div class="stat-card" onclick="showAdminSubContent('savings','disbursement')" style="background:linear-gradient(135deg, rgba(26,77,62,0.08) 0%, rgba(15,59,44,0.05) 100%);">
                             <div style="position:absolute;right:-10px;bottom:-10px;font-size:60px;opacity:0.05;pointer-events:none;">💰</div>
                             <h3 id="adminTotalSavings">0 KES</h3>
                             <p>Total Savings</p>
                             <div style="font-size:10px;color:#94a3b8;margin-top:6px;opacity:0;transition:opacity 0.3s ease;">👆 Click to view savings</div>
                         </div>
-                        <div class="stat-card" onclick="showAdminContent('members')" style="background:linear-gradient(135deg, rgba(30,64,175,0.08) 0%, rgba(30,58,138,0.05) 100%);">
+                        <div class="stat-card" onclick="showAdminSubContent('members','list')" style="background:linear-gradient(135deg, rgba(30,64,175,0.08) 0%, rgba(30,58,138,0.05) 100%);">
                             <div style="position:absolute;right:-10px;bottom:-10px;font-size:60px;opacity:0.05;pointer-events:none;">👥</div>
                             <h3 id="adminTotalMembers">0</h3>
                             <p>Total Members</p>
                             <div style="font-size:10px;color:#94a3b8;margin-top:6px;opacity:0;transition:opacity 0.3s ease;">👆 Click to view members</div>
                         </div>
-                        <div class="stat-card" onclick="showAdminContent('loans')" style="background:linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(217,119,6,0.05) 100%);">
+                        <div class="stat-card" onclick="showAdminSubContent('loans','pool')" style="background:linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(217,119,6,0.05) 100%);">
                             <div style="position:absolute;right:-10px;bottom:-10px;font-size:60px;opacity:0.05;pointer-events:none;">📋</div>
                             <h3 id="adminActiveLoans">0 KES</h3>
                             <p>Active Loans</p>
@@ -1563,70 +1873,31 @@
                     <div class="card"><h2>📋 Pending Loan Requests</h2><div id="pendingLoanRequestsList">None</div></div>
                 </div>
 
-                <!-- MEMBERS -->
+                <!-- ADMIN MEMBERS -->
                 <div class="tab-content" id="adminContentMembers">
                     <h2>👥 Member Management</h2>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
-                        <div class="card">
-                            <h3>➕ Add New Member</h3>
-                            <input type="text" id="newMemberName" placeholder="Full Name">
-                            <input type="text" id="newMemberPhone" placeholder="Phone">
-                            <button onclick="addNewMember()">Add Member</button>
-                        </div>
-                        <div class="card csv-url-box" style="background:rgba(240,244,248,0.6);backdrop-filter:blur(4px);padding:16px;border-radius:16px;border:2px solid rgba(2,132,199,0.2);">
-                            <h3>📊 Sync Members</h3>
-                            <input type="text" id="membersCsvUrl" placeholder="Paste Members CSV link">
-                            <button onclick="syncMembers()" class="sync" style="background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);">Sync Members</button>
-                        </div>
-                        <div class="card csv-url-box" style="background:rgba(240,244,248,0.6);backdrop-filter:blur(4px);padding:16px;border-radius:16px;border:2px solid rgba(2,132,199,0.2);">
-                            <h3>🎡 Sync MGR</h3>
-                            <input type="text" id="mgrCsvUrl" placeholder="Paste MGR CSV link">
-                            <button onclick="syncMGR()" class="sync" style="background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);">Sync MGR</button>
-                        </div>
-                        <div class="card">
-                            <h3>🔐 Reset Passcodes</h3>
-                            <button onclick="resetMemberPasscodes()" class="secondary" style="width:100%;">Reset All Passcodes</button>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <h3>👥 Members List</h3>
-                        <div id="passcodesList"></div>
-                        <div class="total" style="text-align:center;margin:12px 0;padding:12px;background:rgba(230,247,237,0.6);backdrop-filter:blur(4px);border-radius:50px;font-weight:600;border:1px solid rgba(26,77,62,0.1);">💰 Total Savings: <span id="totalSavings">0</span> KES</div>
+                    <div id="adminMembersContainer">
+                        <!-- Content loaded dynamically -->
                     </div>
                 </div>
 
-                <!-- SAVINGS -->
+                <!-- ADMIN SAVINGS -->
                 <div class="tab-content" id="adminContentSavings">
                     <h2>💰 Savings</h2>
-                    <div class="card"><h2>💰 Savings Disbursement (Jan,Mar,May,Jul,Sep,Nov)</h2><div style="background:rgba(254,243,199,0.6);backdrop-filter:blur(4px);border-radius:16px;padding:14px;margin-top:10px;border:1px solid rgba(245,158,11,0.1);"><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>📊 Total Savings:</span><span id="totalSavingsPool">0</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>📅 Current Month:</span><span id="currentMonth"></span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;flex-wrap:wrap;gap:8px;"><span>🎯 Next Disbursement:</span><span id="nextDisbursementMonth"></span></div></div><button onclick="processSavingsDisbursement()" class="secondary">Process Savings Disbursement</button><p class="small-text">⚠️ Only in Jan/Mar/May/Jul/Sep/Nov</p></div>
-                    <div class="card csv-url-box" style="background:rgba(240,244,248,0.6);backdrop-filter:blur(4px);padding:16px;border-radius:16px;border:2px solid rgba(2,132,199,0.2);"><h4>📊 SYNC SAVINGS</h4><input type="text" id="savingsCsvUrl" placeholder="Paste Savings sheet CSV link"><button onclick="syncSavings()" class="sync" style="background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);">Sync Savings</button></div>
-                    <div class="card"><h2>🏦 Add Savings (Manual)</h2><select id="savingsMemberSelect"><option value="">-- Member --</option></select><input type="date" id="savingsDate"><input type="number" id="savingsAmount" placeholder="Amount KES"><button onclick="addSavings()">Add Savings</button></div>
-                    <div class="card"><h2>📊 Total Savings Per Member</h2><table class="savings-table" style="width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;"><thead><tr><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Member</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Savings</th></tr></thead><tbody id="savingsPerMemberTable"></tbody></table></div>
-                    <div id="syncStatusMsg" class="sync-status" style="background:rgba(230,247,237,0.6);backdrop-filter:blur(4px);padding:10px;border-radius:12px;font-size:12px;text-align:center;margin:10px 0;border:1px solid rgba(16,185,129,0.1);">📡 Ready</div>
-                    <div class="report-card">
-                        <h3>📊 Download All Members Savings Report</h3>
-                        <p class="small-text" style="margin-bottom:10px;">Downloads a complete report for all members with their total savings</p>
-                        <button onclick="downloadAllMembersSavingsReport()" class="download">📄 Download All Savings Report (PDF)</button>
+                    <div id="adminSavingsContainer">
+                        <!-- Content loaded dynamically -->
                     </div>
                 </div>
 
-                <!-- LOANS -->
+                <!-- ADMIN LOANS -->
                 <div class="tab-content" id="adminContentLoans">
                     <h2>📋 Loans</h2>
-                    <div class="card" style="background:linear-gradient(135deg,#1a4d3e 0%,#0f3b2c 100%);color:white;border-radius:20px;padding:18px;border:1px solid rgba(255,255,255,0.1);"><h2 style="color:white;">💰 Accessible Loan Pool</h2><div style="text-align:center"><div style="font-size:48px; font-weight:bold;" id="accessibleLoanAmount">0 KES</div><p>Available to borrow</p></div><div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>📊 Total Principal Lent:</span><span id="totalPrincipalLent">0</span></div><div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>📈 Total Interest:</span><span id="totalInterestPool">0</span></div><div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>🏦 30% Reserve:</span><span id="loanReservePool">0</span></div><div style="display:flex;justify-content:space-between;padding:8px 0;"><span>📌 Outstanding Loans:</span><span id="outstandingLoansPool">0</span></div><button onclick="refreshLoanPool()" class="secondary" style="background:rgba(255,255,255,0.15);">🔄 Refresh Pool</button></div>
-                    <div class="card"><h2>💰 Loan Interest (70/30)</h2><div style="background:rgba(254,243,199,0.6);backdrop-filter:blur(4px);border-radius:16px;padding:14px;margin-top:10px;border:1px solid rgba(245,158,11,0.1);"><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>📊 Total Interest Accrued:</span><span id="totalInterestCollected">0</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>👥 Due to Members (70%):</span><span id="totalDueToMembers">0</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;flex-wrap:wrap;gap:8px;"><span>🏦 Group Reserve (30%):</span><span id="loanReserveAmount">0</span></div></div><button onclick="processInterestDisbursement()" class="secondary">Process Interest Disbursement</button><p class="small-text">⚠️ Only in June & December</p></div>
-                    <div class="card"><h2>📊 Total Interest Per Member</h2><table class="interest-table" style="width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;"><thead><tr><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Member</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Interest</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">To Send (70%)</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">To Reserve (30%)</th></tr></thead><tbody id="interestPerMemberTable"></tbody></table></div>
-                    <div class="card csv-url-box" style="background:rgba(240,244,248,0.6);backdrop-filter:blur(4px);padding:16px;border-radius:16px;border:2px solid rgba(2,132,199,0.2);"><h4>📋 SYNC LOANS</h4><input type="text" id="loansCsvUrl" placeholder="Paste Loans sheet CSV link"><button onclick="syncLoans()" class="sync" style="background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);">Sync Loans</button></div>
-                    <div class="card"><h2>📋 Take Loan (10% Interest)</h2><select id="loanMemberSelect"><option value="">-- Member --</option></select><input type="date" id="loanDateTaken"><input type="number" id="loanPrincipal" placeholder="Principal"><input type="date" id="loanReturnDate"><button onclick="takeLoan()">Take Loan</button></div>
-                    <div class="card"><h2>💰 Record Loan Repayment</h2><select id="repayMemberSelect"><option value="">-- Member --</option></select><input type="number" id="repayAmount" placeholder="Repayment"><button onclick="repayLoan()" class="secondary">Record Repayment</button><div id="loanDisplay"></div></div>
-                    <div class="report-card">
-                        <h3>📊 Download All Members Loans Report</h3>
-                        <p class="small-text" style="margin-bottom:10px;">Downloads a complete report for all members with their loan details</p>
-                        <button onclick="downloadAllMembersLoansReport()" class="download">📄 Download All Loans Report (PDF)</button>
+                    <div id="adminLoansContainer">
+                        <!-- Content loaded dynamically -->
                     </div>
                 </div>
 
-                <!-- ===== ADMIN RULES & REGULATIONS ===== -->
+                <!-- ADMIN RULES -->
                 <div class="tab-content" id="adminContentRules">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
                         <h2 style="margin:0; border-left:4px solid #1a4d3e; padding-left:14px; color:#1a4d3e; font-weight:700; font-size:20px;">📋 Rules & Regulations</h2>
@@ -1730,6 +2001,578 @@
         };
 
         var isEditMode = false;
+
+        // ============================================================
+        // SIDEBAR EXPAND/COLLAPSE FUNCTIONS
+        // ============================================================
+
+        function toggleMemberSub(section, event) {
+            if (event) event.stopPropagation();
+
+            var subId = section === 'savings' ? 'memberSavingsSub' : 'memberLoansSub';
+            var arrowId = section === 'savings' ? 'memberSavingsArrow' : 'memberLoansArrow';
+            var subDesktopId = section === 'savings' ? 'memberSavingsSubDesktop' : 'memberLoansSubDesktop';
+            var arrowDesktopId = section === 'savings' ? 'memberSavingsArrowDesktop' : 'memberLoansArrowDesktop';
+
+            var sub = document.getElementById(subId);
+            var arrow = document.getElementById(arrowId);
+            var subDesktop = document.getElementById(subDesktopId);
+            var arrowDesktop = document.getElementById(arrowDesktopId);
+
+            var isOpen = sub ? sub.classList.contains('open') : false;
+
+            var allSubs = ['memberSavingsSub', 'memberLoansSub', 'memberSavingsSubDesktop', 'memberLoansSubDesktop'];
+            var allArrows = ['memberSavingsArrow', 'memberLoansArrow', 'memberSavingsArrowDesktop', 'memberLoansArrowDesktop'];
+
+            for (var i = 0; i < allSubs.length; i++) {
+                var s = document.getElementById(allSubs[i]);
+                if (s) s.classList.remove('open');
+            }
+            for (var i = 0; i < allArrows.length; i++) {
+                var a = document.getElementById(allArrows[i]);
+                if (a) a.classList.remove('open');
+            }
+
+            if (!isOpen) {
+                if (sub) sub.classList.add('open');
+                if (arrow) arrow.classList.add('open');
+                if (subDesktop) subDesktop.classList.add('open');
+                if (arrowDesktop) arrowDesktop.classList.add('open');
+            }
+        }
+
+        function toggleAdminSub(section, event) {
+            if (event) event.stopPropagation();
+
+            var sectionCap = section.charAt(0).toUpperCase() + section.slice(1);
+            var subId = 'admin' + sectionCap + 'Sub';
+            var arrowId = 'admin' + sectionCap + 'Arrow';
+            var subDesktopId = 'admin' + sectionCap + 'SubDesktop';
+            var arrowDesktopId = 'admin' + sectionCap + 'ArrowDesktop';
+
+            var sub = document.getElementById(subId);
+            var arrow = document.getElementById(arrowId);
+            var subDesktop = document.getElementById(subDesktopId);
+            var arrowDesktop = document.getElementById(arrowDesktopId);
+
+            var isOpen = sub ? sub.classList.contains('open') : false;
+
+            var sections = ['members', 'savings', 'loans'];
+            for (var i = 0; i < sections.length; i++) {
+                var cap = sections[i].charAt(0).toUpperCase() + sections[i].slice(1);
+                var s = document.getElementById('admin' + cap + 'Sub');
+                var a = document.getElementById('admin' + cap + 'Arrow');
+                var sd = document.getElementById('admin' + cap + 'SubDesktop');
+                var ad = document.getElementById('admin' + cap + 'ArrowDesktop');
+                if (s) s.classList.remove('open');
+                if (a) a.classList.remove('open');
+                if (sd) sd.classList.remove('open');
+                if (ad) ad.classList.remove('open');
+            }
+
+            if (!isOpen) {
+                if (sub) sub.classList.add('open');
+                if (arrow) arrow.classList.add('open');
+                if (subDesktop) subDesktop.classList.add('open');
+                if (arrowDesktop) arrowDesktop.classList.add('open');
+            }
+        }
+
+        // ============================================================
+        // MEMBER SUB-CONTENT FUNCTIONS
+        // ============================================================
+
+        var currentMemberSection = 'dashboard';
+        var currentMemberSub = null;
+
+        function showMemberSubContent(section, sub, event) {
+            if (event) event.stopPropagation();
+
+            currentMemberSection = section;
+            currentMemberSub = sub;
+
+            // Update URL hash
+            window.location.hash = 'member-' + section + '-' + sub;
+
+            // Show the correct tab
+            var contents = document.querySelectorAll('#memberContentArea .tab-content');
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].classList.remove('active');
+            }
+
+            var tabId = 'memberContent' + section.charAt(0).toUpperCase() + section.slice(1);
+            var tab = document.getElementById(tabId);
+            if (tab) tab.classList.add('active');
+
+            // Update sidebar active states
+            var items = document.querySelectorAll('#memberSidebar .sidebar-item, #memberSidebarMobile .sidebar-item');
+            for (var i = 0; i < items.length; i++) {
+                items[i].classList.remove('active');
+            }
+
+            // Highlight parent and sub-item
+            var parentMap = {
+                'savings': 'memberMenuSavings',
+                'loans': 'memberMenuLoans'
+            };
+            var parentId = parentMap[section];
+            if (parentId) {
+                var el = document.getElementById(parentId);
+                if (el) el.classList.add('active');
+                var mobileEl = document.getElementById(parentId + 'Mobile');
+                if (mobileEl) mobileEl.classList.add('active');
+            }
+
+            // Highlight sub-item
+            var subItems = document.querySelectorAll('#memberSidebar .sidebar-sub .sidebar-item, #memberSidebarMobile .sidebar-sub .sidebar-item');
+            for (var i = 0; i < subItems.length; i++) {
+                var item = subItems[i];
+                if (item.getAttribute('data-section') === section && item.getAttribute('data-sub') === sub) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            }
+
+            // Render content
+            if (section === 'savings') {
+                renderMemberSavingsSub(sub);
+            } else if (section === 'loans') {
+                renderMemberLoansSub(sub);
+            }
+        }
+
+        function renderMemberSavingsSub(sub) {
+            var container = document.getElementById('memberSavingsContainer');
+            var html = '';
+
+            // Back button
+            html += '<button class="back-btn" onclick="showMemberContent(\'savings\')">← Back to Savings</button>';
+
+            var saved = getMemberSavings(currentMemberId);
+
+            switch (sub) {
+                case 'current':
+                    html += '<div class="card"><h2>🏦 My Current Savings</h2><div id="memberSavingsDisplay" style="font-size:32px;font-weight:bold;text-align:center;color:#1a4d3e;">' + saved + ' KES</div></div>';
+                    break;
+                case 'sync':
+                    html += '<div class="card member-csv-card" style="border:2px solid rgba(139,92,246,0.2);background:rgba(250,245,255,0.6);backdrop-filter:blur(4px);">';
+                    html += '<h3>📥 Sync My Savings</h3>';
+                    html += '<div style="background:rgba(241,245,249,0.6);border-radius:12px;padding:10px;margin-bottom:12px;"><button onclick="document.getElementById(\'memberSavingsCsvUrl\').value=\'https://docs.google.com/spreadsheets/d/e/2PACX-1vQF94CXpjAQluLsFH39SwHLo2G_IrS0xafKwRd8ja7c2_UDeXuq4nHLeqUtCb5BDy6s245V25Sluxas/pub?gid=128135867&single=true&output=csv\'" class="btn-small" style="font-size:11px;padding:5px 12px;background:linear-gradient(135deg,#8b5cf6 0%,#7c3aed 100%);">📊 Fill Savings Link</button></div>';
+                    html += '<input type="text" id="memberSavingsCsvUrl" placeholder="Paste savings CSV link">';
+                    html += '<button onclick="syncMemberSavingsFromCSV()" class="sync" style="background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);">⬇️ Sync My Savings</button>';
+                    html += '<div id="memberSyncStatus" class="sync-status" style="background:rgba(230,247,237,0.6);backdrop-filter:blur(4px);padding:10px;border-radius:12px;font-size:12px;text-align:center;margin:10px 0;border:1px solid rgba(16,185,129,0.1);">📡 Ready to sync</div>';
+                    html += '</div>';
+                    break;
+                case 'history':
+                    var historyHtml = '';
+                    var sortedSavings = [];
+                    for (var i = 0; i < savings.length; i++) {
+                        if (savings[i].memberId === currentMemberId) {
+                            sortedSavings.push(savings[i]);
+                        }
+                    }
+                    sortedSavings.sort(function(a, b) { return new Date(a.date) - new Date(b.date); });
+                    if (sortedSavings.length === 0) {
+                        historyHtml = '<tr><td colspan="3">No previous savings</td></tr>';
+                    } else {
+                        for (var i = 0; i < sortedSavings.length; i++) {
+                            var status = sortedSavings[i].disbursed ? '✅ Disbursed' : '⏳ Pending';
+                            var date = new Date(sortedSavings[i].date);
+                            var dateStr = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
+                            historyHtml += '<tr><td style="padding:8px;">' + dateStr + '</td><td style="padding:8px;">' + sortedSavings[i].amount + ' KES</td><td style="color:' + (sortedSavings[i].disbursed ? '#15803d' : '#f59e0b') + ';">' + status + '</td></tr>';
+                        }
+                    }
+                    html += '<div class="card"><h2>📜 Previous Savings History</h2><div style="overflow-x:auto"><table class="report-table" style="width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;"><thead><tr><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Date</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Amount</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Status</th></tr></thead><tbody>' + historyHtml + '</tbody></table></div></div>';
+                    break;
+                case 'add':
+                    html += '<div class="card payment-form" style="background:rgba(240,253,244,0.6);backdrop-filter:blur(4px);border:1px solid rgba(0,168,107,0.2);border-radius:16px;padding:14px;margin-top:10px;">';
+                    html += '<h3>💳 Add Savings</h3>';
+                    html += '<div class="till-display" style="background:linear-gradient(135deg,#1a4d3e 0%,#0f3b2c 100%);color:white;padding:14px;border-radius:16px;text-align:center;margin-bottom:12px;"><h4>6246156</h4></div>';
+                    html += '<input type="number" id="paymentAmount" placeholder="Amount">';
+                    html += '<input type="date" id="paymentDate">';
+                    html += '<div class="flex-buttons"><button onclick="copyTillNumber()" class="secondary">📋 Copy Till</button><button onclick="openWhatsApp()" class="secondary">📱 Send Proof</button></div>';
+                    html += '<button onclick="generatePaymentInstructions()" class="secondary">Instructions</button>';
+                    html += '</div>';
+                    break;
+                case 'disbursement':
+                    html += '<div class="card" style="background:linear-gradient(135deg,#1e40af 0%,#1e3a8a 100%);color:white;border-radius:20px;padding:18px;border:1px solid rgba(255,255,255,0.1);">';
+                    html += '<h3>💰 Next Savings Disbursement</h3>';
+                    html += '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>📅 Next Date:</span><span id="savingsDisbursementDate">July 2026</span></div>';
+                    html += '<div style="display:flex;justify-content:space-between;padding:8px 0;"><span>💵 Your Current Savings:</span><span id="currentSavingsDisplay">' + saved + ' KES</span></div>';
+                    html += '</div>';
+                    break;
+                case 'download':
+                    html += '<div class="report-card"><h3>📊 Download Savings Report</h3><p class="small-text" style="margin-bottom:10px;">Downloads a complete report of your savings history</p><button onclick="downloadSavingsReport()" class="download">📄 Download Savings Report (PDF)</button></div>';
+                    break;
+                default:
+                    html += '<p>Select an option from the menu.</p>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        function renderMemberLoansSub(sub) {
+            var container = document.getElementById('memberLoansContainer');
+            var html = '';
+
+            html += '<button class="back-btn" onclick="showMemberContent(\'loans\')">← Back to Loans</button>';
+
+            var loanBal = getMemberLoanBalance(currentMemberId);
+            var interest = getMemberTotalInterestAccrued(currentMemberId);
+
+            switch (sub) {
+                case 'approved':
+                    var loansHtml = '';
+                    for (var i = 0; i < loans.length; i++) {
+                        if (loans[i].memberId === currentMemberId) {
+                            var rem = loans[i].totalDue - (loans[i].repaidAmount || 0);
+                            loansHtml += '<div class="loan-detail">📆 ' + loans[i].dateTaken + '<br>💰 ' + loans[i].principal + '+10% = ' + loans[i].totalDue + ' KES<br>📅 Due: ' + loans[i].returnDate + '<br>' + (loans[i].status === 'returned' ? '✅ Paid' : '⚠️ Pending (' + rem + ' KES left)') + '</div>';
+                        }
+                    }
+                    html += '<div class="card"><h2>📋 My Approved Loans</h2><div id="memberLoan" style="font-size:28px;font-weight:bold;text-align:center;color:#dc2626;">' + loanBal + ' KES</div><div id="memberLoansList">' + (loansHtml || '<p>No loans</p>') + '</div></div>';
+                    break;
+                case 'sync':
+                    html += '<div class="card sync-loans-card" style="border:2px solid rgba(139,92,246,0.2);background:rgba(250,245,255,0.6);backdrop-filter:blur(4px);">';
+                    html += '<h3>📥 Sync My Loans</h3>';
+                    html += '<div style="background:rgba(241,245,249,0.6);border-radius:12px;padding:10px;margin-bottom:12px;"><button onclick="document.getElementById(\'memberLoansCsvUrl\').value=\'https://docs.google.com/spreadsheets/d/e/2PACX-1vQF94CXpjAQluLsFH39SwHLo2G_IrS0xafKwRd8ja7c2_UDeXuq4nHLeqUtCb5BDy6s245V25Sluxas/pub?gid=1850915747&single=true&output=csv\'" class="btn-small" style="font-size:11px;padding:5px 12px;background:linear-gradient(135deg,#8b5cf6 0%,#7c3aed 100%);">📋 Fill Loans Link</button></div>';
+                    html += '<input type="text" id="memberLoansCsvUrl" placeholder="Paste loans CSV link">';
+                    html += '<button onclick="syncMemberLoansFromCSV()" class="sync" style="background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);">⬇️ Sync My Loans</button>';
+                    html += '<div id="memberLoansSyncStatus" class="sync-status" style="background:rgba(230,247,237,0.6);backdrop-filter:blur(4px);padding:10px;border-radius:12px;font-size:12px;text-align:center;margin:10px 0;border:1px solid rgba(16,185,129,0.1);">📡 Ready to sync</div>';
+                    html += '</div>';
+                    break;
+                case 'interest':
+                    html += '<div class="card" style="background:linear-gradient(135deg,#1a4d3e 0%,#0f3b2c 100%);color:white;border-radius:20px;padding:18px;border:1px solid rgba(255,255,255,0.1);">';
+                    html += '<h3>📈 Loan Interest Accrual</h3>';
+                    html += '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>💰 Total Interest Accrued:</span><span id="totalInterestAccrued">' + interest.toFixed(2) + ' KES</span></div>';
+                    html += '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>👤 To be Sent (70%):</span><span id="memberInterestShare">' + (interest * 0.70).toFixed(2) + ' KES</span></div>';
+                    html += '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>🏦 To Reserve (30%):</span><span id="groupReserveShare">' + (interest * 0.30).toFixed(2) + ' KES</span></div>';
+                    html += '<div style="display:flex;justify-content:space-between;padding:8px 0;"><span>📅 Next Disbursement:</span><span id="nextDisbursement">June 2026</span></div>';
+                    html += '</div>';
+                    break;
+                case 'request':
+                    html += '<div class="card"><h3>📋 Request a Loan</h3><div style="background:rgba(224,231,255,0.6);backdrop-filter:blur(4px);border-radius:12px;padding:10px;margin-top:8px;font-size:12px;border:1px solid rgba(99,102,241,0.1);">Max 700 KES | Need ≥50% in savings</div><input type="number" id="loanRequestAmount" placeholder="Amount (max 700)"><textarea id="loanRequestReason" rows="2" placeholder="Reason (optional)"></textarea><div class="flex-buttons"><button onclick="checkEligibility()" class="secondary">🔍 Check</button><button onclick="submitLoanRequest()" class="secondary">📤 Submit</button></div><div id="eligibilityResult" class="small-text"></div></div>';
+                    break;
+                case 'requests':
+                    var reqs = [];
+                    for (var i = 0; i < loanRequests.length; i++) {
+                        if (loanRequests[i].memberId === currentMemberId) reqs.push(loanRequests[i]);
+                    }
+                    var reqHtml = '';
+                    if (reqs.length === 0) {
+                        reqHtml = '<p>No loan requests</p>';
+                    } else {
+                        for (var i = 0; i < reqs.length; i++) {
+                            var stat = reqs[i].status === "pending" ? "⏳ Pending" : (reqs[i].status === "approved" ? "✅ Approved" : "❌ Rejected");
+                            reqHtml += '<div class="loan-detail"><strong>💰 ' + reqs[i].amount + ' KES</strong><br>📅 ' + reqs[i].requestDate + '<br>📝 ' + reqs[i].reason + '<br>' + stat + '</div>';
+                        }
+                    }
+                    html += '<div class="card"><h2>📋 My Loan Requests</h2>' + reqHtml + '</div>';
+                    break;
+                case 'download':
+                    html += '<div class="report-card"><h3>📊 Download Loans Report</h3><p class="small-text" style="margin-bottom:10px;">Downloads a complete report of your loan history</p><button onclick="downloadMemberLoansReport()" class="download">📄 Download Loans Report (PDF)</button></div>';
+                    break;
+                default:
+                    html += '<p>Select an option from the menu.</p>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        // ============================================================
+        // ADMIN SUB-CONTENT FUNCTIONS
+        // ============================================================
+
+        var currentAdminSection = 'dashboard';
+        var currentAdminSub = null;
+
+        function showAdminSubContent(section, sub, event) {
+            if (event) event.stopPropagation();
+
+            currentAdminSection = section;
+            currentAdminSub = sub;
+
+            window.location.hash = 'admin-' + section + '-' + sub;
+
+            var contents = document.querySelectorAll('#adminContentArea .tab-content');
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].classList.remove('active');
+            }
+
+            var tabId = 'adminContent' + section.charAt(0).toUpperCase() + section.slice(1);
+            var tab = document.getElementById(tabId);
+            if (tab) tab.classList.add('active');
+
+            var items = document.querySelectorAll('#adminSidebar .sidebar-item, #adminSidebarMobile .sidebar-item');
+            for (var i = 0; i < items.length; i++) {
+                items[i].classList.remove('active');
+            }
+
+            var parentMap = {
+                'members': 'adminMenuMembers',
+                'savings': 'adminMenuSavings',
+                'loans': 'adminMenuLoans'
+            };
+            var parentId = parentMap[section];
+            if (parentId) {
+                var el = document.getElementById(parentId);
+                if (el) el.classList.add('active');
+                var mobileEl = document.getElementById(parentId + 'Mobile');
+                if (mobileEl) mobileEl.classList.add('active');
+            }
+
+            var subItems = document.querySelectorAll('#adminSidebar .sidebar-sub .sidebar-item, #adminSidebarMobile .sidebar-sub .sidebar-item');
+            for (var i = 0; i < subItems.length; i++) {
+                var item = subItems[i];
+                if (item.getAttribute('data-section') === section && item.getAttribute('data-sub') === sub) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            }
+
+            if (section === 'members') renderAdminMembersSub(sub);
+            else if (section === 'savings') renderAdminSavingsSub(sub);
+            else if (section === 'loans') renderAdminLoansSub(sub);
+        }
+
+        function renderAdminMembersSub(sub) {
+            var container = document.getElementById('adminMembersContainer');
+            var html = '';
+
+            html += '<button class="back-btn" onclick="showAdminContent(\'members\')">← Back to Members</button>';
+
+            switch (sub) {
+                case 'add':
+                    html += '<div class="card"><h3>➕ Add New Member</h3><input type="text" id="newMemberName" placeholder="Full Name"><input type="text" id="newMemberPhone" placeholder="Phone"><button onclick="addNewMember()">Add Member</button></div>';
+                    break;
+                case 'sync':
+                    html += '<div class="card csv-url-box" style="background:rgba(240,244,248,0.6);backdrop-filter:blur(4px);padding:16px;border-radius:16px;border:2px solid rgba(2,132,199,0.2);"><h3>📊 Sync Members</h3><input type="text" id="membersCsvUrl" placeholder="Paste Members CSV link"><button onclick="syncMembers()" class="sync" style="background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);">Sync Members</button></div>';
+                    break;
+                case 'list':
+                    var passHtml = '';
+                    for (var i = 0; i < MEMBERS.length; i++) {
+                        passHtml += '<div class="member-row"><span><strong>' + MEMBERS[i].name + '</strong> 🔑 ' + MEMBERS[i].passcode + '</span><div><button onclick="changeMemberPasscode(' + MEMBERS[i].id + ')" class="secondary small">Change</button><button onclick="showDeleteConfirm(' + MEMBERS[i].id + ',\'' + MEMBERS[i].name + '\')" class="delete-member">🗑️ Delete</button></div></div>';
+                    }
+                    html += '<div class="card"><h3>👥 Members List</h3><div id="passcodesList">' + passHtml + '</div><div class="total" style="text-align:center;margin:12px 0;padding:12px;background:rgba(230,247,237,0.6);backdrop-filter:blur(4px);border-radius:50px;font-weight:600;border:1px solid rgba(26,77,62,0.1);">💰 Total Savings: <span id="totalSavings">' + getTotalGroupSavings() + '</span> KES</div></div>';
+                    break;
+                case 'mgr':
+                    html += '<div class="card csv-url-box" style="background:rgba(240,244,248,0.6);backdrop-filter:blur(4px);padding:16px;border-radius:16px;border:2px solid rgba(2,132,199,0.2);"><h3>🎡 Sync MGR</h3><input type="text" id="mgrCsvUrl" placeholder="Paste MGR CSV link"><button onclick="syncMGR()" class="sync" style="background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);">Sync MGR</button></div>';
+                    break;
+                case 'reset':
+                    html += '<div class="card"><h3>🔐 Reset Passcodes</h3><button onclick="resetMemberPasscodes()" class="secondary" style="width:100%;">Reset All Passcodes</button></div>';
+                    break;
+                default:
+                    html += '<p>Select an option from the menu.</p>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        function renderAdminSavingsSub(sub) {
+            var container = document.getElementById('adminSavingsContainer');
+            var html = '';
+
+            html += '<button class="back-btn" onclick="showAdminContent(\'savings\')">← Back to Savings</button>';
+
+            switch (sub) {
+                case 'disbursement':
+                    html += '<div class="card"><h2>💰 Savings Disbursement (Jan,Mar,May,Jul,Sep,Nov)</h2><div style="background:rgba(254,243,199,0.6);backdrop-filter:blur(4px);border-radius:16px;padding:14px;margin-top:10px;border:1px solid rgba(245,158,11,0.1);"><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>📊 Total Savings:</span><span id="totalSavingsPool">' + getTotalGroupSavings() + '</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>📅 Current Month:</span><span id="currentMonth">' + new Date().toLocaleString('default', { month: 'long' }) + ' ' + new Date().getFullYear() + '</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;flex-wrap:wrap;gap:8px;"><span>🎯 Next Disbursement:</span><span id="nextDisbursementMonth">July 2026</span></div></div><button onclick="processSavingsDisbursement()" class="secondary">Process Savings Disbursement</button><p class="small-text">⚠️ Only in Jan/Mar/May/Jul/Sep/Nov</p></div>';
+                    break;
+                case 'sync':
+                    html += '<div class="card csv-url-box" style="background:rgba(240,244,248,0.6);backdrop-filter:blur(4px);padding:16px;border-radius:16px;border:2px solid rgba(2,132,199,0.2);"><h4>📊 SYNC SAVINGS</h4><input type="text" id="savingsCsvUrl" placeholder="Paste Savings sheet CSV link"><button onclick="syncSavings()" class="sync" style="background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);">Sync Savings</button></div>';
+                    break;
+                case 'add':
+                    var opts = '<option value="">-- Member --</option>';
+                    for (var i = 0; i < MEMBERS.length; i++) {
+                        opts += '<option value="' + MEMBERS[i].id + '">' + MEMBERS[i].name + '</option>';
+                    }
+                    html += '<div class="card"><h2>🏦 Add Savings (Manual)</h2><select id="savingsMemberSelect">' + opts + '</select><input type="date" id="savingsDate"><input type="number" id="savingsAmount" placeholder="Amount KES"><button onclick="addSavings()">Add Savings</button></div>';
+                    break;
+                case 'table':
+                    var tableHtml = '';
+                    for (var i = 0; i < MEMBERS.length; i++) {
+                        tableHtml += '<tr><td>' + MEMBERS[i].name + '</td><td>' + getMemberSavings(MEMBERS[i].id).toFixed(2) + ' KES</td></tr>';
+                    }
+                    html += '<div class="card"><h2>📊 Total Savings Per Member</h2><table class="savings-table" style="width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;"><thead><tr><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Member</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Savings</th></tr></thead><tbody>' + tableHtml + '</tbody></table></div>';
+                    break;
+                case 'download':
+                    html += '<div class="report-card"><h3>📊 Download All Members Savings Report</h3><p class="small-text" style="margin-bottom:10px;">Downloads a complete report for all members with their total savings</p><button onclick="downloadAllMembersSavingsReport()" class="download">📄 Download All Savings Report (PDF)</button></div>';
+                    break;
+                default:
+                    html += '<p>Select an option from the menu.</p>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        function renderAdminLoansSub(sub) {
+            var container = document.getElementById('adminLoansContainer');
+            var html = '';
+
+            html += '<button class="back-btn" onclick="showAdminContent(\'loans\')">← Back to Loans</button>';
+
+            var opts = '<option value="">-- Member --</option>';
+            for (var i = 0; i < MEMBERS.length; i++) {
+                opts += '<option value="' + MEMBERS[i].id + '">' + MEMBERS[i].name + '</option>';
+            }
+
+            switch (sub) {
+                case 'pool':
+                    var totalP = 0,
+                        totalI = 0,
+                        reserve = 0,
+                        out = 0,
+                        accessible = 0;
+                    for (var i = 0; i < loans.length; i++) {
+                        totalP += loans[i].principal || 0;
+                        totalI += loans[i].interest || 0;
+                        if (loans[i].status !== 'returned') {
+                            out += loans[i].totalDue - (loans[i].repaidAmount || 0);
+                        }
+                    }
+                    reserve = totalI * 0.30;
+                    accessible = totalP + reserve - out;
+                    if (accessible < 0) accessible = 0;
+
+                    html += '<div class="card" style="background:linear-gradient(135deg,#1a4d3e 0%,#0f3b2c 100%);color:white;border-radius:20px;padding:18px;border:1px solid rgba(255,255,255,0.1);"><h2 style="color:white;">💰 Accessible Loan Pool</h2><div style="text-align:center"><div style="font-size:48px; font-weight:bold;">' + accessible.toFixed(2) + ' KES</div><p>Available to borrow</p></div><div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>📊 Total Principal Lent:</span><span>' + totalP.toFixed(2) + ' KES</span></div><div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>📈 Total Interest:</span><span>' + totalI.toFixed(2) + ' KES</span></div><div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>🏦 30% Reserve:</span><span>' + reserve.toFixed(2) + ' KES</span></div><div style="display:flex;justify-content:space-between;padding:8px 0;"><span>📌 Outstanding Loans:</span><span>' + out.toFixed(2) + ' KES</span></div><button onclick="refreshLoanPool()" class="secondary" style="background:rgba(255,255,255,0.15);">🔄 Refresh Pool</button></div>';
+                    break;
+                case 'interest':
+                    var totalInt = 0;
+                    for (var i = 0; i < loans.length; i++) {
+                        totalInt += loans[i].interest || 0;
+                    }
+                    html += '<div class="card"><h2>💰 Loan Interest (70/30)</h2><div style="background:rgba(254,243,199,0.6);backdrop-filter:blur(4px);border-radius:16px;padding:14px;margin-top:10px;border:1px solid rgba(245,158,11,0.1);"><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>📊 Total Interest Accrued:</span><span>' + totalInt.toFixed(2) + ' KES</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>👥 Due to Members (70%):</span><span>' + (totalInt * 0.70).toFixed(2) + ' KES</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;flex-wrap:wrap;gap:8px;"><span>🏦 Group Reserve (30%):</span><span>' + (totalInt * 0.30).toFixed(2) + ' KES</span></div></div><button onclick="processInterestDisbursement()" class="secondary">Process Interest Disbursement</button><p class="small-text">⚠️ Only in June & December</p></div>';
+                    break;
+                case 'table':
+                    var tableHtml = '';
+                    for (var i = 0; i < MEMBERS.length; i++) {
+                        var interest = getMemberTotalInterestAccrued(MEMBERS[i].id);
+                        tableHtml += '<tr><td>' + MEMBERS[i].name + '</td><td>' + interest.toFixed(2) + ' KES</td><td>' + (interest * 0.70).toFixed(2) + ' KES</td><td>' + (interest * 0.30).toFixed(2) + ' KES</td></tr>';
+                    }
+                    html += '<div class="card"><h2>📊 Total Interest Per Member</h2><table class="interest-table" style="width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;"><thead><tr><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Member</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Interest</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">To Send (70%)</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">To Reserve (30%)</th></tr></thead><tbody>' + tableHtml + '</tbody></table></div>';
+                    break;
+                case 'sync':
+                    html += '<div class="card csv-url-box" style="background:rgba(240,244,248,0.6);backdrop-filter:blur(4px);padding:16px;border-radius:16px;border:2px solid rgba(2,132,199,0.2);"><h4>📋 SYNC LOANS</h4><input type="text" id="loansCsvUrl" placeholder="Paste Loans sheet CSV link"><button onclick="syncLoans()" class="sync" style="background:linear-gradient(135deg,#0284c7 0%,#0369a1 100%);">Sync Loans</button></div>';
+                    break;
+                case 'take':
+                    html += '<div class="card"><h2>📋 Take Loan (10% Interest)</h2><select id="loanMemberSelect">' + opts + '</select><input type="date" id="loanDateTaken"><input type="number" id="loanPrincipal" placeholder="Principal"><input type="date" id="loanReturnDate"><button onclick="takeLoan()">Take Loan</button></div>';
+                    break;
+                case 'repay':
+                    html += '<div class="card"><h2>💰 Record Loan Repayment</h2><select id="repayMemberSelect">' + opts + '</select><input type="number" id="repayAmount" placeholder="Repayment"><button onclick="repayLoan()" class="secondary">Record Repayment</button><div id="loanDisplay"></div></div>';
+                    break;
+                case 'download':
+                    html += '<div class="report-card"><h3>📊 Download All Members Loans Report</h3><p class="small-text" style="margin-bottom:10px;">Downloads a complete report for all members with their loan details</p><button onclick="downloadAllMembersLoansReport()" class="download">📄 Download All Loans Report (PDF)</button></div>';
+                    break;
+                default:
+                    html += '<p>Select an option from the menu.</p>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        // ============================================================
+        // NAVIGATION FUNCTIONS
+        // ============================================================
+
+        function showMemberContent(section) {
+            currentMemberSection = section;
+            currentMemberSub = null;
+
+            var contents = document.querySelectorAll('#memberContentArea .tab-content');
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].classList.remove('active');
+            }
+            document.getElementById('memberContent' + section.charAt(0).toUpperCase() + section.slice(1)).classList.add('active');
+
+            var items = document.querySelectorAll('#memberSidebar .sidebar-item, #memberSidebarMobile .sidebar-item');
+            for (var i = 0; i < items.length; i++) {
+                items[i].classList.remove('active');
+            }
+
+            var menuMap = {
+                'dashboard': 'memberMenuDashboard',
+                'savings': 'memberMenuSavings',
+                'loans': 'memberMenuLoans',
+                'rules': 'memberMenuRules'
+            };
+            var id = menuMap[section];
+            if (id) {
+                var el = document.getElementById(id);
+                if (el) el.classList.add('active');
+                var mobileEl = document.getElementById(id + 'Mobile');
+                if (mobileEl) mobileEl.classList.add('active');
+            }
+
+            // Clear sub-item active states
+            var subItems = document.querySelectorAll('#memberSidebar .sidebar-sub .sidebar-item, #memberSidebarMobile .sidebar-sub .sidebar-item');
+            for (var i = 0; i < subItems.length; i++) {
+                subItems[i].classList.remove('active');
+            }
+
+            if (section === 'dashboard') { updateDashboardStats(); }
+            if (section === 'savings') {
+                // Show default savings view (current savings)
+                renderMemberSavingsSub('current');
+            }
+            if (section === 'loans') {
+                renderMemberLoansSub('approved');
+            }
+            if (section === 'rules') { renderRules(); }
+        }
+
+        function showAdminContent(section) {
+            currentAdminSection = section;
+            currentAdminSub = null;
+
+            var contents = document.querySelectorAll('#adminContentArea .tab-content');
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].classList.remove('active');
+            }
+            document.getElementById('adminContent' + section.charAt(0).toUpperCase() + section.slice(1)).classList.add('active');
+
+            var items = document.querySelectorAll('#adminSidebar .sidebar-item, #adminSidebarMobile .sidebar-item');
+            for (var i = 0; i < items.length; i++) {
+                items[i].classList.remove('active');
+            }
+
+            var menuMap = {
+                'dashboard': 'adminMenuDashboard',
+                'members': 'adminMenuMembers',
+                'savings': 'adminMenuSavings',
+                'loans': 'adminMenuLoans',
+                'rules': 'adminMenuRules'
+            };
+            var id = menuMap[section];
+            if (id) {
+                var el = document.getElementById(id);
+                if (el) el.classList.add('active');
+                var mobileEl = document.getElementById(id + 'Mobile');
+                if (mobileEl) mobileEl.classList.add('active');
+            }
+
+            var subItems = document.querySelectorAll('#adminSidebar .sidebar-sub .sidebar-item, #adminSidebarMobile .sidebar-sub .sidebar-item');
+            for (var i = 0; i < subItems.length; i++) {
+                subItems[i].classList.remove('active');
+            }
+
+            if (section === 'dashboard') { refreshAdminView(); }
+            if (section === 'members') { renderAdminMembersSub('list'); }
+            if (section === 'savings') { renderAdminSavingsSub('disbursement'); }
+            if (section === 'loans') { renderAdminLoansSub('pool'); }
+            if (section === 'rules') {
+                renderRules();
+                isEditMode = false;
+                document.getElementById('rulesEditArea').style.display = 'none';
+                document.getElementById('adminRulesDisplay').style.display = 'block';
+                var toggleBtn = document.getElementById('rulesEditToggleBtn');
+                if (toggleBtn) toggleBtn.textContent = '✏️ Edit Rules';
+                var saveBtn = document.getElementById('rulesSaveBtn');
+                if (saveBtn) saveBtn.style.display = 'none';
+                var indicator = document.getElementById('editModeIndicator');
+                if (indicator) indicator.style.display = 'none';
+            }
+        }
 
         // ============================================================
         // RENDER RULES
@@ -2185,51 +3028,67 @@
         }
 
         // ============================================================
-        // NAVIGATION
+        // REFRESH ADMIN VIEW
         // ============================================================
 
-        function showMemberContent(section) {
-            var contents = document.querySelectorAll('#memberContentArea .tab-content');
-            for (var i = 0; i < contents.length; i++) { contents[i].classList.remove('active'); }
-            document.getElementById('memberContent' + section.charAt(0).toUpperCase() + section.slice(1)).classList.add(
-            'active');
+        function refreshAdminView() {
+            var opts = '<option value="">-- Select --</option>';
+            for (var i = 0; i < MEMBERS.length; i++) {
+                opts += '<option value="' + MEMBERS[i].id + '">' + MEMBERS[i].name + '</option>';
+            }
+            if (document.getElementById("savingsMemberSelect")) { document.getElementById("savingsMemberSelect").innerHTML =
+                opts; }
+            if (document.getElementById("loanMemberSelect")) { document.getElementById("loanMemberSelect").innerHTML = opts; }
+            if (document.getElementById("repayMemberSelect")) { document.getElementById("repayMemberSelect").innerHTML = opts; }
 
-            var items = document.querySelectorAll('#memberSidebar .sidebar-item');
-            for (var i = 0; i < items.length; i++) { items[i].classList.remove('active'); }
-            document.getElementById('memberMenu' + section.charAt(0).toUpperCase() + section.slice(1)).classList.add('active');
+            var notifyOpts = '<option value="all">📢 All Members (Group)</option>';
+            for (var i = 0; i < MEMBERS.length; i++) {
+                notifyOpts += '<option value="' + MEMBERS[i].id + '">👤 ' + MEMBERS[i].name + '</option>';
+            }
+            if (document.getElementById("notifyMemberSelect")) { document.getElementById("notifyMemberSelect").innerHTML =
+                    notifyOpts; }
 
-            if (section === 'dashboard') { updateDashboardStats(); }
-            if (section === 'savings') { refreshMemberView(); }
-            if (section === 'loans') { refreshMemberView(); }
-            if (section === 'rules') { renderRules(); }
+            document.getElementById("adminTotalSavings").innerHTML = getTotalGroupSavings().toFixed(2) + " KES";
+            document.getElementById("adminTotalMembers").innerHTML = MEMBERS.length;
+            document.getElementById("adminActiveLoans").innerHTML = getOutstandingLoanBalance().toFixed(2) + " KES";
+
+            // Refresh MGR winner
+            var winner = MEMBERS[mgrWeekIndex];
+            document.getElementById("mgrWinnerAdmin").innerHTML = '🏆 ' + (winner?.name || '') +
+                '<br><span class="small-text">' + (mgrLastPaidWeek === getCurrentWeekKey() ? "✅ Recorded" :
+                    "❌ Not recorded") + '</span>';
+
+            displayPendingRequests();
+            displayPendingLoanRequests();
+            refreshLoanPool();
         }
 
-        function showAdminContent(section) {
-            var contents = document.querySelectorAll('#adminContentArea .tab-content');
-            for (var i = 0; i < contents.length; i++) { contents[i].classList.remove('active'); }
-            document.getElementById('adminContent' + section.charAt(0).toUpperCase() + section.slice(1)).classList.add(
-            'active');
-
-            var items = document.querySelectorAll('#adminSidebar .sidebar-item');
-            for (var i = 0; i < items.length; i++) { items[i].classList.remove('active'); }
-            document.getElementById('adminMenu' + section.charAt(0).toUpperCase() + section.slice(1)).classList.add('active');
-
-            if (section === 'dashboard') { refreshAdminView(); }
-            if (section === 'members') { refreshMemberList(); }
-            if (section === 'savings') { updateSavingsPerMemberTable(); }
-            if (section === 'loans') { updateInterestPerMemberTable(); }
-            if (section === 'rules') {
-                renderRules();
-                isEditMode = false;
-                document.getElementById('rulesEditArea').style.display = 'none';
-                document.getElementById('adminRulesDisplay').style.display = 'block';
-                var toggleBtn = document.getElementById('rulesEditToggleBtn');
-                if (toggleBtn) toggleBtn.textContent = '✏️ Edit Rules';
-                var saveBtn = document.getElementById('rulesSaveBtn');
-                if (saveBtn) saveBtn.style.display = 'none';
-                var indicator = document.getElementById('editModeIndicator');
-                if (indicator) indicator.style.display = 'none';
+        function displayPendingRequests() {
+            var html = "";
+            for (var i = 0; i < pendingSignups.length; i++) {
+                html += '<div class="pending-request"><div><strong>' + pendingSignups[i].name +
+                    '</strong></div><div>📞 ' + pendingSignups[i].phone +
+                    '</div><div>💰 Fee: 100 KES Paid</div><div class="flex-buttons"><button onclick="approveMember(' +
+                    pendingSignups[i].id + ')" style="background:linear-gradient(135deg,#10b981 0%,#059669 100%);">✅ Approve</button><button onclick="rejectMember(' +
+                    pendingSignups[i].id + ')" style="background:linear-gradient(135deg,#dc2626 0%,#b91c1c 100%);">❌ Reject</button></div></div>';
             }
+            document.getElementById("pendingRequestsList").innerHTML = html || "<p>✅ No pending requests</p>";
+        }
+
+        function displayPendingLoanRequests() {
+            var pending = [];
+            for (var i = 0; i < loanRequests.length; i++) {
+                if (loanRequests[i].status === "pending") pending.push(loanRequests[i]);
+            }
+            var html = "";
+            for (var i = 0; i < pending.length; i++) {
+                html += '<div class="pending-request"><strong>' + pending[i].memberName + '</strong> requested ' + pending[i]
+                    .amount + ' KES<br>Reason: ' + pending[i].reason +
+                    '<br><div class="flex-buttons"><button onclick="approveLoanRequest(' + pending[i].id +
+                    ')" class="secondary">✅ Approve</button><button onclick="rejectLoanRequest(' + pending[i].id +
+                    ')" class="secondary">❌ Reject</button></div></div>';
+            }
+            document.getElementById("pendingLoanRequestsList").innerHTML = html || "<p>No pending requests</p>";
         }
 
         // ============================================================
@@ -2242,7 +3101,7 @@
             updateAvatarDisplay(currentMemberId);
 
             var saved = getMemberSavings(currentMemberId);
-            document.getElementById("memberSavings").innerHTML = saved + ' KES';
+            document.getElementById("memberSavingsDisplay").innerHTML = saved + ' KES';
             document.getElementById("memberLoan").innerHTML = getMemberLoanBalance(currentMemberId) + ' KES';
             document.getElementById("currentSavingsDisplay").innerHTML = saved + ' KES';
             var interest = getMemberTotalInterestAccrued(currentMemberId);
@@ -2252,7 +3111,6 @@
             document.getElementById("savingsDisbursementDate").innerHTML = "July 2026";
 
             var historyHtml = '';
-            var totalSavings = 0;
             var sortedSavings = [];
             for (var i = 0; i < savings.length; i++) {
                 if (savings[i].memberId === currentMemberId) {
@@ -2262,7 +3120,6 @@
             sortedSavings.sort(function(a, b) { return new Date(a.date) - new Date(b.date); });
 
             for (var i = 0; i < sortedSavings.length; i++) {
-                totalSavings += sortedSavings[i].amount;
                 var status = sortedSavings[i].disbursed ? '✅ Disbursed' : '⏳ Pending';
                 var date = new Date(sortedSavings[i].date);
                 var dateStr = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
@@ -2291,50 +3148,540 @@
         }
 
         // ============================================================
-        // ADMIN VIEW FUNCTIONS
+        // PROFILE PHOTO FUNCTIONS
         // ============================================================
 
-        function refreshAdminView() {
-            var opts = '<option value="">-- Select --</option>';
-            for (var i = 0; i < MEMBERS.length; i++) {
-                opts += '<option value="' + MEMBERS[i].id + '">' + MEMBERS[i].name + '</option>';
-            }
-            if (document.getElementById("savingsMemberSelect")) { document.getElementById("savingsMemberSelect").innerHTML =
-                opts; }
-            if (document.getElementById("loanMemberSelect")) { document.getElementById("loanMemberSelect").innerHTML = opts; }
-            if (document.getElementById("repayMemberSelect")) { document.getElementById("repayMemberSelect").innerHTML = opts; }
-
-            var notifyOpts = '<option value="all">📢 All Members (Group)</option>';
-            for (var i = 0; i < MEMBERS.length; i++) {
-                notifyOpts += '<option value="' + MEMBERS[i].id + '">👤 ' + MEMBERS[i].name + '</option>';
-            }
-            if (document.getElementById("notifyMemberSelect")) { document.getElementById("notifyMemberSelect").innerHTML =
-                    notifyOpts; }
-
-            refreshMemberList();
-            document.getElementById("totalSavings").innerText = getTotalGroupSavings();
-            document.getElementById("adminTotalSavings").innerHTML = getTotalGroupSavings().toFixed(2) + " KES";
-            document.getElementById("adminTotalMembers").innerHTML = MEMBERS.length;
-            document.getElementById("adminActiveLoans").innerHTML = getOutstandingLoanBalance().toFixed(2) + " KES";
-
-            var now = new Date();
-            document.getElementById("currentMonth").innerHTML = now.toLocaleString('default', { month: 'long' }) + " " + now
-            .getFullYear();
+        function getInitials(name) {
+            if (!name) return '??';
+            var parts = name.trim().split(' ');
+            if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+            return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
         }
 
-        function refreshMemberList() {
-            var passHtml = '';
-            for (var i = 0; i < MEMBERS.length; i++) {
-                passHtml += '<div class="member-row">';
-                passHtml += '<span><strong>' + MEMBERS[i].name + '</strong> 🔑 ' + MEMBERS[i].passcode + '</span>';
-                passHtml += '<div>';
-                passHtml += '<button onclick="changeMemberPasscode(' + MEMBERS[i].id +
-                    ')" class="secondary small">Change</button>';
-                passHtml += '<button onclick="showDeleteConfirm(' + MEMBERS[i].id + ',\'' + MEMBERS[i].name +
-                    '\')" class="delete-member">🗑️ Delete</button>';
-                passHtml += '</div></div>';
+        function getColorForName(name) {
+            var colors = ['#1a4d3e', '#1e40af', '#b91c1c', '#7c3aed', '#065f46', '#1e40af', '#9d174d', '#4c1d95', '#0f766e',
+                '#be185d'
+            ];
+            var hash = 0;
+            for (var i = 0; i < name.length; i++) {
+                hash = name.charCodeAt(i) + ((hash << 5) - hash);
             }
-            document.getElementById("passcodesList").innerHTML = passHtml;
+            return colors[Math.abs(hash) % colors.length];
+        }
+
+        function getMemberPhoto(memberId) {
+            var photos = JSON.parse(localStorage.getItem('memberPhotos') || '{}');
+            return photos[memberId] || null;
+        }
+
+        function saveMemberPhoto(memberId, photoData) {
+            var photos = JSON.parse(localStorage.getItem('memberPhotos') || '{}');
+            photos[memberId] = photoData;
+            localStorage.setItem('memberPhotos', JSON.stringify(photos));
+        }
+
+        function updateAvatarDisplay(memberId) {
+            var member = MEMBERS[memberId];
+            if (!member) return;
+
+            var photo = getMemberPhoto(memberId);
+            var initials = getInitials(member.name);
+            var color = getColorForName(member.name);
+
+            var headerAvatar = document.getElementById('headerAvatar');
+            if (photo) {
+                headerAvatar.innerHTML = '<img src="' + photo + '" alt="Profile">';
+            } else {
+                headerAvatar.innerHTML = '<span>' + initials + '</span>';
+                headerAvatar.style.background = color;
+            }
+
+            var mobileAvatar = document.getElementById('mobileAvatar');
+            if (photo) {
+                mobileAvatar.innerHTML = '<img src="' + photo + '" alt="Profile">';
+            } else {
+                mobileAvatar.innerHTML = '<span>' + initials + '</span>';
+                mobileAvatar.style.background = color;
+            }
+
+            document.getElementById('mobileName').innerText = member.name;
+            document.getElementById('mobilePhone').innerText = member.phone || 'No phone';
+            document.getElementById('memberNameHeader').innerText = member.name;
+        }
+
+        function openProfileModal() {
+            if (currentMemberId === null) { showErrorModal("Please login first."); return; }
+            var member = MEMBERS[currentMemberId];
+            var photo = getMemberPhoto(currentMemberId);
+            var initials = getInitials(member.name);
+
+            document.getElementById('profileName').innerText = member.name;
+            document.getElementById('profilePhone').innerText = '📞 ' + (member.phone || 'No phone');
+
+            var profileAvatar = document.getElementById('profileAvatarLarge');
+            if (photo) {
+                profileAvatar.innerHTML = '<img src="' + photo + '" alt="Profile"><div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.75);color:white;font-size:12px;padding:10px;opacity:0;transition:opacity 0.3s ease;cursor:pointer;backdrop-filter:blur(4px);">📷 Change Photo</div>';
+            } else {
+                profileAvatar.innerHTML = '<span>' + initials +
+                    '</span><div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.75);color:white;font-size:12px;padding:10px;opacity:0;transition:opacity 0.3s ease;cursor:pointer;backdrop-filter:blur(4px);">📷 Change Photo</div>';
+                profileAvatar.style.background = getColorForName(member.name);
+            }
+
+            document.getElementById('profileModal').classList.add('open');
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profileModal').classList.remove('open');
+        }
+
+        function handlePhotoUpload(event) {
+            var file = event.target.files[0];
+            if (!file) return;
+            if (currentMemberId === null) { showErrorModal("Please login first."); return; }
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var photoData = e.target.result;
+                saveMemberPhoto(currentMemberId, photoData);
+                updateAvatarDisplay(currentMemberId);
+                showErrorModal("✅ Profile photo updated successfully!");
+            };
+            reader.readAsDataURL(file);
+            event.target.value = '';
+        }
+
+        // ============================================================
+        // AUTH FUNCTIONS
+        // ============================================================
+
+        function showMemberLogin() {
+            document.getElementById("memberLoginPanel").style.display = "block";
+            document.getElementById("adminLoginPanel").style.display = "none";
+            document.querySelectorAll(".tab-btn")[0].classList.add("active");
+            document.querySelectorAll(".tab-btn")[1].classList.remove("active");
+        }
+
+        function showAdminLogin() {
+            document.getElementById("memberLoginPanel").style.display = "none";
+            document.getElementById("adminLoginPanel").style.display = "block";
+            document.querySelectorAll(".tab-btn")[0].classList.remove("active");
+            document.querySelectorAll(".tab-btn")[1].classList.add("active");
+        }
+
+        function memberLogin() {
+            var nameInput = document.getElementById("memberNameInput").value.trim();
+            var pin = document.getElementById("memberPasscode").value.trim();
+
+            if (!nameInput) { showErrorModal("Please enter your name."); return; }
+            if (!pin) { showErrorModal("Please enter your password."); return; }
+
+            var foundMember = null;
+            var foundIndex = -1;
+            for (var i = 0; i < MEMBERS.length; i++) {
+                if (MEMBERS[i].name.toLowerCase() === nameInput.toLowerCase()) {
+                    foundMember = MEMBERS[i];
+                    foundIndex = i;
+                    break;
+                }
+            }
+
+            if (!foundMember) {
+                showErrorModal("Member not found. Please check your name or sign up.");
+                document.getElementById("memberPasscode").value = "";
+                return;
+            }
+
+            if (foundMember.passcode === pin) {
+                currentMemberId = foundIndex;
+                document.getElementById("loginOverlay").style.display = "none";
+                document.getElementById("memberView").style.display = "block";
+                updateAvatarDisplay(currentMemberId);
+                refreshMemberView();
+                // Load default savings view
+                showMemberContent('dashboard');
+            } else {
+                showErrorModal("Wrong password. Please try again.");
+                document.getElementById("memberPasscode").value = "";
+            }
+        }
+
+        function adminLogin() {
+            if (document.getElementById("adminPasswordInput").value === ADMIN_PASSWORD) {
+                document.getElementById("loginOverlay").style.display = "none";
+                document.getElementById("adminView").style.display = "block";
+                refreshAdminView();
+                showAdminContent('dashboard');
+            } else {
+                showErrorModal("Wrong Admin Password. Please enter a valid admin password.");
+                document.getElementById("adminPasswordInput").value = "";
+            }
+        }
+
+        function logout() {
+            currentMemberId = null;
+            document.getElementById("memberView").style.display = "none";
+            document.getElementById("adminView").style.display = "none";
+            document.getElementById("loginOverlay").style.display = "flex";
+            closeProfileModal();
+        }
+
+        // ============================================================
+        // OTHER FUNCTIONS
+        // ============================================================
+
+        function showPaymentModal() {
+            var name = document.getElementById("signupName").value.trim();
+            var phone = document.getElementById("signupPhone").value.trim();
+            if (!name || !phone) { showErrorModal("Enter name and phone"); return; }
+            for (var i = 0; i < MEMBERS.length; i++) {
+                if (MEMBERS[i].name.toLowerCase() === name.toLowerCase()) { showErrorModal("Already a member"); return; }
+            }
+            pendingSignupData = { name: name, phone: phone };
+            document.getElementById("paymentModal").style.display = "flex";
+        }
+
+        var pendingSignupData = null;
+
+        function closePaymentModal() {
+            document.getElementById("paymentModal").style.display = "none";
+            pendingSignupData = null;
+        }
+
+        function closeSuccessModal() {
+            document.getElementById("successModal").style.display = "none";
+        }
+
+        function submitSignupRequest() {
+            if (!pendingSignupData) return;
+            pendingSignups.push({
+                id: Date.now(),
+                name: pendingSignupData.name,
+                phone: pendingSignupData.phone,
+                requestedDate: new Date().toLocaleString(),
+                registrationFeePaid: true,
+                registrationAmount: 100
+            });
+            saveData();
+            document.getElementById("signupName").value = "";
+            document.getElementById("signupPhone").value = "";
+            closePaymentModal();
+            document.getElementById("successModal").style.display = "flex";
+            showErrorModal("✅ Signup request submitted! Admin will approve.");
+        }
+
+        function copyTillNumberReg() {
+            navigator.clipboard.writeText("6246156");
+            showErrorModal("Till copied! Pay 100 KES.");
+        }
+
+        function openWhatsAppReg() {
+            var msg = "💰 *NEW MEMBER*\nName: " + (pendingSignupData?.name || "") + "\nPhone: " + (pendingSignupData?.phone ||
+                "") + "\nFee: 100 KES\nTill: 6246156";
+            window.open("https://wa.me/?text=" + encodeURIComponent(msg), '_blank');
+        }
+
+        function generatePaymentInstructionsReg() {
+            showErrorModal("Pay 100 KES to Till 6246156\n1. M-PESA → Till\n2. Enter 6246156\n3. Amount 100");
+            if (confirm("Open M-PESA?")) window.location.href = "tel:*334#";
+        }
+
+        function syncMemberSavingsFromCSV() {
+            var url = document.getElementById("memberSavingsCsvUrl").value.trim();
+            if (!url) { showErrorModal("Please paste your savings CSV link"); return; }
+            showErrorModal("✅ Savings synced successfully! (Demo)");
+        }
+
+        function syncMemberLoansFromCSV() {
+            var url = document.getElementById("memberLoansCsvUrl").value.trim();
+            if (!url) { showErrorModal("Please paste your loans CSV link"); return; }
+            showErrorModal("✅ Loans synced successfully! (Demo)");
+        }
+
+        function addNewMember() {
+            var name = document.getElementById("newMemberName").value.trim();
+            var phone = document.getElementById("newMemberPhone").value.trim();
+            if (!name) { showErrorModal("Enter name"); return; }
+            var passcode = phone ? phone.slice(-4) : "0000";
+            MEMBERS.push({ id: MEMBERS.length, name: name, phone: phone, passcode: passcode });
+            saveData();
+            refreshAdminView();
+            showErrorModal("✅ " + name + " added! Passcode: " + passcode);
+            document.getElementById("newMemberName").value = "";
+            document.getElementById("newMemberPhone").value = "";
+            // Refresh the members list if on that view
+            if (currentAdminSection === 'members') {
+                renderAdminMembersSub(currentAdminSub || 'list');
+            }
+        }
+
+        function changeMemberPasscode(id) {
+            var np = prompt("New 4-digit passcode:", MEMBERS[id].passcode);
+            if (np && np.length >= 4) {
+                MEMBERS[id].passcode = np.slice(0, 4);
+                saveData();
+                refreshAdminView();
+                showErrorModal("Passcode updated");
+                if (currentAdminSection === 'members') {
+                    renderAdminMembersSub(currentAdminSub || 'list');
+                }
+            }
+        }
+
+        function resetMemberPasscodes() {
+            if (confirm("Reset all passcodes?")) {
+                for (var i = 0; i < MEMBERS.length; i++) {
+                    MEMBERS[i].passcode = MEMBERS[i].phone ? MEMBERS[i].phone.slice(-4) : "0000";
+                }
+                saveData();
+                refreshAdminView();
+                showErrorModal("Reset complete");
+                if (currentAdminSection === 'members') {
+                    renderAdminMembersSub(currentAdminSub || 'list');
+                }
+            }
+        }
+
+        function showDeleteConfirm(id, name) {
+            memberToDelete = id;
+            document.getElementById("deleteMemberName").innerHTML = "<strong>" + name + "</strong>";
+            document.getElementById("deleteConfirmModal").style.display = "flex";
+        }
+
+        function closeDeleteModal() {
+            document.getElementById("deleteConfirmModal").style.display = "none";
+            memberToDelete = null;
+        }
+
+        function confirmDeleteMember() {
+            if (memberToDelete !== null) {
+                var newMembers = [];
+                for (var i = 0; i < MEMBERS.length; i++) {
+                    if (MEMBERS[i].id !== memberToDelete) newMembers.push(MEMBERS[i]);
+                }
+                MEMBERS = newMembers;
+                var newSavings = [];
+                for (var i = 0; i < savings.length; i++) {
+                    if (savings[i].memberId !== memberToDelete) newSavings.push(savings[i]);
+                }
+                savings = newSavings;
+                var newLoans = [];
+                for (var i = 0; i < loans.length; i++) {
+                    if (loans[i].memberId !== memberToDelete) newLoans.push(loans[i]);
+                }
+                loans = newLoans;
+                for (var i = 0; i < MEMBERS.length; i++) { MEMBERS[i].id = i; }
+                saveData();
+                refreshAdminView();
+                closeDeleteModal();
+                showErrorModal("Member deleted.");
+                if (currentAdminSection === 'members') {
+                    renderAdminMembersSub(currentAdminSub || 'list');
+                }
+            }
+        }
+
+        function syncMembers() { showErrorModal("✅ Members synced! (Demo)"); }
+
+        function syncMGR() { showErrorModal("✅ MGR synced! (Demo)"); }
+
+        function syncSavings() { showErrorModal("✅ Savings synced! (Demo)"); }
+
+        function syncLoans() { showErrorModal("✅ Loans synced! (Demo)"); }
+
+        function addSavings() { showErrorModal("✅ Savings added! (Demo)"); }
+
+        function takeLoan() { showErrorModal("📥 Loan taken! (Demo)"); }
+
+        function repayLoan() { showErrorModal("💰 Repayment recorded! (Demo)"); }
+
+        function recordMGR() {
+            if (mgrLastPaidWeek === getCurrentWeekKey()) { showErrorModal("Already recorded"); return; }
+            mgrLastPaidWeek = getCurrentWeekKey();
+            saveData();
+            refreshAdminView();
+            showErrorModal("✅ Recorded 250 KES to " + MEMBERS[mgrWeekIndex].name);
+        }
+
+        function nextWeek() {
+            mgrWeekIndex = (mgrWeekIndex + 1) % MEMBERS.length;
+            mgrLastPaidWeek = null;
+            saveData();
+            refreshAdminView();
+            showErrorModal("Next winner: " + MEMBERS[mgrWeekIndex].name);
+        }
+
+        function changeAdminPassword() {
+            var np = prompt("New admin password:");
+            if (np && np.length >= 4) { ADMIN_PASSWORD = np;
+                saveData();
+                showErrorModal("Password changed!"); }
+        }
+
+        function resetAllData() {
+            if (confirm("ERASE ALL DATA?")) { localStorage.clear();
+                location.reload(); }
+        }
+
+        function copyTillNumber() {
+            navigator.clipboard.writeText("6246156");
+            showErrorModal("Till copied!");
+        }
+
+        function openWhatsApp() {
+            var member = MEMBERS[currentMemberId];
+            var amount = document.getElementById("paymentAmount").value;
+            var msg = "💰 Savings Payment\n" + member.name + "\nAmount: " + (amount || "?") + " KES\nTill: 6246156";
+            window.open("https://wa.me/" + member.phone + "?text=" + encodeURIComponent(msg), '_blank');
+        }
+
+        function generatePaymentInstructions() {
+            var amount = document.getElementById("paymentAmount").value;
+            if (!amount || amount <= 0) { showErrorModal("Enter amount"); return; }
+            showErrorModal("PAYMENT: Till 6246156, Amount " + amount + " KES");
+            if (confirm("Open M-PESA?")) window.location.href = "tel:*334#";
+        }
+
+        function sendWhatsAppNotification() {
+            var msg = document.getElementById("notificationMessage").value.trim();
+            if (!msg) { showErrorModal("Enter message"); return; }
+            var encoded = encodeURIComponent("📢 *GENZ CHAMA*\n\n" + msg);
+            window.open("https://wa.me/?text=" + encoded, '_blank');
+            document.getElementById("notificationMessage").value = "";
+            showErrorModal("WhatsApp opened.");
+        }
+
+        function processSavingsDisbursement() { showErrorModal("✅ Savings disbursed! (Demo)"); }
+
+        function processInterestDisbursement() { showErrorModal("✅ Interest disbursed! (Demo)"); }
+
+        function approveLoanRequest(id) {
+            for (var i = 0; i < loanRequests.length; i++) {
+                if (loanRequests[i].id === id && loanRequests[i].status === "pending") {
+                    var req = loanRequests[i];
+                    var interest = req.amount * 0.10;
+                    var totalDue = req.amount + interest;
+                    loans.push({
+                        id: nextLoanId++,
+                        memberId: req.memberId,
+                        principal: req.amount,
+                        interest: interest,
+                        totalDue: totalDue,
+                        returnDate: new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0],
+                        status: "pending",
+                        dateTaken: new Date().toISOString().split('T')[0],
+                        repaidAmount: 0
+                    });
+                    req.status = "approved";
+                    saveData();
+                    refreshAdminView();
+                    showErrorModal("✅ Loan approved! Amount: " + req.amount + " +10% = " + totalDue + " KES");
+                    refreshLoanPool();
+                    if (currentAdminSection === 'loans') {
+                        renderAdminLoansSub(currentAdminSub || 'pool');
+                    }
+                    return;
+                }
+            }
+        }
+
+        function rejectLoanRequest(id) {
+            for (var i = 0; i < loanRequests.length; i++) {
+                if (loanRequests[i].id === id) {
+                    if (confirm("Reject " + loanRequests[i].memberName + "'s request?")) {
+                        loanRequests[i].status = "rejected";
+                        saveData();
+                        refreshAdminView();
+                        showErrorModal("Loan request rejected.");
+                        if (currentAdminSection === 'loans') {
+                            renderAdminLoansSub(currentAdminSub || 'pool');
+                        }
+                    }
+                    return;
+                }
+            }
+        }
+
+        function approveMember(id) {
+            for (var i = 0; i < pendingSignups.length; i++) {
+                if (pendingSignups[i].id === id) {
+                    var req = pendingSignups[i];
+                    var passcode = req.phone ? req.phone.slice(-4) : "0000";
+                    MEMBERS.push({ id: MEMBERS.length, name: req.name, phone: req.phone, passcode: passcode });
+                    savings.push({ date: new Date().toISOString().split('T')[0], memberId: MEMBERS.length - 1,
+                    amount: 100 });
+                    pendingSignups.splice(i, 1);
+                    saveData();
+                    refreshAdminView();
+                    showErrorModal("✅ " + req.name + " approved! Passcode: " + passcode);
+                    if (currentAdminSection === 'members') {
+                        renderAdminMembersSub(currentAdminSub || 'list');
+                    }
+                    return;
+                }
+            }
+        }
+
+        function rejectMember(id) {
+            for (var i = 0; i < pendingSignups.length; i++) {
+                if (pendingSignups[i].id === id) {
+                    if (confirm("Reject " + pendingSignups[i].name + "?")) {
+                        var name = pendingSignups[i].name;
+                        pendingSignups.splice(i, 1);
+                        saveData();
+                        refreshAdminView();
+                        showErrorModal("❌ " + name + " rejected.");
+                        if (currentAdminSection === 'members') {
+                            renderAdminMembersSub(currentAdminSub || 'list');
+                        }
+                    }
+                    return;
+                }
+            }
+        }
+
+        function checkEligibility() {
+            var amt = parseFloat(document.getElementById("loanRequestAmount").value);
+            var curr = getMemberSavings(currentMemberId);
+            if (isNaN(amt) || amt <= 0) { showErrorModal("Enter valid amount"); return; }
+            if (amt > 700) { showErrorModal("Max 700 KES"); return; }
+            if (curr < amt / 2) { showErrorModal("Need " + (amt / 2) + " KES in savings, you have " + curr + " KES"); return; }
+            showErrorModal("✅ Eligible! Savings: " + curr + " KES");
+        }
+
+        function submitLoanRequest() {
+            var amt = parseFloat(document.getElementById("loanRequestAmount").value);
+            var reason = document.getElementById("loanRequestReason").value;
+            var curr = getMemberSavings(currentMemberId);
+            if (isNaN(amt) || amt <= 0 || amt > 700) { showErrorModal("Invalid amount"); return; }
+            if (curr < (amt / 2)) { showErrorModal("Need " + (amt / 2) + " KES in savings"); return; }
+            for (var i = 0; i < loanRequests.length; i++) {
+                if (loanRequests[i].memberId === currentMemberId && loanRequests[i].status === "pending") {
+                    showErrorModal("Pending request exists");
+                    return;
+                }
+            }
+            for (var i = 0; i < loans.length; i++) {
+                if (loans[i].memberId === currentMemberId && loans[i].status === "pending") {
+                    showErrorModal("Active loan exists");
+                    return;
+                }
+            }
+            loanRequests.push({
+                id: Date.now(),
+                memberId: currentMemberId,
+                memberName: MEMBERS[currentMemberId].name,
+                amount: amt,
+                reason: reason || "No reason",
+                status: "pending",
+                requestDate: new Date().toISOString().split('T')[0],
+                savingsAtRequest: curr
+            });
+            saveData();
+            showErrorModal("✅ Loan request for " + amt + " KES submitted.");
+            document.getElementById("loanRequestAmount").value = "";
+            document.getElementById("loanRequestReason").value = "";
+            if (currentMemberSection === 'loans') {
+                renderMemberLoansSub(currentMemberSub || 'approved');
+            }
         }
 
         // ============================================================
@@ -2640,396 +3987,6 @@
         }
 
         // ============================================================
-        // PROFILE PHOTO FUNCTIONS
-        // ============================================================
-
-        function getInitials(name) {
-            if (!name) return '??';
-            var parts = name.trim().split(' ');
-            if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
-            return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
-        }
-
-        function getColorForName(name) {
-            var colors = ['#1a4d3e', '#1e40af', '#b91c1c', '#7c3aed', '#065f46', '#1e40af', '#9d174d', '#4c1d95', '#0f766e',
-                '#be185d'
-            ];
-            var hash = 0;
-            for (var i = 0; i < name.length; i++) {
-                hash = name.charCodeAt(i) + ((hash << 5) - hash);
-            }
-            return colors[Math.abs(hash) % colors.length];
-        }
-
-        function getMemberPhoto(memberId) {
-            var photos = JSON.parse(localStorage.getItem('memberPhotos') || '{}');
-            return photos[memberId] || null;
-        }
-
-        function saveMemberPhoto(memberId, photoData) {
-            var photos = JSON.parse(localStorage.getItem('memberPhotos') || '{}');
-            photos[memberId] = photoData;
-            localStorage.setItem('memberPhotos', JSON.stringify(photos));
-        }
-
-        function updateAvatarDisplay(memberId) {
-            var member = MEMBERS[memberId];
-            if (!member) return;
-
-            var photo = getMemberPhoto(memberId);
-            var initials = getInitials(member.name);
-            var color = getColorForName(member.name);
-
-            var headerAvatar = document.getElementById('headerAvatar');
-            if (photo) {
-                headerAvatar.innerHTML = '<img src="' + photo + '" alt="Profile">';
-            } else {
-                headerAvatar.innerHTML = '<span>' + initials + '</span>';
-                headerAvatar.style.background = color;
-            }
-
-            var mobileAvatar = document.getElementById('mobileAvatar');
-            if (photo) {
-                mobileAvatar.innerHTML = '<img src="' + photo + '" alt="Profile">';
-            } else {
-                mobileAvatar.innerHTML = '<span>' + initials + '</span>';
-                mobileAvatar.style.background = color;
-            }
-
-            document.getElementById('mobileName').innerText = member.name;
-            document.getElementById('mobilePhone').innerText = member.phone || 'No phone';
-            document.getElementById('memberNameHeader').innerText = member.name;
-        }
-
-        function openProfileModal() {
-            if (currentMemberId === null) { showErrorModal("Please login first."); return; }
-            var member = MEMBERS[currentMemberId];
-            var photo = getMemberPhoto(currentMemberId);
-            var initials = getInitials(member.name);
-
-            document.getElementById('profileName').innerText = member.name;
-            document.getElementById('profilePhone').innerText = '📞 ' + (member.phone || 'No phone');
-
-            var profileAvatar = document.getElementById('profileAvatarLarge');
-            if (photo) {
-                profileAvatar.innerHTML = '<img src="' + photo + '" alt="Profile"><div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.75);color:white;font-size:12px;padding:10px;opacity:0;transition:opacity 0.3s ease;cursor:pointer;backdrop-filter:blur(4px);">📷 Change Photo</div>';
-            } else {
-                profileAvatar.innerHTML = '<span>' + initials +
-                    '</span><div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.75);color:white;font-size:12px;padding:10px;opacity:0;transition:opacity 0.3s ease;cursor:pointer;backdrop-filter:blur(4px);">📷 Change Photo</div>';
-                profileAvatar.style.background = getColorForName(member.name);
-            }
-
-            document.getElementById('profileModal').classList.add('open');
-        }
-
-        function closeProfileModal() {
-            document.getElementById('profileModal').classList.remove('open');
-        }
-
-        function handlePhotoUpload(event) {
-            var file = event.target.files[0];
-            if (!file) return;
-            if (currentMemberId === null) { showErrorModal("Please login first."); return; }
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                var photoData = e.target.result;
-                saveMemberPhoto(currentMemberId, photoData);
-                updateAvatarDisplay(currentMemberId);
-                showErrorModal("✅ Profile photo updated successfully!");
-            };
-            reader.readAsDataURL(file);
-            event.target.value = '';
-        }
-
-        // ============================================================
-        // AUTH FUNCTIONS
-        // ============================================================
-
-        function showMemberLogin() {
-            document.getElementById("memberLoginPanel").style.display = "block";
-            document.getElementById("adminLoginPanel").style.display = "none";
-            document.querySelectorAll(".tab-btn")[0].classList.add("active");
-            document.querySelectorAll(".tab-btn")[1].classList.remove("active");
-        }
-
-        function showAdminLogin() {
-            document.getElementById("memberLoginPanel").style.display = "none";
-            document.getElementById("adminLoginPanel").style.display = "block";
-            document.querySelectorAll(".tab-btn")[0].classList.remove("active");
-            document.querySelectorAll(".tab-btn")[1].classList.add("active");
-        }
-
-        function memberLogin() {
-            var nameInput = document.getElementById("memberNameInput").value.trim();
-            var pin = document.getElementById("memberPasscode").value.trim();
-
-            if (!nameInput) { showErrorModal("Please enter your name."); return; }
-            if (!pin) { showErrorModal("Please enter your password."); return; }
-
-            var foundMember = null;
-            var foundIndex = -1;
-            for (var i = 0; i < MEMBERS.length; i++) {
-                if (MEMBERS[i].name.toLowerCase() === nameInput.toLowerCase()) {
-                    foundMember = MEMBERS[i];
-                    foundIndex = i;
-                    break;
-                }
-            }
-
-            if (!foundMember) {
-                showErrorModal("Member not found. Please check your name or sign up.");
-                document.getElementById("memberPasscode").value = "";
-                return;
-            }
-
-            if (foundMember.passcode === pin) {
-                currentMemberId = foundIndex;
-                document.getElementById("loginOverlay").style.display = "none";
-                document.getElementById("memberView").style.display = "block";
-                updateAvatarDisplay(currentMemberId);
-                refreshMemberView();
-            } else {
-                showErrorModal("Wrong password. Please try again.");
-                document.getElementById("memberPasscode").value = "";
-            }
-        }
-
-        function adminLogin() {
-            if (document.getElementById("adminPasswordInput").value === ADMIN_PASSWORD) {
-                document.getElementById("loginOverlay").style.display = "none";
-                document.getElementById("adminView").style.display = "block";
-                refreshAdminView();
-            } else {
-                showErrorModal("Wrong Admin Password. Please enter a valid admin password.");
-                document.getElementById("adminPasswordInput").value = "";
-            }
-        }
-
-        function logout() {
-            currentMemberId = null;
-            document.getElementById("memberView").style.display = "none";
-            document.getElementById("adminView").style.display = "none";
-            document.getElementById("loginOverlay").style.display = "flex";
-            closeProfileModal();
-        }
-
-        // ============================================================
-        // OTHER FUNCTIONS
-        // ============================================================
-
-        function showPaymentModal() {
-            var name = document.getElementById("signupName").value.trim();
-            var phone = document.getElementById("signupPhone").value.trim();
-            if (!name || !phone) { showErrorModal("Enter name and phone"); return; }
-            for (var i = 0; i < MEMBERS.length; i++) {
-                if (MEMBERS[i].name.toLowerCase() === name.toLowerCase()) { showErrorModal("Already a member"); return; }
-            }
-            pendingSignupData = { name: name, phone: phone };
-            document.getElementById("paymentModal").style.display = "flex";
-        }
-
-        var pendingSignupData = null;
-
-        function closePaymentModal() {
-            document.getElementById("paymentModal").style.display = "none";
-            pendingSignupData = null;
-        }
-
-        function closeSuccessModal() {
-            document.getElementById("successModal").style.display = "none";
-        }
-
-        function submitSignupRequest() {
-            if (!pendingSignupData) return;
-            pendingSignups.push({
-                id: Date.now(),
-                name: pendingSignupData.name,
-                phone: pendingSignupData.phone,
-                requestedDate: new Date().toLocaleString(),
-                registrationFeePaid: true,
-                registrationAmount: 100
-            });
-            saveData();
-            document.getElementById("signupName").value = "";
-            document.getElementById("signupPhone").value = "";
-            closePaymentModal();
-            document.getElementById("successModal").style.display = "flex";
-            showErrorModal("✅ Signup request submitted! Admin will approve.");
-        }
-
-        function copyTillNumberReg() {
-            navigator.clipboard.writeText("6246156");
-            showErrorModal("Till copied! Pay 100 KES.");
-        }
-
-        function openWhatsAppReg() {
-            var msg = "💰 *NEW MEMBER*\nName: " + (pendingSignupData?.name || "") + "\nPhone: " + (pendingSignupData?.phone ||
-                "") + "\nFee: 100 KES\nTill: 6246156";
-            window.open("https://wa.me/?text=" + encodeURIComponent(msg), '_blank');
-        }
-
-        function generatePaymentInstructionsReg() {
-            showErrorModal("Pay 100 KES to Till 6246156\n1. M-PESA → Till\n2. Enter 6246156\n3. Amount 100");
-            if (confirm("Open M-PESA?")) window.location.href = "tel:*334#";
-        }
-
-        function syncMemberSavingsFromCSV() {
-            var url = document.getElementById("memberSavingsCsvUrl").value.trim();
-            if (!url) { showErrorModal("Please paste your savings CSV link"); return; }
-            showErrorModal("✅ Savings synced successfully! (Demo)");
-        }
-
-        function syncMemberLoansFromCSV() {
-            var url = document.getElementById("memberLoansCsvUrl").value.trim();
-            if (!url) { showErrorModal("Please paste your loans CSV link"); return; }
-            showErrorModal("✅ Loans synced successfully! (Demo)");
-        }
-
-        function addNewMember() {
-            var name = document.getElementById("newMemberName").value.trim();
-            var phone = document.getElementById("newMemberPhone").value.trim();
-            if (!name) { showErrorModal("Enter name"); return; }
-            var passcode = phone ? phone.slice(-4) : "0000";
-            MEMBERS.push({ id: MEMBERS.length, name: name, phone: phone, passcode: passcode });
-            saveData();
-            refreshAdminView();
-            showErrorModal("✅ " + name + " added! Passcode: " + passcode);
-            document.getElementById("newMemberName").value = "";
-            document.getElementById("newMemberPhone").value = "";
-        }
-
-        function changeMemberPasscode(id) {
-            var np = prompt("New 4-digit passcode:", MEMBERS[id].passcode);
-            if (np && np.length >= 4) {
-                MEMBERS[id].passcode = np.slice(0, 4);
-                saveData();
-                refreshAdminView();
-                showErrorModal("Passcode updated");
-            }
-        }
-
-        function resetMemberPasscodes() {
-            if (confirm("Reset all passcodes?")) {
-                for (var i = 0; i < MEMBERS.length; i++) {
-                    MEMBERS[i].passcode = MEMBERS[i].phone ? MEMBERS[i].phone.slice(-4) : "0000";
-                }
-                saveData();
-                refreshAdminView();
-                showErrorModal("Reset complete");
-            }
-        }
-
-        function showDeleteConfirm(id, name) {
-            memberToDelete = id;
-            document.getElementById("deleteMemberName").innerHTML = "<strong>" + name + "</strong>";
-            document.getElementById("deleteConfirmModal").style.display = "flex";
-        }
-
-        function closeDeleteModal() {
-            document.getElementById("deleteConfirmModal").style.display = "none";
-            memberToDelete = null;
-        }
-
-        function confirmDeleteMember() {
-            if (memberToDelete !== null) {
-                var newMembers = [];
-                for (var i = 0; i < MEMBERS.length; i++) {
-                    if (MEMBERS[i].id !== memberToDelete) newMembers.push(MEMBERS[i]);
-                }
-                MEMBERS = newMembers;
-                var newSavings = [];
-                for (var i = 0; i < savings.length; i++) {
-                    if (savings[i].memberId !== memberToDelete) newSavings.push(savings[i]);
-                }
-                savings = newSavings;
-                var newLoans = [];
-                for (var i = 0; i < loans.length; i++) {
-                    if (loans[i].memberId !== memberToDelete) newLoans.push(loans[i]);
-                }
-                loans = newLoans;
-                for (var i = 0; i < MEMBERS.length; i++) { MEMBERS[i].id = i; }
-                saveData();
-                refreshAdminView();
-                closeDeleteModal();
-                showErrorModal("Member deleted.");
-            }
-        }
-
-        function syncMembers() { showErrorModal("✅ Members synced! (Demo)"); }
-
-        function syncMGR() { showErrorModal("✅ MGR synced! (Demo)"); }
-
-        function syncSavings() { showErrorModal("✅ Savings synced! (Demo)"); }
-
-        function syncLoans() { showErrorModal("✅ Loans synced! (Demo)"); }
-
-        function addSavings() { showErrorModal("✅ Savings added! (Demo)"); }
-
-        function takeLoan() { showErrorModal("📥 Loan taken! (Demo)"); }
-
-        function repayLoan() { showErrorModal("💰 Repayment recorded! (Demo)"); }
-
-        function recordMGR() {
-            if (mgrLastPaidWeek === getCurrentWeekKey()) { showErrorModal("Already recorded"); return; }
-            mgrLastPaidWeek = getCurrentWeekKey();
-            saveData();
-            refreshAdminView();
-            showErrorModal("✅ Recorded 250 KES to " + MEMBERS[mgrWeekIndex].name);
-        }
-
-        function nextWeek() {
-            mgrWeekIndex = (mgrWeekIndex + 1) % MEMBERS.length;
-            mgrLastPaidWeek = null;
-            saveData();
-            refreshAdminView();
-            showErrorModal("Next winner: " + MEMBERS[mgrWeekIndex].name);
-        }
-
-        function changeAdminPassword() {
-            var np = prompt("New admin password:");
-            if (np && np.length >= 4) { ADMIN_PASSWORD = np;
-                saveData();
-                showErrorModal("Password changed!"); }
-        }
-
-        function resetAllData() {
-            if (confirm("ERASE ALL DATA?")) { localStorage.clear();
-                location.reload(); }
-        }
-
-        function sendWhatsAppNotification() {
-            var msg = document.getElementById("notificationMessage").value.trim();
-            if (!msg) { showErrorModal("Enter message"); return; }
-            var encoded = encodeURIComponent("📢 *GENZ CHAMA*\n\n" + msg);
-            window.open("https://wa.me/?text=" + encoded, '_blank');
-            document.getElementById("notificationMessage").value = "";
-            showErrorModal("WhatsApp opened.");
-        }
-
-        function processSavingsDisbursement() { showErrorModal("✅ Savings disbursed! (Demo)"); }
-
-        function processInterestDisbursement() { showErrorModal("✅ Interest disbursed! (Demo)"); }
-
-        function updateSavingsPerMemberTable() {
-            var html = '';
-            for (var i = 0; i < MEMBERS.length; i++) {
-                html += '<tr><td>' + MEMBERS[i].name + '</td><td>' + getMemberSavings(MEMBERS[i].id).toFixed(2) +
-                    ' KES</td></tr>';
-            }
-            document.getElementById("savingsPerMemberTable").innerHTML = html || '<tr><td colspan="2">No data</td></tr>';
-        }
-
-        function updateInterestPerMemberTable() {
-            var html = '';
-            for (var i = 0; i < MEMBERS.length; i++) {
-                var interest = getMemberTotalInterestAccrued(MEMBERS[i].id);
-                html += '<tr><td>' + MEMBERS[i].name + '</td><td>' + interest.toFixed(2) + ' KES</td><td>' + (interest *
-                    0.70).toFixed(2) + ' KES</td><td>' + (interest * 0.30).toFixed(2) + ' KES</td></tr>';
-            }
-            document.getElementById("interestPerMemberTable").innerHTML = html || '<tr><td colspan="4">No data</td></tr>';
-        }
-
-        // ============================================================
         // REFRESH LOAN POOL
         // ============================================================
 
@@ -3072,6 +4029,26 @@
             renderRules();
             refreshLoanPool();
 
+            // Handle hash-based navigation on load
+            var hash = window.location.hash;
+            if (hash) {
+                var parts = hash.replace('#', '').split('-');
+                if (parts[0] === 'member' && parts[1] && parts[2]) {
+                    // Wait for login to complete
+                    setTimeout(function() {
+                        if (currentMemberId !== null) {
+                            showMemberSubContent(parts[1], parts[2]);
+                        }
+                    }, 500);
+                } else if (parts[0] === 'admin' && parts[1] && parts[2]) {
+                    setTimeout(function() {
+                        if (document.getElementById('adminView').style.display === 'block') {
+                            showAdminSubContent(parts[1], parts[2]);
+                        }
+                    }, 500);
+                }
+            }
+
             document.addEventListener('click', function(event) {
                 var mobileSidebar = document.getElementById('memberSidebarMobile');
                 var adminMobileSidebar = document.getElementById('adminSidebarMobile');
@@ -3101,6 +4078,7 @@
 
             if (document.getElementById('adminView').style.display === 'block') {
                 refreshAdminView();
+                showAdminContent('dashboard');
             }
         }
 
