@@ -9,7 +9,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js">
     </script>
     <style>
-        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
@@ -29,21 +28,6 @@
             background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
         }
 
-        /* ===== GLASSMORPHISM ===== */
-        .glass {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-        }
-
-        body.dark-mode .glass {
-            background: rgba(30, 30, 60, 0.8);
-            border-color: rgba(255, 255, 255, 0.05);
-        }
-
-        /* ===== LOGIN ===== */
         .login-overlay {
             position: fixed;
             top: 0;
@@ -115,18 +99,6 @@
             color: #cbd5e1;
         }
 
-        body.dark-mode .login-box input::placeholder {
-            color: #94a3b8;
-        }
-
-        .login-box input:focus,
-        .login-box select:focus {
-            border-color: #1a4d3e;
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(26, 77, 62, 0.1);
-            transform: scale(1.01);
-        }
-
         .login-tabs {
             display: flex;
             gap: 10px;
@@ -157,15 +129,6 @@
             box-shadow: 0 4px 15px rgba(26, 77, 62, 0.3);
         }
 
-        .tab-btn:hover:not(.active) {
-            background: rgba(226, 232, 240, 0.9);
-            transform: scale(1.02);
-        }
-
-        body.dark-mode .tab-btn:hover:not(.active) {
-            background: rgba(30, 30, 60, 0.9);
-        }
-
         .signup-form {
             background: rgba(243, 232, 255, 0.6);
             backdrop-filter: blur(4px);
@@ -173,7 +136,6 @@
             border-radius: 16px;
             padding: 16px;
             margin-top: 16px;
-            transition: all 0.3s ease;
         }
 
         body.dark-mode .signup-form {
@@ -181,7 +143,6 @@
             border-color: rgba(139, 92, 246, 0.1);
         }
 
-        /* ===== HEADER ===== */
         .header {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(16px);
@@ -327,7 +288,6 @@
             box-shadow: 0 2px 8px rgba(30, 64, 175, 0.3);
         }
 
-        /* ===== PROFILE MODAL ===== */
         .profile-modal {
             display: none;
             position: fixed;
@@ -342,7 +302,6 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            transition: background 0.3s ease;
         }
 
         .profile-modal.open {
@@ -380,7 +339,6 @@
             color: #e2e8f0;
         }
 
-        /* ===== SIDEBAR ===== */
         .sidebar {
             width: 210px;
             min-width: 180px;
@@ -408,7 +366,6 @@
             text-transform: uppercase;
             letter-spacing: 0.8px;
             padding: 10px 12px 6px 12px;
-            transition: color 0.3s ease;
         }
 
         body.dark-mode .sidebar .section-title {
@@ -458,7 +415,6 @@
             margin-top: 16px;
             padding-top: 12px;
             border-top: 1px solid rgba(226, 232, 240, 0.6);
-            transition: border-color 0.3s ease;
         }
 
         body.dark-mode .sidebar-logout {
@@ -495,7 +451,6 @@
             left: 0;
         }
 
-        /* ===== CONTENT AREA ===== */
         .dashboard-container {
             display: flex;
             gap: 20px;
@@ -547,7 +502,6 @@
             color: #e2e8f0;
         }
 
-        /* ===== CARDS ===== */
         .card {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(8px);
@@ -565,7 +519,6 @@
             border-color: rgba(255, 255, 255, 0.05);
         }
 
-        /* ===== STATS ===== */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -616,7 +569,6 @@
             color: #94a3b8;
         }
 
-        /* ===== BUTTONS ===== */
         button {
             background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
             color: white;
@@ -652,7 +604,6 @@
             box-shadow: 0 2px 10px rgba(139, 92, 246, 0.2);
         }
 
-        /* ===== RULES STYLES ===== */
         .rules-section {
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(8px);
@@ -667,10 +618,6 @@
         body.dark-mode .rules-section {
             background: rgba(30, 30, 60, 0.5);
             border-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .rules-section:hover {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
         }
 
         .rules-section h3 {
@@ -713,16 +660,6 @@
             border-bottom: none;
         }
 
-        .rules-section ul li .rule-label {
-            font-weight: 600;
-            color: #1a4d3e;
-        }
-
-        body.dark-mode .rules-section ul li .rule-label {
-            color: #e2e8f0;
-        }
-
-        /* ===== COPYABLE TEXT ===== */
         .copyable-text {
             display: inline-flex;
             align-items: center;
@@ -798,7 +735,6 @@
             font-weight: 600;
         }
 
-        /* ===== RULES EDIT ===== */
         .rules-edit-area {
             width: 100%;
             min-height: 300px;
@@ -1369,7 +1305,10 @@
 
                 <!-- ===== RULES & REGULATIONS ===== -->
                 <div class="tab-content" id="memberContentRules">
-                    <h2>📋 Rules & Regulations</h2>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
+                        <h2 style="margin:0; border-left:4px solid #1a4d3e; padding-left:14px; color:#1a4d3e; font-weight:700; font-size:20px;">📋 Rules & Regulations</h2>
+                        <button onclick="downloadRulesPDF()" class="download" style="margin:0;">📄 Download Rules (PDF)</button>
+                    </div>
                     <div id="rulesDisplay"></div>
                 </div>
             </div>
@@ -1542,16 +1481,18 @@
 
                 <!-- ===== ADMIN RULES & REGULATIONS ===== -->
                 <div class="tab-content" id="adminContentRules">
-                    <h2>📋 Rules & Regulations</h2>
-                    <div style="display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap;">
-                        <button onclick="toggleRulesEdit()" id="rulesEditToggleBtn" class="secondary">✏️ Edit Rules</button>
-                        <button onclick="saveRules()" id="rulesSaveBtn" style="display:none; background:linear-gradient(135deg,#10b981 0%,#059669 100%);">💾 Save Rules</button>
-                        <button onclick="downloadRulesPDF()" class="download">📄 Download Rules (PDF)</button>
-                        <span id="editModeIndicator" style="display:none;" class="edit-mode-indicator">✏️ Edit Mode</span>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
+                        <h2 style="margin:0; border-left:4px solid #1a4d3e; padding-left:14px; color:#1a4d3e; font-weight:700; font-size:20px;">📋 Rules & Regulations</h2>
+                        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                            <button onclick="toggleRulesEdit()" id="rulesEditToggleBtn" class="secondary">✏️ Edit Rules</button>
+                            <button onclick="saveRules()" id="rulesSaveBtn" style="display:none; background:linear-gradient(135deg,#10b981 0%,#059669 100%);">💾 Save Rules</button>
+                            <button onclick="downloadRulesPDF()" class="download">📄 Download Rules (PDF)</button>
+                            <span id="editModeIndicator" style="display:none;" class="edit-mode-indicator">✏️ Edit Mode</span>
+                        </div>
                     </div>
                     <div id="adminRulesDisplay"></div>
                     <div id="rulesEditArea" style="display:none;">
-                        <textarea id="rulesEditor" class="rules-edit-area rules-edit-area" rows="20"></textarea>
+                        <textarea id="rulesEditor" class="rules-edit-area" rows="20"></textarea>
                         <p class="small-text" style="margin-top:8px;">⚠️ Edit the rules above. Click "Save Rules" to save changes.</p>
                     </div>
                 </div>
@@ -1565,7 +1506,7 @@
 
     <script>
         // ============================================================
-        // RULES DATA - Using your original rules
+        // RULES DATA
         // ============================================================
         var rulesData = {
             categories: [{
@@ -1644,7 +1585,7 @@
         var isEditMode = false;
 
         // ============================================================
-        // RULES FUNCTIONS
+        // RENDER RULES
         // ============================================================
 
         function renderRules() {
@@ -1687,6 +1628,113 @@
             if (displayEl) displayEl.innerHTML = html;
             if (adminDisplayEl) adminDisplayEl.innerHTML = html;
         }
+
+        // ============================================================
+        // RULES PDF DOWNLOAD (FIXED - WORKS LIKE SAVINGS/LOANS REPORTS)
+        // ============================================================
+
+        function downloadRulesPDF() {
+            var { jsPDF } = window.jspdf;
+            var doc = new jsPDF('p', 'mm', 'a4');
+            var pageWidth = doc.internal.pageSize.getWidth();
+            var pageHeight = doc.internal.pageSize.getHeight();
+            var yPos = 20;
+
+            // ===== HEADER =====
+            doc.setFillColor(26, 77, 62);
+            doc.rect(0, 0, pageWidth, 35, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(22);
+            doc.setFont('helvetica', 'bold');
+            doc.text('GENZ ASSOCIATION', pageWidth / 2, 18, { align: 'center' });
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Rules & Regulations', pageWidth / 2, 28, { align: 'center' });
+
+            // ===== DATE =====
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            var now = new Date();
+            var dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            doc.text('Generated: ' + dateStr, pageWidth - 20, 42, { align: 'right' });
+
+            yPos = 50;
+
+            // ===== RULES CONTENT =====
+            for (var i = 0; i < rulesData.categories.length; i++) {
+                var cat = rulesData.categories[i];
+
+                // Check if we need a new page
+                if (yPos > 260) {
+                    doc.addPage();
+                    yPos = 20;
+                    // Add header on new page
+                    doc.setFillColor(26, 77, 62);
+                    doc.rect(0, 0, pageWidth, 25, 'F');
+                    doc.setTextColor(255, 255, 255);
+                    doc.setFontSize(12);
+                    doc.setFont('helvetica', 'bold');
+                    doc.text('GENZ ASSOCIATION - Rules & Regulations', pageWidth / 2, 16, { align: 'center' });
+                    doc.setTextColor(0, 0, 0);
+                    yPos = 32;
+                }
+
+                // Category header
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(13);
+                doc.setTextColor(26, 77, 62);
+                doc.text(cat.icon + ' ' + cat.title, 20, yPos);
+                yPos += 6;
+                doc.setDrawColor(26, 77, 62);
+                doc.setLineWidth(0.5);
+                doc.line(20, yPos, pageWidth - 20, yPos);
+                yPos += 5;
+
+                // Items
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(10);
+                doc.setTextColor(51, 65, 85);
+
+                for (var j = 0; j < cat.items.length; j++) {
+                    if (yPos > 270) {
+                        doc.addPage();
+                        yPos = 20;
+                        doc.setFillColor(26, 77, 62);
+                        doc.rect(0, 0, pageWidth, 25, 'F');
+                        doc.setTextColor(255, 255, 255);
+                        doc.setFontSize(12);
+                        doc.setFont('helvetica', 'bold');
+                        doc.text('GENZ ASSOCIATION - Rules & Regulations', pageWidth / 2, 16, { align: 'center' });
+                        doc.setTextColor(0, 0, 0);
+                        yPos = 32;
+                    }
+                    var item = cat.items[j];
+                    var lines = doc.splitTextToSize('• ' + item, pageWidth - 40);
+                    doc.text(lines, 20, yPos);
+                    yPos += (lines.length * 5) + 3;
+                }
+                yPos += 4;
+            }
+
+            // ===== FOOTER =====
+            var pageCount = doc.internal.getNumberOfPages();
+            for (var p = 1; p <= pageCount; p++) {
+                doc.setPage(p);
+                doc.setFontSize(8);
+                doc.setTextColor(128, 128, 128);
+                doc.text('Powered by Conquerer Tech Solutions', pageWidth / 2, pageHeight - 5, { align: 'center' });
+                doc.text('Page ' + p + ' of ' + pageCount, pageWidth - 20, pageHeight - 5, { align: 'right' });
+            }
+
+            // ===== SAVE PDF =====
+            doc.save('GenzAssociation_Rules_Regulations.pdf');
+            showErrorModal('✅ Rules downloaded successfully!');
+        }
+
+        // ============================================================
+        // RULES EDIT FUNCTIONS
+        // ============================================================
 
         function toggleRulesEdit() {
             isEditMode = !isEditMode;
@@ -1735,6 +1783,10 @@
             }
         }
 
+        // ============================================================
+        // COPY TO CLIPBOARD
+        // ============================================================
+
         function copyToClipboard(text, btn) {
             navigator.clipboard.writeText(text).then(function() {
                 var originalText = btn.textContent;
@@ -1759,81 +1811,6 @@
                     btn.classList.remove('copied');
                 }, 2000);
             });
-        }
-
-        // ============================================================
-        // PDF: Download Rules
-        // ============================================================
-
-        function downloadRulesPDF() {
-            var { jsPDF } = window.jspdf;
-            var doc = new jsPDF('p', 'mm', 'a4');
-            var pageWidth = doc.internal.pageSize.getWidth();
-            var yPos = 20;
-
-            doc.setFillColor(26, 77, 62);
-            doc.rect(0, 0, pageWidth, 35, 'F');
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(22);
-            doc.setFont('helvetica', 'bold');
-            doc.text('GENZ CHAMA', pageWidth / 2, 18, { align: 'center' });
-            doc.setFontSize(14);
-            doc.setFont('helvetica', 'normal');
-            doc.text('Rules & Regulations', pageWidth / 2, 28, { align: 'center' });
-
-            doc.setTextColor(0, 0, 0);
-            doc.setFontSize(10);
-
-            yPos = 45;
-            for (var i = 0; i < rulesData.categories.length; i++) {
-                var cat = rulesData.categories[i];
-
-                if (yPos > 260) {
-                    doc.addPage();
-                    yPos = 20;
-                }
-
-                doc.setFont('helvetica', 'bold');
-                doc.setFontSize(12);
-                doc.setTextColor(26, 77, 62);
-                doc.text(cat.icon + ' ' + cat.title, 20, yPos);
-                yPos += 6;
-                doc.setDrawColor(26, 77, 62);
-                doc.line(20, yPos, pageWidth - 20, yPos);
-                yPos += 4;
-
-                doc.setFont('helvetica', 'normal');
-                doc.setFontSize(10);
-                doc.setTextColor(51, 65, 85);
-
-                for (var j = 0; j < cat.items.length; j++) {
-                    if (yPos > 270) {
-                        doc.addPage();
-                        yPos = 20;
-                    }
-                    var item = cat.items[j];
-                    var lines = doc.splitTextToSize('• ' + item, pageWidth - 40);
-                    doc.text(lines, 20, yPos);
-                    yPos += (lines.length * 5) + 2;
-                }
-                yPos += 4;
-            }
-
-            var pageCount = doc.internal.getNumberOfPages();
-            for (var p = 1; p <= pageCount; p++) {
-                doc.setPage(p);
-                doc.setFontSize(8);
-                doc.setTextColor(128, 128, 128);
-                doc.text('Powered by Conquerer Tech Solutions', pageWidth / 2, doc.internal.pageSize.getHeight() - 5, {
-                    align: 'center'
-                });
-                doc.text('Page ' + p + ' of ' + pageCount, pageWidth - 20, doc.internal.pageSize.getHeight() - 5, {
-                    align: 'right'
-                });
-            }
-
-            doc.save('GenzChama_Rules_Regulations.pdf');
-            showErrorModal('✅ Rules downloaded successfully!');
         }
 
         // ============================================================
@@ -2913,6 +2890,39 @@
         }
 
         // ============================================================
+        // REFRESH LOAN POOL
+        // ============================================================
+
+        function refreshLoanPool() {
+            var totalP = 0,
+                totalI = 0,
+                reserve = 0,
+                out = 0,
+                accessible = 0;
+            for (var i = 0; i < loans.length; i++) {
+                totalP += loans[i].principal || 0;
+                totalI += loans[i].interest || 0;
+                if (loans[i].status !== 'returned') {
+                    out += loans[i].totalDue - (loans[i].repaidAmount || 0);
+                }
+            }
+            reserve = totalI * 0.30;
+            accessible = totalP + reserve - out;
+            if (accessible < 0) accessible = 0;
+
+            if (document.getElementById("accessibleLoanAmount")) document.getElementById("accessibleLoanAmount").innerHTML = accessible
+                .toFixed(2) + " KES";
+            if (document.getElementById("totalPrincipalLent")) document.getElementById("totalPrincipalLent").innerHTML = totalP
+                .toFixed(2) + " KES";
+            if (document.getElementById("totalInterestPool")) document.getElementById("totalInterestPool").innerHTML = totalI
+                .toFixed(2) + " KES";
+            if (document.getElementById("loanReservePool")) document.getElementById("loanReservePool").innerHTML = reserve
+                .toFixed(2) + " KES";
+            if (document.getElementById("outstandingLoansPool")) document.getElementById("outstandingLoansPool").innerHTML = out
+                .toFixed(2) + " KES";
+        }
+
+        // ============================================================
         // INITIALIZATION
         // ============================================================
 
@@ -2920,6 +2930,7 @@
             loadThemePreference();
             loadData();
             renderRules();
+            refreshLoanPool();
 
             document.addEventListener('click', function(event) {
                 var mobileSidebar = document.getElementById('memberSidebarMobile');
