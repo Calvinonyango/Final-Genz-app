@@ -9,6 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js">
     </script>
     <style>
+        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
@@ -17,19 +18,39 @@
         }
 
         body {
-            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+            background: linear-gradient(135deg, #f0f4f8 0%, #dce4ec 50%, #c8d4e0 100%);
             padding: 16px;
             padding-bottom: 40px;
             min-height: 100vh;
         }
 
+        /* ===== GLASSMORPHISM UTILITY ===== */
+        .glass {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+
+        .glass-dark {
+            background: rgba(26, 77, 62, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ===== LOGIN ===== */
         .login-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -39,67 +60,129 @@
         }
 
         .login-box {
-            background: white;
-            padding: 25px;
-            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 30px;
+            border-radius: 28px;
             width: 100%;
             max-width: 400px;
             text-align: center;
             max-height: 90vh;
             overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .login-box h3 {
+            color: #1a4d3e;
+            font-size: 22px;
+            margin-bottom: 16px;
         }
 
         .login-box input,
         .login-box select {
             width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #cbd5e1;
-            border-radius: 40px;
+            padding: 14px 18px;
+            margin: 8px 0;
+            border: 2px solid rgba(26, 77, 62, 0.15);
+            border-radius: 50px;
             font-size: 14px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(4px);
+        }
+
+        .login-box input:focus,
+        .login-box select:focus {
+            border-color: #1a4d3e;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(26, 77, 62, 0.1);
+            transform: scale(1.01);
         }
 
         .login-tabs {
             display: flex;
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .tab-btn {
             flex: 1;
-            padding: 10px;
-            background: #e2e8f0;
+            padding: 12px;
+            background: rgba(226, 232, 240, 0.6);
             border: none;
-            border-radius: 40px;
+            border-radius: 50px;
             cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(4px);
         }
 
         .tab-btn.active {
             background: #1a4d3e;
             color: white;
+            box-shadow: 0 4px 15px rgba(26, 77, 62, 0.3);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: rgba(226, 232, 240, 0.9);
+            transform: scale(1.02);
         }
 
         .signup-form {
-            background: #f3e8ff;
-            border: 1px solid #8b5cf6;
+            background: rgba(243, 232, 255, 0.6);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(139, 92, 246, 0.2);
             border-radius: 16px;
-            padding: 12px;
-            margin-top: 10px;
+            padding: 16px;
+            margin-top: 16px;
         }
 
+        /* ===== HEADER ===== */
         .header {
-            background: white;
-            border-radius: 20px;
-            padding: 12px 16px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px;
+            padding: 14px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 10px;
             position: relative;
             z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .header:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
         }
 
         .header-left {
@@ -117,22 +200,24 @@
             color: #1a4d3e;
             display: none;
             line-height: 1;
+            transition: transform 0.2s ease;
         }
 
         .hamburger-btn:hover {
-            transform: none;
+            transform: scale(1.1);
         }
 
         .header h1 {
             color: #1a4d3e;
             font-size: 20px;
             white-space: nowrap;
+            font-weight: 700;
         }
 
         .header-right {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
         }
 
         .header .user-info {
@@ -146,11 +231,12 @@
             font-weight: 600;
         }
 
+        /* ===== PROFILE AVATAR ===== */
         .profile-avatar {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #1a4d3e;
+            background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
             color: white;
             display: flex;
             align-items: center;
@@ -159,15 +245,17 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 2px solid #1a4d3e;
+            border: 2px solid rgba(255, 255, 255, 0.8);
             flex-shrink: 0;
             overflow: hidden;
             position: relative;
+            box-shadow: 0 4px 12px rgba(26, 77, 62, 0.2);
         }
 
         .profile-avatar:hover {
-            transform: scale(1.05);
+            transform: scale(1.08);
             border-color: #f59e0b;
+            box-shadow: 0 6px 20px rgba(26, 77, 62, 0.3);
         }
 
         .profile-avatar img {
@@ -177,14 +265,18 @@
         }
 
         .admin-badge {
-            background: #1e40af;
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
             color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
+            padding: 4px 14px;
+            border-radius: 50px;
             display: inline-block;
             font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 8px rgba(30, 64, 175, 0.3);
         }
 
+        /* ===== PROFILE MODAL ===== */
         .profile-modal {
             display: none;
             position: fixed;
@@ -192,7 +284,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             z-index: 2000;
             justify-content: center;
             align-items: center;
@@ -201,36 +295,30 @@
 
         .profile-modal.open {
             display: flex;
+            animation: fadeIn 0.3s ease;
         }
 
         .profile-modal-content {
-            background: white;
-            border-radius: 24px;
-            padding: 30px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 28px;
+            padding: 35px;
             width: 100%;
             max-width: 400px;
             text-align: center;
             max-height: 90vh;
             overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
             animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
         }
 
         .profile-modal-content .profile-avatar-large {
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            background: #1a4d3e;
+            background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
             color: white;
             display: flex;
             align-items: center;
@@ -240,14 +328,16 @@
             margin: 0 auto 16px auto;
             overflow: hidden;
             cursor: pointer;
-            border: 3px solid #e2e8f0;
+            border: 4px solid rgba(255, 255, 255, 0.8);
             transition: all 0.3s ease;
             position: relative;
             user-select: none;
+            box-shadow: 0 8px 30px rgba(26, 77, 62, 0.2);
         }
 
         .profile-modal-content .profile-avatar-large:hover {
-            border-color: #1a4d3e;
+            border-color: #f59e0b;
+            transform: scale(1.02);
         }
 
         .profile-modal-content .profile-avatar-large img {
@@ -261,13 +351,14 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.75);
             color: white;
             font-size: 12px;
-            padding: 8px;
+            padding: 10px;
             opacity: 0;
             transition: opacity 0.3s ease;
             cursor: pointer;
+            backdrop-filter: blur(4px);
         }
 
         .profile-modal-content .profile-avatar-large:hover .upload-overlay {
@@ -287,12 +378,14 @@
         }
 
         .profile-modal-content .profile-note {
-            background: #fef3c7;
-            padding: 10px;
+            background: rgba(254, 243, 199, 0.6);
+            backdrop-filter: blur(4px);
+            padding: 12px;
             border-radius: 12px;
             font-size: 12px;
             color: #92400e;
             margin-top: 16px;
+            border: 1px solid rgba(245, 158, 11, 0.2);
         }
 
         .profile-modal-content .btn-group {
@@ -307,32 +400,41 @@
             margin: 0;
         }
 
+        /* ===== SIDEBAR ===== */
         .sidebar {
-            width: 200px;
-            min-width: 170px;
-            background: white;
-            border-radius: 20px;
-            padding: 16px 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            width: 210px;
+            min-width: 180px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px;
+            padding: 16px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
             height: fit-content;
             flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
         }
 
         .sidebar .section-title {
-            font-size: 12px;
-            font-weight: bold;
+            font-size: 11px;
+            font-weight: 700;
             color: #94a3b8;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.8px;
             padding: 10px 12px 6px 12px;
         }
 
         .sidebar-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            border-radius: 12px;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 14px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 500;
@@ -342,12 +444,14 @@
         }
 
         .sidebar-item:hover {
-            background: #f1f5f9;
+            background: rgba(26, 77, 62, 0.06);
+            transform: translateX(4px);
         }
 
         .sidebar-item.active {
-            background: #1a4d3e;
+            background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
             color: white;
+            box-shadow: 0 4px 15px rgba(26, 77, 62, 0.25);
         }
 
         .sidebar-item .icon {
@@ -359,7 +463,7 @@
         .sidebar-logout {
             margin-top: 16px;
             padding-top: 12px;
-            border-top: 1px solid #e2e8f0;
+            border-top: 1px solid rgba(226, 232, 240, 0.6);
         }
 
         .sidebar-logout .sidebar-item {
@@ -367,9 +471,10 @@
         }
 
         .sidebar-logout .sidebar-item:hover {
-            background: #fee2e2;
+            background: rgba(220, 38, 38, 0.08);
         }
 
+        /* ===== MOBILE SIDEBAR ===== */
         .sidebar-overlay {
             display: none;
             position: fixed;
@@ -377,7 +482,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
             z-index: 999;
             opacity: 0;
             transition: opacity 0.3s ease;
@@ -391,13 +498,16 @@
         .sidebar-mobile {
             position: fixed;
             top: 0;
-            left: -280px;
-            width: 260px;
+            left: -300px;
+            width: 280px;
             height: 100%;
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             z-index: 1000;
-            padding: 20px 16px;
-            box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
+            padding: 24px 18px;
+            border-right: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 4px 0 40px rgba(0, 0, 0, 0.1);
             transition: left 0.3s ease;
             overflow-y: auto;
         }
@@ -414,6 +524,11 @@
             color: #64748b;
             float: right;
             padding: 0 4px;
+            transition: transform 0.2s ease;
+        }
+
+        .sidebar-mobile .close-btn:hover {
+            transform: rotate(90deg);
         }
 
         .sidebar-mobile .sidebar-item {
@@ -431,21 +546,23 @@
             align-items: center;
             gap: 12px;
             padding: 12px;
-            background: #f1f5f9;
-            border-radius: 12px;
+            background: rgba(241, 245, 249, 0.6);
+            border-radius: 14px;
             margin: 8px 0 4px 0;
             cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .sidebar-mobile .mobile-profile:hover {
-            background: #e2e8f0;
+            background: rgba(241, 245, 249, 0.9);
         }
 
         .sidebar-mobile .mobile-profile .avatar-small {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: #1a4d3e;
+            background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
             color: white;
             display: flex;
             align-items: center;
@@ -454,6 +571,7 @@
             font-weight: bold;
             flex-shrink: 0;
             overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.5);
         }
 
         .sidebar-mobile .mobile-profile .avatar-small img {
@@ -473,6 +591,7 @@
             color: #64748b;
         }
 
+        /* ===== DASHBOARD ===== */
         .dashboard-container {
             display: flex;
             gap: 20px;
@@ -483,17 +602,26 @@
 
         .content-area {
             flex: 1;
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px;
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
             min-height: 400px;
             min-width: 0;
             overflow-x: auto;
+            transition: all 0.3s ease;
+        }
+
+        .content-area:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
         }
 
         .tab-content {
             display: none;
+            animation: fadeIn 0.3s ease;
         }
 
         .tab-content.active {
@@ -501,18 +629,30 @@
         }
 
         .content-area h2 {
-            font-size: 18px;
-            margin-bottom: 16px;
+            font-size: 20px;
+            margin-bottom: 20px;
             border-left: 4px solid #1a4d3e;
-            padding-left: 12px;
+            padding-left: 14px;
             color: #1a4d3e;
+            font-weight: 700;
         }
 
+        /* ===== CARDS ===== */
         .card {
-            background: #f8fafc;
-            border-radius: 16px;
-            padding: 16px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 18px;
+            padding: 18px;
             margin-bottom: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            transform: translateY(-2px);
         }
 
         .card h3 {
@@ -521,65 +661,206 @@
             margin-bottom: 10px;
         }
 
+        /* ===== STATS GRID ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-radius: 18px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card:active {
+            transform: scale(0.97);
+        }
+
+        .stat-card h3 {
+            font-size: 30px;
+            color: #1a4d3e;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        .stat-card p {
+            color: #64748b;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .stat-card .click-hint {
+            font-size: 10px;
+            color: #94a3b8;
+            margin-top: 6px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .stat-card:hover .click-hint {
+            opacity: 1;
+        }
+
+        .stat-card .icon-bg {
+            position: absolute;
+            right: -10px;
+            bottom: -10px;
+            font-size: 60px;
+            opacity: 0.05;
+            pointer-events: none;
+        }
+
+        /* ===== BUTTONS ===== */
         button {
-            background: #1a4d3e;
+            background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
             color: white;
             border: none;
-            padding: 10px 16px;
-            border-radius: 40px;
-            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
             cursor: pointer;
-            margin: 5px;
-            font-size: 14px;
-            transition: transform 0.2s;
+            margin: 4px;
+            font-size: 13px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(26, 77, 62, 0.2);
         }
 
         button:hover {
-            transform: scale(1.02);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(26, 77, 62, 0.3);
+        }
+
+        button:active {
+            transform: scale(0.97);
         }
 
         button.secondary {
-            background: #64748b;
+            background: rgba(100, 116, 139, 0.8);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 10px rgba(100, 116, 139, 0.15);
+        }
+
+        button.secondary:hover {
+            background: rgba(100, 116, 139, 1);
+            box-shadow: 0 6px 20px rgba(100, 116, 139, 0.25);
         }
 
         button.sync {
-            background: #0284c7;
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            box-shadow: 0 2px 10px rgba(2, 132, 199, 0.2);
+        }
+
+        button.sync:hover {
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.3);
         }
 
         button.danger {
-            background: #dc2626;
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            box-shadow: 0 2px 10px rgba(220, 38, 38, 0.2);
         }
 
-        button.delete-member {
-            background: #dc2626;
-            font-size: 11px;
-            padding: 4px 10px;
+        button.danger:hover {
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.3);
         }
 
         button.download {
-            background: #8b5cf6;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            box-shadow: 0 2px 10px rgba(139, 92, 246, 0.2);
         }
 
+        button.download:hover {
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        button.delete-member {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            font-size: 11px;
+            padding: 4px 12px;
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15);
+        }
+
+        button.btn-small {
+            font-size: 11px;
+            padding: 5px 12px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        }
+
+        /* ===== INPUTS ===== */
         input,
         select,
         textarea {
             width: 100%;
-            padding: 10px;
+            padding: 12px 16px;
             margin: 6px 0;
-            border: 1px solid #cbd5e1;
-            border-radius: 40px;
+            border: 2px solid rgba(203, 213, 225, 0.5);
+            border-radius: 50px;
             font-size: 14px;
             box-sizing: border-box;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(4px);
         }
 
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #1a4d3e;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(26, 77, 62, 0.08);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        textarea {
+            border-radius: 16px;
+            min-height: 60px;
+            resize: vertical;
+        }
+
+        /* ===== MEMBER ROW ===== */
         .member-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 10px 0;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
             flex-wrap: wrap;
             gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .member-row:hover {
+            background: rgba(241, 245, 249, 0.3);
+            padding-left: 8px;
+            padding-right: 8px;
+            border-radius: 12px;
         }
 
         .member-row .member-info {
@@ -592,7 +873,7 @@
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background: #1a4d3e;
+            background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
             color: white;
             display: flex;
             align-items: center;
@@ -601,6 +882,7 @@
             font-weight: bold;
             flex-shrink: 0;
             overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.5);
         }
 
         .member-row .member-avatar-small img {
@@ -609,20 +891,24 @@
             object-fit: cover;
         }
 
+        /* ===== UTILITY ===== */
         .total {
             text-align: center;
             margin: 12px 0;
-            padding: 10px;
-            background: #e6f7ed;
-            border-radius: 40px;
-            font-weight: bold;
+            padding: 12px;
+            background: rgba(230, 247, 237, 0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 50px;
+            font-weight: 600;
+            border: 1px solid rgba(26, 77, 62, 0.1);
         }
 
         .csv-url-box {
-            background: #f0f4f8;
-            padding: 15px;
+            background: rgba(240, 244, 248, 0.6);
+            backdrop-filter: blur(4px);
+            padding: 16px;
             border-radius: 16px;
-            border: 2px solid #0284c7;
+            border: 2px solid rgba(2, 132, 199, 0.2);
         }
 
         .small-text {
@@ -636,39 +922,15 @@
             flex-wrap: wrap;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-
-        .stat-card {
-            background: white;
-            border-radius: 16px;
-            padding: 16px;
-            text-align: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .stat-card h3 {
-            font-size: 28px;
-            color: #1a4d3e;
-            margin-bottom: 5px;
-        }
-
-        .stat-card p {
-            color: #64748b;
-            font-size: 14px;
-        }
-
         .winner {
-            background: #d1fae5;
+            background: rgba(209, 250, 229, 0.6);
+            backdrop-filter: blur(4px);
             padding: 12px;
-            border-radius: 40px;
+            border-radius: 50px;
             text-align: center;
-            font-weight: bold;
+            font-weight: 600;
             margin: 10px 0;
+            border: 1px solid rgba(16, 185, 129, 0.2);
         }
 
         .footer {
@@ -677,7 +939,7 @@
             margin-top: 20px;
             color: #64748b;
             font-size: 12px;
-            border-top: 1px solid #e2e8f0;
+            border-top: 1px solid rgba(226, 232, 240, 0.5);
         }
 
         .footer span {
@@ -688,9 +950,10 @@
         .login-footer {
             margin-top: 20px;
             padding-top: 15px;
-            border-top: 1px solid #e2e8f0;
+            border-top: 1px solid rgba(226, 232, 240, 0.5);
         }
 
+        /* ===== MODALS ===== */
         .modal {
             display: none;
             position: fixed;
@@ -698,24 +961,32 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             z-index: 2000;
             justify-content: center;
             align-items: center;
         }
 
         .modal-content {
-            background: white;
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 24px;
             border-radius: 24px;
             width: 90%;
-            max-width: 350px;
+            max-width: 380px;
             text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+            animation: fadeIn 0.3s ease;
         }
 
         .warning-modal {
-            background: #fee2e2;
-            border: 2px solid #dc2626;
+            background: rgba(254, 226, 226, 0.92);
+            backdrop-filter: blur(16px);
+            border: 2px solid rgba(220, 38, 38, 0.2);
         }
 
         .error-modal {
@@ -725,31 +996,38 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             z-index: 3000;
             justify-content: center;
             align-items: center;
         }
 
         .error-modal .error-box {
-            background: white;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             padding: 25px;
             border-radius: 24px;
             width: 90%;
-            max-width: 320px;
+            max-width: 350px;
             text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+            animation: fadeIn 0.3s ease;
         }
 
         .error-modal .error-box button {
             background: #1a4d3e;
-            padding: 10px 20px;
+            padding: 10px 24px;
             margin: 0;
         }
 
         .till-display {
-            background: #1a4d3e;
+            background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
             color: white;
-            padding: 12px;
+            padding: 14px;
             border-radius: 16px;
             text-align: center;
             margin-bottom: 12px;
@@ -761,18 +1039,20 @@
         }
 
         .payment-form {
-            background: #f0fdf4;
-            border: 1px solid #00a86b;
+            background: rgba(240, 253, 244, 0.6);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(0, 168, 107, 0.2);
             border-radius: 16px;
-            padding: 12px;
+            padding: 14px;
             margin-top: 10px;
         }
 
         .motivation-card {
-            background: #fef3c7;
+            background: rgba(254, 243, 199, 0.6);
+            backdrop-filter: blur(4px);
             border-left: 4px solid #f59e0b;
-            padding: 12px;
-            border-radius: 12px;
+            padding: 14px;
+            border-radius: 14px;
             margin-top: 12px;
         }
 
@@ -786,14 +1066,15 @@
             background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
             color: white;
             border-radius: 20px;
-            padding: 16px;
+            padding: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .interest-row {
             display: flex;
             justify-content: space-between;
             padding: 8px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .interest-row:last-child {
@@ -804,37 +1085,45 @@
             background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
             color: white;
             border-radius: 20px;
-            padding: 16px;
+            padding: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .eligibility-info {
-            background: #e0e7ff;
+            background: rgba(224, 231, 255, 0.6);
+            backdrop-filter: blur(4px);
             border-radius: 12px;
             padding: 10px;
             margin-top: 8px;
             font-size: 12px;
+            border: 1px solid rgba(99, 102, 241, 0.1);
         }
 
         .loan-detail {
-            background: #f8fafc;
-            padding: 8px;
+            background: rgba(248, 250, 252, 0.6);
+            backdrop-filter: blur(4px);
+            padding: 10px;
             border-radius: 12px;
             margin-bottom: 8px;
+            border: 1px solid rgba(226, 232, 240, 0.3);
         }
 
         .sync-status {
-            background: #e6f7ed;
+            background: rgba(230, 247, 237, 0.6);
+            backdrop-filter: blur(4px);
             padding: 10px;
             border-radius: 12px;
             font-size: 12px;
             text-align: center;
             margin: 10px 0;
+            border: 1px solid rgba(16, 185, 129, 0.1);
         }
 
         .member-csv-card,
         .sync-loans-card {
-            border: 2px solid #8b5cf6;
-            background: #faf5ff;
+            border: 2px solid rgba(139, 92, 246, 0.2);
+            background: rgba(250, 245, 255, 0.6);
+            backdrop-filter: blur(4px);
         }
 
         .member-csv-card h3,
@@ -844,95 +1133,102 @@
         }
 
         .preset-links {
-            background: #f1f5f9;
+            background: rgba(241, 245, 249, 0.6);
+            backdrop-filter: blur(4px);
             border-radius: 12px;
             padding: 10px;
             margin-bottom: 12px;
         }
 
-        .btn-small {
-            font-size: 11px;
-            padding: 5px 10px;
-            background: #8b5cf6;
-        }
-
-        .small {
-            font-size: 11px;
-            padding: 5px 10px;
-        }
-
         .pending-request {
-            background: #fef3c7;
+            background: rgba(254, 243, 199, 0.6);
+            backdrop-filter: blur(4px);
             border-radius: 12px;
             padding: 12px;
             margin-bottom: 10px;
+            border: 1px solid rgba(245, 158, 11, 0.1);
         }
 
         .notification-box {
-            background: #e0e7ff;
+            background: rgba(224, 231, 255, 0.6);
+            backdrop-filter: blur(4px);
             border-radius: 16px;
-            padding: 12px;
+            padding: 14px;
             margin-bottom: 16px;
+            border: 1px solid rgba(99, 102, 241, 0.1);
         }
 
+        /* ===== TABLES ===== */
         .savings-table,
-        .interest-table {
+        .interest-table,
+        .report-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
+            font-size: 13px;
         }
 
         .savings-table th,
         .savings-table td,
         .interest-table th,
-        .interest-table td {
-            padding: 10px;
+        .interest-table td,
+        .report-table th,
+        .report-table td {
+            padding: 10px 12px;
             text-align: left;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
         }
 
         .savings-table th,
-        .interest-table th {
-            background: #f8fafc;
-            font-weight: bold;
+        .interest-table th,
+        .report-table th {
+            background: rgba(248, 250, 252, 0.6);
+            font-weight: 600;
+            color: #1a4d3e;
+            backdrop-filter: blur(4px);
+        }
+
+        .savings-table tr:hover,
+        .interest-table tr:hover,
+        .report-table tr:hover {
+            background: rgba(241, 245, 249, 0.3);
         }
 
         .loan-pool-highlight {
             background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
             color: white;
             border-radius: 20px;
-            padding: 16px;
+            padding: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .interest-summary {
-            background: #fef3c7;
+            background: rgba(254, 243, 199, 0.6);
+            backdrop-filter: blur(4px);
             border-radius: 16px;
-            padding: 12px;
+            padding: 14px;
             margin-top: 10px;
+            border: 1px solid rgba(245, 158, 11, 0.1);
         }
 
-        .report-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
+        .report-card {
+            background: rgba(224, 231, 255, 0.4);
+            backdrop-filter: blur(4px);
+            border: 2px solid rgba(139, 92, 246, 0.15);
+            border-radius: 18px;
+            padding: 18px;
+            margin-top: 16px;
         }
 
-        .report-table th,
-        .report-table td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .report-table th {
-            background: #f8fafc;
-            font-weight: bold;
+        .report-card h3 {
+            color: #6d28d9;
         }
 
         #photoUploadInput {
             display: none;
         }
 
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .hamburger-btn {
                 display: block !important;
@@ -967,7 +1263,7 @@
             }
 
             .card {
-                padding: 12px;
+                padding: 14px;
                 margin-bottom: 12px;
             }
 
@@ -980,12 +1276,12 @@
             select,
             textarea {
                 font-size: 13px;
-                padding: 8px 12px;
+                padding: 10px 14px;
             }
 
             button {
                 font-size: 12px;
-                padding: 8px 14px;
+                padding: 8px 16px;
                 margin: 3px;
             }
 
@@ -999,8 +1295,8 @@
             }
 
             .sidebar-mobile {
-                width: 220px;
-                padding: 16px 12px;
+                width: 260px;
+                padding: 18px 14px;
             }
 
             .sidebar-mobile .sidebar-item {
@@ -1009,8 +1305,8 @@
             }
 
             .profile-avatar {
-                width: 32px;
-                height: 32px;
+                width: 34px;
+                height: 34px;
                 font-size: 14px;
             }
 
@@ -1022,6 +1318,16 @@
                 width: 100px;
                 height: 100px;
                 font-size: 40px;
+            }
+
+            .savings-table th,
+            .savings-table td,
+            .interest-table th,
+            .interest-table td,
+            .report-table th,
+            .report-table td {
+                padding: 6px 8px;
+                font-size: 11px;
             }
         }
 
@@ -1044,7 +1350,7 @@
             }
 
             .stat-card {
-                padding: 10px;
+                padding: 12px;
             }
 
             .stat-card h3 {
@@ -1065,8 +1371,8 @@
             }
 
             .sidebar-mobile {
-                width: 200px;
-                padding: 12px 10px;
+                width: 220px;
+                padding: 14px 10px;
             }
 
             .sidebar-mobile .sidebar-item {
@@ -1090,53 +1396,55 @@
 </head>
 <body>
 
-    <!-- Error Modal -->
+    <!-- ===== ERROR MODAL ===== -->
     <div id="errorModal" class="error-modal">
         <div class="error-box">
-            <p id="errorMessage">Message here</p>
+            <p id="errorMessage" style="font-size:14px;line-height:1.6;">Message here</p>
             <button onclick="closeErrorModal()">OK</button>
         </div>
     </div>
 
-    <!-- Payment Modal -->
+    <!-- ===== PAYMENT MODAL ===== -->
     <div id="paymentModal" class="modal">
         <div class="modal-content">
             <h3>💰 Pay Registration Fee</h3>
             <div class="till-display"><h4>6246156</h4></div>
-            <p><strong>Reg Fee: 100</strong></p>
-            <div class="flex-buttons">
+            <p><strong>Reg Fee: 100 KES</strong></p>
+            <div class="flex-buttons" style="justify-content:center;">
                 <button onclick="copyTillNumberReg()" class="secondary">📋 Copy Till</button>
                 <button onclick="openWhatsAppReg()" class="secondary">📱 Send Proof</button>
             </div>
-            <button onclick="generatePaymentInstructionsReg()" class="secondary">Instructions</button>
-            <button onclick="submitSignupRequest()" class="done">✅ Done - I have paid</button>
-            <button onclick="closePaymentModal()" class="secondary">Cancel</button>
+            <button onclick="generatePaymentInstructionsReg()" class="secondary" style="width:100%;margin:6px 0;">📋 Instructions</button>
+            <button onclick="submitSignupRequest()" style="width:100%;margin:6px 0;background:linear-gradient(135deg,#10b981 0%,#059669 100%);">✅ Done - I have paid</button>
+            <button onclick="closePaymentModal()" class="secondary" style="width:100%;margin:6px 0;">Cancel</button>
         </div>
     </div>
 
+    <!-- ===== SUCCESS MODAL ===== -->
     <div id="successModal" class="modal">
-        <div class="modal-content" style="background:#d1fae5;border:2px solid #10b981;">
+        <div class="modal-content" style="background:rgba(209,250,229,0.92);border:2px solid rgba(16,185,129,0.3);">
             <span style="font-size:50px;">✅</span>
             <h3>Request Sent!</h3>
             <p>Admin will review & approve.</p>
-            <button onclick="closeSuccessModal()" class="done">OK</button>
+            <button onclick="closeSuccessModal()" style="background:linear-gradient(135deg,#10b981 0%,#059669 100%);">OK</button>
         </div>
     </div>
 
+    <!-- ===== DELETE CONFIRM MODAL ===== -->
     <div id="deleteConfirmModal" class="modal">
         <div class="modal-content warning-modal">
             <span style="font-size:50px;">⚠️</span>
             <h3>Delete Member?</h3>
-            <p id="deleteMemberName"></p>
+            <p id="deleteMemberName" style="font-weight:600;"></p>
             <p class="small-text">This cannot be undone.</p>
-            <div class="flex-buttons">
-                <button onclick="confirmDeleteMember()" style="background:#dc2626;">Yes, Delete</button>
+            <div class="flex-buttons" style="justify-content:center;">
+                <button onclick="confirmDeleteMember()" style="background:linear-gradient(135deg,#dc2626 0%,#b91c1c 100%);">Yes, Delete</button>
                 <button onclick="closeDeleteModal()" class="secondary">Cancel</button>
             </div>
         </div>
     </div>
 
-    <!-- Profile Modal -->
+    <!-- ===== PROFILE MODAL ===== -->
     <div id="profileModal" class="profile-modal">
         <div class="profile-modal-content">
             <div class="profile-avatar-large" id="profileAvatarLarge" onclick="document.getElementById('photoUploadInput').click();">
@@ -1158,7 +1466,7 @@
         </div>
     </div>
 
-    <!-- Login Overlay -->
+    <!-- ===== LOGIN OVERLAY ===== -->
     <div id="loginOverlay" class="login-overlay">
         <div class="login-box">
             <div class="login-tabs">
@@ -1169,19 +1477,19 @@
                 <h3>Member Access</h3>
                 <input type="text" id="memberNameInput" placeholder="Enter your full name">
                 <input type="password" id="memberPasscode" placeholder="Password (last 4 digits of phone)">
-                <button onclick="memberLogin()" style="width:100%;margin:10px 0;">Login</button>
+                <button onclick="memberLogin()" style="width:100%;margin:12px 0;">Login</button>
                 <div class="signup-form">
                     <h4>📝 Not a member?</h4>
                     <input type="text" id="signupName" placeholder="Full Name">
                     <input type="number" id="signupPhone" placeholder="Phone">
                     <p class="small-text">Reg fee: 100 KES</p>
-                    <button onclick="showPaymentModal()" class="secondary">Request Sign Up</button>
+                    <button onclick="showPaymentModal()" class="secondary" style="width:100%;">Request Sign Up</button>
                 </div>
             </div>
             <div id="adminLoginPanel" style="display:none">
                 <h3>Admin Access</h3>
                 <input type="password" id="adminPasswordInput" placeholder="Admin password">
-                <button onclick="adminLogin()" style="width:100%;margin:10px 0;">Login</button>
+                <button onclick="adminLogin()" style="width:100%;margin:12px 0;">Login</button>
             </div>
             <div class="login-footer">
                 <div class="footer" style="border-top: none; padding-top: 0; margin-top: 15px;">
@@ -1191,7 +1499,7 @@
         </div>
     </div>
 
-    <!-- MEMBER VIEW -->
+    <!-- ===== MEMBER VIEW ===== -->
     <div id="memberView" style="display:none">
         <div class="header">
             <div class="header-left">
@@ -1206,7 +1514,7 @@
             </div>
         </div>
 
-        <!-- Mobile Sidebar -->
+        <!-- ===== MOBILE SIDEBAR ===== -->
         <div class="sidebar-overlay" id="memberSidebarOverlay" onclick="closeSidebar('member')"></div>
         <div class="sidebar-mobile" id="memberSidebarMobile">
             <button class="close-btn" onclick="closeSidebar('member')">✕</button>
@@ -1237,7 +1545,7 @@
         </div>
 
         <div class="dashboard-container">
-            <!-- Desktop Sidebar -->
+            <!-- ===== DESKTOP SIDEBAR ===== -->
             <div class="sidebar" id="memberSidebar">
                 <div class="section-title">Menu</div>
                 <div class="sidebar-item active" onclick="showMemberContent('dashboard')" id="memberMenuDashboard">
@@ -1256,30 +1564,40 @@
                 </div>
             </div>
 
+            <!-- ===== MEMBER CONTENT ===== -->
             <div class="content-area" id="memberContentArea">
+
+                <!-- DASHBOARD -->
                 <div class="tab-content active" id="memberContentDashboard">
                     <h2>📊 Dashboard</h2>
                     <div class="stats-grid">
-                        <div class="stat-card" style="background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);color:white;">
-                            <h3 id="dashTotalSavings" style="color:white;">0 KES</h3>
-                            <p style="color:#ccc;">Total Savings</p>
+                        <div class="stat-card" onclick="showMemberContent('savings')" style="background:linear-gradient(135deg, rgba(26,77,62,0.08) 0%, rgba(15,59,44,0.05) 100%);">
+                            <div class="icon-bg">💰</div>
+                            <h3 id="dashTotalSavings">0 KES</h3>
+                            <p>Total Savings</p>
+                            <div class="click-hint">👆 Click to view savings</div>
                         </div>
-                        <div class="stat-card" style="background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);color:white;">
-                            <h3 id="dashTotalLoans" style="color:white;">0 KES</h3>
-                            <p style="color:#ccc;">Active Loans</p>
+                        <div class="stat-card" onclick="showMemberContent('loans')" style="background:linear-gradient(135deg, rgba(30,64,175,0.08) 0%, rgba(30,58,138,0.05) 100%);">
+                            <div class="icon-bg">📋</div>
+                            <h3 id="dashTotalLoans">0 KES</h3>
+                            <p>Active Loans</p>
+                            <div class="click-hint">👆 Click to view loans</div>
                         </div>
-                        <div class="stat-card" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);color:white;">
-                            <h3 id="dashInterest" style="color:white;">0 KES</h3>
-                            <p style="color:#ccc;">Interest Earned</p>
+                        <div class="stat-card" onclick="showMemberContent('loans')" style="background:linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(217,119,6,0.05) 100%);">
+                            <div class="icon-bg">📈</div>
+                            <h3 id="dashInterest">0 KES</h3>
+                            <p>Interest Earned</p>
+                            <div class="click-hint">👆 Click to view loans</div>
                         </div>
                     </div>
                     <div class="card"><h2>🎡 Weekly MGR (250 KES)</h2><div id="memberMgr" class="winner">Loading...</div></div>
                 </div>
 
+                <!-- SAVINGS -->
                 <div class="tab-content" id="memberContentSavings">
                     <h2>💰 My Savings</h2>
                     <div class="card motivation-card"><div class="motivation-text" id="motivationMessage"></div></div>
-                    <div class="card"><h2>🏦 My Current Savings</h2><div id="memberSavings" style="font-size:32px;font-weight:bold;text-align:center">0 KES</div></div>
+                    <div class="card"><h2>🏦 My Current Savings</h2><div id="memberSavings" style="font-size:32px;font-weight:bold;text-align:center;color:#1a4d3e;">0 KES</div></div>
                     <div class="card member-csv-card">
                         <h3>📥 Sync My Savings</h3>
                         <div class="preset-links"><button onclick="setMemberSavingsUrl()" class="btn-small">📊 Fill Savings Link</button></div>
@@ -1305,8 +1623,16 @@
                     </div>
                     <div class="card savings-box"><h3>💰 Next Savings Disbursement</h3><div class="interest-row"><span>📅 Next Date:</span><span id="savingsDisbursementDate"></span></div><div class="interest-row"><span>💵 Your Current Savings:</span><span id="currentSavingsDisplay">0 KES</span></div></div>
                     <div class="card payment-form"><h3>💳 Add Savings</h3><div class="till-display"><h4>6246156</h4></div><input type="number" id="paymentAmount" placeholder="Amount"><input type="date" id="paymentDate"><div class="flex-buttons"><button onclick="copyTillNumber()" class="secondary">📋 Copy Till</button><button onclick="openWhatsApp()" class="secondary">📱 Send Proof</button></div><button onclick="generatePaymentInstructions()" class="secondary">Instructions</button></div>
+                    
+                    <!-- Member Savings Report Card -->
+                    <div class="report-card">
+                        <h3>📊 Download Savings Report</h3>
+                        <p class="small-text" style="margin-bottom:10px;">Downloads a complete report of your savings history</p>
+                        <button onclick="downloadSavingsReport()" class="download">📄 Download Savings Report (PDF)</button>
+                    </div>
                 </div>
 
+                <!-- LOANS -->
                 <div class="tab-content" id="memberContentLoans">
                     <h2>📋 My Loans</h2>
                     <div class="card sync-loans-card">
@@ -1316,17 +1642,24 @@
                         <button onclick="syncMemberLoansFromCSV()" class="sync">⬇️ Sync My Loans</button>
                         <div id="memberLoansSyncStatus" class="sync-status">📡 Ready to sync</div>
                     </div>
-                    <div class="card"><h2>📋 My Approved Loans</h2><div id="memberLoan" style="font-size:28px;font-weight:bold;text-align:center;color:#dc2626">0 KES</div><div id="memberLoansList"></div></div>
+                    <div class="card"><h2>📋 My Approved Loans</h2><div id="memberLoan" style="font-size:28px;font-weight:bold;text-align:center;color:#dc2626;">0 KES</div><div id="memberLoansList"></div></div>
                     <div class="card interest-box"><h3>📈 Loan Interest Accrual</h3><div class="interest-row"><span>💰 Total Interest Accrued:</span><span id="totalInterestAccrued">0 KES</span></div><div class="interest-row"><span>👤 To be Sent (70%):</span><span id="memberInterestShare">0 KES</span></div><div class="interest-row"><span>🏦 To Reserve (30%):</span><span id="groupReserveShare">0 KES</span></div><div class="interest-row"><span>📅 Next Disbursement:</span><span id="nextDisbursement"></span></div></div>
                     <div class="card loan-request-box"><h3>📋 Request a Loan</h3><div class="eligibility-info">Max 700 KES | Need ≥50% in savings</div><input type="number" id="loanRequestAmount" placeholder="Amount (max 700)"><textarea id="loanRequestReason" rows="2" placeholder="Reason (optional)"></textarea><div class="flex-buttons"><button onclick="checkEligibility()" class="secondary">🔍 Check</button><button onclick="submitLoanRequest()" class="secondary">📤 Submit</button></div><div id="eligibilityResult" class="small-text"></div></div>
                     <div class="card" id="loanRequestsCard" style="display:none;"><h2>📋 My Loan Requests</h2><div id="memberLoanRequestsList"></div></div>
+                    
+                    <!-- Member Loans Report Card -->
+                    <div class="report-card">
+                        <h3>📊 Download Loans Report</h3>
+                        <p class="small-text" style="margin-bottom:10px;">Downloads a complete report of your loan history</p>
+                        <button onclick="downloadMemberLoansReport()" class="download">📄 Download Loans Report (PDF)</button>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="footer">Designed by <span>Conquerer Tech Solutions</span></div>
     </div>
 
-    <!-- ADMIN VIEW -->
+    <!-- ===== ADMIN VIEW ===== -->
     <div id="adminView" style="display:none">
         <div class="header">
             <div class="header-left">
@@ -1338,7 +1671,7 @@
             </div>
         </div>
 
-        <!-- Admin Mobile Sidebar -->
+        <!-- ===== ADMIN MOBILE SIDEBAR ===== -->
         <div class="sidebar-overlay" id="adminSidebarOverlay" onclick="closeSidebar('admin')"></div>
         <div class="sidebar-mobile" id="adminSidebarMobile">
             <button class="close-btn" onclick="closeSidebar('admin')">✕</button>
@@ -1363,7 +1696,7 @@
         </div>
 
         <div class="dashboard-container">
-            <!-- Admin Desktop Sidebar -->
+            <!-- ===== ADMIN DESKTOP SIDEBAR ===== -->
             <div class="sidebar" id="adminSidebar">
                 <div class="section-title">Menu</div>
                 <div class="sidebar-item active" onclick="showAdminContent('dashboard')" id="adminMenuDashboard">
@@ -1385,21 +1718,30 @@
                 </div>
             </div>
 
+            <!-- ===== ADMIN CONTENT ===== -->
             <div class="content-area" id="adminContentArea">
+
+                <!-- DASHBOARD -->
                 <div class="tab-content active" id="adminContentDashboard">
                     <h2>📊 Dashboard</h2>
                     <div class="stats-grid">
-                        <div class="stat-card" style="background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);color:white;">
-                            <h3 id="adminTotalSavings" style="color:white;">0 KES</h3>
-                            <p style="color:#ccc;">Total Savings</p>
+                        <div class="stat-card" onclick="showAdminContent('savings')" style="background:linear-gradient(135deg, rgba(26,77,62,0.08) 0%, rgba(15,59,44,0.05) 100%);">
+                            <div class="icon-bg">💰</div>
+                            <h3 id="adminTotalSavings">0 KES</h3>
+                            <p>Total Savings</p>
+                            <div class="click-hint">👆 Click to view savings</div>
                         </div>
-                        <div class="stat-card" style="background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);color:white;">
-                            <h3 id="adminTotalMembers" style="color:white;">0</h3>
-                            <p style="color:#ccc;">Total Members</p>
+                        <div class="stat-card" onclick="showAdminContent('members')" style="background:linear-gradient(135deg, rgba(30,64,175,0.08) 0%, rgba(30,58,138,0.05) 100%);">
+                            <div class="icon-bg">👥</div>
+                            <h3 id="adminTotalMembers">0</h3>
+                            <p>Total Members</p>
+                            <div class="click-hint">👆 Click to view members</div>
                         </div>
-                        <div class="stat-card" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);color:white;">
-                            <h3 id="adminActiveLoans" style="color:white;">0 KES</h3>
-                            <p style="color:#ccc;">Active Loans</p>
+                        <div class="stat-card" onclick="showAdminContent('loans')" style="background:linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(217,119,6,0.05) 100%);">
+                            <div class="icon-bg">📋</div>
+                            <h3 id="adminActiveLoans">0 KES</h3>
+                            <p>Active Loans</p>
+                            <div class="click-hint">👆 Click to view loans</div>
                         </div>
                     </div>
                     <div class="card"><h2>🎡 Weekly MGR</h2><div id="mgrWinnerAdmin" class="winner">Loading...</div><button onclick="recordMGR()">Record Payout</button><button onclick="nextWeek()">Next Week</button></div>
@@ -1408,6 +1750,7 @@
                     <div class="card"><h2>📋 Pending Loan Requests</h2><div id="pendingLoanRequestsList">None</div></div>
                 </div>
 
+                <!-- MEMBERS -->
                 <div class="tab-content" id="adminContentMembers">
                     <h2>👥 Member Management</h2>
                     <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
@@ -1439,28 +1782,39 @@
                     </div>
                 </div>
 
+                <!-- SAVINGS -->
                 <div class="tab-content" id="adminContentSavings">
                     <h2>💰 Savings</h2>
                     <div class="card"><h2>💰 Savings Disbursement (Jan,Mar,May,Jul,Sep,Nov)</h2><div class="interest-summary"><div class="member-row"><span>📊 Total Savings:</span><span id="totalSavingsPool">0</span></div><div class="member-row"><span>📅 Current Month:</span><span id="currentMonth"></span></div><div class="member-row"><span>🎯 Next Disbursement:</span><span id="nextDisbursementMonth"></span></div></div><button onclick="processSavingsDisbursement()" class="secondary">Process Savings Disbursement</button><p class="small-text">⚠️ Only in Jan/Mar/May/Jul/Sep/Nov</p></div>
                     <div class="card csv-url-box"><h4>📊 SYNC SAVINGS</h4><input type="text" id="savingsCsvUrl" placeholder="Paste Savings sheet CSV link"><button onclick="syncSavings()" class="sync">Sync Savings</button></div>
                     <div class="card"><h2>🏦 Add Savings (Manual)</h2><select id="savingsMemberSelect"><option value="">-- Member --</option></select><input type="date" id="savingsDate"><input type="number" id="savingsAmount" placeholder="Amount KES"><button onclick="addSavings()">Add Savings</button></div>
                     <div class="card"><h2>📊 Total Savings Per Member</h2><table class="savings-table"><thead><tr><th>Member</th><th>Savings</th></tr></thead><tbody id="savingsPerMemberTable"></tbody></table></div>
-                    <div class="card" style="background: #e0e7ff; border: 2px solid #8b5cf6;">
-                        <h3>📊 Download All Members Report</h3>
-                        <button onclick="downloadAllMembersReport()" class="download">📄 Download All Members Savings Report (PDF)</button>
-                        <p class="small-text">Downloads a complete report for all members with their total savings</p>
-                    </div>
                     <div id="syncStatusMsg" class="sync-status">📡 Ready</div>
+                    
+                    <!-- Admin Savings Report Card -->
+                    <div class="report-card">
+                        <h3>📊 Download All Members Savings Report</h3>
+                        <p class="small-text" style="margin-bottom:10px;">Downloads a complete report for all members with their total savings</p>
+                        <button onclick="downloadAllMembersSavingsReport()" class="download">📄 Download All Savings Report (PDF)</button>
+                    </div>
                 </div>
 
+                <!-- LOANS -->
                 <div class="tab-content" id="adminContentLoans">
                     <h2>📋 Loans</h2>
-                    <div class="card loan-pool-highlight"><h2 style="color:white;">💰 Accessible Loan Pool</h2><div style="text-align:center"><div style="font-size:48px; font-weight:bold;" id="accessibleLoanAmount">0 KES</div><p>Available to borrow</p></div><div class="interest-row"><span>📊 Total Principal Lent:</span><span id="totalPrincipalLent">0</span></div><div class="interest-row"><span>📈 Total Interest:</span><span id="totalInterestPool">0</span></div><div class="interest-row"><span>🏦 30% Reserve:</span><span id="loanReservePool">0</span></div><div class="interest-row"><span>📌 Outstanding Loans:</span><span id="outstandingLoansPool">0</span></div><button onclick="refreshLoanPool()" class="secondary" style="background:rgba(255,255,255,0.2);">🔄 Refresh Pool</button></div>
+                    <div class="card loan-pool-highlight"><h2 style="color:white;">💰 Accessible Loan Pool</h2><div style="text-align:center"><div style="font-size:48px; font-weight:bold;" id="accessibleLoanAmount">0 KES</div><p>Available to borrow</p></div><div class="interest-row"><span>📊 Total Principal Lent:</span><span id="totalPrincipalLent">0</span></div><div class="interest-row"><span>📈 Total Interest:</span><span id="totalInterestPool">0</span></div><div class="interest-row"><span>🏦 30% Reserve:</span><span id="loanReservePool">0</span></div><div class="interest-row"><span>📌 Outstanding Loans:</span><span id="outstandingLoansPool">0</span></div><button onclick="refreshLoanPool()" class="secondary" style="background:rgba(255,255,255,0.15);">🔄 Refresh Pool</button></div>
                     <div class="card"><h2>💰 Loan Interest (70/30)</h2><div class="interest-summary"><div class="member-row"><span>📊 Total Interest Accrued:</span><span id="totalInterestCollected">0</span></div><div class="member-row"><span>👥 Due to Members (70%):</span><span id="totalDueToMembers">0</span></div><div class="member-row"><span>🏦 Group Reserve (30%):</span><span id="loanReserveAmount">0</span></div></div><button onclick="processInterestDisbursement()" class="secondary">Process Interest Disbursement</button><p class="small-text">⚠️ Only in June & December</p></div>
                     <div class="card"><h2>📊 Total Interest Per Member</h2><table class="interest-table"><thead><tr><th>Member</th><th>Interest</th><th>To Send (70%)</th><th>To Reserve (30%)</th></tr></thead><tbody id="interestPerMemberTable"></tbody></table></div>
                     <div class="card csv-url-box"><h4>📋 SYNC LOANS</h4><input type="text" id="loansCsvUrl" placeholder="Paste Loans sheet CSV link"><button onclick="syncLoans()" class="sync">Sync Loans</button></div>
                     <div class="card"><h2>📋 Take Loan (10% Interest)</h2><select id="loanMemberSelect"><option value="">-- Member --</option></select><input type="date" id="loanDateTaken"><input type="number" id="loanPrincipal" placeholder="Principal"><input type="date" id="loanReturnDate"><button onclick="takeLoan()">Take Loan</button></div>
                     <div class="card"><h2>💰 Record Loan Repayment</h2><select id="repayMemberSelect"><option value="">-- Member --</option></select><input type="number" id="repayAmount" placeholder="Repayment"><button onclick="repayLoan()" class="secondary">Record Repayment</button><div id="loanDisplay"></div></div>
+                    
+                    <!-- Admin Loans Report Card -->
+                    <div class="report-card">
+                        <h3>📊 Download All Members Loans Report</h3>
+                        <p class="small-text" style="margin-bottom:10px;">Downloads a complete report for all members with their loan details</p>
+                        <button onclick="downloadAllMembersLoansReport()" class="download">📄 Download All Loans Report (PDF)</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1595,9 +1949,9 @@
                 profileAvatar.style.background = color;
             }
 
-            // Mobile Name & Phone
             document.getElementById('mobileName').innerText = member.name;
             document.getElementById('mobilePhone').innerText = member.phone || 'No phone';
+            document.getElementById('memberNameHeader').innerText = member.name;
         }
 
         // ============================================================
@@ -1657,6 +2011,7 @@
         // PDF REPORT FUNCTIONS
         // ============================================================
 
+        // ===== MEMBER SAVINGS REPORT =====
         function downloadSavingsReport() {
             if (currentMemberId === null) {
                 showErrorModal("Please login first.");
@@ -1700,6 +2055,7 @@
             var doc = new jsPDF('p', 'mm', 'a4');
             var pageWidth = doc.internal.pageSize.getWidth();
 
+            // Header
             doc.setFillColor(26, 77, 62);
             doc.rect(0, 0, pageWidth, 35, 'F');
             doc.setTextColor(255, 255, 255);
@@ -1800,12 +2156,149 @@
             doc.text('• Total Deposits: ' + totalDeposits, 20, finalY + 14);
             doc.text('• Last Disbursement: ' + lastDisbursement, 20, finalY + 21);
 
-            var fileName = 'Genz Association_Savings_Report.pdf';
-            doc.save(fileName);
-            showErrorModal('✅ Report downloaded successfully as ' + fileName);
+            doc.save('GenzChama_Savings_Report.pdf');
+            showErrorModal('✅ Savings report downloaded successfully!');
         }
 
-        function downloadAllMembersReport() {
+        // ===== MEMBER LOANS REPORT (NEW) =====
+        function downloadMemberLoansReport() {
+            if (currentMemberId === null) {
+                showErrorModal("Please login first.");
+                return;
+            }
+
+            var member = MEMBERS[currentMemberId];
+            var memberLoans = [];
+            for (var i = 0; i < loans.length; i++) {
+                if (loans[i].memberId === currentMemberId) {
+                    memberLoans.push(loans[i]);
+                }
+            }
+
+            if (memberLoans.length === 0) {
+                showErrorModal("You have no loan records to download.");
+                return;
+            }
+
+            memberLoans.sort(function(a, b) {
+                return new Date(a.dateTaken) - new Date(b.dateTaken);
+            });
+
+            var totalPrincipal = 0;
+            var totalInterest = 0;
+            var runningBalance = 0;
+
+            var { jsPDF } = window.jspdf;
+            var doc = new jsPDF('p', 'mm', 'a4');
+            var pageWidth = doc.internal.pageSize.getWidth();
+
+            // Header
+            doc.setFillColor(26, 77, 62);
+            doc.rect(0, 0, pageWidth, 35, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(22);
+            doc.setFont('helvetica', 'bold');
+            doc.text('GENZ CHAMA', pageWidth / 2, 18, { align: 'center' });
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'normal');
+            doc.text('Loans Report', pageWidth / 2, 28, { align: 'center' });
+
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Member Name:', 20, 45);
+            doc.setFont('helvetica', 'normal');
+            doc.text(member.name, 65, 45);
+
+            doc.setFont('helvetica', 'bold');
+            doc.text('Report Date:', 20, 52);
+            doc.setFont('helvetica', 'normal');
+            var now = new Date();
+            var dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
+            doc.text(dateStr, 65, 52);
+
+            var tableData = [];
+            for (var i = 0; i < memberLoans.length; i++) {
+                var loan = memberLoans[i];
+                var status = loan.status === 'returned' ? '✅ Paid' : '⚠️ Pending';
+                var balance = loan.totalDue - (loan.repaidAmount || 0);
+                runningBalance += balance;
+                totalPrincipal += loan.principal;
+                totalInterest += loan.interest;
+
+                var dateTaken = new Date(loan.dateTaken);
+                var dateStr2 = dateTaken.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
+                var returnDate = new Date(loan.returnDate);
+                var returnDateStr = returnDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short',
+                day: '2-digit' });
+
+                tableData.push([
+                    dateStr2,
+                    loan.principal.toFixed(2) + ' KES',
+                    loan.interest.toFixed(2) + ' KES',
+                    loan.totalDue.toFixed(2) + ' KES',
+                    returnDateStr,
+                    status,
+                    runningBalance.toFixed(2) + ' KES'
+                ]);
+            }
+
+            doc.autoTable({
+                startY: 60,
+                head: [
+                    ['Date Taken', 'Principal', 'Interest (10%)', 'Total Due', 'Return Date', 'Status', 'Running Balance']
+                ],
+                body: tableData,
+                theme: 'striped',
+                headStyles: {
+                    fillColor: [26, 77, 62],
+                    textColor: [255, 255, 255],
+                    fontStyle: 'bold',
+                    halign: 'center'
+                },
+                columnStyles: {
+                    0: { cellWidth: 25, halign: 'center' },
+                    1: { cellWidth: 30, halign: 'right' },
+                    2: { cellWidth: 30, halign: 'right' },
+                    3: { cellWidth: 30, halign: 'right' },
+                    4: { cellWidth: 25, halign: 'center' },
+                    5: { cellWidth: 25, halign: 'center' },
+                    6: { cellWidth: 30, halign: 'right' }
+                },
+                styles: {
+                    fontSize: 8,
+                    cellPadding: 2
+                },
+                margin: { left: 15, right: 15 },
+                didDrawPage: function(data) {
+                    var pageCount = doc.internal.getNumberOfPages();
+                    doc.setFontSize(8);
+                    doc.setTextColor(128, 128, 128);
+                    doc.text('Powered by Conquerer Tech Solutions', pageWidth / 2, doc.internal.pageSize.getHeight() - 5, {
+                        align: 'center'
+                    });
+                    doc.text('Page ' + data.pageNumber + ' of ' + pageCount, pageWidth - 20, doc.internal.pageSize
+                        .getHeight() - 5, { align: 'right' });
+                }
+            });
+
+            var finalY = doc.lastAutoTable.finalY + 10;
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Summary', 20, finalY);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10);
+            doc.text('• Total Principal: ' + totalPrincipal.toFixed(2) + ' KES', 20, finalY + 7);
+            doc.text('• Total Interest: ' + totalInterest.toFixed(2) + ' KES', 20, finalY + 14);
+            doc.text('• Current Running Balance: ' + runningBalance.toFixed(2) + ' KES', 20, finalY + 21);
+            doc.text('• Total Loans Taken: ' + memberLoans.length, 20, finalY + 28);
+
+            doc.save('GenzChama_Loans_Report.pdf');
+            showErrorModal('✅ Loans report downloaded successfully!');
+        }
+
+        // ===== ADMIN ALL MEMBERS SAVINGS REPORT =====
+        function downloadAllMembersSavingsReport() {
             if (MEMBERS.length === 0) {
                 showErrorModal("No members found.");
                 return;
@@ -1820,7 +2313,7 @@
             doc.setTextColor(255, 255, 255);
             doc.setFontSize(22);
             doc.setFont('helvetica', 'bold');
-            doc.text('GENZ ASSOCIATION', pageWidth / 2, 18, { align: 'center' });
+            doc.text('GENZ CHAMA', pageWidth / 2, 18, { align: 'center' });
             doc.setFontSize(14);
             doc.setFont('helvetica', 'normal');
             doc.text('All Members Savings Report', pageWidth / 2, 28, { align: 'center' });
@@ -1836,21 +2329,17 @@
             for (var i = 0; i < MEMBERS.length; i++) {
                 var member = MEMBERS[i];
                 var savingsAmt = getMemberSavings(member.id);
-                var loanBal = getMemberLoanBalance(member.id);
-                var interest = getMemberTotalInterestAccrued(member.id);
                 grandTotal += savingsAmt;
                 tableData.push([
                     member.name,
-                    savingsAmt.toFixed(2) + ' KES',
-                    loanBal.toFixed(2) + ' KES',
-                    interest.toFixed(2) + ' KES'
+                    savingsAmt.toFixed(2) + ' KES'
                 ]);
             }
 
             doc.autoTable({
                 startY: 55,
                 head: [
-                    ['Member Name', 'Total Savings', 'Active Loans', 'Interest Accrued']
+                    ['Member Name', 'Total Savings']
                 ],
                 body: tableData,
                 theme: 'striped',
@@ -1861,14 +2350,12 @@
                     halign: 'center'
                 },
                 columnStyles: {
-                    0: { cellWidth: 55 },
-                    1: { cellWidth: 35, halign: 'right' },
-                    2: { cellWidth: 35, halign: 'right' },
-                    3: { cellWidth: 35, halign: 'right' }
+                    0: { cellWidth: 80 },
+                    1: { cellWidth: 50, halign: 'right' }
                 },
                 styles: {
-                    fontSize: 9,
-                    cellPadding: 3
+                    fontSize: 10,
+                    cellPadding: 4
                 },
                 margin: { left: 20, right: 20 },
                 didDrawPage: function(data) {
@@ -1891,9 +2378,131 @@
             doc.setFont('helvetica', 'normal');
             doc.text('Total Members: ' + MEMBERS.length, 20, finalY + 7);
 
-            var fileName = 'Gen Association_AllMembers_Report.pdf';
-            doc.save(fileName);
-            showErrorModal('✅ All members report downloaded successfully as ' + fileName);
+            doc.save('GenzChama_All_Savings_Report.pdf');
+            showErrorModal('✅ All members savings report downloaded successfully!');
+        }
+
+        // ===== ADMIN ALL MEMBERS LOANS REPORT (NEW) =====
+        function downloadAllMembersLoansReport() {
+            if (MEMBERS.length === 0) {
+                showErrorModal("No members found.");
+                return;
+            }
+
+            var { jsPDF } = window.jspdf;
+            var doc = new jsPDF('p', 'mm', 'a4');
+            var pageWidth = doc.internal.pageSize.getWidth();
+
+            doc.setFillColor(26, 77, 62);
+            doc.rect(0, 0, pageWidth, 35, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(22);
+            doc.setFont('helvetica', 'bold');
+            doc.text('GENZ CHAMA', pageWidth / 2, 18, { align: 'center' });
+            doc.setFontSize(14);
+            doc.setFont('helvetica', 'normal');
+            doc.text('All Members Loans Report', pageWidth / 2, 28, { align: 'center' });
+
+            doc.setTextColor(0, 0, 0);
+            doc.setFontSize(11);
+            var now = new Date();
+            var dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
+            doc.text('Generated: ' + dateStr, pageWidth - 20, 45, { align: 'right' });
+
+            var tableData = [];
+            var grandActiveLoans = 0;
+            var grandPreviousLoans = 0;
+            var grandInterestTotal = 0;
+            var grandInterestToSend = 0;
+            var grandInterestReserve = 0;
+
+            for (var i = 0; i < MEMBERS.length; i++) {
+                var member = MEMBERS[i];
+                var activeLoans = 0;
+                var previousLoans = 0;
+                var interestTotal = 0;
+
+                for (var j = 0; j < loans.length; j++) {
+                    if (loans[j].memberId === member.id) {
+                        if (loans[j].status === 'pending') {
+                            activeLoans += loans[j].totalDue - (loans[j].repaidAmount || 0);
+                        }
+                        previousLoans += loans[j].principal || 0;
+                        interestTotal += loans[j].interest || 0;
+                    }
+                }
+
+                grandActiveLoans += activeLoans;
+                grandPreviousLoans += previousLoans;
+                grandInterestTotal += interestTotal;
+                grandInterestToSend += interestTotal * 0.70;
+                grandInterestReserve += interestTotal * 0.30;
+
+                tableData.push([
+                    member.name,
+                    activeLoans.toFixed(2) + ' KES',
+                    previousLoans.toFixed(2) + ' KES',
+                    interestTotal.toFixed(2) + ' KES',
+                    (interestTotal * 0.70).toFixed(2) + ' KES',
+                    (interestTotal * 0.30).toFixed(2) + ' KES'
+                ]);
+            }
+
+            doc.autoTable({
+                startY: 55,
+                head: [
+                    ['Member Name', 'Active Loans', 'Total Previous Loans', 'Interest Accrued', 'To Send (70%)',
+                        'To Reserve (30%)'
+                    ]
+                ],
+                body: tableData,
+                theme: 'striped',
+                headStyles: {
+                    fillColor: [26, 77, 62],
+                    textColor: [255, 255, 255],
+                    fontStyle: 'bold',
+                    halign: 'center'
+                },
+                columnStyles: {
+                    0: { cellWidth: 45 },
+                    1: { cellWidth: 30, halign: 'right' },
+                    2: { cellWidth: 35, halign: 'right' },
+                    3: { cellWidth: 30, halign: 'right' },
+                    4: { cellWidth: 30, halign: 'right' },
+                    5: { cellWidth: 30, halign: 'right' }
+                },
+                styles: {
+                    fontSize: 8,
+                    cellPadding: 3
+                },
+                margin: { left: 15, right: 15 },
+                didDrawPage: function(data) {
+                    var pageCount = doc.internal.getNumberOfPages();
+                    doc.setFontSize(8);
+                    doc.setTextColor(128, 128, 128);
+                    doc.text('Powered by Conquerer Tech Solutions', pageWidth / 2, doc.internal.pageSize.getHeight() - 5, {
+                        align: 'center'
+                    });
+                    doc.text('Page ' + data.pageNumber + ' of ' + pageCount, pageWidth - 20, doc.internal.pageSize
+                        .getHeight() - 5, { align: 'right' });
+                }
+            });
+
+            var finalY = doc.lastAutoTable.finalY + 10;
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'bold');
+            doc.text('GRAND TOTALS', 20, finalY);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'normal');
+            doc.text('• Total Active Loans: ' + grandActiveLoans.toFixed(2) + ' KES', 20, finalY + 7);
+            doc.text('• Total Previous Loans: ' + grandPreviousLoans.toFixed(2) + ' KES', 20, finalY + 14);
+            doc.text('• Total Interest Accrued: ' + grandInterestTotal.toFixed(2) + ' KES', 20, finalY + 21);
+            doc.text('• Total To Send (70%): ' + grandInterestToSend.toFixed(2) + ' KES', 20, finalY + 28);
+            doc.text('• Total To Reserve (30%): ' + grandInterestReserve.toFixed(2) + ' KES', 20, finalY + 35);
+            doc.text('• Total Members: ' + MEMBERS.length, 20, finalY + 42);
+
+            doc.save('GenzChama_All_Loans_Report.pdf');
+            showErrorModal('✅ All members loans report downloaded successfully!');
         }
 
         // ============================================================
@@ -2148,6 +2757,8 @@
             document.getElementById('memberMenu' + section.charAt(0).toUpperCase() + section.slice(1)).classList.add('active');
 
             if (section === 'dashboard') { updateDashboardStats(); }
+            if (section === 'savings') { refreshMemberView(); }
+            if (section === 'loans') { refreshMemberView(); }
         }
 
         function showAdminContent(section) {
@@ -2163,6 +2774,7 @@
             if (section === 'savings') { updateSavingsPerMemberTable(); }
             if (section === 'loans') { updateInterestPerMemberTable(); }
             if (section === 'members') { refreshMemberList(); }
+            if (section === 'dashboard') { refreshAdminView(); }
         }
 
         // ============================================================
@@ -2173,7 +2785,6 @@
             if (currentMemberId === null) return;
 
             updateAvatarDisplay(currentMemberId);
-            document.getElementById('memberNameHeader').innerText = MEMBERS[currentMemberId].name;
 
             var saved = getMemberSavings(currentMemberId);
             document.getElementById("memberSavings").innerHTML = saved + ' KES';
@@ -2353,8 +2964,8 @@
                 html += '<div class="pending-request"><div><strong>' + pendingSignups[i].name +
                     '</strong></div><div>📞 ' + pendingSignups[i].phone +
                     '</div><div>💰 Fee: 100 KES Paid</div><div class="flex-buttons"><button onclick="approveMember(' +
-                    pendingSignups[i].id + ')" style="background:#10b981">✅ Approve</button><button onclick="rejectMember(' +
-                    pendingSignups[i].id + ')" style="background:#ef4444">❌ Reject</button></div></div>';
+                    pendingSignups[i].id + ')" style="background:linear-gradient(135deg,#10b981 0%,#059669 100%);">✅ Approve</button><button onclick="rejectMember(' +
+                    pendingSignups[i].id + ')" style="background:linear-gradient(135deg,#dc2626 0%,#b91c1c 100%);">❌ Reject</button></div></div>';
             }
             document.getElementById("pendingRequestsList").innerHTML = html || "<p>✅ No pending requests</p>";
         }
@@ -3192,6 +3803,7 @@
             loadData();
             refreshLoanPool();
 
+            // Close sidebar when clicking outside
             document.addEventListener('click', function(event) {
                 var mobileSidebar = document.getElementById('memberSidebarMobile');
                 var adminMobileSidebar = document.getElementById('adminSidebarMobile');
@@ -3213,6 +3825,7 @@
                 }
             });
 
+            // Close profile modal on outside click
             document.addEventListener('click', function(event) {
                 var modal = document.getElementById('profileModal');
                 if (modal.classList.contains('open')) {
@@ -3222,8 +3835,14 @@
                     }
                 }
             });
+
+            // Auto-refresh admin view if admin is logged in
+            if (document.getElementById('adminView').style.display === 'block') {
+                refreshAdminView();
+            }
         }
 
+        // Run initialization
         initialize();
     </script>
 </body>
