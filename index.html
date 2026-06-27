@@ -28,7 +28,6 @@
             background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
         }
 
-        /* ===== LOGIN ===== */
         .login-overlay {
             position: fixed;
             top: 0;
@@ -144,7 +143,6 @@
             border-color: rgba(139, 92, 246, 0.1);
         }
 
-        /* ===== HEADER ===== */
         .header {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(16px);
@@ -341,7 +339,6 @@
             color: #e2e8f0;
         }
 
-        /* ===== SIDEBAR ===== */
         .sidebar {
             width: 240px;
             min-width: 200px;
@@ -501,7 +498,6 @@
             background: rgba(220, 38, 38, 0.08);
         }
 
-        /* ===== MOBILE SIDEBAR ===== */
         .sidebar-overlay {
             display: none;
             position: fixed;
@@ -2649,7 +2645,7 @@
         }
 
         // ============================================================
-        // SYNC FUNCTIONS - FIXED
+        // SYNC FUNCTIONS - COMPLETE WORKING WITH GOOGLE SHEETS
         // ============================================================
 
         function updateSyncStatus(elementId, message, type) {
@@ -2665,8 +2661,8 @@
             }
         }
 
-        // Member Sync Savings
-        function syncMemberSavingsFromCSV() {
+        // ===== MEMBER SYNC SAVINGS =====
+        async function syncMemberSavingsFromCSV() {
             var url = document.getElementById("memberSavingsCsvUrl").value.trim();
             var statusEl = document.getElementById("memberSyncStatus");
 
@@ -2675,18 +2671,71 @@
                 return;
             }
 
-            updateSyncStatus('memberSyncStatus', '🔄 Syncing savings...', '');
+            updateSyncStatus('memberSyncStatus', '🔄 Fetching savings data...', '');
 
-            // Simulate sync - in real implementation, this would fetch and parse CSV
-            setTimeout(function() {
-                var count = Math.floor(Math.random() * 10) + 3;
-                updateSyncStatus('memberSyncStatus', '✅ ' + count + ' savings records synced successfully!', 'success');
-                showErrorModal('✅ ' + count + ' savings records synced successfully!');
-            }, 1000);
+            try {
+                var response = await fetch(url);
+                if (!response.ok) throw new Error('Network response was not ok');
+                var text = await response.text();
+                var lines = text.split('\n').filter(line => line.trim() !== '');
+
+                var memberName = MEMBERS[currentMemberId].name.toLowerCase();
+                var newSavings = [];
+                var skippedHeader = false;
+                var matchedCount = 0;
+
+                for (var i = 0; i < lines.length; i++) {
+                    var row = lines[i].split(',');
+                    if (row.length < 3) continue;
+
+                    if (!skippedHeader && (row[0].toLowerCase().includes('date') || row[0].toLowerCase().includes('member'))) {
+                        skippedHeader = true;
+                        continue;
+                    }
+
+                    var date = row[0].trim();
+                    var csvMemberName = row[1].trim();
+                    var amount = parseFloat(row[2]);
+
+                    if (csvMemberName && csvMemberName.toLowerCase() === memberName && !isNaN(amount) && amount > 0) {
+                        if (date && date.includes('/')) {
+                            var parts = date.split('/');
+                            date = "20" + parts[2] + "-" + parts[1].padStart(2, '0') + "-" + parts[0].padStart(2, '0');
+                        }
+                        newSavings.push({ date: date, memberId: currentMemberId, amount: amount, disbursed: false });
+                        matchedCount++;
+                    }
+                }
+
+                if (matchedCount > 0) {
+                    var filteredSavings = [];
+                    for (var i = 0; i < savings.length; i++) {
+                        if (savings[i].memberId !== currentMemberId) {
+                            filteredSavings.push(savings[i]);
+                        }
+                    }
+                    savings = filteredSavings;
+
+                    for (var i = 0; i < newSavings.length; i++) {
+                        savings.push(newSavings[i]);
+                    }
+
+                    saveData();
+                    refreshMemberView();
+                    updateSyncStatus('memberSyncStatus', '✅ ' + matchedCount + ' savings records synced successfully!', 'success');
+                    showErrorModal('✅ ' + matchedCount + ' savings records synced successfully!');
+                } else {
+                    updateSyncStatus('memberSyncStatus', '⚠️ No savings found for ' + MEMBERS[currentMemberId].name, 'error');
+                    showErrorModal('⚠️ No savings records found for ' + MEMBERS[currentMemberId].name);
+                }
+            } catch (e) {
+                updateSyncStatus('memberSyncStatus', '❌ Error: ' + e.message, 'error');
+                showErrorModal('❌ Error fetching savings: ' + e.message);
+            }
         }
 
-        // Member Sync Loans
-        function syncMemberLoansFromCSV() {
+        // ===== MEMBER SYNC LOANS =====
+        async function syncMemberLoansFromCSV() {
             var url = document.getElementById("memberLoansCsvUrl").value.trim();
             var statusEl = document.getElementById("memberLoansSyncStatus");
 
@@ -2695,17 +2744,90 @@
                 return;
             }
 
-            updateSyncStatus('memberLoansSyncStatus', '🔄 Syncing loans...', '');
+            updateSyncStatus('memberLoansSyncStatus', '🔄 Fetching loans data...', '');
 
-            setTimeout(function() {
-                var count = Math.floor(Math.random() * 8) + 2;
-                updateSyncStatus('memberLoansSyncStatus', '✅ ' + count + ' loan records synced successfully!', 'success');
-                showErrorModal('✅ ' + count + ' loan records synced successfully!');
-            }, 1000);
+            try {
+                var response = await fetch(url);
+                if (!response.ok) throw new Error('Network response was not ok');
+                var text = await response.text();
+                var lines = text.split('\n').filter(line => line.trim() !== '');
+
+                var memberName = MEMBERS[currentMemberId].name.toLowerCase();
+                var newLoans = [];
+                var skippedHeader = false;
+                var matchedCount = 0;
+
+                for (var i = 0; i < lines.length; i++) {
+                    var row = lines[i].split(',');
+                    if (row.length < 8) continue;
+
+                    if (!skippedHeader && (row[0].toLowerCase().includes('date') || row[0].toLowerCase().includes('loan'))) {
+                        skippedHeader = true;
+                        continue;
+                    }
+
+                    var date = row[0].trim();
+                    var csvMemberName = row[1].trim();
+                    var principal = parseFloat(row[2]);
+                    var interest = parseFloat(row[3]) || principal * 0.10;
+                    var totalDue = parseFloat(row[4]) || principal + interest;
+                    var returnDate = row[5].trim();
+                    var status = row[6] ? row[6].toLowerCase().trim() : "pending";
+                    var repaidAmount = parseFloat(row[7]) || 0;
+
+                    if (csvMemberName && csvMemberName.toLowerCase() === memberName && !isNaN(principal) && principal > 0) {
+                        if (date && date.includes('/')) {
+                            var parts = date.split('/');
+                            date = "20" + parts[2] + "-" + parts[1].padStart(2, '0') + "-" + parts[0].padStart(2, '0');
+                        }
+                        if (returnDate && returnDate.includes('/')) {
+                            var parts = returnDate.split('/');
+                            returnDate = "20" + parts[2] + "-" + parts[1].padStart(2, '0') + "-" + parts[0].padStart(2, '0');
+                        }
+                        newLoans.push({
+                            id: nextLoanId++,
+                            memberId: currentMemberId,
+                            principal: principal,
+                            interest: interest,
+                            totalDue: totalDue,
+                            returnDate: returnDate || new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0],
+                            status: status === "returned" ? "returned" : "pending",
+                            dateTaken: date || new Date().toISOString().split('T')[0],
+                            repaidAmount: repaidAmount
+                        });
+                        matchedCount++;
+                    }
+                }
+
+                if (matchedCount > 0) {
+                    var filteredLoans = [];
+                    for (var i = 0; i < loans.length; i++) {
+                        if (loans[i].memberId !== currentMemberId) {
+                            filteredLoans.push(loans[i]);
+                        }
+                    }
+                    loans = filteredLoans;
+
+                    for (var i = 0; i < newLoans.length; i++) {
+                        loans.push(newLoans[i]);
+                    }
+
+                    saveData();
+                    refreshMemberView();
+                    updateSyncStatus('memberLoansSyncStatus', '✅ ' + matchedCount + ' loan records synced successfully!', 'success');
+                    showErrorModal('✅ ' + matchedCount + ' loan records synced successfully!');
+                } else {
+                    updateSyncStatus('memberLoansSyncStatus', '⚠️ No loans found for ' + MEMBERS[currentMemberId].name, 'error');
+                    showErrorModal('⚠️ No loans records found for ' + MEMBERS[currentMemberId].name);
+                }
+            } catch (e) {
+                updateSyncStatus('memberLoansSyncStatus', '❌ Error: ' + e.message, 'error');
+                showErrorModal('❌ Error fetching loans: ' + e.message);
+            }
         }
 
-        // Admin Sync Members
-        function syncMembers() {
+        // ===== ADMIN SYNC MEMBERS =====
+        async function syncMembers() {
             var url = document.getElementById("membersCsvUrl").value.trim();
             var statusEl = document.getElementById("syncStatusMsg");
 
@@ -2714,20 +2836,58 @@
                 return;
             }
 
-            updateSyncStatus('syncStatusMsg', '🔄 Syncing members...', '');
+            updateSyncStatus('syncStatusMsg', '🔄 Fetching members data...', '');
 
-            setTimeout(function() {
-                var count = Math.floor(Math.random() * 15) + 5;
-                updateSyncStatus('syncStatusMsg', '✅ ' + count + ' members synced successfully!', 'success');
-                showErrorModal('✅ ' + count + ' members synced successfully!');
-                if (currentAdminSection === 'members') {
-                    renderAdminMembersSub(currentAdminSub || 'list');
+            try {
+                var response = await fetch(url);
+                if (!response.ok) throw new Error('Network response was not ok');
+                var text = await response.text();
+                var lines = text.split('\n').filter(line => line.trim() !== '');
+
+                var newMembers = [];
+                var skippedHeader = false;
+                var matchedCount = 0;
+
+                for (var i = 0; i < lines.length; i++) {
+                    var row = lines[i].split(',');
+                    if (row.length < 2) continue;
+
+                    if (!skippedHeader && (row[0].toLowerCase().includes('name') || row[0].toLowerCase().includes('member'))) {
+                        skippedHeader = true;
+                        continue;
+                    }
+
+                    var name = row[0].trim();
+                    var phone = (row[1] || "").trim();
+                    var passcode = row[2] ? row[2].trim() : (phone ? phone.slice(-4) : "0000");
+
+                    if (name) {
+                        newMembers.push({ id: newMembers.length, name: name, phone: phone, passcode: passcode });
+                        matchedCount++;
+                    }
                 }
-            }, 1000);
+
+                if (matchedCount > 0) {
+                    MEMBERS = newMembers;
+                    saveData();
+                    refreshAdminView();
+                    updateSyncStatus('syncStatusMsg', '✅ ' + matchedCount + ' members synced successfully!', 'success');
+                    showErrorModal('✅ ' + matchedCount + ' members synced successfully!');
+                    if (currentAdminSection === 'members') {
+                        renderAdminMembersSub(currentAdminSub || 'list');
+                    }
+                } else {
+                    updateSyncStatus('syncStatusMsg', '⚠️ No members found in the CSV', 'error');
+                    showErrorModal('⚠️ No members found in the CSV');
+                }
+            } catch (e) {
+                updateSyncStatus('syncStatusMsg', '❌ Error: ' + e.message, 'error');
+                showErrorModal('❌ Error fetching members: ' + e.message);
+            }
         }
 
-        // Admin Sync MGR
-        function syncMGR() {
+        // ===== ADMIN SYNC MGR =====
+        async function syncMGR() {
             var url = document.getElementById("mgrCsvUrl").value.trim();
             var statusEl = document.getElementById("syncStatusMsg");
 
@@ -2736,16 +2896,49 @@
                 return;
             }
 
-            updateSyncStatus('syncStatusMsg', '🔄 Syncing MGR...', '');
+            updateSyncStatus('syncStatusMsg', '🔄 Fetching MGR data...', '');
 
-            setTimeout(function() {
-                updateSyncStatus('syncStatusMsg', '✅ MGR synced successfully! Week ' + (mgrWeekIndex + 1), 'success');
-                showErrorModal('✅ MGR synced successfully! Week ' + (mgrWeekIndex + 1));
-            }, 800);
+            try {
+                var response = await fetch(url);
+                if (!response.ok) throw new Error('Network response was not ok');
+                var text = await response.text();
+                var lines = text.split('\n').filter(line => line.trim() !== '');
+
+                var skippedHeader = false;
+
+                for (var i = 0; i < lines.length; i++) {
+                    var row = lines[i].split(',');
+                    if (row.length < 2) continue;
+
+                    if (!skippedHeader && (row[0].toLowerCase().includes('week') || row[0].toLowerCase().includes('current'))) {
+                        skippedHeader = true;
+                        continue;
+                    }
+
+                    var weekIdx = parseInt(row[0]);
+                    var lastPaid = row[1].trim();
+
+                    if (!isNaN(weekIdx) && weekIdx >= 0) {
+                        mgrWeekIndex = weekIdx;
+                        mgrLastPaidWeek = lastPaid;
+                        saveData();
+                        refreshAdminView();
+                        updateSyncStatus('syncStatusMsg', '✅ MGR synced successfully! Week ' + (weekIdx + 1), 'success');
+                        showErrorModal('✅ MGR synced successfully! Week ' + (weekIdx + 1));
+                        return;
+                    }
+                }
+
+                updateSyncStatus('syncStatusMsg', '⚠️ No MGR data found in the CSV', 'error');
+                showErrorModal('⚠️ No MGR data found in the CSV');
+            } catch (e) {
+                updateSyncStatus('syncStatusMsg', '❌ Error: ' + e.message, 'error');
+                showErrorModal('❌ Error fetching MGR: ' + e.message);
+            }
         }
 
-        // Admin Sync Savings
-        function syncSavings() {
+        // ===== ADMIN SYNC SAVINGS =====
+        async function syncSavings() {
             var url = document.getElementById("savingsCsvUrl").value.trim();
             var statusEl = document.getElementById("syncStatusMsg");
 
@@ -2754,20 +2947,72 @@
                 return;
             }
 
-            updateSyncStatus('syncStatusMsg', '🔄 Syncing savings...', '');
+            updateSyncStatus('syncStatusMsg', '🔄 Fetching savings data...', '');
 
-            setTimeout(function() {
-                var count = Math.floor(Math.random() * 20) + 10;
-                updateSyncStatus('syncStatusMsg', '✅ ' + count + ' savings records synced successfully!', 'success');
-                showErrorModal('✅ ' + count + ' savings records synced successfully!');
-                if (currentAdminSection === 'savings') {
-                    renderAdminSavingsSub(currentAdminSub || 'disbursement');
+            try {
+                var response = await fetch(url);
+                if (!response.ok) throw new Error('Network response was not ok');
+                var text = await response.text();
+                var lines = text.split('\n').filter(line => line.trim() !== '');
+
+                var newSavings = [];
+                var skippedHeader = false;
+                var matchedCount = 0;
+
+                for (var i = 0; i < lines.length; i++) {
+                    var row = lines[i].split(',');
+                    if (row.length < 3) continue;
+
+                    if (!skippedHeader && (row[0].toLowerCase().includes('date') || row[0].toLowerCase().includes('member'))) {
+                        skippedHeader = true;
+                        continue;
+                    }
+
+                    var date = row[0].trim();
+                    var memberName = row[1].trim();
+                    var amount = parseFloat(row[2]);
+
+                    if (memberName && !isNaN(amount) && amount > 0) {
+                        var memberId = -1;
+                        for (var j = 0; j < MEMBERS.length; j++) {
+                            if (MEMBERS[j].name.toLowerCase() === memberName.toLowerCase()) {
+                                memberId = j;
+                                break;
+                            }
+                        }
+
+                        if (memberId !== -1) {
+                            if (date && date.includes('/')) {
+                                var parts = date.split('/');
+                                date = "20" + parts[2] + "-" + parts[1].padStart(2, '0') + "-" + parts[0].padStart(2, '0');
+                            }
+                            newSavings.push({ date: date, memberId: memberId, amount: amount, disbursed: false });
+                            matchedCount++;
+                        }
+                    }
                 }
-            }, 1000);
+
+                if (matchedCount > 0) {
+                    savings = newSavings;
+                    saveData();
+                    refreshAdminView();
+                    updateSyncStatus('syncStatusMsg', '✅ ' + matchedCount + ' savings records synced successfully!', 'success');
+                    showErrorModal('✅ ' + matchedCount + ' savings records synced successfully!');
+                    if (currentAdminSection === 'savings') {
+                        renderAdminSavingsSub(currentAdminSub || 'disbursement');
+                    }
+                } else {
+                    updateSyncStatus('syncStatusMsg', '⚠️ No valid savings found in the CSV', 'error');
+                    showErrorModal('⚠️ No valid savings records found in the CSV');
+                }
+            } catch (e) {
+                updateSyncStatus('syncStatusMsg', '❌ Error: ' + e.message, 'error');
+                showErrorModal('❌ Error fetching savings: ' + e.message);
+            }
         }
 
-        // Admin Sync Loans
-        function syncLoans() {
+        // ===== ADMIN SYNC LOANS =====
+        async function syncLoans() {
             var url = document.getElementById("loansCsvUrl").value.trim();
             var statusEl = document.getElementById("syncStatusMsg");
 
@@ -2776,16 +3021,88 @@
                 return;
             }
 
-            updateSyncStatus('syncStatusMsg', '🔄 Syncing loans...', '');
+            updateSyncStatus('syncStatusMsg', '🔄 Fetching loans data...', '');
 
-            setTimeout(function() {
-                var count = Math.floor(Math.random() * 12) + 4;
-                updateSyncStatus('syncStatusMsg', '✅ ' + count + ' loan records synced successfully!', 'success');
-                showErrorModal('✅ ' + count + ' loan records synced successfully!');
-                if (currentAdminSection === 'loans') {
-                    renderAdminLoansSub(currentAdminSub || 'pool');
+            try {
+                var response = await fetch(url);
+                if (!response.ok) throw new Error('Network response was not ok');
+                var text = await response.text();
+                var lines = text.split('\n').filter(line => line.trim() !== '');
+
+                var newLoans = [];
+                var skippedHeader = false;
+                var matchedCount = 0;
+
+                for (var i = 0; i < lines.length; i++) {
+                    var row = lines[i].split(',');
+                    if (row.length < 8) continue;
+
+                    if (!skippedHeader && (row[0].toLowerCase().includes('date') || row[0].toLowerCase().includes('loan'))) {
+                        skippedHeader = true;
+                        continue;
+                    }
+
+                    var date = row[0].trim();
+                    var memberName = row[1].trim();
+                    var principal = parseFloat(row[2]);
+                    var interest = parseFloat(row[3]) || principal * 0.10;
+                    var totalDue = parseFloat(row[4]) || principal + interest;
+                    var returnDate = row[5].trim();
+                    var status = row[6] ? row[6].toLowerCase().trim() : "pending";
+                    var repaidAmount = parseFloat(row[7]) || 0;
+
+                    if (memberName && !isNaN(principal) && principal > 0) {
+                        var memberId = -1;
+                        for (var j = 0; j < MEMBERS.length; j++) {
+                            if (MEMBERS[j].name.toLowerCase() === memberName.toLowerCase()) {
+                                memberId = j;
+                                break;
+                            }
+                        }
+
+                        if (memberId !== -1) {
+                            if (date && date.includes('/')) {
+                                var parts = date.split('/');
+                                date = "20" + parts[2] + "-" + parts[1].padStart(2, '0') + "-" + parts[0].padStart(2, '0');
+                            }
+                            if (returnDate && returnDate.includes('/')) {
+                                var parts = returnDate.split('/');
+                                returnDate = "20" + parts[2] + "-" + parts[1].padStart(2, '0') + "-" + parts[0].padStart(2, '0');
+                            }
+                            newLoans.push({
+                                id: nextLoanId++,
+                                memberId: memberId,
+                                principal: principal,
+                                interest: interest,
+                                totalDue: totalDue,
+                                returnDate: returnDate || new Date(Date.now() + 30 * 86400000).toISOString().split('T')[0],
+                                status: status === "returned" ? "returned" : "pending",
+                                dateTaken: date || new Date().toISOString().split('T')[0],
+                                repaidAmount: repaidAmount
+                            });
+                            matchedCount++;
+                        }
+                    }
                 }
-            }, 1000);
+
+                if (matchedCount > 0) {
+                    loans = newLoans;
+                    saveData();
+                    refreshAdminView();
+                    refreshLoanPool();
+                    updateSyncStatus('syncStatusMsg', '✅ ' + matchedCount + ' loan records synced successfully!', 'success');
+                    showErrorModal('✅ ' + matchedCount + ' loan records synced successfully!');
+                    if (currentAdminSection === 'loans') {
+                        renderAdminLoansSub(currentAdminSub || 'pool');
+                    }
+                } else {
+                    updateSyncStatus('syncStatusMsg', '⚠️ No valid loans found in the CSV', 'error');
+                    showErrorModal('⚠️ No valid loans records found in the CSV');
+                }
+            } catch (e) {
+                updateSyncStatus('syncStatusMsg', '❌ Error: ' + e.message, 'error');
+                showErrorModal('❌ Error fetching loans: ' + e.message);
+            }
         }
 
         // ============================================================
