@@ -99,48 +99,15 @@
             color: #cbd5e1;
         }
 
-        .login-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 24px;
+        /* Hide admin login tab - members only see member login */
+        .admin-login-hidden {
+            display: none !important;
         }
 
-        .tab-btn {
-            flex: 1;
-            padding: 12px;
-            background: rgba(226, 232, 240, 0.6);
-            border: none;
-            border-radius: 50px;
+        /* Secret admin access - double click footer */
+        .secret-admin-trigger {
             cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            color: #334155;
-        }
-
-        body.dark-mode .tab-btn {
-            background: rgba(30, 30, 60, 0.6);
-            color: #cbd5e1;
-        }
-
-        .tab-btn.active {
-            background: #1a4d3e;
-            color: white;
-            box-shadow: 0 4px 15px rgba(26, 77, 62, 0.3);
-        }
-
-        .signup-form {
-            background: rgba(243, 232, 255, 0.6);
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(139, 92, 246, 0.2);
-            border-radius: 16px;
-            padding: 16px;
-            margin-top: 16px;
-        }
-
-        body.dark-mode .signup-form {
-            background: rgba(30, 30, 60, 0.6);
-            border-color: rgba(139, 92, 246, 0.1);
+            user-select: none;
         }
 
         .header {
@@ -1523,7 +1490,7 @@
         </div>
     </div>
 
-    <!-- ===== LOGIN OVERLAY ===== -->
+    <!-- ===== LOGIN OVERLAY - MEMBERS ONLY ===== -->
     <div id="loginOverlay" class="login-overlay">
         <div class="login-box">
             <div style="display:flex; justify-content:flex-end; margin-bottom:10px;">
@@ -1531,12 +1498,9 @@
                     <span class="toggle-icon" id="loginThemeIcon">☀️</span>
                 </button>
             </div>
-            <div class="login-tabs">
-                <button class="tab-btn active" onclick="showMemberLogin()">👤 Member Login</button>
-                <button class="tab-btn" onclick="showAdminLogin()">👑 Admin Login</button>
-            </div>
+            <!-- Member Login Panel - Only visible option -->
             <div id="memberLoginPanel">
-                <h3>Member Access</h3>
+                <h3>👤 Member Access</h3>
                 <input type="text" id="memberNameInput" placeholder="Enter your full name">
                 <input type="password" id="memberPasscode" placeholder="Password (last 4 digits of phone)">
                 <button onclick="memberLogin()" style="width:100%;margin:12px 0;">Login</button>
@@ -1548,14 +1512,20 @@
                     <button onclick="showPaymentModal()" class="secondary" style="width:100%;">Request Sign Up</button>
                 </div>
             </div>
-            <div id="adminLoginPanel" style="display:none">
-                <h3>Admin Access</h3>
+            <!-- Admin Login Panel - Hidden from members -->
+            <div id="adminLoginPanel" style="display:none;">
+                <h3>👑 Admin Access</h3>
                 <input type="password" id="adminPasswordInput" placeholder="Admin password">
                 <button onclick="adminLogin()" style="width:100%;margin:12px 0;">Login</button>
+                <button onclick="closeAdminLogin()" class="secondary" style="width:100%;">← Back</button>
             </div>
             <div class="login-footer">
                 <div class="footer" style="border-top: none; padding-top: 0; margin-top: 15px;">
                     Designed by <span>Conquerer Tech Solutions</span>
+                    <!-- Secret admin trigger - double click to access admin login -->
+                    <div class="secret-admin-trigger" onclick="triggerAdminAccess()" style="font-size:10px;color:#94a3b8;margin-top:5px;opacity:0.3;user-select:none;">
+                        v2.0
+                    </div>
                 </div>
             </div>
         </div>
@@ -2258,6 +2228,30 @@
         }
 
         // ============================================================
+        // SECRET ADMIN ACCESS FUNCTIONS
+        // ============================================================
+
+        function triggerAdminAccess() {
+            // Double-click on the version text to show admin login
+            var adminPanel = document.getElementById('adminLoginPanel');
+            var memberPanel = document.getElementById('memberLoginPanel');
+            if (adminPanel.style.display === 'none' || adminPanel.style.display === '') {
+                adminPanel.style.display = 'block';
+                memberPanel.style.display = 'none';
+                document.getElementById('adminPasswordInput').value = '';
+                document.getElementById('adminPasswordInput').focus();
+            } else {
+                adminPanel.style.display = 'none';
+                memberPanel.style.display = 'block';
+            }
+        }
+
+        function closeAdminLogin() {
+            document.getElementById('adminLoginPanel').style.display = 'none';
+            document.getElementById('memberLoginPanel').style.display = 'block';
+        }
+
+        // ============================================================
         // MEMBER SUB-CONTENT FUNCTIONS
         // ============================================================
 
@@ -2399,7 +2393,9 @@
                     for (var i = 0; i < loans.length; i++) {
                         if (loans[i].memberId === currentMemberId) {
                             var rem = loans[i].totalDue - (loans[i].repaidAmount || 0);
-                            loansHtml += '<div class="loan-detail">📆 ' + loans[i].dateTaken + '<br>💰 ' + loans[i].principal + '+10% = ' + loans[i].totalDue + ' KES<br>📅 Due: ' + loans[i].returnDate + '<br>' + (loans[i].status === 'returned' ? '✅ Paid' : '⚠️ Pending (' + rem + ' KES left)') + '</div>';
+                            loansHtml += '<div class="loan-detail">📆 ' + loans[i].dateTaken + '<br>💰 ' + loans[i].principal +
+                                '+10% = ' + loans[i].totalDue + ' KES<br>📅 Due: ' + loans[i].returnDate + '<br>' + (loans[i]
+                                .status === 'returned' ? '✅ Paid' : '⚠️ Pending (' + rem + ' KES left)') + '</div>';
                         }
                     }
                     html += '<div class="card"><h2>📋 My Approved Loans</h2><div id="memberLoan" style="font-size:28px;font-weight:bold;text-align:center;color:#dc2626;">' + loanBal + ' KES</div><div id="memberLoansList">' + (loansHtml || '<p style="padding:10px;text-align:center;">No loans</p>') + '</div></div>';
@@ -2724,17 +2720,13 @@
 
                     saveData();
 
-                    // Update status BEFORE showing modal
                     updateSyncStatus('memberSyncStatus', '✅ ' + matchedCount + ' savings records synced successfully!', 'success');
                     showErrorModal('✅ ' + matchedCount + ' savings records synced successfully!');
 
-                    // Small delay before refreshing view
                     setTimeout(function() {
                         try {
                             refreshMemberView();
-                        } catch (e) {
-                            // Silently handle view refresh errors
-                        }
+                        } catch (e) {}
                     }, 300);
                 } else {
                     updateSyncStatus('memberSyncStatus', '⚠️ No savings found for ' + MEMBERS[currentMemberId].name, 'error');
@@ -2831,17 +2823,13 @@
                     saveData();
                     refreshLoanPool();
 
-                    // Update status BEFORE showing modal
                     updateSyncStatus('memberLoansSyncStatus', '✅ ' + matchedCount + ' loan records synced successfully!', 'success');
                     showErrorModal('✅ ' + matchedCount + ' loan records synced successfully!');
 
-                    // Small delay before refreshing view
                     setTimeout(function() {
                         try {
                             refreshMemberView();
-                        } catch (e) {
-                            // Silently handle view refresh errors
-                        }
+                        } catch (e) {}
                     }, 300);
                 } else {
                     updateSyncStatus('memberLoansSyncStatus', '⚠️ No loans found for ' + MEMBERS[currentMemberId].name, 'error');
@@ -3917,20 +3905,6 @@
         // AUTH FUNCTIONS
         // ============================================================
 
-        function showMemberLogin() {
-            document.getElementById("memberLoginPanel").style.display = "block";
-            document.getElementById("adminLoginPanel").style.display = "none";
-            document.querySelectorAll(".tab-btn")[0].classList.add("active");
-            document.querySelectorAll(".tab-btn")[1].classList.remove("active");
-        }
-
-        function showAdminLogin() {
-            document.getElementById("memberLoginPanel").style.display = "none";
-            document.getElementById("adminLoginPanel").style.display = "block";
-            document.querySelectorAll(".tab-btn")[0].classList.remove("active");
-            document.querySelectorAll(".tab-btn")[1].classList.add("active");
-        }
-
         function memberLogin() {
             var nameInput = document.getElementById("memberNameInput").value.trim();
             var pin = document.getElementById("memberPasscode").value.trim();
@@ -3961,6 +3935,8 @@
                 updateAvatarDisplay(currentMemberId);
                 refreshMemberView();
                 showMemberContent('dashboard');
+                // Close admin panel if open
+                closeAdminLogin();
             } else {
                 showErrorModal("Wrong password. Please try again.");
                 document.getElementById("memberPasscode").value = "";
@@ -3984,6 +3960,8 @@
             document.getElementById("memberView").style.display = "none";
             document.getElementById("adminView").style.display = "none";
             document.getElementById("loginOverlay").style.display = "flex";
+            // Reset to member login view
+            closeAdminLogin();
             closeProfileModal();
         }
 
