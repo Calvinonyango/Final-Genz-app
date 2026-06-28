@@ -28,7 +28,6 @@
             background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
         }
 
-        /* ===== LOGIN ===== */
         .login-overlay {
             position: fixed;
             top: 0;
@@ -144,7 +143,6 @@
             border-color: rgba(139, 92, 246, 0.1);
         }
 
-        /* ===== HEADER ===== */
         .header {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(16px);
@@ -341,7 +339,6 @@
             color: #e2e8f0;
         }
 
-        /* ===== SIDEBAR ===== */
         .sidebar {
             width: 240px;
             min-width: 200px;
@@ -501,7 +498,6 @@
             background: rgba(220, 38, 38, 0.08);
         }
 
-        /* ===== MOBILE SIDEBAR ===== */
         .sidebar-overlay {
             display: none;
             position: fixed;
@@ -2706,8 +2702,6 @@
                             var parts = date.split('/');
                             if (parts[0].length === 2 && parts[1].length === 2 && parts[2].length === 4) {
                                 date = parts[2] + "-" + parts[0].padStart(2, '0') + "-" + parts[1].padStart(2, '0');
-                            } else if (parts[0].length === 4) {
-                                date = parts[0] + "-" + parts[1].padStart(2, '0') + "-" + parts[2].padStart(2, '0');
                             }
                         }
                         newSavings.push({ date: date, memberId: currentMemberId, amount: amount, disbursed: false });
@@ -2729,9 +2723,19 @@
                     }
 
                     saveData();
-                    refreshMemberView();
+
+                    // Update status BEFORE showing modal
                     updateSyncStatus('memberSyncStatus', '✅ ' + matchedCount + ' savings records synced successfully!', 'success');
                     showErrorModal('✅ ' + matchedCount + ' savings records synced successfully!');
+
+                    // Small delay before refreshing view
+                    setTimeout(function() {
+                        try {
+                            refreshMemberView();
+                        } catch (e) {
+                            // Silently handle view refresh errors
+                        }
+                    }, 300);
                 } else {
                     updateSyncStatus('memberSyncStatus', '⚠️ No savings found for ' + MEMBERS[currentMemberId].name, 'error');
                     showErrorModal('⚠️ No savings records found for ' + MEMBERS[currentMemberId].name);
@@ -2825,10 +2829,20 @@
                     }
 
                     saveData();
-                    refreshMemberView();
                     refreshLoanPool();
+
+                    // Update status BEFORE showing modal
                     updateSyncStatus('memberLoansSyncStatus', '✅ ' + matchedCount + ' loan records synced successfully!', 'success');
                     showErrorModal('✅ ' + matchedCount + ' loan records synced successfully!');
+
+                    // Small delay before refreshing view
+                    setTimeout(function() {
+                        try {
+                            refreshMemberView();
+                        } catch (e) {
+                            // Silently handle view refresh errors
+                        }
+                    }, 300);
                 } else {
                     updateSyncStatus('memberLoansSyncStatus', '⚠️ No loans found for ' + MEMBERS[currentMemberId].name, 'error');
                     showErrorModal('⚠️ No loans records found for ' + MEMBERS[currentMemberId].name);
