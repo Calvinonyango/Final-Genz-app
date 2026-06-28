@@ -9,7 +9,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js">
     </script>
     <style>
-        /* ===== ALL STYLES REMAIN THE SAME ===== */
         * {
             margin: 0;
             padding: 0;
@@ -2636,13 +2635,13 @@
         }
 
         // ============================================================
-        // DISBURSEMENT FUNCTIONS - UPDATED WITH PROPER LOGIC
+        // DISBURSEMENT FUNCTIONS
         // ============================================================
 
         function getNextSavingsDisbursementDate() {
             var months = ['Jan', 'Mar', 'May', 'Jul', 'Sep', 'Nov'];
             var now = new Date();
-            var currentMonth = now.getMonth(); // 0-11
+            var currentMonth = now.getMonth();
             var currentYear = now.getFullYear();
             
             for (var i = 0; i < months.length; i++) {
@@ -2651,31 +2650,28 @@
                     return months[i] + ' ' + currentYear;
                 }
             }
-            // If no month found for this year, return first month of next year
             return months[0] + ' ' + (currentYear + 1);
         }
 
         function getNextInterestDisbursementDate() {
             var now = new Date();
-            var currentMonth = now.getMonth(); // 0-11
+            var currentMonth = now.getMonth();
             var currentYear = now.getFullYear();
             
-            if (currentMonth < 5) { // Before June
+            if (currentMonth < 5) {
                 return 'June ' + currentYear;
-            } else if (currentMonth < 11) { // Before December
+            } else if (currentMonth < 11) {
                 return 'December ' + currentYear;
-            } else { // After December
+            } else {
                 return 'June ' + (currentYear + 1);
             }
         }
 
         function processSavingsDisbursement() {
             var now = new Date();
-            var currentMonth = now.getMonth() + 1; // 1-12
+            var currentMonth = now.getMonth() + 1;
             var currentYear = now.getFullYear();
-            var currentDate = now.getDate();
             
-            // Check if it's the correct month (Jan, Mar, May, Jul, Sep, Nov)
             var allowedMonths = [1, 3, 5, 7, 9, 11];
             if (!allowedMonths.includes(currentMonth)) {
                 showErrorModal('❌ Savings disbursement is only allowed in Jan, Mar, May, Jul, Sep, and Nov. Current month: ' + 
@@ -2683,7 +2679,6 @@
                 return;
             }
             
-            // Check if already disbursed this month
             if (lastSavingsDisbursementDate) {
                 var lastDate = new Date(lastSavingsDisbursementDate);
                 if (lastDate.getMonth() + 1 === currentMonth && lastDate.getFullYear() === currentYear) {
@@ -2693,11 +2688,13 @@
                 }
             }
             
-            // Check if any savings exist
             var totalSavings = 0;
+            var disbursedCount = 0;
             for (var i = 0; i < savings.length; i++) {
                 if (!savings[i].disbursed) {
                     totalSavings += savings[i].amount;
+                    savings[i].disbursed = true;
+                    disbursedCount += savings[i].amount;
                 }
             }
             
@@ -2706,23 +2703,12 @@
                 return;
             }
             
-            // Mark all non-disbursed savings as disbursed
-            var disbursedCount = 0;
-            for (var i = 0; i < savings.length; i++) {
-                if (!savings[i].disbursed) {
-                    savings[i].disbursed = true;
-                    disbursedCount += savings[i].amount;
-                }
-            }
-            
-            // Update last disbursement date
             lastSavingsDisbursementDate = new Date().toISOString();
             saveData();
             refreshAdminView();
             
-            showErrorModal('✅ Savings disbursed successfully! Total: ' + disbursedCount.toFixed(2) + ' KES');
+            showErrorModal('✅ Savings disbursed successfully! Total: ' + totalSavings.toFixed(2) + ' KES');
             
-            // Refresh the view
             if (currentAdminSection === 'savings') {
                 renderAdminSavingsSub(currentAdminSub || 'disbursement');
             }
@@ -2730,17 +2716,15 @@
 
         function processInterestDisbursement() {
             var now = new Date();
-            var currentMonth = now.getMonth() + 1; // 1-12
+            var currentMonth = now.getMonth() + 1;
             var currentYear = now.getFullYear();
             
-            // Check if it's the correct month (June or December)
             if (currentMonth !== 6 && currentMonth !== 12) {
                 showErrorModal('❌ Interest disbursement is only allowed in June and December. Current month: ' + 
                     ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][currentMonth-1]);
                 return;
             }
             
-            // Check if already disbursed this month
             if (lastInterestDisbursementDate) {
                 var lastDate = new Date(lastInterestDisbursementDate);
                 if (lastDate.getMonth() + 1 === currentMonth && lastDate.getFullYear() === currentYear) {
@@ -2750,7 +2734,6 @@
                 }
             }
             
-            // Calculate total interest from all returned loans
             var totalInterest = 0;
             var memberInterestMap = {};
             
@@ -2772,22 +2755,17 @@
                 return;
             }
             
-            // Calculate 70% and 30% shares
             var memberShare = totalInterest * 0.70;
             var groupReserve = totalInterest * 0.30;
             
-            // Distribute 70% to members proportionally
             var totalMemberInterest = 0;
             for (var memberId in memberInterestMap) {
                 totalMemberInterest += memberInterestMap[memberId];
             }
             
-            // Add interest to member savings based on their contribution
             for (var memberId in memberInterestMap) {
                 var proportion = memberInterestMap[memberId] / totalMemberInterest;
                 var amountToAdd = memberShare * proportion;
-                
-                // Add to savings (create a new savings record)
                 var today = new Date().toISOString().split('T')[0];
                 savings.push({
                     date: today,
@@ -2798,13 +2776,10 @@
                 });
             }
             
-            // Add 30% to loan reserve (tracked as a separate record)
-            // We can store this in localStorage or a separate variable
             var loanReserve = parseFloat(localStorage.getItem('loanReserve') || '0');
             loanReserve += groupReserve;
             localStorage.setItem('loanReserve', loanReserve.toString());
             
-            // Update last interest disbursement date
             lastInterestDisbursementDate = new Date().toISOString();
             saveData();
             refreshAdminView();
@@ -2814,14 +2789,13 @@
                 '👥 70% to Members: ' + memberShare.toFixed(2) + ' KES\n' +
                 '🏦 30% to Reserve: ' + groupReserve.toFixed(2) + ' KES');
             
-            // Refresh the view
             if (currentAdminSection === 'loans') {
                 renderAdminLoansSub(currentAdminSub || 'interest');
             }
         }
 
         // ============================================================
-        // SYNC FUNCTIONS - COMPLETE WORKING WITH GOOGLE SHEETS
+        // SYNC FUNCTIONS
         // ============================================================
 
         function updateSyncStatus(elementId, message, type) {
@@ -2837,11 +2811,8 @@
             }
         }
 
-        // ===== MEMBER SYNC SAVINGS =====
         async function syncMemberSavingsFromCSV() {
             var url = document.getElementById("memberSavingsCsvUrl").value.trim();
-            var statusEl = document.getElementById("memberSyncStatus");
-
             if (!url) {
                 updateSyncStatus('memberSyncStatus', '❌ Please paste your savings CSV link', 'error');
                 return;
@@ -2899,7 +2870,6 @@
                     }
 
                     saveData();
-
                     updateSyncStatus('memberSyncStatus', '✅ ' + matchedCount + ' savings records synced successfully!', 'success');
                     showErrorModal('✅ ' + matchedCount + ' savings records synced successfully!');
 
@@ -2918,11 +2888,8 @@
             }
         }
 
-        // ===== MEMBER SYNC LOANS =====
         async function syncMemberLoansFromCSV() {
             var url = document.getElementById("memberLoansCsvUrl").value.trim();
-            var statusEl = document.getElementById("memberLoansSyncStatus");
-
             if (!url) {
                 updateSyncStatus('memberLoansSyncStatus', '❌ Please paste your loans CSV link', 'error');
                 return;
@@ -3002,7 +2969,6 @@
 
                     saveData();
                     refreshLoanPool();
-
                     updateSyncStatus('memberLoansSyncStatus', '✅ ' + matchedCount + ' loan records synced successfully!', 'success');
                     showErrorModal('✅ ' + matchedCount + ' loan records synced successfully!');
 
@@ -3021,11 +2987,8 @@
             }
         }
 
-        // ===== ADMIN SYNC MEMBERS =====
         async function syncMembers() {
             var url = document.getElementById("membersCsvUrl").value.trim();
-            var statusEl = document.getElementById("syncStatusMsg");
-
             if (!url) {
                 updateSyncStatus('syncStatusMsg', '❌ Please paste Members CSV link', 'error');
                 return;
@@ -3081,11 +3044,8 @@
             }
         }
 
-        // ===== ADMIN SYNC MGR =====
         async function syncMGR() {
             var url = document.getElementById("mgrCsvUrl").value.trim();
-            var statusEl = document.getElementById("syncStatusMsg");
-
             if (!url) {
                 updateSyncStatus('syncStatusMsg', '❌ Please paste MGR CSV link', 'error');
                 return;
@@ -3132,11 +3092,8 @@
             }
         }
 
-        // ===== ADMIN SYNC SAVINGS =====
         async function syncSavings() {
             var url = document.getElementById("savingsCsvUrl").value.trim();
-            var statusEl = document.getElementById("syncStatusMsg");
-
             if (!url) {
                 updateSyncStatus('syncStatusMsg', '❌ Please paste Savings CSV link', 'error');
                 return;
@@ -3208,11 +3165,8 @@
             }
         }
 
-        // ===== ADMIN SYNC LOANS =====
         async function syncLoans() {
             var url = document.getElementById("loansCsvUrl").value.trim();
-            var statusEl = document.getElementById("syncStatusMsg");
-
             if (!url) {
                 updateSyncStatus('syncStatusMsg', '❌ Please paste Loans CSV link', 'error');
                 return;
@@ -3453,7 +3407,7 @@
         }
 
         // ============================================================
-        // RULES PDF DOWNLOAD
+        // RULES PDF DOWNLOAD WITH FOOTER
         // ============================================================
 
         function downloadRulesPDF() {
@@ -4320,7 +4274,6 @@
                 return;
             }
 
-            // Check if member exists
             var memberExists = false;
             for (var i = 0; i < MEMBERS.length; i++) {
                 if (MEMBERS[i].id === parseInt(memberId)) {
@@ -4590,7 +4543,7 @@
         }
 
         // ============================================================
-        // PDF REPORTS
+        // PDF REPORTS WITH FOOTER
         // ============================================================
 
         function downloadSavingsReport() {
@@ -4611,7 +4564,9 @@
             var { jsPDF } = window.jspdf;
             var doc = new jsPDF('p', 'mm', 'a4');
             var pageWidth = doc.internal.pageSize.getWidth();
+            var pageHeight = doc.internal.pageSize.getHeight();
 
+            // Header
             doc.setFillColor(26, 77, 62);
             doc.rect(0, 0, pageWidth, 35, 'F');
             doc.setTextColor(255, 255, 255);
@@ -4622,6 +4577,7 @@
             doc.setFont('helvetica', 'normal');
             doc.text('Savings Report', pageWidth / 2, 28, { align: 'center' });
 
+            // Member info
             doc.setTextColor(0, 0, 0);
             doc.setFontSize(11);
             doc.setFont('helvetica', 'bold');
@@ -4633,6 +4589,7 @@
             doc.text('Report Date: ' + dateStr, pageWidth - 20, 45, { align: 'right' });
             doc.text('Total Savings: ' + totalSavings.toFixed(2) + ' KES', 20, 52);
 
+            // Table
             var tableData = [];
             var runningTotal = 0;
             for (var i = 0; i < memberSavings.length; i++) {
@@ -4640,21 +4597,24 @@
                 var status = memberSavings[i].disbursed ? 'Disbursed' : 'Pending';
                 var date = new Date(memberSavings[i].date);
                 var dateStr2 = date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
-                tableData.push([dateStr2, memberSavings[i].amount.toFixed(2) + ' KES', status, runningTotal.toFixed(2) +
-                    ' KES'
-                ]);
+                tableData.push([dateStr2, memberSavings[i].amount.toFixed(2) + ' KES', status, runningTotal.toFixed(2) + ' KES']);
             }
 
             doc.autoTable({
                 startY: 60,
-                head: [
-                    ['Date', 'Amount', 'Status', 'Running Total']
-                ],
+                head: [['Date', 'Amount', 'Status', 'Running Total']],
                 body: tableData,
                 theme: 'striped',
                 headStyles: { fillColor: [26, 77, 62], textColor: [255, 255, 255], fontStyle: 'bold', halign: 'center' },
                 styles: { fontSize: 9, cellPadding: 3 },
-                margin: { left: 20, right: 20 }
+                margin: { left: 20, right: 20 },
+                didDrawPage: function(data) {
+                    var pageCount = doc.internal.getNumberOfPages();
+                    doc.setFontSize(8);
+                    doc.setTextColor(128, 128, 128);
+                    doc.text('Powered by Conquerer Tech Solutions', pageWidth / 2, pageHeight - 5, { align: 'center' });
+                    doc.text('Page ' + data.pageNumber + ' of ' + pageCount, pageWidth - 20, pageHeight - 5, { align: 'right' });
+                }
             });
 
             doc.save('GenzChama_Savings_Report.pdf');
@@ -4675,7 +4635,9 @@
             var { jsPDF } = window.jspdf;
             var doc = new jsPDF('p', 'mm', 'a4');
             var pageWidth = doc.internal.pageSize.getWidth();
+            var pageHeight = doc.internal.pageSize.getHeight();
 
+            // Header
             doc.setFillColor(26, 77, 62);
             doc.rect(0, 0, pageWidth, 35, 'F');
             doc.setTextColor(255, 255, 255);
@@ -4686,6 +4648,7 @@
             doc.setFont('helvetica', 'normal');
             doc.text('Loans Report', pageWidth / 2, 28, { align: 'center' });
 
+            // Member info
             doc.setTextColor(0, 0, 0);
             doc.setFontSize(11);
             doc.setFont('helvetica', 'bold');
@@ -4696,6 +4659,7 @@
             var dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
             doc.text('Report Date: ' + dateStr, pageWidth - 20, 45, { align: 'right' });
 
+            // Table
             var tableData = [];
             var totalPrincipal = 0;
             var totalInterest = 0;
@@ -4709,24 +4673,27 @@
                 var dateTaken = new Date(loan.dateTaken);
                 var dateStr2 = dateTaken.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
                 var returnDate = new Date(loan.returnDate);
-                var returnDateStr = returnDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short',
-                day: '2-digit' });
+                var returnDateStr = returnDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
                 var status = loan.status === 'returned' ? '✅ Paid' : '⚠️ Pending';
                 tableData.push([dateStr2, loan.principal.toFixed(2) + ' KES', loan.interest.toFixed(2) + ' KES',
-                    loan.totalDue.toFixed(2) + ' KES', returnDateStr, status, runningBalance.toFixed(2) + ' KES'
-                ]);
+                    loan.totalDue.toFixed(2) + ' KES', returnDateStr, status, runningBalance.toFixed(2) + ' KES']);
             }
 
             doc.autoTable({
                 startY: 55,
-                head: [
-                    ['Date Taken', 'Principal', 'Interest (10%)', 'Total Due', 'Return Date', 'Status', 'Running Balance']
-                ],
+                head: [['Date Taken', 'Principal', 'Interest (10%)', 'Total Due', 'Return Date', 'Status', 'Running Balance']],
                 body: tableData,
                 theme: 'striped',
                 headStyles: { fillColor: [26, 77, 62], textColor: [255, 255, 255], fontStyle: 'bold', halign: 'center' },
                 styles: { fontSize: 8, cellPadding: 2 },
-                margin: { left: 15, right: 15 }
+                margin: { left: 15, right: 15 },
+                didDrawPage: function(data) {
+                    var pageCount = doc.internal.getNumberOfPages();
+                    doc.setFontSize(8);
+                    doc.setTextColor(128, 128, 128);
+                    doc.text('Powered by Conquerer Tech Solutions', pageWidth / 2, pageHeight - 5, { align: 'center' });
+                    doc.text('Page ' + data.pageNumber + ' of ' + pageCount, pageWidth - 20, pageHeight - 5, { align: 'right' });
+                }
             });
 
             var finalY = doc.lastAutoTable.finalY + 10;
@@ -4749,7 +4716,9 @@
             var { jsPDF } = window.jspdf;
             var doc = new jsPDF('p', 'mm', 'a4');
             var pageWidth = doc.internal.pageSize.getWidth();
+            var pageHeight = doc.internal.pageSize.getHeight();
 
+            // Header
             doc.setFillColor(26, 77, 62);
             doc.rect(0, 0, pageWidth, 35, 'F');
             doc.setTextColor(255, 255, 255);
@@ -4760,12 +4729,14 @@
             doc.setFont('helvetica', 'normal');
             doc.text('All Members Savings Report', pageWidth / 2, 28, { align: 'center' });
 
+            // Date
             doc.setTextColor(0, 0, 0);
             doc.setFontSize(11);
             var now = new Date();
             var dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
             doc.text('Generated: ' + dateStr, pageWidth - 20, 45, { align: 'right' });
 
+            // Table
             var tableData = [];
             var grandTotal = 0;
             for (var i = 0; i < MEMBERS.length; i++) {
@@ -4777,14 +4748,19 @@
 
             doc.autoTable({
                 startY: 55,
-                head: [
-                    ['Member Name', 'Total Savings']
-                ],
+                head: [['Member Name', 'Total Savings']],
                 body: tableData,
                 theme: 'striped',
                 headStyles: { fillColor: [26, 77, 62], textColor: [255, 255, 255], fontStyle: 'bold', halign: 'center' },
                 styles: { fontSize: 10, cellPadding: 4 },
-                margin: { left: 20, right: 20 }
+                margin: { left: 20, right: 20 },
+                didDrawPage: function(data) {
+                    var pageCount = doc.internal.getNumberOfPages();
+                    doc.setFontSize(8);
+                    doc.setTextColor(128, 128, 128);
+                    doc.text('Powered by Conquerer Tech Solutions', pageWidth / 2, pageHeight - 5, { align: 'center' });
+                    doc.text('Page ' + data.pageNumber + ' of ' + pageCount, pageWidth - 20, pageHeight - 5, { align: 'right' });
+                }
             });
 
             var finalY = doc.lastAutoTable.finalY + 10;
@@ -4805,7 +4781,9 @@
             var { jsPDF } = window.jspdf;
             var doc = new jsPDF('p', 'mm', 'a4');
             var pageWidth = doc.internal.pageSize.getWidth();
+            var pageHeight = doc.internal.pageSize.getHeight();
 
+            // Header
             doc.setFillColor(26, 77, 62);
             doc.rect(0, 0, pageWidth, 35, 'F');
             doc.setTextColor(255, 255, 255);
@@ -4816,12 +4794,14 @@
             doc.setFont('helvetica', 'normal');
             doc.text('All Members Loans Report', pageWidth / 2, 28, { align: 'center' });
 
+            // Date
             doc.setTextColor(0, 0, 0);
             doc.setFontSize(11);
             var now = new Date();
             var dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: '2-digit' });
             doc.text('Generated: ' + dateStr, pageWidth - 20, 45, { align: 'right' });
 
+            // Table
             var tableData = [];
             var grandActiveLoans = 0;
             var grandPreviousLoans = 0;
@@ -4863,16 +4843,19 @@
 
             doc.autoTable({
                 startY: 55,
-                head: [
-                    ['Member Name', 'Active Loans', 'Total Previous Loans', 'Interest Accrued', 'To Send (70%)',
-                        'To Reserve (30%)'
-                    ]
-                ],
+                head: [['Member Name', 'Active Loans', 'Total Previous Loans', 'Interest Accrued', 'To Send (70%)', 'To Reserve (30%)']],
                 body: tableData,
                 theme: 'striped',
                 headStyles: { fillColor: [26, 77, 62], textColor: [255, 255, 255], fontStyle: 'bold', halign: 'center' },
                 styles: { fontSize: 8, cellPadding: 3 },
-                margin: { left: 15, right: 15 }
+                margin: { left: 15, right: 15 },
+                didDrawPage: function(data) {
+                    var pageCount = doc.internal.getNumberOfPages();
+                    doc.setFontSize(8);
+                    doc.setTextColor(128, 128, 128);
+                    doc.text('Powered by Conquerer Tech Solutions', pageWidth / 2, pageHeight - 5, { align: 'center' });
+                    doc.text('Page ' + data.pageNumber + ' of ' + pageCount, pageWidth - 20, pageHeight - 5, { align: 'right' });
+                }
             });
 
             var finalY = doc.lastAutoTable.finalY + 10;
