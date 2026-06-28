@@ -9,6 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js">
     </script>
     <style>
+        /* ===== ALL STYLES REMAIN THE SAME ===== */
         * {
             margin: 0;
             padding: 0;
@@ -99,12 +100,6 @@
             color: #cbd5e1;
         }
 
-        /* Hide admin login tab - members only see member login */
-        .admin-login-hidden {
-            display: none !important;
-        }
-
-        /* Secret admin access - double click footer */
         .secret-admin-trigger {
             cursor: pointer;
             user-select: none;
@@ -2232,7 +2227,6 @@
         // ============================================================
 
         function triggerAdminAccess() {
-            // Double-click on the version text to show admin login
             var adminPanel = document.getElementById('adminLoginPanel');
             var memberPanel = document.getElementById('memberLoginPanel');
             if (adminPanel.style.display === 'none' || adminPanel.style.display === '') {
@@ -2550,7 +2544,7 @@
 
             switch (sub) {
                 case 'disbursement':
-                    html += '<div class="card"><h2>💰 Savings Disbursement (Jan,Mar,May,Jul,Sep,Nov)</h2><div style="background:rgba(254,243,199,0.6);backdrop-filter:blur(4px);border-radius:16px;padding:14px;margin-top:10px;border:1px solid rgba(245,158,11,0.1);"><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>📊 Total Savings:</span><span id="totalSavingsPool">' + getTotalGroupSavings() + '</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>📅 Current Month:</span><span>' + new Date().toLocaleString('default', { month: 'long' }) + ' ' + new Date().getFullYear() + '</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;flex-wrap:wrap;gap:8px;"><span>🎯 Next Disbursement:</span><span>July 2026</span></div></div><button onclick="processSavingsDisbursement()" class="secondary">Process Savings Disbursement</button><p class="small-text">⚠️ Only in Jan/Mar/May/Jul/Sep/Nov</p></div>';
+                    html += '<div class="card"><h2>💰 Savings Disbursement (Jan,Mar,May,Jul,Sep,Nov)</h2><div style="background:rgba(254,243,199,0.6);backdrop-filter:blur(4px);border-radius:16px;padding:14px;margin-top:10px;border:1px solid rgba(245,158,11,0.1);"><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>📊 Total Savings:</span><span id="totalSavingsPool">' + getTotalGroupSavings() + '</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>📅 Current Month:</span><span>' + new Date().toLocaleString('default', { month: 'long' }) + ' ' + new Date().getFullYear() + '</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;flex-wrap:wrap;gap:8px;"><span>🎯 Next Disbursement:</span><span id="nextSavingsDisbursementDate">' + getNextSavingsDisbursementDate() + '</span></div></div><button onclick="processSavingsDisbursement()" class="secondary">Process Savings Disbursement</button><p class="small-text">⚠️ Only in Jan/Mar/May/Jul/Sep/Nov</p></div>';
                     break;
                 case 'sync':
                     html += '<div class="card csv-url-box" style="background:rgba(240,244,248,0.6);backdrop-filter:blur(4px);padding:16px;border-radius:16px;border:2px solid rgba(2,132,199,0.2);"><h4>📊 SYNC SAVINGS</h4><input type="text" id="savingsCsvUrl" placeholder="Paste Savings sheet CSV link"><button onclick="syncSavings()" class="sync">Sync Savings</button><div id="syncStatusMsg" class="sync-status">📡 Ready to sync</div></div>';
@@ -2611,7 +2605,8 @@
                     for (var i = 0; i < loans.length; i++) {
                         totalInt += loans[i].interest || 0;
                     }
-                    html += '<div class="card"><h2>💰 Loan Interest (70/30)</h2><div style="background:rgba(254,243,199,0.6);backdrop-filter:blur(4px);border-radius:16px;padding:14px;margin-top:10px;border:1px solid rgba(245,158,11,0.1);"><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>📊 Total Interest Accrued:</span><span>' + totalInt.toFixed(2) + ' KES</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>👥 Due to Members (70%):</span><span>' + (totalInt * 0.70).toFixed(2) + ' KES</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;flex-wrap:wrap;gap:8px;"><span>🏦 Group Reserve (30%):</span><span>' + (totalInt * 0.30).toFixed(2) + ' KES</span></div></div><button onclick="processInterestDisbursement()" class="secondary">Process Interest Disbursement</button><p class="small-text">⚠️ Only in June & December</p></div>';
+                    var nextInterestDate = getNextInterestDisbursementDate();
+                    html += '<div class="card"><h2>💰 Loan Interest (70/30)</h2><div style="background:rgba(254,243,199,0.6);backdrop-filter:blur(4px);border-radius:16px;padding:14px;margin-top:10px;border:1px solid rgba(245,158,11,0.1);"><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>📊 Total Interest Accrued:</span><span>' + totalInt.toFixed(2) + ' KES</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>👥 Due to Members (70%):</span><span>' + (totalInt * 0.70).toFixed(2) + ' KES</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;flex-wrap:wrap;gap:8px;"><span>🏦 Group Reserve (30%):</span><span>' + (totalInt * 0.30).toFixed(2) + ' KES</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;flex-wrap:wrap;gap:8px;"><span>📅 Next Disbursement:</span><span>' + nextInterestDate + '</span></div></div><button onclick="processInterestDisbursement()" class="secondary">Process Interest Disbursement</button><p class="small-text">⚠️ Only in June & December</p></div>';
                     break;
                 case 'table':
                     var tableHtml = '';
@@ -2638,6 +2633,191 @@
             }
 
             container.innerHTML = html;
+        }
+
+        // ============================================================
+        // DISBURSEMENT FUNCTIONS - UPDATED WITH PROPER LOGIC
+        // ============================================================
+
+        function getNextSavingsDisbursementDate() {
+            var months = ['Jan', 'Mar', 'May', 'Jul', 'Sep', 'Nov'];
+            var now = new Date();
+            var currentMonth = now.getMonth(); // 0-11
+            var currentYear = now.getFullYear();
+            
+            for (var i = 0; i < months.length; i++) {
+                var monthIndex = ['Jan','Mar','May','Jul','Sep','Nov'].indexOf(months[i]);
+                if (monthIndex > currentMonth) {
+                    return months[i] + ' ' + currentYear;
+                }
+            }
+            // If no month found for this year, return first month of next year
+            return months[0] + ' ' + (currentYear + 1);
+        }
+
+        function getNextInterestDisbursementDate() {
+            var now = new Date();
+            var currentMonth = now.getMonth(); // 0-11
+            var currentYear = now.getFullYear();
+            
+            if (currentMonth < 5) { // Before June
+                return 'June ' + currentYear;
+            } else if (currentMonth < 11) { // Before December
+                return 'December ' + currentYear;
+            } else { // After December
+                return 'June ' + (currentYear + 1);
+            }
+        }
+
+        function processSavingsDisbursement() {
+            var now = new Date();
+            var currentMonth = now.getMonth() + 1; // 1-12
+            var currentYear = now.getFullYear();
+            var currentDate = now.getDate();
+            
+            // Check if it's the correct month (Jan, Mar, May, Jul, Sep, Nov)
+            var allowedMonths = [1, 3, 5, 7, 9, 11];
+            if (!allowedMonths.includes(currentMonth)) {
+                showErrorModal('❌ Savings disbursement is only allowed in Jan, Mar, May, Jul, Sep, and Nov. Current month: ' + 
+                    ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][currentMonth-1]);
+                return;
+            }
+            
+            // Check if already disbursed this month
+            if (lastSavingsDisbursementDate) {
+                var lastDate = new Date(lastSavingsDisbursementDate);
+                if (lastDate.getMonth() + 1 === currentMonth && lastDate.getFullYear() === currentYear) {
+                    showErrorModal('⚠️ Savings have already been disbursed for ' + 
+                        ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][currentMonth-1] + ' ' + currentYear);
+                    return;
+                }
+            }
+            
+            // Check if any savings exist
+            var totalSavings = 0;
+            for (var i = 0; i < savings.length; i++) {
+                if (!savings[i].disbursed) {
+                    totalSavings += savings[i].amount;
+                }
+            }
+            
+            if (totalSavings === 0) {
+                showErrorModal('⚠️ No savings to disburse.');
+                return;
+            }
+            
+            // Mark all non-disbursed savings as disbursed
+            var disbursedCount = 0;
+            for (var i = 0; i < savings.length; i++) {
+                if (!savings[i].disbursed) {
+                    savings[i].disbursed = true;
+                    disbursedCount += savings[i].amount;
+                }
+            }
+            
+            // Update last disbursement date
+            lastSavingsDisbursementDate = new Date().toISOString();
+            saveData();
+            refreshAdminView();
+            
+            showErrorModal('✅ Savings disbursed successfully! Total: ' + disbursedCount.toFixed(2) + ' KES');
+            
+            // Refresh the view
+            if (currentAdminSection === 'savings') {
+                renderAdminSavingsSub(currentAdminSub || 'disbursement');
+            }
+        }
+
+        function processInterestDisbursement() {
+            var now = new Date();
+            var currentMonth = now.getMonth() + 1; // 1-12
+            var currentYear = now.getFullYear();
+            
+            // Check if it's the correct month (June or December)
+            if (currentMonth !== 6 && currentMonth !== 12) {
+                showErrorModal('❌ Interest disbursement is only allowed in June and December. Current month: ' + 
+                    ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][currentMonth-1]);
+                return;
+            }
+            
+            // Check if already disbursed this month
+            if (lastInterestDisbursementDate) {
+                var lastDate = new Date(lastInterestDisbursementDate);
+                if (lastDate.getMonth() + 1 === currentMonth && lastDate.getFullYear() === currentYear) {
+                    showErrorModal('⚠️ Interest has already been disbursed for ' + 
+                        ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][currentMonth-1] + ' ' + currentYear);
+                    return;
+                }
+            }
+            
+            // Calculate total interest from all returned loans
+            var totalInterest = 0;
+            var memberInterestMap = {};
+            
+            for (var i = 0; i < loans.length; i++) {
+                if (loans[i].status === 'returned' && loans[i].interest > 0) {
+                    var memberId = loans[i].memberId;
+                    var interestAmount = loans[i].interest || 0;
+                    totalInterest += interestAmount;
+                    
+                    if (!memberInterestMap[memberId]) {
+                        memberInterestMap[memberId] = 0;
+                    }
+                    memberInterestMap[memberId] += interestAmount;
+                }
+            }
+            
+            if (totalInterest === 0) {
+                showErrorModal('⚠️ No interest to disburse. No returned loans with interest found.');
+                return;
+            }
+            
+            // Calculate 70% and 30% shares
+            var memberShare = totalInterest * 0.70;
+            var groupReserve = totalInterest * 0.30;
+            
+            // Distribute 70% to members proportionally
+            var totalMemberInterest = 0;
+            for (var memberId in memberInterestMap) {
+                totalMemberInterest += memberInterestMap[memberId];
+            }
+            
+            // Add interest to member savings based on their contribution
+            for (var memberId in memberInterestMap) {
+                var proportion = memberInterestMap[memberId] / totalMemberInterest;
+                var amountToAdd = memberShare * proportion;
+                
+                // Add to savings (create a new savings record)
+                var today = new Date().toISOString().split('T')[0];
+                savings.push({
+                    date: today,
+                    memberId: parseInt(memberId),
+                    amount: amountToAdd,
+                    disbursed: false,
+                    note: 'Interest disbursement (70% share)'
+                });
+            }
+            
+            // Add 30% to loan reserve (tracked as a separate record)
+            // We can store this in localStorage or a separate variable
+            var loanReserve = parseFloat(localStorage.getItem('loanReserve') || '0');
+            loanReserve += groupReserve;
+            localStorage.setItem('loanReserve', loanReserve.toString());
+            
+            // Update last interest disbursement date
+            lastInterestDisbursementDate = new Date().toISOString();
+            saveData();
+            refreshAdminView();
+            
+            showErrorModal('✅ Interest disbursed successfully!\n' +
+                '💰 Total Interest: ' + totalInterest.toFixed(2) + ' KES\n' +
+                '👥 70% to Members: ' + memberShare.toFixed(2) + ' KES\n' +
+                '🏦 30% to Reserve: ' + groupReserve.toFixed(2) + ' KES');
+            
+            // Refresh the view
+            if (currentAdminSection === 'loans') {
+                renderAdminLoansSub(currentAdminSub || 'interest');
+            }
         }
 
         // ============================================================
@@ -3523,7 +3703,7 @@
         // ============================================================
 
         function showErrorModal(message) {
-            document.getElementById("errorMessage").innerHTML = message;
+            document.getElementById("errorMessage").innerHTML = message.replace(/\n/g, '<br>');
             document.getElementById("errorModal").style.display = "flex";
         }
 
@@ -3935,7 +4115,6 @@
                 updateAvatarDisplay(currentMemberId);
                 refreshMemberView();
                 showMemberContent('dashboard');
-                // Close admin panel if open
                 closeAdminLogin();
             } else {
                 showErrorModal("Wrong password. Please try again.");
@@ -3960,7 +4139,6 @@
             document.getElementById("memberView").style.display = "none";
             document.getElementById("adminView").style.display = "none";
             document.getElementById("loginOverlay").style.display = "flex";
-            // Reset to member login view
             closeAdminLogin();
             closeProfileModal();
         }
@@ -4107,11 +4285,122 @@
             }
         }
 
-        function addSavings() { showErrorModal("✅ Savings added! (Demo)"); }
+        function addSavings() {
+            var memberId = document.getElementById("savingsMemberSelect").value;
+            var date = document.getElementById("savingsDate").value;
+            var amount = parseFloat(document.getElementById("savingsAmount").value);
+            if (memberId === "" || !date || isNaN(amount) || amount <= 0) {
+                showErrorModal("Please fill all fields correctly.");
+                return;
+            }
+            savings.push({
+                date: date,
+                memberId: parseInt(memberId),
+                amount: amount,
+                disbursed: false
+            });
+            saveData();
+            refreshAdminView();
+            showErrorModal("✅ Savings added successfully!");
+            document.getElementById("savingsDate").value = "";
+            document.getElementById("savingsAmount").value = "";
+            if (currentAdminSection === 'savings') {
+                renderAdminSavingsSub(currentAdminSub || 'add');
+            }
+        }
 
-        function takeLoan() { showErrorModal("📥 Loan taken! (Demo)"); }
+        function takeLoan() {
+            var memberId = document.getElementById("loanMemberSelect").value;
+            var dateTaken = document.getElementById("loanDateTaken").value;
+            var principal = parseFloat(document.getElementById("loanPrincipal").value);
+            var returnDate = document.getElementById("loanReturnDate").value;
 
-        function repayLoan() { showErrorModal("💰 Repayment recorded! (Demo)"); }
+            if (memberId === "" || !dateTaken || isNaN(principal) || principal <= 0 || !returnDate) {
+                showErrorModal("Please fill all fields correctly.");
+                return;
+            }
+
+            // Check if member exists
+            var memberExists = false;
+            for (var i = 0; i < MEMBERS.length; i++) {
+                if (MEMBERS[i].id === parseInt(memberId)) {
+                    memberExists = true;
+                    break;
+                }
+            }
+            if (!memberExists) {
+                showErrorModal("Member not found.");
+                return;
+            }
+
+            var interest = principal * 0.10;
+            var totalDue = principal + interest;
+
+            loans.push({
+                id: nextLoanId++,
+                memberId: parseInt(memberId),
+                principal: principal,
+                interest: interest,
+                totalDue: totalDue,
+                returnDate: returnDate,
+                status: "pending",
+                dateTaken: dateTaken,
+                repaidAmount: 0
+            });
+
+            saveData();
+            refreshAdminView();
+            refreshLoanPool();
+            showErrorModal("✅ Loan taken!\n💰 Principal: " + principal + " KES\n📈 Interest (10%): " + interest + " KES\n💵 Total Due: " + totalDue + " KES");
+            document.getElementById("loanDateTaken").value = "";
+            document.getElementById("loanPrincipal").value = "";
+            document.getElementById("loanReturnDate").value = "";
+            if (currentAdminSection === 'loans') {
+                renderAdminLoansSub(currentAdminSub || 'take');
+            }
+        }
+
+        function repayLoan() {
+            var memberId = document.getElementById("repayMemberSelect").value;
+            var amount = parseFloat(document.getElementById("repayAmount").value);
+
+            if (memberId === "" || isNaN(amount) || amount <= 0) {
+                showErrorModal("Please select a member and enter amount.");
+                return;
+            }
+
+            var memberIdInt = parseInt(memberId);
+            var found = false;
+
+            for (var i = 0; i < loans.length; i++) {
+                if (loans[i].memberId === memberIdInt && loans[i].status === "pending") {
+                    var remaining = loans[i].totalDue - (loans[i].repaidAmount || 0);
+                    if (amount >= remaining) {
+                        loans[i].repaidAmount = loans[i].totalDue;
+                        loans[i].status = "returned";
+                        showErrorModal("✅ Loan fully repaid!\nMember: " + MEMBERS[memberIdInt].name + "\nTotal: " + loans[i].totalDue.toFixed(2) + " KES");
+                    } else {
+                        loans[i].repaidAmount = (loans[i].repaidAmount || 0) + amount;
+                        showErrorModal("💰 Repayment recorded!\nMember: " + MEMBERS[memberIdInt].name + "\nRemaining: " + (loans[i].totalDue - loans[i].repaidAmount).toFixed(2) + " KES");
+                    }
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                showErrorModal("No active loan found for this member.");
+                return;
+            }
+
+            saveData();
+            refreshAdminView();
+            refreshLoanPool();
+            document.getElementById("repayAmount").value = "";
+            if (currentAdminSection === 'loans') {
+                renderAdminLoansSub(currentAdminSub || 'repay');
+            }
+        }
 
         function recordMGR() {
             if (mgrLastPaidWeek === getCurrentWeekKey()) { showErrorModal("Already recorded"); return; }
@@ -4168,10 +4457,6 @@
             document.getElementById("notificationMessage").value = "";
             showErrorModal("WhatsApp opened.");
         }
-
-        function processSavingsDisbursement() { showErrorModal("✅ Savings disbursed! (Demo)"); }
-
-        function processInterestDisbursement() { showErrorModal("✅ Interest disbursed! (Demo)"); }
 
         function approveLoanRequest(id) {
             for (var i = 0; i < loanRequests.length; i++) {
