@@ -8,7 +8,6 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js">
     </script>
-    <!-- ===== STYLES ===== -->
     <style>
         /* ===== RESET & BASE ===== */
         * {
@@ -471,7 +470,7 @@
             color: #2563eb;
         }
 
-        /* ===== MODALS (unchanged) ===== */
+        /* ===== MODALS ===== */
         .modal {
             display: none;
             position: fixed;
@@ -2487,7 +2486,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== JAVASCRIPT - ALL FUNCTIONS (unchanged from original) ===== -->
+    <!-- ===== JAVASCRIPT ===== -->
     <!-- ============================================================ -->
     <script>
         // ============================================================
@@ -4065,7 +4064,7 @@
         }
 
         // ============================================================
-        // DATA
+        // DATA - ADMIN PASSWORD SET TO "tech@solutions"
         // ============================================================
         let MEMBERS = [
             { id: 0, name: "Brian Odhiambo", phone: "0718585462", passcode: "5462" },
@@ -4100,6 +4099,7 @@
         let mgrLastPaidWeek = null;
         let nextLoanId = 6;
         let currentMemberId = null;
+        // ===== DEFAULT ADMIN PASSWORD =====
         let ADMIN_PASSWORD = "tech@solutions";
         let lastSavingsDisbursementDate = null;
         let lastInterestDisbursementDate = null;
@@ -4157,7 +4157,7 @@
         }
 
         // ============================================================
-        // SAVE / LOAD
+        // SAVE / LOAD (UPDATED to save ADMIN_PASSWORD permanently)
         // ============================================================
 
         function saveData() {
@@ -4168,7 +4168,7 @@
                 mgrWeekIndex,
                 mgrLastPaidWeek,
                 nextLoanId,
-                ADMIN_PASSWORD,
+                ADMIN_PASSWORD, // SAVED PERMANENTLY
                 lastSavingsDisbursementDate,
                 lastInterestDisbursementDate,
                 loanRequests,
@@ -4187,7 +4187,7 @@
                     if (p.mgrWeekIndex !== undefined) mgrWeekIndex = p.mgrWeekIndex;
                     if (p.mgrLastPaidWeek !== undefined) mgrLastPaidWeek = p.mgrLastPaidWeek;
                     if (p.nextLoanId !== undefined) nextLoanId = p.nextLoanId;
-                    if (p.ADMIN_PASSWORD) ADMIN_PASSWORD = p.ADMIN_PASSWORD;
+                    if (p.ADMIN_PASSWORD) ADMIN_PASSWORD = p.ADMIN_PASSWORD; // LOAD SAVED PASSWORD
                     if (p.lastSavingsDisbursementDate) lastSavingsDisbursementDate = p.lastSavingsDisbursementDate;
                     if (p.lastInterestDisbursementDate) lastInterestDisbursementDate = p.lastInterestDisbursementDate;
                     if (p.loanRequests) loanRequests = p.loanRequests;
@@ -4841,14 +4841,19 @@
 
         function changeAdminPassword() {
             var np = prompt("New admin password:");
-            if (np && np.length >= 4) { ADMIN_PASSWORD = np;
+            if (np && np.length >= 4) {
+                ADMIN_PASSWORD = np;
                 saveData();
-                showErrorModal("Password changed!"); }
+                showErrorModal("Password changed!");
+            }
         }
 
         function resetAllData() {
-            if (confirm("ERASE ALL DATA?")) { localStorage.clear();
-                location.reload(); }
+            if (confirm("ERASE ALL DATA?")) {
+                localStorage.clear();
+                ADMIN_PASSWORD = "tech@solutions"; // RESET TO DEFAULT
+                location.reload();
+            }
         }
 
         function copyTillNumber() {
