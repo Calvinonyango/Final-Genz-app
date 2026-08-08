@@ -1788,6 +1788,140 @@
             display: none;
         }
 
+        /* ===== DISBURSEMENT HISTORY STYLES ===== */
+        .history-entry {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(4px);
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            border-left: 4px solid #1a4d3e;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .history-entry {
+            background: rgba(30, 30, 60, 0.5);
+        }
+
+        .history-entry .entry-date {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        body.dark-mode .history-entry .entry-date {
+            color: #94a3b8;
+        }
+
+        .history-entry .entry-amount {
+            font-weight: 700;
+            color: #1a4d3e;
+            font-size: 16px;
+        }
+
+        body.dark-mode .history-entry .entry-amount {
+            color: #e2e8f0;
+        }
+
+        .history-entry .entry-details {
+            font-size: 13px;
+            color: #334155;
+        }
+
+        body.dark-mode .history-entry .entry-details {
+            color: #cbd5e1;
+        }
+
+        .badge-success {
+            background: #10b981;
+            color: white;
+            padding: 2px 12px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-info {
+            background: #3b82f6;
+            color: white;
+            padding: 2px 12px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-warning {
+            background: #f59e0b;
+            color: white;
+            padding: 2px 12px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .disbursement-summary {
+            background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        body.dark-mode .disbursement-summary {
+            background: linear-gradient(135deg, #0f2b24 0%, #0a1f1a 100%);
+        }
+
+        .disbursement-summary .stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .disbursement-summary .stat:last-child {
+            border-bottom: none;
+        }
+
+        .history-accordion {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(4px);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        body.dark-mode .history-accordion {
+            background: rgba(30, 30, 60, 0.4);
+        }
+
+        .history-accordion-header {
+            padding: 12px 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+
+        .history-accordion-header:hover {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        body.dark-mode .history-accordion-header:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .history-accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 16px;
+        }
+
+        .history-accordion-content.open {
+            max-height: 1000px;
+            padding: 12px 16px;
+        }
+
         /* ============================================================ */
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
@@ -2268,6 +2402,9 @@
                     <div class="sidebar-item" onclick="showAdminSubContent('savings','disbursement',event);closeSidebar('admin');" data-section="savings" data-sub="disbursement">
                         <span class="icon">📅</span> Savings Disbursement
                     </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('savings','history',event);closeSidebar('admin');" data-section="savings" data-sub="history">
+                        <span class="icon">📜</span> Disbursement History
+                    </div>
                     <div class="sidebar-item" onclick="showAdminSubContent('savings','sync',event);closeSidebar('admin');" data-section="savings" data-sub="sync">
                         <span class="icon">📊</span> Sync Savings
                     </div>
@@ -2292,6 +2429,9 @@
                     </div>
                     <div class="sidebar-item" onclick="showAdminSubContent('loans','interest',event);closeSidebar('admin');" data-section="loans" data-sub="interest">
                         <span class="icon">📈</span> Loan Interest (70/30)
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('loans','history',event);closeSidebar('admin');" data-section="loans" data-sub="history">
+                        <span class="icon">📜</span> Interest Disbursement History
                     </div>
                     <div class="sidebar-item" onclick="showAdminSubContent('loans','table',event);closeSidebar('admin');" data-section="loans" data-sub="table">
                         <span class="icon">📊</span> Total Interest Per Member
@@ -2362,6 +2502,9 @@
                     <div class="sidebar-item" onclick="showAdminSubContent('savings','disbursement',event)" data-section="savings" data-sub="disbursement">
                         <span class="icon">📅</span> Savings Disbursement
                     </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('savings','history',event)" data-section="savings" data-sub="history">
+                        <span class="icon">📜</span> Disbursement History
+                    </div>
                     <div class="sidebar-item" onclick="showAdminSubContent('savings','sync',event)" data-section="savings" data-sub="sync">
                         <span class="icon">📊</span> Sync Savings
                     </div>
@@ -2386,6 +2529,9 @@
                     </div>
                     <div class="sidebar-item" onclick="showAdminSubContent('loans','interest',event)" data-section="loans" data-sub="interest">
                         <span class="icon">📈</span> Loan Interest (70/30)
+                    </div>
+                    <div class="sidebar-item" onclick="showAdminSubContent('loans','history',event)" data-section="loans" data-sub="history">
+                        <span class="icon">📜</span> Interest Disbursement History
                     </div>
                     <div class="sidebar-item" onclick="showAdminSubContent('loans','table',event)" data-section="loans" data-sub="table">
                         <span class="icon">📊</span> Total Interest Per Member
@@ -2995,7 +3141,21 @@
 
             switch (sub) {
                 case 'disbursement':
-                    html += '<div class="card"><h2>💰 Savings Disbursement (Jan,Mar,May,Jul,Sep,Nov)</h2><div style="background:rgba(254,243,199,0.6);backdrop-filter:blur(4px);border-radius:16px;padding:14px;margin-top:10px;border:1px solid rgba(245,158,11,0.1);"><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>📊 Total Savings:</span><span id="totalSavingsPool">' + getTotalGroupSavings() + '</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>📅 Current Month:</span><span>' + new Date().toLocaleString('default', { month: 'long' }) + ' ' + new Date().getFullYear() + '</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;flex-wrap:wrap;gap:8px;"><span>🎯 Next Disbursement:</span><span id="nextSavingsDisbursementDate">' + getNextSavingsDisbursementDate() + '</span></div></div><button onclick="processSavingsDisbursement()" class="secondary">Process Savings Disbursement</button><p class="small-text">⚠️ Only in Jan/Mar/May/Jul/Sep/Nov</p></div>';
+                    html += '<div class="card"><h2>💰 Savings Disbursement (Jan,Mar,May,Jul,Sep,Nov)</h2>';
+                    html += '<div class="disbursement-summary">';
+                    html += '<div class="stat"><span>📊 Total Savings:</span><span><strong>' + getTotalGroupSavings().toFixed(2) + ' KES</strong></span></div>';
+                    html += '<div class="stat"><span>📅 Current Month:</span><span>' + new Date().toLocaleString('default', { month: 'long' }) + ' ' + new Date().getFullYear() + '</span></div>';
+                    html += '<div class="stat"><span>🎯 Next Disbursement:</span><span>' + getNextSavingsDisbursementDate() + '</span></div>';
+                    html += '<div class="stat"><span>📌 Last Disbursement:</span><span>' + getLastSavingsDisbursementDate() + '</span></div>';
+                    html += '</div>';
+                    html += '<button onclick="processSavingsDisbursement()" class="secondary">Process Savings Disbursement</button>';
+                    html += '<p class="small-text">⚠️ Only in Jan/Mar/May/Jul/Sep/Nov</p>';
+                    html += '</div>';
+                    break;
+                case 'history':
+                    html += '<div class="card"><h2>📜 Savings Disbursement History</h2>';
+                    html += '<div id="savingsHistoryEntries">' + renderSavingsDisbursementHistory() + '</div>';
+                    html += '</div>';
                     break;
                 case 'sync':
                     html += '<div class="card csv-url-box" style="background:rgba(240,244,248,0.6);backdrop-filter:blur(4px);padding:16px;border-radius:16px;border:2px solid rgba(2,132,199,0.2);"><h4>📊 SYNC SAVINGS</h4><input type="text" id="savingsCsvUrl" placeholder="Paste Savings sheet CSV link"><button onclick="syncSavings()" class="sync">Sync Savings</button><div id="syncStatusMsg" class="sync-status">📡 Ready to sync</div></div>';
@@ -3057,7 +3217,22 @@
                         totalInt += loans[i].interest || 0;
                     }
                     var nextInterestDate = getNextInterestDisbursementDate();
-                    html += '<div class="card"><h2>💰 Loan Interest (70/30)</h2><div style="background:rgba(254,243,199,0.6);backdrop-filter:blur(4px);border-radius:16px;padding:14px;margin-top:10px;border:1px solid rgba(245,158,11,0.1);"><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>📊 Total Interest Accrued:</span><span>' + totalInt.toFixed(2) + ' KES</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(226,232,240,0.5);flex-wrap:wrap;gap:8px;"><span>👥 Due to Members (70%):</span><span>' + (totalInt * 0.70).toFixed(2) + ' KES</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;flex-wrap:wrap;gap:8px;"><span>🏦 Group Reserve (30%):</span><span>' + (totalInt * 0.30).toFixed(2) + ' KES</span></div><div class="member-row" style="display:flex;justify-content:space-between;padding:10px 0;flex-wrap:wrap;gap:8px;"><span>📅 Next Disbursement:</span><span>' + nextInterestDate + '</span></div></div><button onclick="processInterestDisbursement()" class="secondary">Process Interest Disbursement</button><p class="small-text">⚠️ Only in June & December</p></div>';
+                    html += '<div class="card"><h2>💰 Loan Interest (70/30)</h2>';
+                    html += '<div class="disbursement-summary">';
+                    html += '<div class="stat"><span>📊 Total Interest Accrued:</span><span><strong>' + totalInt.toFixed(2) + ' KES</strong></span></div>';
+                    html += '<div class="stat"><span>👥 Due to Members (70%):</span><span>' + (totalInt * 0.70).toFixed(2) + ' KES</span></div>';
+                    html += '<div class="stat"><span>🏦 Group Reserve (30%):</span><span>' + (totalInt * 0.30).toFixed(2) + ' KES</span></div>';
+                    html += '<div class="stat"><span>📅 Next Disbursement:</span><span>' + nextInterestDate + '</span></div>';
+                    html += '<div class="stat"><span>📌 Last Disbursement:</span><span>' + getLastInterestDisbursementDate() + '</span></div>';
+                    html += '</div>';
+                    html += '<button onclick="processInterestDisbursement()" class="secondary">Process Interest Disbursement</button>';
+                    html += '<p class="small-text">⚠️ Only in June & December</p>';
+                    html += '</div>';
+                    break;
+                case 'history':
+                    html += '<div class="card"><h2>📜 Interest Disbursement History</h2>';
+                    html += '<div id="interestHistoryEntries">' + renderInterestDisbursementHistory() + '</div>';
+                    html += '</div>';
                     break;
                 case 'table':
                     var tableHtml = '';
@@ -3087,7 +3262,144 @@
         }
 
         // ============================================================
-        // DISBURSEMENT FUNCTIONS
+        // DISBURSEMENT HISTORY FUNCTIONS (NEW - PERSISTENT DATA)
+        // ============================================================
+
+        // Initialize disbursement history if not exists
+        var disbursementHistory = [];
+
+        function loadDisbursementHistory() {
+            var data = localStorage.getItem('disbursementHistory');
+            if (data) {
+                try {
+                    disbursementHistory = JSON.parse(data);
+                } catch (e) {
+                    disbursementHistory = [];
+                }
+            } else {
+                disbursementHistory = [];
+            }
+        }
+
+        function saveDisbursementHistory() {
+            localStorage.setItem('disbursementHistory', JSON.stringify(disbursementHistory));
+        }
+
+        function addDisbursementHistoryEntry(type, details) {
+            var entry = {
+                id: Date.now(),
+                type: type, // 'savings' or 'interest'
+                date: new Date().toISOString(),
+                month: new Date().toLocaleString('default', { month: 'long' }),
+                year: new Date().getFullYear(),
+                details: details,
+                timestamp: Date.now()
+            };
+            disbursementHistory.push(entry);
+            saveDisbursementHistory();
+            return entry;
+        }
+
+        function renderSavingsDisbursementHistory() {
+            var entries = disbursementHistory.filter(function(e) { return e.type === 'savings'; });
+            if (entries.length === 0) {
+                return '<p style="padding:10px;text-align:center;color:#64748b;">No savings disbursement history yet.</p>';
+            }
+            var html = '';
+            // Sort by date descending (newest first)
+            entries.sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
+            for (var i = 0; i < entries.length; i++) {
+                var e = entries[i];
+                var date = new Date(e.date);
+                var dateStr = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                html += '<div class="history-entry">';
+                html += '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">';
+                html += '<div><span class="badge-success">✅ Disbursed</span> <span class="entry-date">' + dateStr + '</span></div>';
+                html += '<span class="entry-amount">' + (e.details.totalAmount || 0).toFixed(2) + ' KES</span>';
+                html += '</div>';
+                html += '<div class="entry-details">';
+                html += '💰 Total Savings: ' + (e.details.totalAmount || 0).toFixed(2) + ' KES';
+                html += ' | 👥 Members: ' + (e.details.memberCount || 0);
+                html += ' | 📊 Records: ' + (e.details.recordCount || 0);
+                html += '</div>';
+                html += '</div>';
+            }
+            return html;
+        }
+
+        function renderInterestDisbursementHistory() {
+            var entries = disbursementHistory.filter(function(e) { return e.type === 'interest'; });
+            if (entries.length === 0) {
+                return '<p style="padding:10px;text-align:center;color:#64748b;">No interest disbursement history yet.</p>';
+            }
+            var html = '';
+            entries.sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
+            for (var i = 0; i < entries.length; i++) {
+                var e = entries[i];
+                var date = new Date(e.date);
+                var dateStr = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                html += '<div class="history-entry" style="border-left-color:#f59e0b;">';
+                html += '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">';
+                html += '<div><span class="badge-info">📈 Interest</span> <span class="entry-date">' + dateStr + '</span></div>';
+                html += '<span class="entry-amount">' + (e.details.totalInterest || 0).toFixed(2) + ' KES</span>';
+                html += '</div>';
+                html += '<div class="entry-details">';
+                html += '📊 Total Interest: ' + (e.details.totalInterest || 0).toFixed(2) + ' KES';
+                html += ' | 👥 Members: ' + (e.details.memberCount || 0);
+                html += ' | 👤 70% Share: ' + (e.details.memberShare || 0).toFixed(2) + ' KES';
+                html += ' | 🏦 30% Reserve: ' + (e.details.groupReserve || 0).toFixed(2) + ' KES';
+                html += '</div>';
+                html += '</div>';
+            }
+            return html;
+        }
+
+        function getLastSavingsDisbursementDate() {
+            var entries = disbursementHistory.filter(function(e) { return e.type === 'savings'; });
+            if (entries.length === 0) return 'Never';
+            entries.sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
+            var date = new Date(entries[0].date);
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        function getLastInterestDisbursementDate() {
+            var entries = disbursementHistory.filter(function(e) { return e.type === 'interest'; });
+            if (entries.length === 0) return 'Never';
+            entries.sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
+            var date = new Date(entries[0].date);
+            return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        function hasSavingsDisbursementThisMonth() {
+            var now = new Date();
+            var currentMonth = now.getMonth();
+            var currentYear = now.getFullYear();
+            var entries = disbursementHistory.filter(function(e) { return e.type === 'savings'; });
+            for (var i = 0; i < entries.length; i++) {
+                var date = new Date(entries[i].date);
+                if (date.getMonth() === currentMonth && date.getFullYear() === currentYear) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function hasInterestDisbursementThisMonth() {
+            var now = new Date();
+            var currentMonth = now.getMonth();
+            var currentYear = now.getFullYear();
+            var entries = disbursementHistory.filter(function(e) { return e.type === 'interest'; });
+            for (var i = 0; i < entries.length; i++) {
+                var date = new Date(entries[i].date);
+                if (date.getMonth() === currentMonth && date.getFullYear() === currentYear) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // ============================================================
+        // DISBURSEMENT FUNCTIONS (UPDATED WITH HISTORY)
         // ============================================================
 
         function getNextSavingsDisbursementDate() {
@@ -3096,9 +3408,22 @@
             var currentMonth = now.getMonth();
             var currentYear = now.getFullYear();
 
+            // Check if we've already disbursed this month
+            if (hasSavingsDisbursementThisMonth()) {
+                // Find next month in the list
+                for (var i = 0; i < months.length; i++) {
+                    var monthIndex = ['Jan', 'Mar', 'May', 'Jul', 'Sep', 'Nov'].indexOf(months[i]);
+                    if (monthIndex > currentMonth) {
+                        return months[i] + ' ' + currentYear;
+                    }
+                }
+                return months[0] + ' ' + (currentYear + 1);
+            }
+
+            // Find current or next month
             for (var i = 0; i < months.length; i++) {
                 var monthIndex = ['Jan', 'Mar', 'May', 'Jul', 'Sep', 'Nov'].indexOf(months[i]);
-                if (monthIndex > currentMonth) {
+                if (monthIndex >= currentMonth) {
                     return months[i] + ' ' + currentYear;
                 }
             }
@@ -3109,6 +3434,16 @@
             var now = new Date();
             var currentMonth = now.getMonth();
             var currentYear = now.getFullYear();
+
+            if (hasInterestDisbursementThisMonth()) {
+                if (currentMonth < 5) {
+                    return 'June ' + currentYear;
+                } else if (currentMonth < 11) {
+                    return 'December ' + currentYear;
+                } else {
+                    return 'June ' + (currentYear + 1);
+                }
+            }
 
             if (currentMonth < 5) {
                 return 'June ' + currentYear;
@@ -3131,22 +3466,28 @@
                 return;
             }
 
-            if (lastSavingsDisbursementDate) {
-                var lastDate = new Date(lastSavingsDisbursementDate);
-                if (lastDate.getMonth() + 1 === currentMonth && lastDate.getFullYear() === currentYear) {
-                    showErrorModal('⚠️ Savings have already been disbursed for ' +
-                        ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][currentMonth - 1] + ' ' + currentYear);
-                    return;
-                }
+            // Check if already disbursed this month
+            if (hasSavingsDisbursementThisMonth()) {
+                showErrorModal('⚠️ Savings have already been disbursed for ' +
+                    ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][currentMonth - 1] + ' ' + currentYear);
+                return;
             }
 
             var totalSavings = 0;
             var disbursedCount = 0;
+            var memberSavingsMap = {};
+
+            // Collect all undispersed savings by member
             for (var i = 0; i < savings.length; i++) {
                 if (!savings[i].disbursed) {
+                    var memberId = savings[i].memberId;
+                    if (!memberSavingsMap[memberId]) {
+                        memberSavingsMap[memberId] = 0;
+                    }
+                    memberSavingsMap[memberId] += savings[i].amount;
                     totalSavings += savings[i].amount;
                     savings[i].disbursed = true;
-                    disbursedCount += savings[i].amount;
+                    disbursedCount++;
                 }
             }
 
@@ -3155,11 +3496,24 @@
                 return;
             }
 
-            lastSavingsDisbursementDate = new Date().toISOString();
+            // Save all changes
             saveData();
-            refreshAdminView();
 
-            showErrorModal('✅ Savings disbursed successfully! Total: ' + totalSavings.toFixed(2) + ' KES');
+            // Add to history
+            var historyEntry = addDisbursementHistoryEntry('savings', {
+                totalAmount: totalSavings,
+                memberCount: Object.keys(memberSavingsMap).length,
+                recordCount: disbursedCount,
+                members: memberSavingsMap,
+                month: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][currentMonth - 1],
+                year: currentYear
+            });
+
+            refreshAdminView();
+            showErrorModal('✅ Savings disbursed successfully!\n' +
+                '💰 Total: ' + totalSavings.toFixed(2) + ' KES\n' +
+                '👥 Members: ' + Object.keys(memberSavingsMap).length + '\n' +
+                '📊 Records: ' + disbursedCount);
 
             if (currentAdminSection === 'savings') {
                 renderAdminSavingsSub(currentAdminSub || 'disbursement');
@@ -3177,13 +3531,10 @@
                 return;
             }
 
-            if (lastInterestDisbursementDate) {
-                var lastDate = new Date(lastInterestDisbursementDate);
-                if (lastDate.getMonth() + 1 === currentMonth && lastDate.getFullYear() === currentYear) {
-                    showErrorModal('⚠️ Interest has already been disbursed for ' +
-                        ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][currentMonth - 1] + ' ' + currentYear);
-                    return;
-                }
+            if (hasInterestDisbursementThisMonth()) {
+                showErrorModal('⚠️ Interest has already been disbursed for ' +
+                    ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][currentMonth - 1] + ' ' + currentYear);
+                return;
             }
 
             var totalInterest = 0;
@@ -3210,11 +3561,13 @@
             var memberShare = totalInterest * 0.70;
             var groupReserve = totalInterest * 0.30;
 
+            // Add interest to member savings (70% share)
             var totalMemberInterest = 0;
             for (var memberId in memberInterestMap) {
                 totalMemberInterest += memberInterestMap[memberId];
             }
 
+            var addedMembers = 0;
             for (var memberId in memberInterestMap) {
                 var proportion = memberInterestMap[memberId] / totalMemberInterest;
                 var amountToAdd = memberShare * proportion;
@@ -3226,20 +3579,34 @@
                     disbursed: false,
                     note: 'Interest disbursement (70% share)'
                 });
+                addedMembers++;
             }
 
+            // Update loan reserve (30%)
             var loanReserve = parseFloat(localStorage.getItem('loanReserve') || '0');
             loanReserve += groupReserve;
             localStorage.setItem('loanReserve', loanReserve.toString());
 
-            lastInterestDisbursementDate = new Date().toISOString();
+            // Save all changes
             saveData();
-            refreshAdminView();
 
+            // Add to history
+            var historyEntry = addDisbursementHistoryEntry('interest', {
+                totalInterest: totalInterest,
+                memberShare: memberShare,
+                groupReserve: groupReserve,
+                memberCount: addedMembers,
+                members: memberInterestMap,
+                month: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][currentMonth - 1],
+                year: currentYear
+            });
+
+            refreshAdminView();
             showErrorModal('✅ Interest disbursed successfully!\n' +
                 '💰 Total Interest: ' + totalInterest.toFixed(2) + ' KES\n' +
                 '👥 70% to Members: ' + memberShare.toFixed(2) + ' KES\n' +
-                '🏦 30% to Reserve: ' + groupReserve.toFixed(2) + ' KES');
+                '🏦 30% to Reserve: ' + groupReserve.toFixed(2) + ' KES\n' +
+                '👤 Members: ' + addedMembers);
 
             if (currentAdminSection === 'loans') {
                 renderAdminLoansSub(currentAdminSub || 'interest');
@@ -3247,7 +3614,7 @@
         }
 
         // ============================================================
-        // SYNC FUNCTIONS
+        // SYNC FUNCTIONS (UPDATED)
         // ============================================================
 
         function updateSyncStatus(elementId, message, type) {
@@ -4064,7 +4431,7 @@
         }
 
         // ============================================================
-        // DATA - ADMIN PASSWORD SET TO "tech@solutions"
+        // DATA - UPDATED WITH DISBURSEMENT HISTORY
         // ============================================================
         let MEMBERS = [
             { id: 0, name: "Brian Odhiambo", phone: "0718585462", passcode: "5462" },
@@ -4099,10 +4466,7 @@
         let mgrLastPaidWeek = null;
         let nextLoanId = 6;
         let currentMemberId = null;
-        // ===== DEFAULT ADMIN PASSWORD =====
         let ADMIN_PASSWORD = "tech@solutions";
-        let lastSavingsDisbursementDate = null;
-        let lastInterestDisbursementDate = null;
         let memberToDelete = null;
 
         // ============================================================
@@ -4157,7 +4521,7 @@
         }
 
         // ============================================================
-        // SAVE / LOAD (UPDATED to save ADMIN_PASSWORD permanently)
+        // SAVE / LOAD (UPDATED with disbursement history)
         // ============================================================
 
         function saveData() {
@@ -4168,12 +4532,12 @@
                 mgrWeekIndex,
                 mgrLastPaidWeek,
                 nextLoanId,
-                ADMIN_PASSWORD, // SAVED PERMANENTLY
-                lastSavingsDisbursementDate,
-                lastInterestDisbursementDate,
+                ADMIN_PASSWORD,
                 loanRequests,
                 pendingSignups
             }));
+            // Save disbursement history separately
+            saveDisbursementHistory();
         }
 
         function loadData() {
@@ -4187,13 +4551,13 @@
                     if (p.mgrWeekIndex !== undefined) mgrWeekIndex = p.mgrWeekIndex;
                     if (p.mgrLastPaidWeek !== undefined) mgrLastPaidWeek = p.mgrLastPaidWeek;
                     if (p.nextLoanId !== undefined) nextLoanId = p.nextLoanId;
-                    if (p.ADMIN_PASSWORD) ADMIN_PASSWORD = p.ADMIN_PASSWORD; // LOAD SAVED PASSWORD
-                    if (p.lastSavingsDisbursementDate) lastSavingsDisbursementDate = p.lastSavingsDisbursementDate;
-                    if (p.lastInterestDisbursementDate) lastInterestDisbursementDate = p.lastInterestDisbursementDate;
+                    if (p.ADMIN_PASSWORD) ADMIN_PASSWORD = p.ADMIN_PASSWORD;
                     if (p.loanRequests) loanRequests = p.loanRequests;
                     if (p.pendingSignups) pendingSignups = p.pendingSignups;
                 } catch (e) {}
             }
+            // Load disbursement history
+            loadDisbursementHistory();
         }
 
         // ============================================================
@@ -4268,7 +4632,7 @@
         }
 
         // ============================================================
-        // REFRESH ADMIN VIEW
+        // REFRESH ADMIN VIEW (UPDATED)
         // ============================================================
 
         function refreshAdminView() {
@@ -4849,9 +5213,11 @@
         }
 
         function resetAllData() {
-            if (confirm("ERASE ALL DATA?")) {
+            if (confirm("ERASE ALL DATA? This will permanently delete all data including disbursement history.")) {
                 localStorage.clear();
-                ADMIN_PASSWORD = "tech@solutions"; // RESET TO DEFAULT
+                ADMIN_PASSWORD = "tech@solutions";
+                disbursementHistory = [];
+                saveDisbursementHistory();
                 location.reload();
             }
         }
