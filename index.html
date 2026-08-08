@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Genz Chama - Full Management</title>
+    <title>Genz Chama - Modern</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js">
@@ -18,83 +18,66 @@
         }
 
         body {
-            background: linear-gradient(135deg, #f0f4f8 0%, #dce4ec 50%, #c8d4e0 100%);
+            background: #f0f2f5;
             min-height: 100vh;
             transition: background 0.3s ease, color 0.3s ease;
-            padding: 16px;
+            padding: 12px 12px 80px 12px;
         }
 
         body.dark-mode {
-            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+            background: #0f0f1a;
         }
 
-        /* ===== LOGIN OVERLAY (Blue Theme) ===== */
+        /* ===== LOGIN OVERLAY ===== */
         .login-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.0);
-            backdrop-filter: blur(0px);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            overflow-y: auto;
             padding: 20px;
         }
 
         .login-box {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 48px 40px 40px;
-            border-radius: 32px;
+            padding: 40px 32px 32px;
+            border-radius: 28px;
             width: 100%;
-            max-width: 440px;
-            text-align: center;
-            max-height: 95vh;
-            overflow-y: auto;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.08), 0 10px 30px rgba(0, 0, 0, 0.02);
+            max-width: 420px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
             animation: fadeInUp 0.6s ease;
-            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
             position: relative;
         }
 
         body.dark-mode .login-box {
-            background: rgba(30, 30, 60, 0.92);
-            border-color: rgba(255, 255, 255, 0.05);
-            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+            background: rgba(30, 30, 60, 0.95);
         }
 
         .login-logo {
             width: 72px;
             height: 72px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 32px;
-            font-weight: 700;
             color: white;
-            margin: 0 auto 12px auto;
-            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.25);
-            user-select: none;
-        }
-
-        body.dark-mode .login-logo {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            margin: 0 auto 12px;
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
         }
 
         .login-title {
             font-size: 24px;
             font-weight: 700;
-            color: #1a2b3e;
-            letter-spacing: -0.3px;
-            transition: color 0.3s ease;
+            color: #1a1a2e;
+            text-align: center;
         }
 
         body.dark-mode .login-title {
@@ -104,9 +87,8 @@
         .login-subtitle {
             font-size: 14px;
             color: #6b7a8f;
+            text-align: center;
             margin-top: 4px;
-            font-weight: 400;
-            transition: color 0.3s ease;
         }
 
         body.dark-mode .login-subtitle {
@@ -114,70 +96,26 @@
         }
 
         .login-subtitle a {
-            color: #2563eb;
+            color: #667eea;
             text-decoration: none;
             font-weight: 600;
             cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        body.dark-mode .login-subtitle a {
-            color: #60a5fa;
-        }
-
-        .login-subtitle a:hover {
-            text-decoration: underline;
-        }
-
-        .theme-toggle-wrapper {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-        }
-
-        .theme-toggle {
-            background: rgba(241, 245, 249, 0.7);
-            border: 1px solid rgba(226, 232, 240, 0.5);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: #334155;
-            backdrop-filter: blur(4px);
-        }
-
-        body.dark-mode .theme-toggle {
-            background: rgba(30, 30, 60, 0.7);
-            border-color: rgba(255, 255, 255, 0.05);
-            color: #cbd5e1;
-        }
-
-        .theme-toggle:hover {
-            transform: scale(1.05);
-            background: rgba(37, 99, 235, 0.1);
         }
 
         .login-form {
-            margin-top: 28px;
-            text-align: left;
+            margin-top: 24px;
         }
 
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         .form-group label {
             display: block;
             font-size: 13px;
             font-weight: 600;
-            color: #1a2b3e;
+            color: #1a1a2e;
             margin-bottom: 6px;
-            transition: color 0.3s ease;
         }
 
         body.dark-mode .form-group label {
@@ -186,13 +124,13 @@
 
         .form-group input {
             width: 100%;
-            padding: 12px 16px;
-            border: 2px solid rgba(203, 213, 225, 0.6);
+            padding: 14px 16px;
+            border: 2px solid #e2e8f0;
             border-radius: 12px;
             font-size: 15px;
             transition: all 0.3s ease;
-            background: rgba(248, 250, 252, 0.8);
-            color: #1a2b3e;
+            background: #f8fafc;
+            color: #1a1a2e;
             outline: none;
         }
 
@@ -203,31 +141,34 @@
         }
 
         .form-group input:focus {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-            background: rgba(255, 255, 255, 0.95);
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
         }
 
-        body.dark-mode .form-group input:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
-            background: rgba(30, 30, 60, 0.8);
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
         }
 
-        .form-group input::placeholder {
-            color: #94a3b8;
-            font-weight: 400;
-        }
-
-        body.dark-mode .form-group input::placeholder {
-            color: #64748b;
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.4);
         }
 
         .form-options {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin: 6px 0 22px 0;
+            margin: 6px 0 20px 0;
             flex-wrap: wrap;
             gap: 8px;
         }
@@ -239,106 +180,88 @@
             font-size: 13px;
             color: #4b5a6e;
             cursor: pointer;
-            transition: color 0.3s ease;
-            user-select: none;
         }
 
         body.dark-mode .remember-me {
             color: #94a3b8;
         }
 
-        .remember-me input[type="checkbox"] {
-            width: 16px;
-            height: 16px;
-            accent-color: #2563eb;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
         .forgot-password {
             font-size: 13px;
-            color: #2563eb;
+            color: #667eea;
             text-decoration: none;
             font-weight: 500;
             cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        body.dark-mode .forgot-password {
-            color: #60a5fa;
         }
 
         .forgot-password:hover {
             text-decoration: underline;
         }
 
-        .login-btn {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            color: white;
+        .theme-toggle {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(241, 245, 249, 0.7);
             border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.25);
-            letter-spacing: 0.3px;
+            backdrop-filter: blur(4px);
         }
 
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.35);
+        body.dark-mode .theme-toggle {
+            background: rgba(30, 30, 60, 0.7);
+            color: #cbd5e1;
         }
 
-        body.dark-mode .login-btn {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        .theme-toggle:hover {
+            transform: scale(1.05);
         }
 
-        .register-section {
-            margin-top: 24px;
+        .signup-form {
+            display: none;
+            margin-top: 20px;
             padding-top: 20px;
             border-top: 1px solid rgba(203, 213, 225, 0.3);
-            transition: border-color 0.3s ease;
         }
 
-        body.dark-mode .register-section {
+        body.dark-mode .signup-form {
             border-top-color: rgba(255, 255, 255, 0.05);
         }
 
-        .register-section p {
-            font-size: 14px;
-            color: #4b5a6e;
-            transition: color 0.3s ease;
+        .signup-form h4 {
+            color: #1a1a2e;
+            font-size: 16px;
+            margin-bottom: 12px;
         }
 
-        body.dark-mode .register-section p {
-            color: #94a3b8;
+        body.dark-mode .signup-form h4 {
+            color: #e2e8f0;
         }
 
-        .register-section a {
-            color: #2563eb;
-            text-decoration: none;
-            font-weight: 600;
+        .signup-back-btn {
+            background: none;
+            border: none;
+            color: #667eea;
+            font-size: 13px;
             cursor: pointer;
-            transition: color 0.3s ease;
+            padding: 8px 0;
+            font-weight: 500;
         }
 
-        body.dark-mode .register-section a {
-            color: #60a5fa;
-        }
-
-        .register-section a:hover {
+        .signup-back-btn:hover {
             text-decoration: underline;
         }
 
         #adminLoginPanel {
             display: none;
-            margin-top: 24px;
+            margin-top: 20px;
             padding-top: 20px;
             border-top: 1px solid rgba(203, 213, 225, 0.3);
-            transition: border-color 0.3s ease;
         }
 
         body.dark-mode #adminLoginPanel {
@@ -346,10 +269,9 @@
         }
 
         #adminLoginPanel h4 {
-            color: #1a2b3e;
+            color: #1a1a2e;
             font-size: 16px;
             margin-bottom: 12px;
-            transition: color 0.3s ease;
         }
 
         body.dark-mode #adminLoginPanel h4 {
@@ -359,19 +281,15 @@
         .admin-back-btn {
             background: none;
             border: none;
-            color: #6b7a8f;
+            color: #667eea;
             font-size: 13px;
             cursor: pointer;
             padding: 8px 0;
-            transition: color 0.3s ease;
-        }
-
-        body.dark-mode .admin-back-btn {
-            color: #94a3b8;
+            font-weight: 500;
         }
 
         .admin-back-btn:hover {
-            color: #2563eb;
+            text-decoration: underline;
         }
 
         .secret-admin-trigger {
@@ -379,18 +297,14 @@
             user-select: none;
             font-size: 10px;
             color: #cbd5e1;
-            margin-top: 16px;
+            margin-top: 12px;
             opacity: 0.3;
             transition: opacity 0.3s ease;
-            letter-spacing: 0.5px;
+            text-align: center;
         }
 
         .secret-admin-trigger:hover {
             opacity: 0.6;
-        }
-
-        body.dark-mode .secret-admin-trigger {
-            color: #475569;
         }
 
         .login-footer {
@@ -401,73 +315,11 @@
         .login-footer p {
             font-size: 12px;
             color: #94a3b8;
-            transition: color 0.3s ease;
-        }
-
-        body.dark-mode .login-footer p {
-            color: #64748b;
         }
 
         .login-footer span {
-            color: #2563eb;
+            color: #667eea;
             font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        body.dark-mode .login-footer span {
-            color: #60a5fa;
-        }
-
-        .signup-form {
-            display: none;
-            margin-top: 24px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(203, 213, 225, 0.3);
-            transition: border-color 0.3s ease;
-        }
-
-        body.dark-mode .signup-form {
-            border-top-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .signup-form h4 {
-            color: #1a2b3e;
-            font-size: 16px;
-            margin-bottom: 12px;
-            transition: color 0.3s ease;
-        }
-
-        body.dark-mode .signup-form h4 {
-            color: #e2e8f0;
-        }
-
-        .signup-form .small-text {
-            font-size: 12px;
-            color: #6b7a8f;
-            margin-top: 4px;
-            transition: color 0.3s ease;
-        }
-
-        body.dark-mode .signup-form .small-text {
-            color: #94a3b8;
-        }
-
-        .signup-back-btn {
-            background: none;
-            border: none;
-            color: #6b7a8f;
-            font-size: 13px;
-            cursor: pointer;
-            padding: 8px 0;
-            transition: color 0.3s ease;
-        }
-
-        body.dark-mode .signup-back-btn {
-            color: #94a3b8;
-        }
-
-        .signup-back-btn:hover {
-            color: #2563eb;
         }
 
         /* ===== MODALS ===== */
@@ -480,7 +332,6 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
             z-index: 2000;
             justify-content: center;
             align-items: center;
@@ -490,27 +341,23 @@
         .modal-content {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             padding: 30px;
             border-radius: 24px;
             width: 100%;
             max-width: 380px;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
             animation: fadeIn 0.3s ease;
         }
 
         body.dark-mode .modal-content {
             background: rgba(30, 30, 60, 0.95);
-            border-color: rgba(255, 255, 255, 0.05);
         }
 
         .modal-content h3 {
-            color: #1a2b3e;
+            color: #1a1a2e;
             font-size: 20px;
             margin-bottom: 12px;
-            transition: color 0.3s ease;
         }
 
         body.dark-mode .modal-content h3 {
@@ -521,7 +368,6 @@
             color: #4b5a6e;
             font-size: 14px;
             line-height: 1.6;
-            transition: color 0.3s ease;
         }
 
         body.dark-mode .modal-content p {
@@ -533,7 +379,7 @@
             padding: 10px 32px;
             border: none;
             border-radius: 50px;
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             font-weight: 600;
             cursor: pointer;
@@ -543,7 +389,7 @@
 
         .modal-content button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
         }
 
         .modal-content .secondary-btn {
@@ -556,28 +402,6 @@
             color: #94a3b8;
         }
 
-        .forgot-modal .contact-info {
-            background: rgba(37, 99, 235, 0.06);
-            border-radius: 12px;
-            padding: 14px;
-            margin: 12px 0;
-            font-size: 14px;
-            border: 1px solid rgba(37, 99, 235, 0.1);
-        }
-
-        body.dark-mode .forgot-modal .contact-info {
-            background: rgba(37, 99, 235, 0.08);
-            border-color: rgba(37, 99, 235, 0.05);
-        }
-
-        .forgot-modal .contact-info strong {
-            color: #2563eb;
-        }
-
-        body.dark-mode .forgot-modal .contact-info strong {
-            color: #60a5fa;
-        }
-
         .error-modal {
             display: none;
             position: fixed;
@@ -587,7 +411,6 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
             z-index: 3000;
             justify-content: center;
             align-items: center;
@@ -597,27 +420,23 @@
         .error-modal .error-box {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             padding: 30px;
             border-radius: 24px;
             width: 100%;
             max-width: 350px;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.3);
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
             animation: fadeIn 0.3s ease;
         }
 
         body.dark-mode .error-modal .error-box {
             background: rgba(30, 30, 60, 0.95);
-            border-color: rgba(255, 255, 255, 0.05);
         }
 
         .error-modal .error-box p {
             color: #4b5a6e;
             font-size: 14px;
             line-height: 1.6;
-            transition: color 0.3s ease;
         }
 
         body.dark-mode .error-modal .error-box p {
@@ -629,7 +448,7 @@
             padding: 10px 32px;
             border: none;
             border-radius: 50px;
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             font-weight: 600;
             cursor: pointer;
@@ -639,7 +458,7 @@
 
         .error-modal .error-box button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
         }
 
         .till-display {
@@ -650,6 +469,7 @@
             text-align: center;
             margin-bottom: 12px;
         }
+
         .till-display h4 {
             font-size: 24px;
             letter-spacing: 2px;
@@ -678,65 +498,21 @@
             }
         }
 
-        /* ===== RESPONSIVE LOGIN ===== */
-        @media (max-width: 480px) {
-            .login-box {
-                padding: 32px 24px 28px;
-                border-radius: 24px;
-            }
-            .login-logo {
-                width: 56px;
-                height: 56px;
-                font-size: 26px;
-            }
-            .login-title {
-                font-size: 20px;
-            }
-            .login-subtitle {
-                font-size: 13px;
-            }
-            .form-group input {
-                padding: 10px 14px;
-                font-size: 14px;
-            }
-            .login-btn {
-                padding: 12px;
-                font-size: 15px;
-            }
-            .form-options {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 6px;
-            }
-            .theme-toggle-wrapper {
-                top: 12px;
-                right: 12px;
-            }
-            .theme-toggle {
-                width: 34px;
-                height: 34px;
-                font-size: 17px;
-            }
-        }
-
         /* ============================================================ */
-        /* ===== DASHBOARD STYLES (ORIGINAL GREEN THEME) ===== */
+        /* ===== HEADER ===== */
         /* ============================================================ */
-
         .header {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 24px;
-            padding: 14px 20px;
+            border-radius: 20px;
+            padding: 12px 20px;
             border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 10px;
-            position: relative;
-            z-index: 100;
+            margin-bottom: 16px;
             transition: all 0.3s ease;
         }
 
@@ -754,13 +530,12 @@
         .hamburger-btn {
             background: none;
             border: none;
-            font-size: 28px;
+            font-size: 24px;
             cursor: pointer;
             padding: 4px 8px;
-            color: #1a4d3e;
+            color: #1a1a2e;
             display: none;
             line-height: 1;
-            transition: transform 0.2s ease;
         }
 
         body.dark-mode .hamburger-btn {
@@ -768,10 +543,10 @@
         }
 
         .header h1 {
-            color: #1a4d3e;
-            font-size: 20px;
-            white-space: nowrap;
+            font-size: 18px;
+            color: #1a1a2e;
             font-weight: 700;
+            white-space: nowrap;
             transition: color 0.3s ease;
         }
 
@@ -782,12 +557,12 @@
         .header-right {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
         }
 
         .header .user-info {
-            color: #64748b;
             font-size: 13px;
+            color: #64748b;
             text-align: right;
             transition: color 0.3s ease;
         }
@@ -797,7 +572,7 @@
         }
 
         .header .user-info span {
-            color: #1a4d3e;
+            color: #1a1a2e;
             font-weight: 600;
             transition: color 0.3s ease;
         }
@@ -810,12 +585,12 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -823,7 +598,6 @@
             flex-shrink: 0;
             overflow: hidden;
             position: relative;
-            box-shadow: 0 4px 12px rgba(26, 77, 62, 0.2);
         }
 
         body.dark-mode .profile-avatar {
@@ -831,78 +605,130 @@
         }
 
         .admin-badge {
-            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 4px 14px;
             border-radius: 50px;
             display: inline-block;
             font-size: 11px;
             font-weight: 600;
-            letter-spacing: 0.3px;
-            box-shadow: 0 2px 8px rgba(30, 64, 175, 0.3);
         }
 
-        .profile-modal {
-            display: none;
+        /* ============================================================ */
+        /* ===== BOTTOM NAVIGATION - MODERN & RESPONSIVE ===== */
+        /* ============================================================ */
+        .bottom-nav {
             position: fixed;
-            top: 0;
+            bottom: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .profile-modal.open {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .profile-modal-content {
+            right: 0;
             background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 28px;
-            padding: 35px;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            max-height: 90vh;
-            overflow-y: auto;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(203, 213, 225, 0.3);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 6px 0 env(safe-area-inset-bottom, 6px) 0;
+            z-index: 500;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
             transition: all 0.3s ease;
         }
 
-        body.dark-mode .profile-modal-content {
-            background: rgba(30, 30, 60, 0.92);
-            border-color: rgba(255, 255, 255, 0.05);
+        body.dark-mode .bottom-nav {
+            background: rgba(30, 30, 60, 0.95);
+            border-top-color: rgba(255, 255, 255, 0.05);
         }
 
-        .profile-modal-content h3 {
-            color: #1a4d3e;
-            transition: color 0.3s ease;
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4px 12px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: #94a3b8;
+            transition: all 0.3s ease;
+            position: relative;
+            min-width: 56px;
+            text-decoration: none;
+            font-family: inherit;
+            gap: 2px;
         }
 
-        body.dark-mode .profile-modal-content h3 {
-            color: #e2e8f0;
+        body.dark-mode .bottom-nav-item {
+            color: #64748b;
         }
 
+        .bottom-nav-item .nav-icon {
+            font-size: 22px;
+            line-height: 1;
+            transition: all 0.3s ease;
+        }
+
+        .bottom-nav-item .nav-label {
+            font-size: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            line-height: 1;
+        }
+
+        .bottom-nav-item:hover {
+            color: #667eea;
+        }
+
+        .bottom-nav-item.active {
+            color: #667eea;
+        }
+
+        body.dark-mode .bottom-nav-item.active {
+            color: #a78bfa;
+        }
+
+        .bottom-nav-item.active .nav-icon {
+            transform: scale(1.1);
+        }
+
+        .bottom-nav-item.active::after {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 0 0 4px 4px;
+        }
+
+        .bottom-nav-item .nav-badge {
+            position: absolute;
+            top: 0;
+            right: 4px;
+            background: #ef4444;
+            color: white;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 1px 6px;
+            border-radius: 50px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        /* ============================================================ */
+        /* ===== SIDEBAR ===== */
+        /* ============================================================ */
         .sidebar {
             width: 240px;
             min-width: 200px;
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 24px;
+            border-radius: 20px;
             padding: 12px;
             border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
             height: fit-content;
             flex-shrink: 0;
             transition: all 0.3s ease;
@@ -945,7 +771,7 @@
         }
 
         .sidebar-item:hover {
-            background: rgba(26, 77, 62, 0.06);
+            background: rgba(102, 126, 234, 0.06);
         }
 
         body.dark-mode .sidebar-item:hover {
@@ -953,9 +779,9 @@
         }
 
         .sidebar-item.active {
-            background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            box-shadow: 0 4px 15px rgba(26, 77, 62, 0.25);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.25);
         }
 
         .sidebar-item .icon {
@@ -970,10 +796,6 @@
             font-size: 12px;
             transition: transform 0.3s ease;
             color: #94a3b8;
-        }
-
-        body.dark-mode .sidebar-item .arrow {
-            color: #64748b;
         }
 
         .sidebar-item .arrow.open {
@@ -1008,8 +830,8 @@
         }
 
         .sidebar-sub .sidebar-item:hover {
-            background: rgba(26, 77, 62, 0.06);
-            color: #334155;
+            background: rgba(102, 126, 234, 0.06);
+            color: #1a1a2e;
         }
 
         body.dark-mode .sidebar-sub .sidebar-item:hover {
@@ -1018,20 +840,10 @@
         }
 
         .sidebar-sub .sidebar-item.active {
-            background: rgba(26, 77, 62, 0.15);
-            color: #1a4d3e;
+            background: rgba(102, 126, 234, 0.15);
+            color: #667eea;
             box-shadow: none;
             font-weight: 500;
-        }
-
-        body.dark-mode .sidebar-sub .sidebar-item.active {
-            background: rgba(255, 255, 255, 0.1);
-            color: #e2e8f0;
-        }
-
-        .sidebar-sub .sidebar-item .icon {
-            font-size: 14px;
-            width: 20px;
         }
 
         .sidebar-divider {
@@ -1061,7 +873,6 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.4);
             backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
             z-index: 999;
             opacity: 0;
             transition: opacity 0.3s ease;
@@ -1080,7 +891,6 @@
             height: 100%;
             background: rgba(255, 255, 255, 0.96);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             z-index: 1000;
             padding: 20px 16px;
             border-right: 1px solid rgba(255, 255, 255, 0.3);
@@ -1106,10 +916,9 @@
             font-size: 28px;
             cursor: pointer;
             color: #64748b;
-            float: right;
             padding: 0 4px;
-            transition: transform 0.2s ease;
             align-self: flex-end;
+            transition: transform 0.2s ease;
         }
 
         body.dark-mode .sidebar-mobile .close-btn {
@@ -1169,7 +978,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             display: flex;
             align-items: center;
@@ -1190,7 +999,7 @@
         .sidebar-mobile .mobile-profile .name {
             font-weight: 600;
             font-size: 14px;
-            color: #1a4d3e;
+            color: #1a1a2e;
             transition: color 0.3s ease;
         }
 
@@ -1215,23 +1024,26 @@
             padding-bottom: 12px;
         }
 
+        /* ============================================================ */
+        /* ===== MAIN CONTENT ===== */
+        /* ============================================================ */
         .dashboard-container {
             display: flex;
-            gap: 20px;
-            min-height: 500px;
-            margin-top: 16px;
+            gap: 16px;
+            min-height: 400px;
+            margin-top: 0;
             position: relative;
+            padding-bottom: 80px;
         }
 
         .content-area {
             flex: 1;
             background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 24px;
-            padding: 24px;
+            border-radius: 20px;
+            padding: 20px;
             border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
             min-height: 400px;
             min-width: 0;
             overflow-x: auto;
@@ -1255,10 +1067,10 @@
 
         .content-area h2 {
             font-size: 20px;
-            margin-bottom: 20px;
-            border-left: 4px solid #1a4d3e;
+            margin-bottom: 16px;
+            border-left: 4px solid #667eea;
             padding-left: 14px;
-            color: #1a4d3e;
+            color: #1a1a2e;
             font-weight: 700;
             transition: color 0.3s ease;
         }
@@ -1267,15 +1079,17 @@
             color: #e2e8f0;
         }
 
+        /* ============================================================ */
+        /* ===== CARDS ===== */
+        /* ============================================================ */
         .card {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border-radius: 18px;
-            padding: 20px;
-            margin-bottom: 16px;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
             border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
             transition: all 0.3s ease;
             width: 100%;
         }
@@ -1286,26 +1100,25 @@
         }
 
         .card:hover {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
             transform: translateY(-2px);
         }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 16px;
         }
 
         .stat-card {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border-radius: 18px;
-            padding: 20px;
+            border-radius: 16px;
+            padding: 16px;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
             transition: all 0.3s ease;
             cursor: pointer;
             position: relative;
@@ -1318,9 +1131,9 @@
         }
 
         .stat-card h3 {
-            font-size: 30px;
-            color: #1a4d3e;
-            margin-bottom: 4px;
+            font-size: 26px;
+            color: #1a1a2e;
+            margin-bottom: 2px;
             font-weight: 700;
             transition: color 0.3s ease;
         }
@@ -1340,8 +1153,16 @@
             color: #94a3b8;
         }
 
+        .stat-card .stat-icon {
+            font-size: 28px;
+            margin-bottom: 4px;
+        }
+
+        /* ============================================================ */
+        /* ===== BUTTONS ===== */
+        /* ============================================================ */
         button {
-            background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
             padding: 10px 20px;
@@ -1351,12 +1172,12 @@
             margin: 4px;
             font-size: 13px;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 10px rgba(26, 77, 62, 0.2);
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.2);
         }
 
         button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(26, 77, 62, 0.3);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
         }
 
         button.secondary {
@@ -1380,10 +1201,6 @@
             box-shadow: 0 2px 10px rgba(2, 132, 199, 0.2);
         }
 
-        button.sync:hover {
-            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.3);
-        }
-
         button.back-btn {
             background: rgba(100, 116, 139, 0.6);
             color: #334155;
@@ -1403,13 +1220,48 @@
             transform: translateY(-1px);
         }
 
+        /* ============================================================ */
+        /* ===== FORM ELEMENTS ===== */
+        /* ============================================================ */
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: rgba(248, 250, 252, 0.8);
+            color: #1a1a2e;
+            outline: none;
+            margin-bottom: 10px;
+            font-family: inherit;
+        }
+
+        body.dark-mode input, body.dark-mode select, body.dark-mode textarea {
+            background: rgba(30, 30, 60, 0.6);
+            border-color: rgba(255, 255, 255, 0.08);
+            color: #e2e8f0;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+
+        /* ============================================================ */
+        /* ===== RULES ===== */
+        /* ============================================================ */
         .rules-section {
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border-radius: 18px;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             transition: all 0.3s ease;
         }
@@ -1420,9 +1272,9 @@
         }
 
         .rules-section h3 {
-            color: #1a4d3e;
-            font-size: 18px;
-            margin-bottom: 12px;
+            color: #1a1a2e;
+            font-size: 16px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -1508,7 +1360,7 @@
         }
 
         .copy-btn:hover {
-            background: #1a4d3e;
+            background: #667eea;
             color: white;
             transform: scale(1.05);
         }
@@ -1560,16 +1412,11 @@
             color: #065f46;
         }
 
-        .warning-text {
-            color: #dc2626;
-            font-weight: 600;
-        }
-
         .rules-edit-area {
             width: 100%;
             min-height: 300px;
             padding: 16px;
-            border-radius: 16px;
+            border-radius: 12px;
             border: 2px solid rgba(226, 232, 240, 0.5);
             background: rgba(255, 255, 255, 0.6);
             color: #334155;
@@ -1577,6 +1424,7 @@
             line-height: 1.8;
             resize: vertical;
             transition: all 0.3s ease;
+            font-family: monospace;
         }
 
         body.dark-mode .rules-edit-area {
@@ -1586,9 +1434,9 @@
         }
 
         .rules-edit-area:focus {
-            border-color: #1a4d3e;
+            border-color: #667eea;
             outline: none;
-            box-shadow: 0 0 0 4px rgba(26, 77, 62, 0.08);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.08);
         }
 
         .edit-mode-indicator {
@@ -1620,8 +1468,8 @@
 
         .footer {
             text-align: center;
-            padding: 20px;
-            margin-top: 20px;
+            padding: 16px;
+            margin-top: 16px;
             color: #64748b;
             font-size: 12px;
             border-top: 1px solid rgba(226, 232, 240, 0.5);
@@ -1634,22 +1482,22 @@
         }
 
         .footer span {
-            color: #1a4d3e;
+            color: #667eea;
             font-weight: 500;
             transition: color 0.3s ease;
         }
 
         body.dark-mode .footer span {
-            color: #e2e8f0;
+            color: #a78bfa;
         }
 
         .report-card {
             background: rgba(224, 231, 255, 0.4);
             backdrop-filter: blur(4px);
             border: 2px solid rgba(139, 92, 246, 0.15);
-            border-radius: 18px;
-            padding: 20px;
-            margin-top: 16px;
+            border-radius: 16px;
+            padding: 16px;
+            margin-top: 12px;
             transition: all 0.3s ease;
             width: 100%;
         }
@@ -1694,6 +1542,9 @@
             background: rgba(30, 30, 60, 0.6);
         }
 
+        /* ============================================================ */
+        /* ===== TABLES ===== */
+        /* ============================================================ */
         .savings-table,
         .interest-table,
         .report-table {
@@ -1729,7 +1580,7 @@
         .report-table th {
             background: rgba(248, 250, 252, 0.6);
             font-weight: 600;
-            color: #1a4d3e;
+            color: #1a1a2e;
             backdrop-filter: blur(4px);
             transition: all 0.3s ease;
         }
@@ -1788,14 +1639,13 @@
             display: none;
         }
 
-        /* ===== DISBURSEMENT HISTORY STYLES ===== */
         .history-entry {
             background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(4px);
             border-radius: 12px;
             padding: 12px 16px;
             margin-bottom: 8px;
-            border-left: 4px solid #1a4d3e;
+            border-left: 4px solid #667eea;
             transition: all 0.3s ease;
         }
 
@@ -1814,7 +1664,7 @@
 
         .history-entry .entry-amount {
             font-weight: 700;
-            color: #1a4d3e;
+            color: #1a1a2e;
             font-size: 16px;
         }
 
@@ -1859,7 +1709,7 @@
         }
 
         .disbursement-summary {
-            background: linear-gradient(135deg, #1a4d3e 0%, #0f3b2c 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border-radius: 16px;
             padding: 16px;
@@ -1867,7 +1717,7 @@
         }
 
         body.dark-mode .disbursement-summary {
-            background: linear-gradient(135deg, #0f2b24 0%, #0a1f1a 100%);
+            background: linear-gradient(135deg, #4c51bf 0%, #5b21b6 100%);
         }
 
         .disbursement-summary .stat {
@@ -1881,71 +1731,50 @@
             border-bottom: none;
         }
 
-        .history-accordion {
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(4px);
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 8px;
-        }
-
-        body.dark-mode .history-accordion {
-            background: rgba(30, 30, 60, 0.4);
-        }
-
-        .history-accordion-header {
-            padding: 12px 16px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.3s ease;
-        }
-
-        .history-accordion-header:hover {
-            background: rgba(0, 0, 0, 0.03);
-        }
-
-        body.dark-mode .history-accordion-header:hover {
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        .history-accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            padding: 0 16px;
-        }
-
-        .history-accordion-content.open {
-            max-height: 1000px;
-            padding: 12px 16px;
-        }
-
         /* ============================================================ */
         /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
+        /* ============================================================ */
+
+        /* Desktop: Show sidebar, hide bottom nav */
+        @media (min-width: 769px) {
+            .bottom-nav {
+                display: none !important;
+            }
+            body {
+                padding: 12px 12px 12px 12px;
+            }
+            .dashboard-container {
+                padding-bottom: 0;
+            }
             .hamburger-btn {
-                display: block !important;
+                display: none !important;
+            }
+        }
+
+        /* Tablet & Mobile: Show bottom nav, hide sidebar */
+        @media (max-width: 768px) {
+            .bottom-nav {
+                display: flex !important;
+            }
+            body {
+                padding: 12px 12px 80px 12px;
+            }
+            .dashboard-container {
+                padding-bottom: 0;
             }
             .sidebar {
                 display: none !important;
             }
-            .dashboard-container {
-                flex-direction: column;
-                gap: 12px;
-                margin-top: 12px;
-            }
-            .content-area {
-                padding: 16px;
-                min-height: 300px;
+            .hamburger-btn {
+                display: block !important;
             }
             .stats-grid {
                 grid-template-columns: 1fr 1fr;
                 gap: 10px;
             }
-            .header h1 {
-                font-size: 17px;
+            .content-area {
+                padding: 16px;
+                min-height: 300px;
             }
             .stat-card h3 {
                 font-size: 20px;
@@ -1953,6 +1782,9 @@
             .card {
                 padding: 14px;
                 margin-bottom: 12px;
+            }
+            .header h1 {
+                font-size: 16px;
             }
             .copyable-text .text-content {
                 max-width: 150px;
@@ -1975,7 +1807,7 @@
                 padding: 12px;
             }
             .stat-card h3 {
-                font-size: 16px;
+                font-size: 18px;
             }
             .content-area {
                 padding: 12px;
@@ -1987,11 +1819,29 @@
                 width: 260px;
                 left: -280px;
             }
+            .bottom-nav-item {
+                padding: 4px 8px;
+                min-width: 44px;
+            }
+            .bottom-nav-item .nav-icon {
+                font-size: 18px;
+            }
+            .bottom-nav-item .nav-label {
+                font-size: 9px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .bottom-nav-item .nav-label {
+                display: none;
+            }
+            .bottom-nav-item {
+                padding: 6px 8px;
+            }
         }
     </style>
 </head>
 <body>
-
     <!-- ===== ERROR MODAL ===== -->
     <div id="errorModal" class="error-modal">
         <div class="error-box">
@@ -2032,7 +1882,7 @@
             <span style="font-size:40px;">🔐</span>
             <h3>Reset Password</h3>
             <p>Please contact the admin to reset your password.</p>
-            <div class="contact-info">
+            <div class="contact-info" style="background:rgba(102,126,234,0.06);border-radius:12px;padding:14px;margin:12px 0;font-size:14px;border:1px solid rgba(102,126,234,0.1);">
                 📞 <strong>Admin:</strong> 0769618871<br>
                 📧 <strong>Email:</strong> admin@genzchama.com
             </div>
@@ -2042,16 +1892,13 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== LOGIN OVERLAY (Blue Theme) ===== -->
+    <!-- ===== LOGIN OVERLAY ===== -->
     <!-- ============================================================ -->
     <div id="loginOverlay" class="login-overlay">
         <div class="login-box">
-
-            <div class="theme-toggle-wrapper">
-                <button onclick="toggleTheme()" class="theme-toggle" title="Toggle Dark/Light Mode">
-                    <span class="toggle-icon" id="loginThemeIcon">☀️</span>
-                </button>
-            </div>
+            <button onclick="toggleTheme()" class="theme-toggle" title="Toggle Dark/Light Mode">
+                <span class="toggle-icon" id="loginThemeIcon">☀️</span>
+            </button>
 
             <div class="login-logo">💰</div>
             <h1 class="login-title">Genz Association</h1>
@@ -2086,7 +1933,7 @@
                 <button type="submit" class="login-btn">Login</button>
             </form>
 
-            <!-- SIGNUP FORM (hidden) -->
+            <!-- SIGNUP FORM -->
             <div id="signupForm" class="signup-form">
                 <button class="signup-back-btn" onclick="hideSignupForm()">← Back to Login</button>
                 <h4>📝 Register New Account</h4>
@@ -2102,7 +1949,7 @@
                 <button onclick="showPaymentModal()" class="login-btn" style="margin-top:12px; background:linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow:0 4px 20px rgba(16,185,129,0.25);">Request Sign Up</button>
             </div>
 
-            <!-- ADMIN LOGIN PANEL (Hidden - Secret Access) -->
+            <!-- ADMIN LOGIN PANEL -->
             <div id="adminLoginPanel">
                 <button class="admin-back-btn" onclick="closeAdminLogin()">← Back to Member Login</button>
                 <h4>👑 Admin Access</h4>
@@ -2117,12 +1964,11 @@
                 <p>Designed by <span>Conquerer Tech Solutions</span></p>
                 <div class="secret-admin-trigger" onclick="triggerAdminAccess()">v2.0</div>
             </div>
-
         </div>
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== MEMBER VIEW (Green Theme - Unchanged) ===== -->
+    <!-- ===== MEMBER VIEW ===== -->
     <!-- ============================================================ -->
     <div id="memberView" style="display:none">
         <!-- Header -->
@@ -2133,7 +1979,7 @@
             </div>
             <div class="header-right">
                 <div class="user-info">Welcome, <span id="memberNameHeader"></span></div>
-                <button onclick="toggleTheme()" class="theme-toggle" title="Toggle Dark/Light Mode">
+                <button onclick="toggleTheme()" class="theme-toggle" title="Toggle Dark/Light Mode" style="position:static;width:36px;height:36px;font-size:18px;background:rgba(241,245,249,0.7);border-radius:50%;">
                     <span class="toggle-icon" id="headerThemeIcon">☀️</span>
                 </button>
                 <div class="profile-avatar" id="headerAvatar" onclick="openProfileModal()">
@@ -2223,6 +2069,30 @@
             </div>
         </div>
 
+        <!-- BOTTOM NAVIGATION - MEMBER -->
+        <nav class="bottom-nav" id="memberBottomNav">
+            <button class="bottom-nav-item active" onclick="showMemberContent('dashboard')" data-section="dashboard">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </button>
+            <button class="bottom-nav-item" onclick="showMemberContent('savings')" data-section="savings">
+                <span class="nav-icon">💰</span>
+                <span class="nav-label">Savings</span>
+            </button>
+            <button class="bottom-nav-item" onclick="showMemberContent('loans')" data-section="loans">
+                <span class="nav-icon">📋</span>
+                <span class="nav-label">Loans</span>
+            </button>
+            <button class="bottom-nav-item" onclick="showMemberContent('rules')" data-section="rules">
+                <span class="nav-icon">📋</span>
+                <span class="nav-label">Rules</span>
+            </button>
+            <button class="bottom-nav-item" onclick="logout()" data-section="logout" style="color:#dc2626;">
+                <span class="nav-icon">🚪</span>
+                <span class="nav-label">Logout</span>
+            </button>
+        </nav>
+
         <!-- DESKTOP SIDEBAR & CONTENT -->
         <div class="dashboard-container">
             <div class="sidebar" id="memberSidebar">
@@ -2300,26 +2170,23 @@
                 <div class="tab-content active" id="memberContentDashboard">
                     <h2>📊 Dashboard</h2>
                     <div class="stats-grid">
-                        <div class="stat-card" onclick="showMemberSubContent('savings','current')" style="background:linear-gradient(135deg, rgba(26,77,62,0.08) 0%, rgba(15,59,44,0.05) 100%);">
-                            <div style="position:absolute;right:-10px;bottom:-10px;font-size:60px;opacity:0.05;pointer-events:none;">💰</div>
+                        <div class="stat-card" onclick="showMemberSubContent('savings','current')">
+                            <div class="stat-icon">💰</div>
                             <h3 id="dashTotalSavings">0 KES</h3>
                             <p>Total Savings</p>
-                            <div style="font-size:10px;color:#94a3b8;margin-top:6px;opacity:0;transition:opacity 0.3s ease;">👆 Click to view savings</div>
                         </div>
-                        <div class="stat-card" onclick="showMemberSubContent('loans','approved')" style="background:linear-gradient(135deg, rgba(30,64,175,0.08) 0%, rgba(30,58,138,0.05) 100%);">
-                            <div style="position:absolute;right:-10px;bottom:-10px;font-size:60px;opacity:0.05;pointer-events:none;">📋</div>
+                        <div class="stat-card" onclick="showMemberSubContent('loans','approved')">
+                            <div class="stat-icon">📋</div>
                             <h3 id="dashTotalLoans">0 KES</h3>
                             <p>Active Loans</p>
-                            <div style="font-size:10px;color:#94a3b8;margin-top:6px;opacity:0;transition:opacity 0.3s ease;">👆 Click to view loans</div>
                         </div>
-                        <div class="stat-card" onclick="showMemberSubContent('loans','interest')" style="background:linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(217,119,6,0.05) 100%);">
-                            <div style="position:absolute;right:-10px;bottom:-10px;font-size:60px;opacity:0.05;pointer-events:none;">📈</div>
+                        <div class="stat-card" onclick="showMemberSubContent('loans','interest')">
+                            <div class="stat-icon">📈</div>
                             <h3 id="dashInterest">0 KES</h3>
                             <p>Interest Earned</p>
-                            <div style="font-size:10px;color:#94a3b8;margin-top:6px;opacity:0;transition:opacity 0.3s ease;">👆 Click to view loans</div>
                         </div>
                     </div>
-                    <div class="card"><h2>🎡 Weekly MGR (250 KES)</h2><div id="memberMgr" class="winner" style="background:rgba(209,250,229,0.6);backdrop-filter:blur(4px);padding:12px;border-radius:50px;text-align:center;font-weight:600;margin:10px 0;border:1px solid rgba(16,185,129,0.2);">Loading...</div></div>
+                    <div class="card"><h2>🎡 Weekly MGR (250 KES)</h2><div id="memberMgr" style="background:rgba(209,250,229,0.6);backdrop-filter:blur(4px);padding:12px;border-radius:50px;text-align:center;font-weight:600;margin:10px 0;border:1px solid rgba(16,185,129,0.2);">Loading...</div></div>
                 </div>
                 <!-- SAVINGS -->
                 <div class="tab-content" id="memberContentSavings">
@@ -2333,8 +2200,8 @@
                 </div>
                 <!-- RULES -->
                 <div class="tab-content" id="memberContentRules">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
-                        <h2 style="margin:0; border-left:4px solid #1a4d3e; padding-left:14px; color:#1a4d3e; font-weight:700; font-size:20px;">📋 Rules & Regulations</h2>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+                        <h2 style="margin:0; border-left:4px solid #667eea; padding-left:14px; color:#1a1a2e; font-weight:700; font-size:20px;">📋 Rules & Regulations</h2>
                         <button onclick="downloadRulesPDF()" class="download" style="margin:0;">📄 Download Rules (PDF)</button>
                     </div>
                     <div id="rulesDisplay"></div>
@@ -2345,7 +2212,7 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- ===== ADMIN VIEW (Green Theme - Unchanged) ===== -->
+    <!-- ===== ADMIN VIEW ===== -->
     <!-- ============================================================ -->
     <div id="adminView" style="display:none">
         <div class="header">
@@ -2355,7 +2222,7 @@
             </div>
             <div class="header-right">
                 <span class="admin-badge">👑 ADMIN MODE</span>
-                <button onclick="toggleTheme()" class="theme-toggle" title="Toggle Dark/Light Mode">
+                <button onclick="toggleTheme()" class="theme-toggle" title="Toggle Dark/Light Mode" style="position:static;width:36px;height:36px;font-size:18px;background:rgba(241,245,249,0.7);border-radius:50%;">
                     <span class="toggle-icon" id="adminHeaderThemeIcon">☀️</span>
                 </button>
             </div>
@@ -2463,6 +2330,34 @@
             </div>
         </div>
 
+        <!-- ADMIN BOTTOM NAVIGATION -->
+        <nav class="bottom-nav" id="adminBottomNav">
+            <button class="bottom-nav-item active" onclick="showAdminContent('dashboard')" data-section="dashboard">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">Home</span>
+            </button>
+            <button class="bottom-nav-item" onclick="showAdminContent('members')" data-section="members">
+                <span class="nav-icon">👥</span>
+                <span class="nav-label">Members</span>
+            </button>
+            <button class="bottom-nav-item" onclick="showAdminContent('savings')" data-section="savings">
+                <span class="nav-icon">💰</span>
+                <span class="nav-label">Savings</span>
+            </button>
+            <button class="bottom-nav-item" onclick="showAdminContent('loans')" data-section="loans">
+                <span class="nav-icon">📋</span>
+                <span class="nav-label">Loans</span>
+            </button>
+            <button class="bottom-nav-item" onclick="showAdminContent('rules')" data-section="rules">
+                <span class="nav-icon">📋</span>
+                <span class="nav-label">Rules</span>
+            </button>
+            <button class="bottom-nav-item" onclick="logout()" data-section="logout" style="color:#dc2626;">
+                <span class="nav-icon">🚪</span>
+                <span class="nav-label">Logout</span>
+            </button>
+        </nav>
+
         <!-- ADMIN DESKTOP SIDEBAR & CONTENT -->
         <div class="dashboard-container">
             <div class="sidebar" id="adminSidebar">
@@ -2568,27 +2463,24 @@
                 <div class="tab-content active" id="adminContentDashboard">
                     <h2>📊 Dashboard</h2>
                     <div class="stats-grid">
-                        <div class="stat-card" onclick="showAdminSubContent('savings','disbursement')" style="background:linear-gradient(135deg, rgba(26,77,62,0.08) 0%, rgba(15,59,44,0.05) 100%);">
-                            <div style="position:absolute;right:-10px;bottom:-10px;font-size:60px;opacity:0.05;pointer-events:none;">💰</div>
+                        <div class="stat-card" onclick="showAdminSubContent('savings','disbursement')">
+                            <div class="stat-icon">💰</div>
                             <h3 id="adminTotalSavings">0 KES</h3>
                             <p>Total Savings</p>
-                            <div style="font-size:10px;color:#94a3b8;margin-top:6px;opacity:0;transition:opacity 0.3s ease;">👆 Click to view savings</div>
                         </div>
-                        <div class="stat-card" onclick="showAdminSubContent('members','list')" style="background:linear-gradient(135deg, rgba(30,64,175,0.08) 0%, rgba(30,58,138,0.05) 100%);">
-                            <div style="position:absolute;right:-10px;bottom:-10px;font-size:60px;opacity:0.05;pointer-events:none;">👥</div>
+                        <div class="stat-card" onclick="showAdminSubContent('members','list')">
+                            <div class="stat-icon">👥</div>
                             <h3 id="adminTotalMembers">0</h3>
                             <p>Total Members</p>
-                            <div style="font-size:10px;color:#94a3b8;margin-top:6px;opacity:0;transition:opacity 0.3s ease;">👆 Click to view members</div>
                         </div>
-                        <div class="stat-card" onclick="showAdminSubContent('loans','pool')" style="background:linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(217,119,6,0.05) 100%);">
-                            <div style="position:absolute;right:-10px;bottom:-10px;font-size:60px;opacity:0.05;pointer-events:none;">📋</div>
+                        <div class="stat-card" onclick="showAdminSubContent('loans','pool')">
+                            <div class="stat-icon">📋</div>
                             <h3 id="adminActiveLoans">0 KES</h3>
                             <p>Active Loans</p>
-                            <div style="font-size:10px;color:#94a3b8;margin-top:6px;opacity:0;transition:opacity 0.3s ease;">👆 Click to view loans</div>
                         </div>
                     </div>
-                    <div class="card"><h2>🎡 Weekly MGR</h2><div id="mgrWinnerAdmin" class="winner" style="background:rgba(209,250,229,0.6);backdrop-filter:blur(4px);padding:12px;border-radius:50px;text-align:center;font-weight:600;margin:10px 0;border:1px solid rgba(16,185,129,0.2);">Loading...</div><button onclick="recordMGR()">Record Payout</button><button onclick="nextWeek()">Next Week</button></div>
-                    <div class="card" style="background:rgba(224,231,255,0.6);backdrop-filter:blur(4px);border-radius:16px;padding:14px;margin-bottom:16px;border:1px solid rgba(99,102,241,0.1);"><h2>📢 Send WhatsApp Notification</h2><select id="notifyMemberSelect"><option value="all">📢 All Members (Group)</option></select><textarea id="notificationMessage" rows="2" placeholder="Message..."></textarea><button onclick="sendWhatsAppNotification()" class="secondary">📱 Send</button></div>
+                    <div class="card"><h2>🎡 Weekly MGR</h2><div id="mgrWinnerAdmin" style="background:rgba(209,250,229,0.6);backdrop-filter:blur(4px);padding:12px;border-radius:50px;text-align:center;font-weight:600;margin:10px 0;border:1px solid rgba(16,185,129,0.2);">Loading...</div><button onclick="recordMGR()">Record Payout</button><button onclick="nextWeek()">Next Week</button></div>
+                    <div class="card" style="background:rgba(224,231,255,0.6);backdrop-filter:blur(4px);border-radius:16px;padding:14px;margin-bottom:12px;border:1px solid rgba(99,102,241,0.1);"><h2>📢 Send WhatsApp Notification</h2><select id="notifyMemberSelect"><option value="all">📢 All Members (Group)</option></select><textarea id="notificationMessage" rows="2" placeholder="Message..."></textarea><button onclick="sendWhatsAppNotification()" class="secondary">📱 Send</button></div>
                     <div class="card"><h2>📋 Pending Sign Ups (100 KES)</h2><div id="pendingRequestsList">None</div></div>
                     <div class="card"><h2>📋 Pending Loan Requests</h2><div id="pendingLoanRequestsList">None</div></div>
                 </div>
@@ -2609,8 +2501,8 @@
                 </div>
                 <!-- ADMIN RULES -->
                 <div class="tab-content" id="adminContentRules">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
-                        <h2 style="margin:0; border-left:4px solid #1a4d3e; padding-left:14px; color:#1a4d3e; font-weight:700; font-size:20px;">📋 Rules & Regulations</h2>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+                        <h2 style="margin:0; border-left:4px solid #667eea; padding-left:14px; color:#1a1a2e; font-weight:700; font-size:20px;">📋 Rules & Regulations</h2>
                         <div style="display:flex; gap:10px; flex-wrap:wrap;">
                             <button onclick="toggleRulesEdit()" id="rulesEditToggleBtn" class="secondary">✏️ Edit Rules</button>
                             <button onclick="saveRules()" id="rulesSaveBtn" style="display:none; background:linear-gradient(135deg,#10b981 0%,#059669 100%);">💾 Save Rules</button>
@@ -2626,7 +2518,7 @@
                 </div>
             </div>
         </div>
-        <button onclick="resetAllData()" class="danger" style="margin-top:20px;background:linear-gradient(135deg,#dc2626 0%,#b91c1c 100%);">Reset All Data</button>
+        <button onclick="resetAllData()" class="danger" style="margin-top:16px;background:linear-gradient(135deg,#dc2626 0%,#b91c1c 100%);">Reset All Data</button>
         <button onclick="changeAdminPassword()" class="secondary">Change Password</button>
         <div class="footer">Designed by <span>Conquerer Tech Solutions</span></div>
     </div>
@@ -2866,6 +2758,9 @@
             var tab = document.getElementById(tabId);
             if (tab) tab.classList.add('active');
 
+            // Update bottom nav
+            updateMemberBottomNav(section);
+
             var items = document.querySelectorAll('#memberSidebar .sidebar-item, #memberSidebarMobile .sidebar-item');
             for (var i = 0; i < items.length; i++) {
                 items[i].classList.remove('active');
@@ -2900,6 +2795,16 @@
             }
         }
 
+        function updateMemberBottomNav(section) {
+            var items = document.querySelectorAll('#memberBottomNav .bottom-nav-item');
+            for (var i = 0; i < items.length; i++) {
+                items[i].classList.remove('active');
+                if (items[i].getAttribute('data-section') === section) {
+                    items[i].classList.add('active');
+                }
+            }
+        }
+
         function renderMemberSavingsSub(sub) {
             var container = document.getElementById('memberSavingsContainer');
             var html = '';
@@ -2910,7 +2815,7 @@
 
             switch (sub) {
                 case 'current':
-                    html += '<div class="card"><h2>🏦 My Current Savings</h2><div id="memberSavingsDisplay" style="font-size:32px;font-weight:bold;text-align:center;color:#1a4d3e;">' + saved + ' KES</div></div>';
+                    html += '<div class="card"><h2>🏦 My Current Savings</h2><div id="memberSavingsDisplay" style="font-size:32px;font-weight:bold;text-align:center;color:#1a1a2e;">' + saved + ' KES</div></div>';
                     break;
                 case 'sync':
                     html += '<div class="card member-csv-card">';
@@ -2953,8 +2858,8 @@
                     html += '</div>';
                     break;
                 case 'disbursement':
-                    html += '<div class="card" style="background:linear-gradient(135deg,#1e40af 0%,#1e3a8a 100%);color:white;border-radius:20px;padding:18px;border:1px solid rgba(255,255,255,0.1);">';
-                    html += '<h3>💰 Next Savings Disbursement</h3>';
+                    html += '<div class="card" style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;border-radius:20px;padding:18px;border:1px solid rgba(255,255,255,0.1);">';
+                    html += '<h3 style="color:white;">💰 Next Savings Disbursement</h3>';
                     html += '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>📅 Next Date:</span><span>July 2026</span></div>';
                     html += '<div style="display:flex;justify-content:space-between;padding:8px 0;"><span>💵 Your Current Savings:</span><span>' + saved + ' KES</span></div>';
                     html += '</div>';
@@ -3001,8 +2906,8 @@
                     html += '</div>';
                     break;
                 case 'interest':
-                    html += '<div class="card" style="background:linear-gradient(135deg,#1a4d3e 0%,#0f3b2c 100%);color:white;border-radius:20px;padding:18px;border:1px solid rgba(255,255,255,0.1);">';
-                    html += '<h3>📈 Loan Interest Accrual</h3>';
+                    html += '<div class="card" style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;border-radius:20px;padding:18px;border:1px solid rgba(255,255,255,0.1);">';
+                    html += '<h3 style="color:white;">📈 Loan Interest Accrual</h3>';
                     html += '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>💰 Total Interest Accrued:</span><span>' + interest.toFixed(2) + ' KES</span></div>';
                     html += '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>👤 To be Sent (70%):</span><span>' + (interest * 0.70).toFixed(2) + ' KES</span></div>';
                     html += '<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>🏦 To Reserve (30%):</span><span>' + (interest * 0.30).toFixed(2) + ' KES</span></div>';
@@ -3062,6 +2967,9 @@
             var tab = document.getElementById(tabId);
             if (tab) tab.classList.add('active');
 
+            // Update bottom nav
+            updateAdminBottomNav(section);
+
             var items = document.querySelectorAll('#adminSidebar .sidebar-item, #adminSidebarMobile .sidebar-item');
             for (var i = 0; i < items.length; i++) {
                 items[i].classList.remove('active');
@@ -3093,6 +3001,16 @@
             if (section === 'members') renderAdminMembersSub(sub);
             else if (section === 'savings') renderAdminSavingsSub(sub);
             else if (section === 'loans') renderAdminLoansSub(sub);
+        }
+
+        function updateAdminBottomNav(section) {
+            var items = document.querySelectorAll('#adminBottomNav .bottom-nav-item');
+            for (var i = 0; i < items.length; i++) {
+                items[i].classList.remove('active');
+                if (items[i].getAttribute('data-section') === section) {
+                    items[i].classList.add('active');
+                }
+            }
         }
 
         function renderAdminMembersSub(sub) {
@@ -3168,7 +3086,7 @@
                     for (var i = 0; i < MEMBERS.length; i++) {
                         tableHtml += '<tr><td>' + MEMBERS[i].name + '</td><td>' + getMemberSavings(MEMBERS[i].id).toFixed(2) + ' KES</td></tr>';
                     }
-                    html += '<div class="card"><h2>📊 Total Savings Per Member</h2><table class="savings-table" style="width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;"><thead><tr><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Member</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Savings</th></tr></thead><tbody>' + tableHtml + '</tbody></table></div>';
+                    html += '<div class="card"><h2>📊 Total Savings Per Member</h2><table class="savings-table" style="width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;"><thead><tr><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a1a2e;">Member</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a1a2e;">Savings</th></tr></thead><tbody>' + tableHtml + '</tbody></table></div>';
                     break;
                 case 'download':
                     html += '<div class="report-card"><h3>📊 Download All Members Savings Report</h3><p class="small-text" style="margin-bottom:10px;">Downloads a complete report for all members with their total savings</p><button onclick="downloadAllMembersSavingsReport()" class="download">📄 Download All Savings Report (PDF)</button></div>';
@@ -3209,7 +3127,7 @@
                     accessible = totalP + reserve - out;
                     if (accessible < 0) accessible = 0;
 
-                    html += '<div class="card" style="background:linear-gradient(135deg,#1a4d3e 0%,#0f3b2c 100%);color:white;border-radius:20px;padding:18px;border:1px solid rgba(255,255,255,0.1);"><h2 style="color:white;">💰 Accessible Loan Pool</h2><div style="text-align:center"><div style="font-size:48px; font-weight:bold;">' + accessible.toFixed(2) + ' KES</div><p>Available to borrow</p></div><div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>📊 Total Principal Lent:</span><span>' + totalP.toFixed(2) + ' KES</span></div><div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>📈 Total Interest:</span><span>' + totalI.toFixed(2) + ' KES</span></div><div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>🏦 30% Reserve:</span><span>' + reserve.toFixed(2) + ' KES</span></div><div style="display:flex;justify-content:space-between;padding:8px 0;"><span>📌 Outstanding Loans:</span><span>' + out.toFixed(2) + ' KES</span></div><button onclick="refreshLoanPool()" class="secondary" style="background:rgba(255,255,255,0.15);">🔄 Refresh Pool</button></div>';
+                    html += '<div class="card" style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;border-radius:20px;padding:18px;border:1px solid rgba(255,255,255,0.1);"><h2 style="color:white;">💰 Accessible Loan Pool</h2><div style="text-align:center"><div style="font-size:48px; font-weight:bold;">' + accessible.toFixed(2) + ' KES</div><p>Available to borrow</p></div><div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>📊 Total Principal Lent:</span><span>' + totalP.toFixed(2) + ' KES</span></div><div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>📈 Total Interest:</span><span>' + totalI.toFixed(2) + ' KES</span></div><div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.1);"><span>🏦 30% Reserve:</span><span>' + reserve.toFixed(2) + ' KES</span></div><div style="display:flex;justify-content:space-between;padding:8px 0;"><span>📌 Outstanding Loans:</span><span>' + out.toFixed(2) + ' KES</span></div><button onclick="refreshLoanPool()" class="secondary" style="background:rgba(255,255,255,0.15);">🔄 Refresh Pool</button></div>';
                     break;
                 case 'interest':
                     var totalInt = 0;
@@ -3240,7 +3158,7 @@
                         var interest = getMemberTotalInterestAccrued(MEMBERS[i].id);
                         tableHtml += '<tr><td>' + MEMBERS[i].name + '</td><td>' + interest.toFixed(2) + ' KES</td><td>' + (interest * 0.70).toFixed(2) + ' KES</td><td>' + (interest * 0.30).toFixed(2) + ' KES</td></tr>';
                     }
-                    html += '<div class="card"><h2>📊 Total Interest Per Member</h2><table class="interest-table" style="width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;"><thead><tr><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Member</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">Interest</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">To Send (70%)</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a4d3e;">To Reserve (30%)</th></tr></thead><tbody>' + tableHtml + '</tbody></table></div>';
+                    html += '<div class="card"><h2>📊 Total Interest Per Member</h2><table class="interest-table" style="width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;"><thead><tr><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a1a2e;">Member</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a1a2e;">Interest</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a1a2e;">To Send (70%)</th><th style="padding:10px 12px;text-align:left;border-bottom:1px solid rgba(226,232,240,0.5);background:rgba(248,250,252,0.6);font-weight:600;color:#1a1a2e;">To Reserve (30%)</th></tr></thead><tbody>' + tableHtml + '</tbody></table></div>';
                     break;
                 case 'sync':
                     html += '<div class="card csv-url-box" style="background:rgba(240,244,248,0.6);backdrop-filter:blur(4px);padding:16px;border-radius:16px;border:2px solid rgba(2,132,199,0.2);"><h4>📋 SYNC LOANS</h4><input type="text" id="loansCsvUrl" placeholder="Paste Loans sheet CSV link"><button onclick="syncLoans()" class="sync">Sync Loans</button><div id="syncStatusMsg" class="sync-status">📡 Ready to sync</div></div>';
@@ -3262,10 +3180,9 @@
         }
 
         // ============================================================
-        // DISBURSEMENT HISTORY FUNCTIONS (NEW - PERSISTENT DATA)
+        // DISBURSEMENT HISTORY FUNCTIONS
         // ============================================================
 
-        // Initialize disbursement history if not exists
         var disbursementHistory = [];
 
         function loadDisbursementHistory() {
@@ -3288,7 +3205,7 @@
         function addDisbursementHistoryEntry(type, details) {
             var entry = {
                 id: Date.now(),
-                type: type, // 'savings' or 'interest'
+                type: type,
                 date: new Date().toISOString(),
                 month: new Date().toLocaleString('default', { month: 'long' }),
                 year: new Date().getFullYear(),
@@ -3306,7 +3223,6 @@
                 return '<p style="padding:10px;text-align:center;color:#64748b;">No savings disbursement history yet.</p>';
             }
             var html = '';
-            // Sort by date descending (newest first)
             entries.sort(function(a, b) { return new Date(b.date) - new Date(a.date); });
             for (var i = 0; i < entries.length; i++) {
                 var e = entries[i];
@@ -3399,7 +3315,7 @@
         }
 
         // ============================================================
-        // DISBURSEMENT FUNCTIONS (UPDATED WITH HISTORY)
+        // DISBURSEMENT FUNCTIONS
         // ============================================================
 
         function getNextSavingsDisbursementDate() {
@@ -3408,9 +3324,7 @@
             var currentMonth = now.getMonth();
             var currentYear = now.getFullYear();
 
-            // Check if we've already disbursed this month
             if (hasSavingsDisbursementThisMonth()) {
-                // Find next month in the list
                 for (var i = 0; i < months.length; i++) {
                     var monthIndex = ['Jan', 'Mar', 'May', 'Jul', 'Sep', 'Nov'].indexOf(months[i]);
                     if (monthIndex > currentMonth) {
@@ -3420,7 +3334,6 @@
                 return months[0] + ' ' + (currentYear + 1);
             }
 
-            // Find current or next month
             for (var i = 0; i < months.length; i++) {
                 var monthIndex = ['Jan', 'Mar', 'May', 'Jul', 'Sep', 'Nov'].indexOf(months[i]);
                 if (monthIndex >= currentMonth) {
@@ -3466,7 +3379,6 @@
                 return;
             }
 
-            // Check if already disbursed this month
             if (hasSavingsDisbursementThisMonth()) {
                 showErrorModal('⚠️ Savings have already been disbursed for ' +
                     ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][currentMonth - 1] + ' ' + currentYear);
@@ -3477,7 +3389,6 @@
             var disbursedCount = 0;
             var memberSavingsMap = {};
 
-            // Collect all undispersed savings by member
             for (var i = 0; i < savings.length; i++) {
                 if (!savings[i].disbursed) {
                     var memberId = savings[i].memberId;
@@ -3496,11 +3407,8 @@
                 return;
             }
 
-            // Save all changes
             saveData();
-
-            // Add to history
-            var historyEntry = addDisbursementHistoryEntry('savings', {
+            addDisbursementHistoryEntry('savings', {
                 totalAmount: totalSavings,
                 memberCount: Object.keys(memberSavingsMap).length,
                 recordCount: disbursedCount,
@@ -3561,7 +3469,6 @@
             var memberShare = totalInterest * 0.70;
             var groupReserve = totalInterest * 0.30;
 
-            // Add interest to member savings (70% share)
             var totalMemberInterest = 0;
             for (var memberId in memberInterestMap) {
                 totalMemberInterest += memberInterestMap[memberId];
@@ -3582,16 +3489,12 @@
                 addedMembers++;
             }
 
-            // Update loan reserve (30%)
             var loanReserve = parseFloat(localStorage.getItem('loanReserve') || '0');
             loanReserve += groupReserve;
             localStorage.setItem('loanReserve', loanReserve.toString());
 
-            // Save all changes
             saveData();
-
-            // Add to history
-            var historyEntry = addDisbursementHistoryEntry('interest', {
+            addDisbursementHistoryEntry('interest', {
                 totalInterest: totalInterest,
                 memberShare: memberShare,
                 groupReserve: groupReserve,
@@ -3614,7 +3517,7 @@
         }
 
         // ============================================================
-        // SYNC FUNCTIONS (UPDATED)
+        // SYNC FUNCTIONS
         // ============================================================
 
         function updateSyncStatus(elementId, message, type) {
@@ -4087,6 +3990,9 @@
             currentMemberSection = section;
             currentMemberSub = null;
 
+            // Update bottom nav
+            updateMemberBottomNav(section);
+
             var contents = document.querySelectorAll('#memberContentArea .tab-content');
             for (var i = 0; i < contents.length; i++) {
                 contents[i].classList.remove('active');
@@ -4130,6 +4036,9 @@
         function showAdminContent(section) {
             currentAdminSection = section;
             currentAdminSub = null;
+
+            // Update bottom nav
+            updateAdminBottomNav(section);
 
             var contents = document.querySelectorAll('#adminContentArea .tab-content');
             for (var i = 0; i < contents.length; i++) {
@@ -4226,7 +4135,7 @@
         }
 
         // ============================================================
-        // RULES PDF DOWNLOAD WITH FOOTER
+        // RULES PDF DOWNLOAD
         // ============================================================
 
         function downloadRulesPDF() {
@@ -4236,7 +4145,7 @@
             var pageHeight = doc.internal.pageSize.getHeight();
             var yPos = 20;
 
-            doc.setFillColor(26, 77, 62);
+            doc.setFillColor(102, 126, 234);
             doc.rect(0, 0, pageWidth, 35, 'F');
             doc.setTextColor(255, 255, 255);
             doc.setFontSize(22);
@@ -4261,7 +4170,7 @@
                 if (yPos > 260) {
                     doc.addPage();
                     yPos = 20;
-                    doc.setFillColor(26, 77, 62);
+                    doc.setFillColor(102, 126, 234);
                     doc.rect(0, 0, pageWidth, 25, 'F');
                     doc.setTextColor(255, 255, 255);
                     doc.setFontSize(12);
@@ -4273,10 +4182,10 @@
 
                 doc.setFont('helvetica', 'bold');
                 doc.setFontSize(13);
-                doc.setTextColor(26, 77, 62);
+                doc.setTextColor(102, 126, 234);
                 doc.text(cat.icon + ' ' + cat.title, 20, yPos);
                 yPos += 6;
-                doc.setDrawColor(26, 77, 62);
+                doc.setDrawColor(102, 126, 234);
                 doc.setLineWidth(0.5);
                 doc.line(20, yPos, pageWidth - 20, yPos);
                 yPos += 5;
@@ -4289,7 +4198,7 @@
                     if (yPos > 270) {
                         doc.addPage();
                         yPos = 20;
-                        doc.setFillColor(26, 77, 62);
+                        doc.setFillColor(102, 126, 234);
                         doc.rect(0, 0, pageWidth, 25, 'F');
                         doc.setTextColor(255, 255, 255);
                         doc.setFontSize(12);
@@ -4431,7 +4340,7 @@
         }
 
         // ============================================================
-        // DATA - UPDATED WITH DISBURSEMENT HISTORY
+        // DATA
         // ============================================================
         let MEMBERS = [
             { id: 0, name: "Brian Odhiambo", phone: "0718585462", passcode: "5462" },
@@ -4521,7 +4430,7 @@
         }
 
         // ============================================================
-        // SAVE / LOAD (UPDATED with disbursement history)
+        // SAVE / LOAD
         // ============================================================
 
         function saveData() {
@@ -4536,7 +4445,6 @@
                 loanRequests,
                 pendingSignups
             }));
-            // Save disbursement history separately
             saveDisbursementHistory();
         }
 
@@ -4556,7 +4464,6 @@
                     if (p.pendingSignups) pendingSignups = p.pendingSignups;
                 } catch (e) {}
             }
-            // Load disbursement history
             loadDisbursementHistory();
         }
 
@@ -4632,7 +4539,7 @@
         }
 
         // ============================================================
-        // REFRESH ADMIN VIEW (UPDATED)
+        // REFRESH ADMIN VIEW
         // ============================================================
 
         function refreshAdminView() {
@@ -4762,8 +4669,8 @@
         }
 
         function getColorForName(name) {
-            var colors = ['#1a4d3e', '#1e40af', '#b91c1c', '#7c3aed', '#065f46', '#1e40af', '#9d174d', '#4c1d95', '#0f766e',
-                '#be185d'
+            var colors = ['#667eea', '#764ba2', '#1e40af', '#b91c1c', '#7c3aed', '#065f46', '#1e40af', '#9d174d', '#4c1d95',
+                '#0f766e', '#be185d'
             ];
             var hash = 0;
             for (var i = 0; i < name.length; i++) {
@@ -4793,7 +4700,7 @@
 
             var headerAvatar = document.getElementById('headerAvatar');
             if (photo) {
-                headerAvatar.innerHTML = '<img src="' + photo + '" alt="Profile">';
+                headerAvatar.innerHTML = '<img src="' + photo + '" alt="Profile" style="width:100%;height:100%;object-fit:cover;">';
             } else {
                 headerAvatar.innerHTML = '<span>' + initials + '</span>';
                 headerAvatar.style.background = color;
@@ -4801,7 +4708,7 @@
 
             var mobileAvatar = document.getElementById('mobileAvatar');
             if (photo) {
-                mobileAvatar.innerHTML = '<img src="' + photo + '" alt="Profile">';
+                mobileAvatar.innerHTML = '<img src="' + photo + '" alt="Profile" style="width:100%;height:100%;object-fit:cover;">';
             } else {
                 mobileAvatar.innerHTML = '<span>' + initials + '</span>';
                 mobileAvatar.style.background = color;
@@ -4823,7 +4730,8 @@
 
             var profileAvatar = document.getElementById('profileAvatarLarge');
             if (photo) {
-                profileAvatar.innerHTML = '<img src="' + photo + '" alt="Profile"><div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.75);color:white;font-size:12px;padding:10px;opacity:0;transition:opacity 0.3s ease;cursor:pointer;backdrop-filter:blur(4px);">📷 Change Photo</div>';
+                profileAvatar.innerHTML = '<img src="' + photo +
+                    '" alt="Profile" style="width:100%;height:100%;object-fit:cover;"><div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.75);color:white;font-size:12px;padding:10px;opacity:0;transition:opacity 0.3s ease;cursor:pointer;backdrop-filter:blur(4px);">📷 Change Photo</div>';
             } else {
                 profileAvatar.innerHTML = '<span>' + initials +
                     '</span><div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.75);color:white;font-size:12px;padding:10px;opacity:0;transition:opacity 0.3s ease;cursor:pointer;backdrop-filter:blur(4px);">📷 Change Photo</div>';
@@ -5382,7 +5290,7 @@
         }
 
         // ============================================================
-        // PDF REPORTS WITH FOOTER
+        // PDF REPORTS
         // ============================================================
 
         function downloadSavingsReport() {
@@ -5405,7 +5313,7 @@
             var pageWidth = doc.internal.pageSize.getWidth();
             var pageHeight = doc.internal.pageSize.getHeight();
 
-            doc.setFillColor(26, 77, 62);
+            doc.setFillColor(102, 126, 234);
             doc.rect(0, 0, pageWidth, 35, 'F');
             doc.setTextColor(255, 255, 255);
             doc.setFontSize(22);
@@ -5441,7 +5349,8 @@
                 head: [['Date', 'Amount', 'Status', 'Running Total']],
                 body: tableData,
                 theme: 'striped',
-                headStyles: { fillColor: [26, 77, 62], textColor: [255, 255, 255], fontStyle: 'bold', halign: 'center' },
+                headStyles: { fillColor: [102, 126, 234], textColor: [255, 255, 255], fontStyle: 'bold',
+                halign: 'center' },
                 styles: { fontSize: 9, cellPadding: 3 },
                 margin: { left: 20, right: 20 },
                 didDrawPage: function(data) {
@@ -5473,7 +5382,7 @@
             var pageWidth = doc.internal.pageSize.getWidth();
             var pageHeight = doc.internal.pageSize.getHeight();
 
-            doc.setFillColor(26, 77, 62);
+            doc.setFillColor(102, 126, 234);
             doc.rect(0, 0, pageWidth, 35, 'F');
             doc.setTextColor(255, 255, 255);
             doc.setFontSize(22);
@@ -5517,7 +5426,8 @@
                 head: [['Date Taken', 'Principal', 'Interest (10%)', 'Total Due', 'Return Date', 'Status', 'Running Balance']],
                 body: tableData,
                 theme: 'striped',
-                headStyles: { fillColor: [26, 77, 62], textColor: [255, 255, 255], fontStyle: 'bold', halign: 'center' },
+                headStyles: { fillColor: [102, 126, 234], textColor: [255, 255, 255], fontStyle: 'bold',
+                halign: 'center' },
                 styles: { fontSize: 8, cellPadding: 2 },
                 margin: { left: 15, right: 15 },
                 didDrawPage: function(data) {
@@ -5551,7 +5461,7 @@
             var pageWidth = doc.internal.pageSize.getWidth();
             var pageHeight = doc.internal.pageSize.getHeight();
 
-            doc.setFillColor(26, 77, 62);
+            doc.setFillColor(102, 126, 234);
             doc.rect(0, 0, pageWidth, 35, 'F');
             doc.setTextColor(255, 255, 255);
             doc.setFontSize(22);
@@ -5581,7 +5491,8 @@
                 head: [['Member Name', 'Total Savings']],
                 body: tableData,
                 theme: 'striped',
-                headStyles: { fillColor: [26, 77, 62], textColor: [255, 255, 255], fontStyle: 'bold', halign: 'center' },
+                headStyles: { fillColor: [102, 126, 234], textColor: [255, 255, 255], fontStyle: 'bold',
+                halign: 'center' },
                 styles: { fontSize: 10, cellPadding: 4 },
                 margin: { left: 20, right: 20 },
                 didDrawPage: function(data) {
@@ -5613,7 +5524,7 @@
             var pageWidth = doc.internal.pageSize.getWidth();
             var pageHeight = doc.internal.pageSize.getHeight();
 
-            doc.setFillColor(26, 77, 62);
+            doc.setFillColor(102, 126, 234);
             doc.rect(0, 0, pageWidth, 35, 'F');
             doc.setTextColor(255, 255, 255);
             doc.setFontSize(22);
@@ -5673,7 +5584,8 @@
                 head: [['Member Name', 'Active Loans', 'Total Previous Loans', 'Interest Accrued', 'To Send (70%)', 'To Reserve (30%)']],
                 body: tableData,
                 theme: 'striped',
-                headStyles: { fillColor: [26, 77, 62], textColor: [255, 255, 255], fontStyle: 'bold', halign: 'center' },
+                headStyles: { fillColor: [102, 126, 234], textColor: [255, 255, 255], fontStyle: 'bold',
+                halign: 'center' },
                 styles: { fontSize: 8, cellPadding: 3 },
                 margin: { left: 15, right: 15 },
                 didDrawPage: function(data) {
